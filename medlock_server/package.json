@@ -1,0 +1,18 @@
+{
+  "name": "medlock_server",
+  "version": "1.0.0",
+  "description": "Prescription Monitoring Service",
+  "main": "server.js",
+  "dependencies": {
+    "config": "^3.1.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.5.11",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MedLock LLC",
+  "license": "MIT"
+}
