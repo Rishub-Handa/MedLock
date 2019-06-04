@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import history from '../nav/history';
 
 class DashIcon extends Component {
+    
+
+    route = (e) => {
+        history.replace(this.props.link);
+    };
+    
     render() {
+        console.log(this.props.link);
         return (
-            <div style={dashIconStyle}>
+            <div className="DashIcon-container" style={dashIconStyle} onClick={this.route}>
                 <h1>{this.props.name}</h1>
-                <br />
                 <div>
                     <img src={this.props.content.image} />
                     <p>{this.props.content.description}</p>
                 </div>
+                
+                
             </div>
         );
     }
@@ -22,7 +31,8 @@ const dashIconStyle = {
 
 DashIcon.propTypes = {
     name: PropTypes.string.isRequired,
-    content: PropTypes.object.isRequired
+    content: PropTypes.object.isRequired,
+    link: PropTypes.string.isRequired
 }
 
 export default DashIcon;
