@@ -6,7 +6,7 @@ class Dashboard extends Component {
 
 
     state = {
-        icons : [
+        icons: [
             {
                 name: 'Inbox', 
                 content: {

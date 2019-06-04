@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react'; 
+import '../css/DashHeader.css'; 
 
 class DashHeader extends Component {
     render() {
         return (
             <div>
-                MedLock Header
+                <div className="dash-container">
+                    
+                </div>
             </div>
         )
     }
