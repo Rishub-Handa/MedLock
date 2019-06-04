@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
-<<<<<<< HEAD
-import Dashboard from './components/Dashboard'; 
+import Dashboard from './components/dashboard/Dashboard'; 
 import { Router, Route } from 'react-router-dom'; 
 import Inbox from './pages/Inbox';
 import Resources from './pages/Resources';
@@ -18,17 +17,6 @@ function App() {
         <Route path="/mydata" component={PatientData} />
       </div>
     </Router>
-=======
-import Dashboard from './components/dashboard/Dashboard'; 
-// Test Survey 
-import Survey from './components/Survey'; 
-
-function App() {
-  return (
-    <div className="App">
-      <Dashboard /> 
-    </div>
->>>>>>> master
   );
 }
 
