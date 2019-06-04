@@ -1,11 +1,13 @@
 import React from 'react';
 import './App.css';
-import Dashboard from './components/Dashboard'; 
+import Dashboard from './components/dashboard/Dashboard'; 
+// Test Survey 
+import Survey from './components/Survey'; 
 
 function App() {
   return (
     <div className="App">
-      <Dashboard />
+      <Dashboard /> 
     </div>
   );
 }
