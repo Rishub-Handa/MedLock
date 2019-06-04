@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class DashIcon extends Component {
     render() {
@@ -7,7 +8,8 @@ export default class DashIcon extends Component {
                 <h1>{this.props.name}</h1>
                 <br />
                 <div>
-                    {this.props.content}
+                    <img src={this.props.content.image} />
+                    <p>{this.props.content.description}</p>
                 </div>
             </div>
         );
@@ -16,4 +18,9 @@ export default class DashIcon extends Component {
 
 const dashIconStyle = {
     border: 'thin'
+}
+
+DashIcon.PropTypes = {
+    name: PropTypes.string.isRequired,
+    content: PropTypes.object.isRequired
 }
