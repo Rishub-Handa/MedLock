@@ -1,4 +1,15 @@
 .dash-container {
     display: flex; 
     width: 100%; 
+    border: 1px solid #ccc; 
+    height: 75px;
+}
+
+.dash-container > * {
+    border: 1px solid #ccc; 
+}
+
+.dash-logo {
+    height: 100%; 
+    width: auto; 
 }

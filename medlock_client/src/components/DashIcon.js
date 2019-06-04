@@ -17,7 +17,7 @@ class DashIcon extends Component {
 }
 
 const dashIconStyle = {
-    border: 'thin'
+    border: '1px solid #ccc'
 }
 
 DashIcon.propTypes = {

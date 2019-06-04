@@ -19,7 +19,7 @@ class Dashboard extends Component {
 
     iconHTML = icons => {
         return icons.map(icon => (
-            <p>{icon.name}</p>
+            <DashIcon name={icon.name} content={icon.content} />
         ))
     };
 
@@ -28,7 +28,9 @@ class Dashboard extends Component {
         return (
             <div>
                 <Header />
-                {this.iconHTML(this.state.icons)}
+                <div className="iconContainer"> 
+                    {this.iconHTML(this.state.icons)}
+                </div>
             </div>
         )
     }
