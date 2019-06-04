@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
-import Header from 'DashHeader.js'; 
-import { Data } from './icons'; 
+import Header from './DashHeader'; 
+import DashIcon from './DashIcon'
 
 class Dashboard extends Component {
 
@@ -18,17 +18,17 @@ class Dashboard extends Component {
     }
 
     iconHTML = icons => {
-        return icons.map(icon => {
-            <DashIcon name={icon.name} content={icon.content} />
-        })
-    }
+        return icons.map(icon => (
+            <p>{icon.name}</p>
+        ))
+    };
 
     render() {
 
         return (
             <div>
                 <Header />
-                {iconHTML(dashIcons)}
+                {this.iconHTML(this.state.icons)}
             </div>
         )
     }

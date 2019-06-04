@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class DashIcon extends Component {
+class DashIcon extends Component {
     render() {
         return (
             <div style={dashIconStyle}>
@@ -20,7 +20,9 @@ const dashIconStyle = {
     border: 'thin'
 }
 
-DashIcon.PropTypes = {
+DashIcon.propTypes = {
     name: PropTypes.string.isRequired,
     content: PropTypes.object.isRequired
 }
+
+export default DashIcon;
