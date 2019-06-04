@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
-import '../css/DashHeader.css'; 
-import bigLogo from '../images/bigLogo.png'; 
+import '../../css/DashHeader.css'; 
+import bigLogo from '../../images/bigLogo.png'; 
 
 class DashHeader extends Component {
     render() {
