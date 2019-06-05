@@ -1,10 +1,8 @@
 import React, { Component } from 'react'; 
-import Header from './DashHeader'; 
 import DashIcon from './DashIcon';
 import '../../css/Dashboard.css';
 
 class Dashboard extends Component {
-
 
     state = {
         icons: [
@@ -45,10 +43,8 @@ class Dashboard extends Component {
     };
 
     render() {
-
         return (
             <div>
-                <Header />
                 <div className="icon-container"> 
                     {this.iconHTML(this.state.icons)}
                 </div>
