@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
 import Header from './DashHeader'; 
-import DashIcon from './DashIcon'
+import DashIcon from './DashIcon';
 
 class Dashboard extends Component {
 
@@ -12,14 +12,32 @@ class Dashboard extends Component {
                 content: {
                     image: '', 
                     description: 'Access your messages from providers'
-                }
+                },
+                link: '/inbox'
+            },
+            {
+                name: 'My Data',
+                content:  {
+                    image: '',
+                    description: 'View your data'
+                },
+                link: '/mydata'
+            },
+            {
+                name: 'Resources',
+                content: {
+                     image: '',
+                    description: 'Browse resources that can help you stay sober'
+
+                },
+                link: '/resources'
             }
         ]
     }
 
     iconHTML = icons => {
         return icons.map(icon => (
-            <DashIcon name={icon.name} content={icon.content} />
+            <DashIcon name={icon.name} content={icon.content} link={icon.link} />
         ))
     };
 
