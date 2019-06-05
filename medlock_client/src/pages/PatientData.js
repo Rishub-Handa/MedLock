@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+/** 
+ * Component for displaying individual patient data
+ * in the patient portal. 
+ */
 class PatientData extends Component {
     render() {
         return (

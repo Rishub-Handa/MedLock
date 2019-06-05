@@ -1,6 +1,7 @@
 import React, { Component } from 'react'; 
 import Header from './DashHeader'; 
 import DashIcon from './DashIcon';
+import '../../css/Dashboard.css';
 
 class Dashboard extends Component {
 
@@ -37,7 +38,9 @@ class Dashboard extends Component {
 
     iconHTML = icons => {
         return icons.map(icon => (
-            <DashIcon name={icon.name} content={icon.content} link={icon.link} />
+            <div className="icon">
+                <DashIcon name={icon.name} content={icon.content} link={icon.link} />
+            </div>
         ))
     };
 
@@ -46,7 +49,7 @@ class Dashboard extends Component {
         return (
             <div>
                 <Header />
-                <div className="iconContainer"> 
+                <div className="icon-container"> 
                     {this.iconHTML(this.state.icons)}
                 </div>
             </div>
