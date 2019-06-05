@@ -2,10 +2,13 @@ import React from 'react';
 import './App.css';
 import Dashboard from './components/dashboard/Dashboard'; 
 import { Router, Route } from 'react-router-dom'; 
+import history from './nav/history';
 import Inbox from './pages/Inbox';
 import Resources from './pages/Resources';
 import PatientData from './pages/PatientData';
-import history from './nav/history';
+import Profile from './pages/Profile';
+
+
 
 function App() {
   return (
@@ -15,6 +18,7 @@ function App() {
         <Route path="/inbox" component={Inbox} />
         <Route path="/resources" component={Resources} />
         <Route path="/mydata" component={PatientData} />
+        <Route path="/profile" component={Profile} />
       </div>
     </Router>
   );
