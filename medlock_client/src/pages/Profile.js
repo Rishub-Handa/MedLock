@@ -2,21 +2,49 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SideBar from '../nav/SideBar';
 import DashHeader from '../components/dashboard/DashHeader';
+import PersonalInfo from '../components/PersonalInfo';
+import ProfileModule from '../components/ProfileModule';
 import '../css/Profile.css';
+
 
 
 class Profile extends Component {
 
+    state = {
+        profileModules: [
+            {
+                question: "What is your favorite color?",
+                answer: "Blue"
+            },
+            {
+                question: "What do you do for fun?",
+                answer: "Kayaking"
+            },
+            {
+                question: "Do you have any pets?",
+                answer: "A dog; he's a Golden Retriever named Charlie."
+            }
+        ]
+    }
+
+    profileModulesHTML = profileModules => {
+        return profileModules.map(profileModule => (
+            <ProfileModule question={profileModule.question} answer={profileModule.answer} />
+        ));
+    }; 
+
     render() {
         return (
-            <div>
-                <DashHeader />
-                <div className="profile-container">
-                    <div className="leftSideBar">
-                        <SideBar />  
+            <div className="profile-container">
+                <div className="leftSideBar">
+                    <SideBar />  
+                </div>
+                <div className="main">
+                    <div className="personalInfo-container">
+                        <PersonalInfo uid=''/>
                     </div>
-                    <div className="main">
-                        <p>Ut ullamco deserunt occaecat cillum laborum consectetur commodo minim exercitation fugiat. Ullamco cupidatat excepteur deserunt irure elit proident. Adipisicing ea aute dolor ad aute dolor culpa. Est ipsum enim proident dolor irure cupidatat anim quis ad enim. Dolore id ad aliqua officia in sit officia aute excepteur. Magna nostrud dolor nulla ut nisi.</p>
+                    <div className="profileModules-container">
+                        {this.profileModulesHTML(this.state.profileModules)}
                     </div>
                 </div>
             </div>

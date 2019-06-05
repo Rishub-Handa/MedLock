@@ -11,10 +11,8 @@ import '../../css/DashIcon.css';
 class DashIcon extends Component {
     
     /**
-     * Function that routes to correct link based
-     * on the props of the specific DashIcon. Replaces
-     * the last route on the url with the value store 
-     * in this.props.link.
+     * Function that reroutes to corresponding page. Called 
+     * when the DashIcon is clicked.
      */
     route = (e) => {
         history.replace(this.props.link);
