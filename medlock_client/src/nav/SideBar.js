@@ -4,22 +4,18 @@ import { Button, Nav, NavItem, NavLink } from 'reactstrap';
 class SideBar extends Component {
     
     state = {
-        expanded: false,
-    }
+        expanded: true,
+    };
 
     toggleSidebar = () => {
         this.setState({expanded: !this.state.expanded});
-    }
-    
-    render() {
+    };
+
+    expandedHTML = () => {
         return (
             <div>
                 <div>
-                    <Button outline color="blue" onClick={this.toggleSidebar}>
-                        {
-                            this.state.expanded ? "Collapse" : "Expand"
-                        }
-                    </Button>
+                    <Button outline color="blue" onClick={this.toggleSidebar}>Collapse</Button>
                 </div>
                 <div>
                     <Nav vertical>
@@ -35,7 +31,28 @@ class SideBar extends Component {
                     </Nav>
                 </div>
             </div>
-        )
+        );
+    };
+
+    collapsedHTML = () => {
+        return (
+            <div>
+                <div>
+                    <Button outline color="blue" onClick={this.toggleSidebar}>Expand</Button>
+                </div>
+                <div>
+                    <h1>Menu Bar</h1>
+                </div>
+            </div>
+        );
+    };
+
+    
+    
+    render() {
+        return (
+            this.state.expanded ? this.expandedHTML() : this.collapsedHTML()
+        );
     }
 }
 
