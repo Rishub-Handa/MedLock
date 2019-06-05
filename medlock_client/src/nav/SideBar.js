@@ -47,8 +47,6 @@ class SideBar extends Component {
         );
     };
 
-    
-    
     render() {
         return (
             this.state.expanded ? this.expandedHTML() : this.collapsedHTML()

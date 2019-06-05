@@ -1,8 +1,30 @@
 .profile-container {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 5fr;
 }
 
 .profile-container > * {
     border: 1px solid #ccc;
+}
+
+.main > * {
+    border: 1px solid #ccc;
+}
+
+.profileModules-container {
+    display: grid;
+    grid-template: 1fr;
+    padding: 1em;
+    grid-gap: 1em;
+}
+.profileModules-container > * {
+    border: 1px solid #ccc;
+}
+
+.profileModules-container > div:nth-child(odd) {
+    background: #ddd;
+}
+
+.profileModules-container > div:nth-child(even) {
+    background: #eee;
 }
