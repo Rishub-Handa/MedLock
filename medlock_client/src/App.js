@@ -8,23 +8,27 @@ import Resources from './pages/Resources';
 import PatientData from './pages/PatientData';
 import Profile from './pages/Profile';
 import DashHeader from './components/dashboard/DashHeader';
-import PDISurvey from './components/PDISurvey'; 
+import PDISurvey from './components/PDISurvey';
+import { Provider } from 'react-redux';
+import store from './store'; 
 
 function App() {
   return (
-    <Router history={history}>
-      <div>
-        <DashHeader />
+    <Provider store={store}>
+      <Router history={history}>
         <div className="App">
-          <Route exact path="/" component={Dashboard} />
-          <Route path="/inbox" component={Inbox} />
-          <Route path="/resources" component={Resources} />
-          <Route path="/mydata" component={PatientData} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/survey" component={PDISurvey} />
+          <DashHeader />
+          <div>
+            <Route exact path="/" component={Dashboard} />
+            <Route path="/inbox" component={Inbox} />
+            <Route path="/resources" component={Resources} />
+            <Route path="/mydata" component={PatientData} />
+            <Route path="/profile" component={Profile} />
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </Provider>
+    
   );
 }
 

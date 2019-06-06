@@ -4,29 +4,15 @@ import SideBar from '../nav/SideBar';
 import DashHeader from '../components/dashboard/DashHeader';
 import PersonalInfo from '../components/PersonalInfo';
 import ProfileModule from '../components/ProfileModule';
+import { editProfile, saveProfile } from '../actions/profileActions';
 import '../css/Profile.css';
 
+import { connect } from 'react-redux';
 
 
 class Profile extends Component {
 
-    state = {
-        profileModules: [
-            {
-                question: "What is your favorite color?",
-                answer: "Blue"
-            },
-            {
-                question: "What do you do for fun?",
-                answer: "Kayaking"
-            },
-            {
-                question: "Do you have any pets?",
-                answer: "A dog; he's a Golden Retriever named Charlie."
-            }
-        ]
-    }
-
+    
     profileModulesHTML = profileModules => {
         return profileModules.map(profileModule => (
             <ProfileModule question={profileModule.question} answer={profileModule.answer} />
@@ -34,6 +20,15 @@ class Profile extends Component {
     }; 
 
     render() {
+        var modules = {
+            profileModules: [
+                {
+                    question: "Question1",
+                    answer: "Answer1"
+                }
+            ]
+        }
+
         return (
             <div className="profile-container">
                 <div className="leftSideBar">
@@ -41,15 +36,18 @@ class Profile extends Component {
                 </div>
                 <div className="main">
                     <div className="personalInfo-container">
-                        <PersonalInfo uid=''/>
+                        <PersonalInfo />
                     </div>
                     <div className="profileModules-container">
-                        {this.profileModulesHTML(this.state.profileModules)}
+                        {this.profileModulesHTML(modules.profileModules)}
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+
+
 
 export default Profile;
