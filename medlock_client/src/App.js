@@ -8,8 +8,7 @@ import Resources from './pages/Resources';
 import PatientData from './pages/PatientData';
 import Profile from './pages/Profile';
 import DashHeader from './components/dashboard/DashHeader';
-
-
+import PDISurvey from './components/PDISurvey'; 
 
 function App() {
   return (
