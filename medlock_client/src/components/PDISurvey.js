@@ -5,12 +5,14 @@ class PDISurvey extends Component {
     state = {
     }
 
+    // State contains the value of the updated UI Element. 
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value 
         })
     }
 
+    // Submit the UI Element values in the local state to the action. 
     onSubmit = (e) => {
         e.preventDefault(); 
 
@@ -51,6 +53,7 @@ class PDISurvey extends Component {
     }
 } 
 
+// Change to pull from database. 
 const questions = [
     {
         subject: 'family', 
