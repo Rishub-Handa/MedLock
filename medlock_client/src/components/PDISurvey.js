@@ -20,6 +20,7 @@ class PDISurvey extends Component {
             ...this.state 
         }
         console.log(response);
+        // pass response as parameter to action, 
     }
 
     render() {

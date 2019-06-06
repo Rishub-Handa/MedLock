@@ -15,4 +15,23 @@ router.get('/', (req, res) => {
         .then(patient => res.json(patient));
 });
 
+// @route POST api/patient
+// @desc create new patient
+// @access Public --> Will Change
+router.post('/', (req, res) => {
+    console.log('Post Request');
+    const newPatient = new Patient({
+        profile: {
+            name: req.body.name,
+            bio: req.body.bio
+        }
+    });
+
+    newPatient.save()
+        .then(patient => {
+            console.log("Patient -> Database");
+            res.json(patient);
+        });
+});
+
 module.exports = router;

@@ -1,4 +1,5 @@
 import { SAVE_PROFILE, EDIT_PROFILE } from '../actions/types';
+import axios from 'axios';
 
 const initialState = {
     user: {
