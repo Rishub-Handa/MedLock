@@ -2,7 +2,20 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/rootReducer';
 
-const initialState = {};
+const initialState = {
+    user: {
+        name: 'John',
+        bio: "Born and raised in Alabama. 40 years old."
+    },
+    editable: false,
+    profileModules: [
+        {
+            question: "Question",
+            answer: "Answer"
+
+        }
+    ]
+};
 
 const middleware = [thunk];
 

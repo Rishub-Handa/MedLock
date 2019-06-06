@@ -1,26 +1,62 @@
 import React, { Component } from 'react';
+import { editProfile, saveProfile } from '../actions/profileActions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 /**
  * Component to display personal info on the profile page.
  */
 
 class PersonalInfo extends Component {
+
+    onButtonClick = () => {
+        console.log("clicked!");
+        if (this.props.editable) {
+            console.log("Saving Profile...")
+            var name = document.getElementById('name').innerText;
+            var bio = document.getElementById('bio').innerText;
+            this.props.saveProfile({name: name, bio: bio})
+        } else {
+            console.log("Editing Profile...")
+            this.props.editProfile();
+        }
+    }
+
+    
     render() {
+        console.log(this.props);
         return (
             <div>
                 <div>
                     <img src='' alt='Profile Picture' />
                 </div>
                 <div>
-                    <h1 contentEditable={this.props.editable}>{this.props.user.name}</h1>
+                    <h1 id='name' contentEditable={this.props.editable} onChange={this.onChange}>{this.props.user.name}</h1>
                 </div>
                 <div>
                     <h3>Biography</h3>
-                    <p contentEditable={this.props.editable}>{this.props.user.bio}</p>
+                    <p id='bio' contentEditable={this.props.editable} onChange={this.onChange}>{this.props.user.bio}</p>
+                </div>
+                <div>
+                    <button onClick={this.onButtonClick}>
+                        {
+                            this.props.editable ? "Save" : "Edit"
+                        }
+                    </button>
                 </div>
             </div>
         )
     }
 }
 
-export default PersonalInfo;
+PersonalInfo.propTypes = {
+    editProfile: PropTypes.func.isRequired,
+    editable: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+    user: state.profileState.user,
+    editable: state.profileState.editable
+})
+
+export default connect(mapStateToProps, { editProfile, saveProfile})(PersonalInfo);
