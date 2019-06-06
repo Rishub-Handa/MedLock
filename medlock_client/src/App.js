@@ -7,7 +7,7 @@ import PDISurvey from './components/PDISurvey';
 function App() {
   return (
     <div className="App">
-      <Dashboard />
+      {/* <Dashboard /> */}
       <PDISurvey />
     </div>
   );
