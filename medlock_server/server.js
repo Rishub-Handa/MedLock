@@ -1,11 +1,10 @@
 // Start of Server 
-
 const express = require('express'); 
 const mongoose = require('mongoose'); 
 const path = require('path'); 
 const config = require('config'); 
 const pdisurvey = require('./routes/api/pdisurvey'); 
-
+const patient = require('./routes/api/patient');
 
 const app = express(); 
 
@@ -29,6 +28,7 @@ mongoose.connect(db, {
 // Use Routes 
 // Send this /api/pdisurvey endpoint to pdisurvey.js 
 app.use('/api/pdisurvey', pdisurvey); 
+app.use('/api/patient', patient);
 
 // Run the Server on a Port 
 const PORT = process.env.PORT || 5000; 
