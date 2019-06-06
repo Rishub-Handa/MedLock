@@ -28,3 +28,15 @@
 .profileModules-container > div:nth-child(even) {
     background: #eee;
 }
+
+.personalInfo-container {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+}
+
+.personalInfo-container > * {
+    border: 1px solid #ccc;
+}
+
+
+

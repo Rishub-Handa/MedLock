@@ -6,11 +6,17 @@ import PersonalInfo from '../components/PersonalInfo';
 import ProfileModule from '../components/ProfileModule';
 import '../css/Profile.css';
 
+import { connect } from 'react-redux';
 
 
 class Profile extends Component {
 
     state = {
+        editable: false,
+        user: {
+            name: "John Doe",
+            bio: "40 years old. Born and raised in Centreville, VA."
+        },
         profileModules: [
             {
                 question: "What is your favorite color?",
@@ -33,6 +39,14 @@ class Profile extends Component {
         ));
     }; 
 
+    editProfile = () => {
+        if (this.state.editable) {
+            this.setState({})
+        }
+        this.setState({editable: !this.state.editable});
+        
+    };
+
     render() {
         return (
             <div className="profile-container">
@@ -41,7 +55,16 @@ class Profile extends Component {
                 </div>
                 <div className="main">
                     <div className="personalInfo-container">
-                        <PersonalInfo uid=''/>
+                        <div>
+                            <PersonalInfo user={this.state.user} editable={this.state.editable} />
+                        </div>
+                        <div className="editButton-container">
+                        <button onClick={this.editProfile}>
+                            {
+                                this.state.editable ? "Save" : "Edit"
+                            }
+                        </button>
+                        </div>
                     </div>
                     <div className="profileModules-container">
                         {this.profileModulesHTML(this.state.profileModules)}
@@ -52,4 +75,10 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, );
