@@ -21,6 +21,7 @@ function App() {
           <Route path="/resources" component={Resources} />
           <Route path="/mydata" component={PatientData} />
           <Route path="/profile" component={Profile} />
+          <Route path="/survey" component={PDISurvey} />
         </div>
       </div>
     </Router>
