@@ -1,4 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react'; 
+import { connect } from 'react-redux'; 
+import { submitSurvey } from '../actions/surveyActions'; 
 
 class PDISurvey extends Component { 
 
@@ -20,6 +22,7 @@ class PDISurvey extends Component {
             ...this.state 
         }
         console.log(response);
+        this.props.submitSurvey(response); 
     }
 
     render() {
@@ -85,4 +88,4 @@ const questions = [
     }
 ]; 
 
-export default PDISurvey; 
+export default connect(null, { submitSurvey })(PDISurvey); 
