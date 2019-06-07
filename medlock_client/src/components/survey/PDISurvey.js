@@ -9,16 +9,18 @@ class PDISurvey extends Component {
     }; 
 
     // State contains the value of the updated UI Element. 
+
+    // Bug --> Persists a new instance of question and answer upon every change to the database 
     onChange = (e) => {
+
+        let newResponses = [...this.state.responses]; 
+        newResponses[e.target.id] = {
+            question: e.target.name, 
+            answer: e.target.value 
+        }
+
         this.setState({
-            responses: [
-                ...this.state.responses, 
-                {
-                    question: e.target.name, 
-                    response: e.target.value 
-                }
-            ]
-        
+            responses: newResponses 
         }); 
     }
 
@@ -50,7 +52,8 @@ class PDISurvey extends Component {
                                     <p>{question.description}</p> 
                                     <input type="number" 
                                             name={question.subject}
-                                            onChange={this.onChange}/>
+                                            onChange={this.onChange}
+                                            id={question.id}/>
                                 </div>
 
                             ); 
@@ -66,31 +69,38 @@ class PDISurvey extends Component {
 
 // Change to pull from database. 
 const questions = [
-    {
+    {   
+        id: 0, 
         subject: 'family', 
         description: 'This category refers to activities of the home or family. It includes chores or duties performed around the house (e.g. yard work) and errands or favors for other family members (e.g. driving the children to school).'
     }, 
-    {
+    {   
+        id: 1,  
         subject: 'recreation', 
         description: 'This disability includes hobbies, sports, and other similar leisure time activities.' 
     }, 
-    {
+    {   
+        id: 2, 
         subject: 'social activity', 
         description: 'This category refers to activities, which involve participation with friends and acquaintances other than family members. It includes parties, theater, concerts, dining out, and other social functions.'
     }, 
     {
+        id: 3, 
         subject: 'occupation', 
         description: 'This category refers to activities that are part of or directly related to one’s job. This includes non-paying jobs as well, such as that of a housewife or volunteer.'
     }, 
     {
+        id: 4, 
         subject: 'sexual behavior', 
         description: 'This category refers to the frequency and quality of one’s sex life.'
     }, 
     {
+        id: 5, 
         subject: 'self care', 
         description: 'This category includes activities, which involve personal maintenance and independent daily living (e.g. taking a shower, driving, getting dressed, etc.)'
     }, 
     {
+        id: 6, 
         subject: 'life support activities', 
         description: 'This category refers to basic life supporting behaviors such as eating, sleeping and breathing.'
     }
