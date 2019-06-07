@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { editProfile, saveProfile } from '../actions/profileActions';
+import { editProfile, saveProfile } from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 

@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Schema 
 const PatientSchema = new Schema({
+    _id: {
+        type: String,
+        required: true
+    },
     profile: {
         name: {
             type: String,
