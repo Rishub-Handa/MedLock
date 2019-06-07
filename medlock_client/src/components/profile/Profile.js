@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SideBar from '../nav/SideBar';
-import DashHeader from '../components/dashboard/DashHeader';
-import PersonalInfo from '../components/PersonalInfo';
-import ProfileModule from '../components/ProfileModule';
-import { editProfile, saveProfile } from '../actions/profileActions';
-import '../css/Profile.css';
+import PersonalInfo from './PersonalInfo';
+import ProfileModule from './ProfileModule';
+import '../../css/Profile.css';
 
 import { connect } from 'react-redux';
 
@@ -45,8 +43,5 @@ class Profile extends Component {
         );
     }
 }
-
-
-
 
 export default Profile;

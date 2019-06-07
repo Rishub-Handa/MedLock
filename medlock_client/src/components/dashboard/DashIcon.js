@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import history from '../../nav/history';
+import history from '../nav/history';
 import '../../css/DashIcon.css';
 
 /**

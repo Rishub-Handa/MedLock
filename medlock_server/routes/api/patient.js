@@ -22,6 +22,7 @@ router.post('/', (req, res) => {
     console.log('Post Request');
     const newPatient = new Patient({
         profile: {
+            _id: req.body._id,
             name: req.body.name,
             bio: req.body.bio
         }
