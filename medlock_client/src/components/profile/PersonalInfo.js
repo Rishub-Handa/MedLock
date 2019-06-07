@@ -23,7 +23,13 @@ class PersonalInfo extends Component {
             var _id = uuid.v4();
             var name = document.getElementById('name').innerText;
             var bio = document.getElementById('bio').innerText;
-            this.props.saveProfile({_id: _id, name: name, bio: bio})
+            this.props.saveProfile({
+                _id: _id,
+                profile: {
+                    name: name,
+                    bio: bio,
+                }
+            });
         } else {
             console.log("Editing Profile...")
             this.props.editProfile();
