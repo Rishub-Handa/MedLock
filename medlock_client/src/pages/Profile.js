@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 
 class Profile extends Component {
 
-    
     profileModulesHTML = profileModules => {
         return profileModules.map(profileModule => (
             <ProfileModule question={profileModule.question} answer={profileModule.answer} />
