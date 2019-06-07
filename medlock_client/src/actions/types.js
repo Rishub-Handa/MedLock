@@ -1,3 +1,4 @@
 export const SAVE_PROFILE = 'SAVE_PROFILE';
 export const EDIT_PROFILE = 'EDIT_PROFILE';
 export const SUBMIT_SURVEY = 'SUBMIT_SURVEY'; 
+export const FETCH_ALL_SURVEYS = 'FETCH_ALL_SURVEYS';
