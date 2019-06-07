@@ -5,24 +5,32 @@ import { submitSurvey } from '../actions/surveyActions';
 class PDISurvey extends Component { 
 
     state = {
-    }
+        responses: [], 
+    }; 
 
     // State contains the value of the updated UI Element. 
     onChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.value 
-        })
+            responses: [
+                ...this.state.responses, 
+                {
+                    question: e.target.name, 
+                    response: e.target.value 
+                }
+            ]
+        
+        }); 
     }
 
     // Submit the UI Element values in the local state to the action. 
     onSubmit = (e) => {
         e.preventDefault(); 
 
-        const response = {
-            ...this.state 
-        }
-        console.log(response);
-        this.props.submitSurvey(response); 
+        const responses = [
+            ...this.state.responses 
+        ]
+        console.log(responses);
+        this.props.submitSurvey(responses); 
     }
 
     render() {
