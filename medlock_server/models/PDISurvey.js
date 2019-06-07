@@ -37,7 +37,9 @@ const ResponseSchema = new Schema({
 // Create PDISurvey Schema 
 
 const PDISurveySchema = new Schema({
-    responses: ResponseSchema, 
+    responses: {
+        type: Array 
+    }, 
     date: {
         type: Date, 
         default: Date.now 

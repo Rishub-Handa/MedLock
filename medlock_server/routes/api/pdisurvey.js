@@ -22,15 +22,17 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     console.log('Post Request'); 
     // Create a new MongoDB Schema Model 
-    // The date is default created with Date.now 
+    // The date is default created with Date.now
+    console.log(req.body); 
     const newPDISurvey = new PDISurvey({
-        responses: req.body.responses 
+        responses: req.body 
     }); 
 
     // If the save works asynchronously, then return the JSON of the saved survey. 
     newPDISurvey.save()
         .then(survey => {
-            console.log("Survey -> Database "); 
+            console.log("Survey -> Database ");
+            console.log(`Survey: ${survey}`); 
             res.json(survey); 
         }); 
 
@@ -43,7 +45,7 @@ router.delete('/:id', (req, res) => {
     
     // Find the item in the database by id. 
     PDISurvey.findById(req.params.id)
-        .then(survey => survey.remove() // If the item is found, then remove it. Remove is a function of the Mongoose Model. 
+        .then(survey => survey.remove() // If the survey is found, then remove it. Remove is a function of the Mongoose Model. 
             .then(() => res.json({ success: true }))) // If removed, then return that delete succeeded. 
         .catch(err => res.status(404).json({ success: false })); 
 }); 
