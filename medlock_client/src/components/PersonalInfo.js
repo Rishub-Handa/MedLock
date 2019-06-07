@@ -9,8 +9,13 @@ import PropTypes from 'prop-types';
 
 class PersonalInfo extends Component {
 
+    state = {
+        user: {
+            name: "John Doe",
+            bio: "40 years old. Proud former hoo. Born and raised in Centreville, VA."
+        }
+    }
     onButtonClick = () => {
-        console.log("clicked!");
         if (this.props.editable) {
             console.log("Saving Profile...")
             var name = document.getElementById('name').innerText;
