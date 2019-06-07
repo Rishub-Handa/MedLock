@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux'; 
-import { submitSurvey } from '../actions/surveyActions'; 
+import { submitSurvey } from '../../actions/surveyActions'; 
 
 class PDISurvey extends Component { 
 
