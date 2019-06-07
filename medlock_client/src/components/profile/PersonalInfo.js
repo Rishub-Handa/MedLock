@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { editProfile, saveProfile } from '../actions/profileActions';
+import { editProfile, saveProfile } from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import uuid from "uuid";
 
 /**
  * Component to display personal info on the profile page.
@@ -11,6 +12,7 @@ class PersonalInfo extends Component {
 
     state = {
         user: {
+            _id: '',
             name: "John Doe",
             bio: "40 years old. Proud former hoo. Born and raised in Centreville, VA."
         }
@@ -18,9 +20,16 @@ class PersonalInfo extends Component {
     onButtonClick = () => {
         if (this.props.editable) {
             console.log("Saving Profile...")
+            var _id = uuid.v4();
             var name = document.getElementById('name').innerText;
             var bio = document.getElementById('bio').innerText;
-            this.props.saveProfile({name: name, bio: bio})
+            this.props.saveProfile({
+                _id: _id,
+                profile: {
+                    name: name,
+                    bio: bio,
+                }
+            });
         } else {
             console.log("Editing Profile...")
             this.props.editProfile();
