@@ -17,6 +17,7 @@ class Profile extends Component {
     }; 
 
     render() {
+        console.log(this.props.auth.isAuthenticated());
         var modules = {
             profileModules: [
                 {
