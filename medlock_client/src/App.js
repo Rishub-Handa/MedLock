@@ -11,6 +11,7 @@ import DashHeader from './components/dashboard/DashHeader';
 import PDISurvey from './components/survey/PDISurvey';
 import { Provider } from 'react-redux';
 import store from './store'; 
+import Dispenser from './components/test/Dispenser'; 
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/mydata" component={PatientData} />
             <Route path="/profile" component={Profile} />
             <Route path="/survey" component={PDISurvey} />
+            <Route path="/dispenser" component={Dispenser} />
           </div>
         </div>
       </Router>
