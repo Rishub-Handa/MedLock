@@ -9,8 +9,6 @@ class PDISurvey extends Component {
     }; 
 
     // State contains the value of the updated UI Element. 
-
-    // Bug --> Persists a new instance of question and answer upon every change to the database 
     onChange = (e) => {
 
         let newResponses = [...this.state.responses]; 

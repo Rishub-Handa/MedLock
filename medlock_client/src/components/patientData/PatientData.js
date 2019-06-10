@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAllSurveys } from '../../actions/surveyActions';
+import SideBar from '../nav/SideBar'; 
+import '../../css/PatientData.css'; 
 
 /** 
  * Component for displaying individual patient data
  * in the patient portal. 
  */
 class PatientData extends Component {
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
         this.props.fetchAllSurveys();
     }
 
@@ -31,11 +33,14 @@ class PatientData extends Component {
 
     render() {
         return (
-            <div>
-                <h1>My Data</h1>
-                <div>
-                    <h2>Survey Responses</h2>
-                    {this.surveyHTML(this.props.allSurveys)}
+            <div class="pd-container">
+                <SideBar class="pd-sidebar" />
+                <div class="pd-body">
+                    <h1>My Data</h1>
+                    <div>
+                        <h2>Survey Responses</h2>
+                        {this.surveyHTML(this.props.allSurveys)}
+                    </div>
                 </div>
             </div>
         );

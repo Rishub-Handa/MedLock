@@ -1,0 +1,18 @@
+.pd-container {
+    display: grid; 
+    grid-template-columns: repeat(12, 1fr); 
+}
+
+.pd-container > * { 
+    border: 1px solid #ccc; 
+}
+
+.pd-sidebar {
+    grid-column: 1/3; 
+    width: 100%;
+
+} 
+
+.pd-body {
+    grid-column: 3/13; 
+}
