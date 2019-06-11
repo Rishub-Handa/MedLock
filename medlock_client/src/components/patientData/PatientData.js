@@ -1,41 +1,78 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchAllSurveys } from '../../actions/surveyActions';
+import { fetchPDISurveys } from '../../actions/surveyActions';
+import SideBar from '../nav/SideBar'; 
+import '../../css/PatientData.css'; 
 
 /** 
  * Component for displaying individual patient data
  * in the patient portal. 
  */
 class PatientData extends Component {
-    UNSAFE_componentWillMount() {
-        this.props.fetchAllSurveys();
+
+    componentWillMount() {
+        this.props.fetchPDISurveys(); 
     }
 
-    surveyHTML = allSurveys => {
-        return allSurveys.map(survey => (
+    surveysHTML = (surveys) => {
+        return (
             <div>
-                <h4>Date: {survey.date}</h4>
-                {
-                    survey.responses.map(response => (
+                {surveys.map(survey => {
+                    return (
                         <div>
-                            <h6>Question: {response.question}</h6>
-                            <h6>Answer: {response.answer}</h6>
+                            <h3>Date: {survey.date}</h3>
+                            {survey.responses.map(response => {
+                                return (
+                                    <p>Question: {response.question}; Answer: {response.answer}</p>
+                                )
+                            })}
                         </div>
-                    ))
-                }
+                    )
+                })}
             </div>
-            
-        ));
+        )
+    }
+
+    averagesHTML = (surveys) => {
+        // let avgResponses = surveys[0].responses;
+        console.log(this.props.allPDISurveys);  
+        let avgResponses = this.props.allPDISurveys[0]; 
+        
+
+        
+        return (<p>Surveys</p>); 
     }
 
     render() {
+        
+        const { allPDISurveys, loading, error } = this.props; 
+
+        if(error) {
+            return (
+                <div>Error: {error.message}</div>
+            )
+        }
+
+        if(loading) {
+            return (
+                <div>Loading . . . </div>
+            )
+        }
+        
         return (
-            <div>
-                <h1>My Data</h1>
-                <div>
-                    <h2>Survey Responses</h2>
-                    {this.surveyHTML(this.props.allSurveys)}
+            <div className="pd-container">
+                <SideBar className="pd-sidebar" />
+                <div className="pd-body">
+                    <h1>My Data</h1>
+                    <div>
+                        <h2>Survey Responses</h2>
+                        {this.surveysHTML(allPDISurveys)} 
+                    </div>
+                    <div>
+                        <h3>Averages Data</h3>
+                        {this.averagesHTML(allPDISurveys)} 
+                    </div>
                 </div>
             </div>
         );
@@ -43,13 +80,15 @@ class PatientData extends Component {
 }
 
 PatientData.propTypes = {
-    fetchAllSurveys: PropTypes.func.isRequired,
-    allSurveys: PropTypes.array.isRequired
+    fetchPDISurveys: PropTypes.func.isRequired,
+    allPDISurveys: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => ({
-    allSurveys: state.surveyState.allSurveys
+    allPDISurveys: state.surveyState.responses, 
+    loading: state.surveyState.loading, 
+    error: state.surveyState.error 
 });
 
-export default connect(mapStateToProps, { fetchAllSurveys })(PatientData);
+export default connect(mapStateToProps, { fetchPDISurveys })(PatientData);
 

@@ -14,6 +14,7 @@ import store from './store';
 import Auth from './auth/Auth.js';
 import Callback from './components/Callback';
 import Home from './components/home/Home';
+import Dispenser from './components/test/Dispenser'; 
 
 const auth = new Auth();
 
@@ -33,6 +34,7 @@ const makeMainRoutes = () => {
               <Route path="/profile" render={(props) => <Profile auth={auth} {...props} /> } />
               <Route path="/mydata" render={(props) => <PatientData auth={auth} {...props} /> } />
               <Route path="/resources" render={(props) => <Resources auth={auth} {...props} /> } />
+              <Route path="/dispenser" component={Dispenser} />
               <Route path="/callback" render={(props) =>{
                   handleAuthentication(props);
                   return <Callback {...props} />
