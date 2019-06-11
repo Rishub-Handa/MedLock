@@ -2,18 +2,20 @@ import auth0 from 'auth0-js';
 import history from '../components/nav/history';
 
 class Auth {
+    accessToken;
+    idToken;
+    expiresAt;
+    userProfile;
+    
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
         clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
         redirectUri: 'http://localhost:3000/callback',
         responseType: 'token id_token',
-        scope: 'openid'
+        audience: 'http://localhost:5000',
+        scope: 'openid profile read:surveys'
     });
     
-    accessToken;
-    idToken;
-    expiresAt;
-
     constructor() {
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
@@ -22,6 +24,7 @@ class Auth {
         this.getAccessToken = this.getAccessToken.bind(this);
         this.getIdToken = this.getIdToken.bind(this);
         this.renewSession = this.renewSession.bind(this);
+        this.getProfile = this.getProfile.bind(this);
     }
 
     login() {
@@ -74,11 +77,23 @@ class Auth {
         });
     }
 
+    getProfile(cb) {
+        this.auth0.client.userInfo(this.accessToken, (err, profile) => {
+            if (profile) {
+                this.userProfile = profile;
+            }
+            cb(err, profile);
+        });
+    }
+
     logout() {
         // Remove tokens and expiry time
         this.accessToken = null;
         this.idToken = null;
         this.expiresAt = 0;
+
+        // Remove user profile
+        this.userProfile = null;
 
         // Remove isLoggedIn flag from localStorage
         localStorage.removeItem('isLoggedIn');

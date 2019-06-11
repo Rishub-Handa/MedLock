@@ -10,6 +10,22 @@ import { connect } from 'react-redux';
 
 class Profile extends Component {
 
+    state = {
+        profile: {}
+    };
+
+    UNSAFE_componentWillMount() {
+        const { userProfile, getProfile } = this.props.auth;
+        if (!userProfile) {
+            getProfile((err, profile) => {
+                this.setState({ profile });
+            });
+        } else {
+            this.setState({ profile: userProfile});
+        }
+        console.log("HERE")
+    }
+
     profileModulesHTML = profileModules => {
         return profileModules.map(profileModule => (
             <ProfileModule question={profileModule.question} answer={profileModule.answer} />
@@ -27,6 +43,8 @@ class Profile extends Component {
             ]
         }
 
+        console.log("PROFILE");
+        console.log(this.state.profile);
         return (
             <div className="profile-container">
                 <div className="leftSideBar">
@@ -34,7 +52,7 @@ class Profile extends Component {
                 </div>
                 <div className="main">
                     <div className="personalInfo-container">
-                        <PersonalInfo />
+                        <PersonalInfo userProfile={this.state.profile} />
                     </div>
                     <div className="profileModules-container">
                         {this.profileModulesHTML(modules.profileModules)}

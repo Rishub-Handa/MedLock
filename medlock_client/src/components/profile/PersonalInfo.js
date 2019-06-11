@@ -13,7 +13,7 @@ class PersonalInfo extends Component {
     state = {
         user: {
             _id: '',
-            name: "John Doe",
+            name: this.props.userProfile.name,
             bio: "40 years old. Proud former hoo. Born and raised in Centreville, VA."
         }
     }
@@ -45,7 +45,7 @@ class PersonalInfo extends Component {
                     <img src='' alt='Profile Picture' />
                 </div>
                 <div>
-                    <h1 id='name' contentEditable={this.props.editable} onChange={this.onChange}>{this.props.user.name}</h1>
+                    <h1 id='name' contentEditable={this.props.editable} onChange={this.onChange}>{this.props.userProfile.name}</h1>
                 </div>
                 <div>
                     <h3>Biography</h3>
