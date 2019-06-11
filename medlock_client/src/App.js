@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Dashboard from './components/dashboard/Dashboard'; 
-import { Router, Route } from 'react-router-dom'; 
-import history from './components/nav/history';
+import { Route } from 'react-router-dom'; 
 import Inbox from './components/inbox/Inbox';
 import Resources from './components/resources/Resources';
 import PatientData from './components/patientData/PatientData';
@@ -10,50 +9,83 @@ import Profile from './components/profile/Profile';
 import DashHeader from './components/dashboard/DashHeader';
 import PDISurvey from './components/survey/PDISurvey';
 import { Provider } from 'react-redux';
-import store from './store'; 
 import Auth from './auth/Auth.js';
 import Callback from './components/Callback';
 import Home from './components/home/Home';
 import Dispenser from './components/test/Dispenser'; 
-
-const auth = new Auth();
+import auth0client from './auth/Auth';
+import SecuredRoute from './components/SecuredRoute';
+import Login from './components/Login';
 
 const handleAuthentication = (nextState, replace) => {
     if (/access_token|id_token|error/.test(nextState.location.hash)) {
-        auth.handleAuthentication();
+        auth0client.handleAuthentication();
     }
 }
 
 const makeMainRoutes = () => {
   return (
-      <Router history={history} component={App} >
-          <div>
-              <Route exact path="/" render={(props) => <div>Main Page</div> } />
-              <Route path="/home" render={(props) => <Home auth={auth} {...props} /> } />
-              <Route path="/dashboard" render={(props) => <Dashboard auth={auth} {...props} /> } />
-              <Route path="/profile" render={(props) => <Profile auth={auth} {...props} /> } />
-              <Route path="/mydata" render={(props) => <PatientData auth={auth} {...props} /> } />
-              <Route path="/resources" render={(props) => <Resources auth={auth} {...props} /> } />
-              <Route path="/dispenser" component={Dispenser} />
-              <Route path="/callback" render={(props) =>{
-                  handleAuthentication(props);
-                  return <Callback {...props} />
-              }}/>
-          </div>
-    </Router>
-  )
+    <div>
+      <Route exact path="/" render={(props) => 
+        <div>
+          <h1>You need to login.</h1>
+          <Login />
+        </div> } />
+      <SecuredRoute path="/home" component={Home} />
+      <SecuredRoute path="/dashboard" component={Dashboard} />
+      <SecuredRoute path="/profile" component={Profile} />
+      <SecuredRoute path="/mydata" component={PatientData} />
+      <SecuredRoute path="/resources" component={Resources} />
+      <SecuredRoute path="/dispenser" component={Dispenser} />
+      <Route path="/callback" render={(props) =>{
+          console.log("called");
+          handleAuthentication(props);
+          return <Callback {...props} />
+      }} />
+    </div>
+  );
 }
 
-function App() {  
-  return (
-    <Provider store={store}>
-        <div>
-          <DashHeader auth={auth} />
-          <div>{makeMainRoutes()}</div>
-        </div>
-    </Provider>
-    
-  );
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkingSession: true,
+    }
+  }
+
+  // async componentDidMount() {
+  //   if (this.props.location.pathname === '/callback') {
+  //     this.setState({
+  //       checkingSession: false
+  //     });
+  //     return;
+  //   }
+  //   try {
+  //     await auth0client.silentAuth();
+  //     this.forceUpdate();
+  //   } catch (err) {
+  //     if (err.error !== 'login_required') {
+  //       console.log(err.error);
+  //     }
+  //   }
+  //   this.setState({
+  //     checkingSession: false
+  //   });
+  // }
+
+  render() {
+    console.log(this.props);
+    console.log(auth0client);
+    return ( 
+      <div>
+        <DashHeader /> 
+        { makeMainRoutes() } 
+      </div>
+
+    );
+  }
 }
 
 export default App;

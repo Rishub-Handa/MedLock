@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Navbar, NavbarBrand, Button, NavItem } from 'reactstrap';
-import Auth from '../auth/Auth';
-
+import auth0client from '../auth/Auth';
 
 class Login extends Component {
     goTo(route) {
@@ -9,25 +8,25 @@ class Login extends Component {
     }
 
     login() {
-        this.props.auth.login();
+        auth0client.login();
     }
 
     logout() {
-        this.props.auth.logout();
+        auth0client.logout();
     }
 
+    /*
     componentDidMount() {
-        const { renewSession } = this.props.auth;
+        const { renewSession } = auth0client;
 
         if (localStorage.getItem('isLoggedIn') === 'true') {
             renewSession();
         }
     }
+    */
 
     render() {
-        console.log("rendered");
-        const { isAuthenticated } = this.props.auth;
-        console.log(isAuthenticated());
+        const { isAuthenticated } = auth0client;
         return (
             <div>
                 <Navbar vertical>

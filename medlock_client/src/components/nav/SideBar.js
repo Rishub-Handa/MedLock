@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { Button, Nav, NavItem, NavLink } from 'reactstrap';
+import history from '../nav/history';
+import { runInThisContext } from 'vm';
 
 class SideBar extends Component {
     
     state = {
         expanded: true,
+    };
+
+    route = (e) => {
+        console.log("Button Clicked!");
     };
 
     toggleSidebar = () => {
@@ -19,15 +25,7 @@ class SideBar extends Component {
                 </div>
                 <div>
                     <Nav vertical>
-                        <NavItem>
-                            <h1>My Data</h1>
-                        </NavItem>
-                        <NavItem>
-                            <h1>Inbox</h1>
-                        </NavItem>
-                        <NavItem>
-                            <h1>Resources</h1>
-                        </NavItem>
+                        <Button id='mydata' onClick={this.route}>My Data</Button>  
                     </Nav>
                 </div>
             </div>

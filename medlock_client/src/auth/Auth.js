@@ -6,7 +6,7 @@ class Auth {
     idToken;
     expiresAt;
     userProfile;
-    
+
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
         clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
@@ -15,7 +15,7 @@ class Auth {
         audience: 'http://localhost:5000',
         scope: 'openid profile read:surveys'
     });
-    
+
     constructor() {
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
@@ -28,10 +28,12 @@ class Auth {
     }
 
     login() {
+        console.log("login");
         this.auth0.authorize();
     }
 
     handleAuthentication() {
+        console.log("handleAuthentication");
         this.auth0.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
@@ -44,14 +46,17 @@ class Auth {
     }
 
     getAccessToken() {
+        console.log("getAccessToken");
         return this.accessToken;
     }
 
     getIdToken() {
+        console.log("getIdToken");
         return this.idToken;
     }
 
     setSession(authResult) {
+        console.log("setSession");
         // Set isLoggedIn flag in localStorage
         localStorage.setItem('isLoggedIn', 'true');
 
@@ -60,12 +65,14 @@ class Auth {
         this.accessToken = authResult.accessToken;
         this.idToken = authResult.idToken;
         this.expiresAt = expiresAt;
+        this.userProfile = authResult.idTokenPayload;
 
         // navigate to the profile page
-        history.replace('/profile');
+        history.replace('/dashboard');
     }
 
     renewSession() {
+        console.log("renewSession");
         this.auth0.checkSession({}, (err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
@@ -77,16 +84,13 @@ class Auth {
         });
     }
 
-    getProfile(cb) {
-        this.auth0.client.userInfo(this.accessToken, (err, profile) => {
-            if (profile) {
-                this.userProfile = profile;
-            }
-            cb(err, profile);
-        });
+    getProfile() {
+        console.log("getProfile");
+        return this.userProfile;
     }
 
     logout() {
+        console.log("logout");
         // Remove tokens and expiry time
         this.accessToken = null;
         this.idToken = null;
@@ -103,17 +107,32 @@ class Auth {
         });
 
         // navigate to the home route
-        history.replace('/home');
+        history.replace('/');
     }
 
     isAuthenticated() {
+        console.log("isAuthenticated");
         // Check whether the current time is past 
         // the access token's expxiry time
         let expiresAt = this.expiresAt;
         return new Date().getTime() < expiresAt;
     }
 
+    silentAuth() {
+        console.log("silentAuth");
+        return new Promise((resolve, reject) => {
+            this.auth0.checkSession({}, (err, authResult) => {
+                if (err) {
+                    return reject(err);
+                }
+                this.setSession(authResult);
+                resolve();
+            });
+        });
+    }
 
 }
 
-export default Auth;
+const auth0client = new Auth();
+
+export default auth0client;
