@@ -160,7 +160,6 @@ class PatientData extends Component {
         
         return (
             <div className="pd-container">
-                <SideBar className="pd-sidebar" />
                 <div className="pd-body">
                     <h1>My Data</h1>
                     <div>

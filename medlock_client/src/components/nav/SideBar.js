@@ -1,47 +1,67 @@
 import React, { Component } from 'react';
-import { Button, Nav, NavItem, NavLink } from 'reactstrap';
+import { Button, Nav, NavItem, UncontrolledCollapse } from 'reactstrap';
+import { runInThisContext } from 'vm';
+import { withRouter } from 'react-router-dom';
+import auth0client from '../../auth/Auth';
+import '../../css/SideBar.css';
 
 class SideBar extends Component {
     
-    state = {
-        expanded: true,
-    };
-
-    toggleSidebar = () => {
-        this.setState({expanded: !this.state.expanded});
-    };
-
-    expandedHTML = () => {
+    sideBarHTML = () => {
         return (
             <div>
                 <div>
-                    <Button outline color="blue" onClick={this.toggleSidebar}>Collapse</Button>
+                    <Button color="primary" id="toggler">Toggle</Button>
                 </div>
                 <div>
-                    <Nav vertical>
-                        <NavItem>
-                            <h1>My Data</h1>
-                        </NavItem>
-                        <NavItem>
-                            <h1>Inbox</h1>
-                        </NavItem>
-                        <NavItem>
-                            <h1>Resources</h1>
-                        </NavItem>
-                    </Nav>
-                </div>
-            </div>
-        );
-    };
-
-    collapsedHTML = () => {
-        return (
-            <div>
-                <div>
-                    <Button outline color="blue" onClick={this.toggleSidebar}>Expand</Button>
-                </div>
-                <div>
-                    <h1>Menu Bar</h1>
+                    <UncontrolledCollapse toggler="#toggler">
+                        <div className="menu">
+                            <div>
+                                <Button className="button" id='dashboard' onClick={() => {
+                                    this.props.history.push("/dashboard");
+                                }}>Dashboard</Button> 
+                            </div>
+                            <div>
+                                <Button className="button" id='inbox' onClick={() => {
+                                    this.props.history.push("/inbox");
+                                }}>Inbox</Button>
+                            </div>
+                            <div>
+                                <Button className="button" id='mydata' onClick={() => {
+                                    this.props.history.push("/mydata");
+                                }}>My Data</Button> 
+                            </div>
+                            <div>
+                                <Button className="button" id='profile' onClick={() => {
+                                    this.props.history.push("/profile");
+                                }}>Profile</Button> 
+                            </div>
+                            <div>
+                                <Button className="button" id='resources' onClick={() => {
+                                    this.props.history.push("/resources");
+                                }}>Resources</Button> 
+                            </div>
+                            <div>
+                            <Button className="button" id='survey' onClick={() => {
+                                    this.props.history.push("/survey");
+                                }}>Survey</Button> 
+                            </div>
+                            <div>
+                            <Button className="button" id='dispenser' onClick={() => {
+                                    this.props.history.push("/dispenser");
+                                }}>Dispenser</Button> 
+                            </div>
+                            <div>
+                                {
+                                    auth0client.isAuthenticated() ? (
+                                        <Button className="button" onClick={auth0client.logout}>Logout</Button>
+                                    ) : (
+                                        <Button className="button" onClick={auth0client.login}>Login</Button>
+                                    )
+                                }
+                            </div>
+                        </div>
+                    </UncontrolledCollapse>
                 </div>
             </div>
         );
@@ -49,9 +69,10 @@ class SideBar extends Component {
 
     render() {
         return (
-            this.state.expanded ? this.expandedHTML() : this.collapsedHTML()
+            // this.state.expanded ? this.expandedHTML() : this.collapsedHTML()
+            this.sideBarHTML()
         );
     }
 }
 
-export default SideBar;
+export default withRouter(SideBar);
