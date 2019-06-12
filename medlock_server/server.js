@@ -24,7 +24,7 @@ const checkJwt = jwt({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `https://medlock-dev.auth0.com/.well-known-jwks.json`
+        jwksUri: `https://medlock-dev.auth0.com/.well-known/jwks.json`
     }),
 
     // Validate the audience and the issuer.
@@ -54,6 +54,11 @@ mongoose.connect(db, {
 // Use Routes 
 // Send this /api/pdisurvey endpoint to pdisurvey.js 
 app.use('/api/pdisurvey', checkJwt, pdisurvey); 
+// app.get('/api/pdisurvey', checkJwt, (req, res) => {
+//     res.json({
+//         message: "You need to be authenticated to view these resources."
+//     });
+// })
 app.use('/api/patient', patient); 
 app.use('/api/dispense', dispense); 
 

@@ -39,6 +39,7 @@ const makeMainRoutes = () => {
       <SecuredRoute path="/resources" component={Resources} />
       <SecuredRoute path="/inbox" component={Inbox} />
       <SecuredRoute path="/dispenser" component={Dispenser} />
+      <SecuredRoute path="/survey" component={PDISurvey} />
       <Route path="/callback" render={(props) =>{
           console.log("called");
           handleAuthentication(props);

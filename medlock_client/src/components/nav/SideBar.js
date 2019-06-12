@@ -42,6 +42,11 @@ class SideBar extends Component {
                                 }}>Resources</Button> 
                             </div>
                             <div>
+                            <Button className="button" id='survey' onClick={() => {
+                                    this.props.history.push("/survey");
+                                }}>Survey</Button> 
+                            </div>
+                            <div>
                                 {
                                     auth0client.isAuthenticated() ? (
                                         <Button className="button" onClick={auth0client.logout}>Logout</Button>

@@ -13,7 +13,6 @@ export const submitSurvey = survey => dispatch => {
   console.log(survey);
   axios.post('http://localhost:5000/api/pdisurvey', survey)
     .then(res => {
-
       dispatch({
         type: SUBMIT_SURVEY,
         payload: res.data
@@ -55,7 +54,7 @@ export const fetchPDISurveysFailure = error => ({
 export function fetchPDISurveys() {
   const { getAccessToken } = auth0client;
   const API_URL = 'http://localhost:5000/api';
-  const headers = { 'Authorization': `Bearer ${getAccessToken}`};
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
   return dispatch => {
     dispatch(fetchPDISurveysBegin());
     return axios.get(`${API_URL}/pdisurvey`, { headers })

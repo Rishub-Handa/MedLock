@@ -6,6 +6,9 @@ class Auth {
     idToken;
     expiresAt;
     userProfile;
+    scopes;
+
+    requestedScopes = 'openid profile read:surveys';
 
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
@@ -13,7 +16,7 @@ class Auth {
         redirectUri: 'http://localhost:3000/callback',
         responseType: 'token id_token',
         audience: 'http://localhost:5000',
-        scope: 'openid profile read:surveys'
+        scope: this.requestedScopes
     });
 
     constructor() {
@@ -66,6 +69,7 @@ class Auth {
         this.idToken = authResult.idToken;
         this.expiresAt = expiresAt;
         this.userProfile = authResult.idTokenPayload;
+        this.scopes = authResult.scope || this.requestedScopes || '';
 
         // navigate to the profile page
         history.replace('/dashboard');
@@ -129,6 +133,11 @@ class Auth {
                 resolve();
             });
         });
+    }
+    
+    userHasScopes(scopes) {
+        const grantedScopes = this.scopes.split(' ');
+        return scopes.every(scope => grantedScopes.includes(scope));
     }
 
 }
