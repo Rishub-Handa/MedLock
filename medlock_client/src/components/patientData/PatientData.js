@@ -41,33 +41,44 @@ class PatientData extends Component {
         )
     }
 
-    averagesHTML = (surveys) => {
-
+    averagesHTML = () => {
         try {
-            let avgResponses = surveys[0].responses; 
-            console.log(avgResponses); 
-            avgResponses.map(response => {
-                response.answer = parseInt(response.answer); 
-            })
-            for(let i = 1; i < surveys.length; i++) {
-                for(let j = 0; j < avgResponses.length; j++) {
-                    avgResponses[j].answer += parseInt(surveys[i].responses[j].answer); 
+            const avgs = []; 
+
+            this.state.df.s(null, 'family').p(); 
+            
+            for(let i = 0; i < this.state.df.names().values.length - 2; i++) {
+                const values = this.state.df.s(null, this.state.df.names().values[i])._cols[0].values.map(value => parseInt(value));
+                avgs[i] = {
+                    question: this.state.df.names().values[i], 
+                    answer: jd.vector(values).mean() 
                 }
             }
 
-            avgResponses.map(response => {
-                response.answer = response.answer / surveys.length; 
-            })
+            // let avgResponses = surveys[0].responses; 
+            // console.log(avgResponses); 
+            // avgResponses.map(response => {
+            //     response.answer = parseInt(response.answer); 
+            // })
+            // for(let i = 1; i < surveys.length; i++) {
+            //     for(let j = 0; j < avgResponses.length; j++) {
+            //         avgResponses[j].answer += parseInt(surveys[i].responses[j].answer); 
+            //     }
+            // }
 
-            console.log(avgResponses); 
-            console.log(this.state); 
+            // avgResponses.map(response => {
+            //     response.answer = response.answer / surveys.length; 
+            // })
+
+            // console.log(avgResponses); 
+            // console.log(this.state); 
 
             return (
                 <div>
                     <div className="avg-pdi-bar">
                     <VictoryChart padding={{left: 120, top: 20}}>
                             <VictoryBar horizontal 
-                                        data={avgResponses}
+                                        data={avgs}
                                         x="question"
                                         y="answer"
                                         />
@@ -77,14 +88,21 @@ class PatientData extends Component {
             ); 
             
 
-
         } catch(error) { 
             console.log(error); 
             return (<p>Loading . . . </p>); 
         } 
+    }
 
+    pdiLinesHTML = () => {
+
+        return( 
+            <p>Line Graph</p>
+        )
         
     }
+
+
 
     loadDataToState = (surveys) => {
 
@@ -136,7 +154,7 @@ class PatientData extends Component {
             return (
                 <div>Loading . . . </div>
             )
-        } else if(!this.state.retrievedData) {
+        } else if(!loading && !this.state.retrievedData) {
             this.setState({ df: this.loadDataToState(allPDISurveys) }); 
         }
         
@@ -147,8 +165,12 @@ class PatientData extends Component {
                     <h1>My Data</h1>
                     <div>
                         <h3>Averages Data</h3>
-                        {this.averagesHTML(allPDISurveys)} 
+                        {this.averagesHTML()} 
                     </div>
+                    <div>
+                        <h3>Line Graph Data</h3>
+                        {this.pdiLinesHTML()} 
+                    </div> 
                 </div>
             </div>
         );
