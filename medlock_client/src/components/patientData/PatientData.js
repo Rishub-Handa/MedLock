@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPDISurveys } from '../../actions/surveyActions';
+import { VictoryBar, VictoryChart } from 'victory'; 
 import SideBar from '../nav/SideBar'; 
 import '../../css/PatientData.css'; 
 
@@ -26,7 +27,7 @@ class PatientData extends Component {
                                 return (
                                     <p>Question: {response.question}; Answer: {response.answer}</p>
                                 )
-                            })}
+                            })}         
                         </div>
                     )
                 })}
@@ -35,13 +36,41 @@ class PatientData extends Component {
     }
 
     averagesHTML = (surveys) => {
-        // let avgResponses = surveys[0].responses;
-        console.log(this.props.allPDISurveys);  
-        let avgResponses = this.props.allPDISurveys[0]; 
-        
+
+        try {
+            let avgResponses = surveys[0].responses; 
+            console.log(avgResponses); 
+            avgResponses.map(response => {
+                response.answer = parseInt(response.answer); 
+            })
+            for(let i = 1; i < surveys.length; i++) {
+                for(let j = 0; j < avgResponses.length; j++) {
+                    avgResponses[j].answer += parseInt(surveys[i].responses[j].answer); 
+                }
+            }
+
+            avgResponses.map(response => {
+                response.answer = response.answer / surveys.length; 
+            })
+
+            console.log(avgResponses); 
+
+            return (
+                <VictoryChart>
+                    <VictoryBar data={avgResponses}
+                                x="question"
+                                y="answer"/>
+                </VictoryChart>
+            ); 
+            
+
+
+        } catch(error) { 
+            console.log(error); 
+            return (<p>Loading . . . </p>); 
+        } 
 
         
-        return (<p>Surveys</p>); 
     }
 
     render() {
