@@ -4,6 +4,7 @@ import SideBar from '../nav/SideBar';
 import PersonalInfo from './PersonalInfo';
 import ProfileModule from './ProfileModule';
 import '../../css/Profile.css';
+import auth0client from '../../auth/Auth';
 
 import { connect } from 'react-redux';
 
@@ -11,19 +12,20 @@ import { connect } from 'react-redux';
 class Profile extends Component {
 
     state = {
-        profile: {}
+        profile: {
+            name: '',
+        }
     };
 
     UNSAFE_componentWillMount() {
-        const { userProfile, getProfile } = this.props.auth;
-        if (!userProfile) {
-            getProfile((err, profile) => {
-                this.setState({ profile });
-            });
-        } else {
-            this.setState({ profile: userProfile});
-        }
-        console.log("HERE")
+        const { userProfile, getProfile } = auth0client;
+        this.setState({
+            profile: {
+                name: userProfile.name
+            }
+        })
+        console.log(userProfile);
+
     }
 
     profileModulesHTML = profileModules => {
@@ -33,7 +35,6 @@ class Profile extends Component {
     }; 
 
     render() {
-        console.log(this.props.auth.isAuthenticated());
         var modules = {
             profileModules: [
                 {
@@ -43,13 +44,9 @@ class Profile extends Component {
             ]
         }
 
-        console.log("PROFILE");
         console.log(this.state.profile);
         return (
             <div className="profile-container">
-                <div className="leftSideBar">
-                    <SideBar />  
-                </div>
                 <div className="main">
                     <div className="personalInfo-container">
                         <PersonalInfo userProfile={this.state.profile} />

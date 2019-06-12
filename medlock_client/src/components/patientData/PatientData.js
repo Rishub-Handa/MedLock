@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPDISurveys } from '../../actions/surveyActions';
-import SideBar from '../nav/SideBar'; 
 import '../../css/PatientData.css'; 
 
 /** 

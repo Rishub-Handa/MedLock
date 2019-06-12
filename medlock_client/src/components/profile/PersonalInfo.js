@@ -42,7 +42,7 @@ class PersonalInfo extends Component {
         return (
             <div>
                 <div>
-                    <img src='' alt='Profile Picture' />
+                    <img src={this.props.userProfile.picture} alt='Profile Picture' />
                 </div>
                 <div>
                     <h1 id='name' contentEditable={this.props.editable} onChange={this.onChange}>{this.props.userProfile.name}</h1>

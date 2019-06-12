@@ -1,5 +1,7 @@
 import {
-  SUBMIT_SURVEY,
+  SUBMIT_SURVEY_BEGIN,
+  SUBMIT_SURVEY_SUCCESS,
+  SUBMIT_SURVEY_FAILURE,
   FETCH_PDISURVEYS_BEGIN,
   FETCH_PDISURVEYS_SUCCESS,
   FETCH_PDISURVEYS_FAILURE
@@ -9,31 +11,36 @@ import auth0client from '../auth/Auth';
 
 const axios = require('axios');
 
-export const submitSurvey = survey => dispatch => {
+export const submitSurveyBegin = () => ({
+  type: SUBMIT_SURVEY_BEGIN
+});
+
+export const submitSurveySuccess = survey => ({
+  type: SUBMIT_SURVEY_SUCCESS,
+  payload: {
+    survey
+  }
+});
+
+export const submitSurveyFailure = error => ({
+  type: SUBMIT_SURVEY_FAILURE,
+  payload: {
+    error
+  }
+});
+
+export function submitSurvey(survey) {
   const { getAccessToken } = auth0client;
   const API_URL = 'http://localhost:5000/api';
   const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
-  axios.post(`${API_URL}/pdisurvey`, survey, { headers })
-    .then(res => {
-      dispatch({
-        type: SUBMIT_SURVEY,
-        payload: res.data
-      })
-    })
-    .catch(err => console.log(err));
+  return dispatch => {
+    dispatch(submitSurveyBegin());
+    return axios.post(`${API_URL}/pdisurvey`, survey, { headers })
+      .then(res => dispatch(submitSurveySuccess(res.data)))
+      .catch(error => dispatch(submitSurveyFailure(error)));
+  };
+  
 }
-
-// export const fetchAllSurveys = () => dispatch => {
-//     console.log("Trying to get survey responses...");
-//     axios.get('http://localhost:5000/api/pdisurvey')
-//         .then(res => {
-//             dispatch({
-//                 type: FETCH_ALL_SURVEYS,
-//                 payload: res.data
-//             })
-//         })
-//         .catch(err => console.log(err));
-// } 
 
 export const fetchPDISurveysBegin = () => ({
   type: FETCH_PDISURVEYS_BEGIN
