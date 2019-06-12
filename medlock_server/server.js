@@ -54,11 +54,6 @@ mongoose.connect(db, {
 // Use Routes 
 // Send this /api/pdisurvey endpoint to pdisurvey.js 
 app.use('/api/pdisurvey', checkJwt, pdisurvey); 
-// app.get('/api/pdisurvey', checkJwt, (req, res) => {
-//     res.json({
-//         message: "You need to be authenticated to view these resources."
-//     });
-// })
 app.use('/api/patient', patient); 
 app.use('/api/dispense', dispense); 
 

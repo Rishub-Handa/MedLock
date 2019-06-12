@@ -10,8 +10,10 @@ import auth0client from '../auth/Auth';
 const axios = require('axios');
 
 export const submitSurvey = survey => dispatch => {
-  console.log(survey);
-  axios.post('http://localhost:5000/api/pdisurvey', survey)
+  const { getAccessToken } = auth0client;
+  const API_URL = 'http://localhost:5000/api';
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+  axios.post(`${API_URL}/pdisurvey`, survey, { headers })
     .then(res => {
       dispatch({
         type: SUBMIT_SURVEY,
