@@ -6,10 +6,6 @@ import auth0client from '../../auth/Auth';
 
 class DashHeader extends Component {
     
-    onButtonClick = (e) => {
-        auth0client.logout();
-    }
-    
     render() {
         return (
             <div>
@@ -19,7 +15,6 @@ class DashHeader extends Component {
                     <p>First Last</p>
                     <img className="profile-picture" alt="Face"/>
                 </div>
-                <button onClick={this.onButtonClick}>Logout</button>
             </div>
         )
     }

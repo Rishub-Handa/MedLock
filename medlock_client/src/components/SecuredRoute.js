@@ -1,9 +1,9 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import auth0client from '../auth/Auth';
+import history from '../components/nav/history';
 
 function SecuredRoute({component: Component, ...rest}) {
-    console.log(auth0client.isAuthenticated());
     return (
         <div>
             <Route 
@@ -25,4 +25,4 @@ function SecuredRoute({component: Component, ...rest}) {
     );
 }
 
-export default SecuredRoute;
+export default withRouter(SecuredRoute);
