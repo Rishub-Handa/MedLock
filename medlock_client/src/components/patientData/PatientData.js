@@ -6,11 +6,17 @@ import { VictoryBar, VictoryChart } from 'victory';
 import SideBar from '../nav/SideBar'; 
 import '../../css/PatientData.css'; 
 
+const jd = require('jsdataframe'); 
+
 /** 
  * Component for displaying individual patient data
  * in the patient portal. 
  */
 class PatientData extends Component {
+
+    state = {
+        retrievedData: false 
+    }
 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
@@ -54,13 +60,20 @@ class PatientData extends Component {
             })
 
             console.log(avgResponses); 
+            console.log(this.state); 
 
             return (
-                <VictoryChart>
-                    <VictoryBar data={avgResponses}
-                                x="question"
-                                y="answer"/>
-                </VictoryChart>
+                <div>
+                    <div className="avg-pdi-bar">
+                    <VictoryChart padding={{left: 120, top: 20}}>
+                            <VictoryBar horizontal 
+                                        data={avgResponses}
+                                        x="question"
+                                        y="answer"
+                                        />
+                        </VictoryChart>
+                    </div>
+                </div>
             ); 
             
 
@@ -71,6 +84,42 @@ class PatientData extends Component {
         } 
 
         
+    }
+
+    loadDataToState = (surveys) => {
+
+        try {
+            if(surveys[0].responses) {
+                console.log("Responses"); 
+            }
+            let dfData = surveys.map(survey => {
+                console.log(survey.responses); 
+                let responses = survey.responses.map(response => {
+                    return { [response.question]: response.answer} ; 
+                })
+                responses = [...responses, { date: survey.date }, { _id: survey._id }]; 
+                let responseObj = {}; 
+                responses.forEach(response => {
+                    for(let key in response) {
+                        responseObj[key] = response[key]; 
+                    }
+                })
+                return responseObj; 
+            }); 
+            console.log(dfData); 
+            let df = jd.dfFromObjArray(dfData); 
+            df.p(); 
+
+            this.setState({retrievedData: true}); 
+
+            return df; 
+
+        } catch(error) {
+            console.log(error); 
+        }
+
+        return null; 
+
     }
 
     render() {
@@ -87,6 +136,8 @@ class PatientData extends Component {
             return (
                 <div>Loading . . . </div>
             )
+        } else if(!this.state.retrievedData) {
+            this.setState({ df: this.loadDataToState(allPDISurveys) }); 
         }
         
         return (
@@ -94,10 +145,6 @@ class PatientData extends Component {
                 <SideBar className="pd-sidebar" />
                 <div className="pd-body">
                     <h1>My Data</h1>
-                    <div>
-                        <h2>Survey Responses</h2>
-                        {this.surveysHTML(allPDISurveys)} 
-                    </div>
                     <div>
                         <h3>Averages Data</h3>
                         {this.averagesHTML(allPDISurveys)} 
