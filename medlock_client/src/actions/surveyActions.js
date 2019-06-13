@@ -1,4 +1,7 @@
-import { SUBMIT_SURVEY, FETCH_PDISURVEYS_BEGIN, FETCH_PDISURVEYS_SUCCESS, FETCH_PDISURVEYS_FAILURE } from './types'; 
+import { SUBMIT_SURVEY, 
+        FETCH_PDISURVEYS_BEGIN, 
+        FETCH_PDISURVEYS_SUCCESS, 
+        FETCH_PDISURVEYS_FAILURE } from './types'; 
 const axios = require('axios'); 
 
 export const submitSurvey = survey => dispatch => {
