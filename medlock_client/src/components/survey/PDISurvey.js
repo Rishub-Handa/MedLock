@@ -1,11 +1,13 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux'; 
 import { submitSurvey } from '../../actions/surveyActions'; 
+import PropTypes from 'prop-types';
 
 class PDISurvey extends Component { 
 
     state = {
-        responses: [], 
+        responses: [],
+
     }; 
 
     // State contains the value of the updated UI Element. 
@@ -29,11 +31,33 @@ class PDISurvey extends Component {
         const responses = [
             ...this.state.responses 
         ]
+
         console.log(responses);
         this.props.submitSurvey(responses); 
     }
 
     render() {
+        const { surveyResponse, loading, error } = this.props;
+        
+        if (error) {
+            return (
+                <div>Error: {error.message}</div>
+            )
+        }
+        
+        if (loading) {
+            return (
+                <div>Loading . . .</div>
+            )
+        }
+
+        if (surveyResponse) {
+            return (
+                <div>Your response has been recorded. Thank you.</div>
+            )
+        }
+
+
         return (
             <div style={{marginBottom: '50px', marginLeft: '20px'}}>
                 <h1>Pain Disability Survey </h1>
@@ -104,4 +128,14 @@ const questions = [
     }
 ]; 
 
-export default connect(null, { submitSurvey })(PDISurvey); 
+PDISurvey.propTypes = {
+    submitSurvey: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = state => ({
+    surveyResponse: state.surveyState.surveyResponse,
+    loading: state.surveyState.loading, 
+    error: state.surveyState.error 
+});
+
+export default connect(mapStateToProps, { submitSurvey })(PDISurvey); 

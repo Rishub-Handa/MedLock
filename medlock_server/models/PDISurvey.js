@@ -37,6 +37,9 @@ const ResponseSchema = new Schema({
 // Create PDISurvey Schema 
 
 const PDISurveySchema = new Schema({
+    ownerId: {
+        type: String
+    },
     responses: {
         type: Array 
     }, 

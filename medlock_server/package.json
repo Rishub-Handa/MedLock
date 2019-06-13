@@ -5,7 +5,11 @@
   "main": "server.js",
   "dependencies": {
     "config": "^3.1.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "express-jwt-authz": "^2.3.1",
+    "jwks-rsa": "^1.5.1",
     "mongoose": "^5.5.13",
     "path": "^0.12.7"
   },

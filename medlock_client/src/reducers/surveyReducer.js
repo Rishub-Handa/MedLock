@@ -1,6 +1,14 @@
-import { SUBMIT_SURVEY, FETCH_PDISURVEYS_BEGIN, FETCH_PDISURVEYS_SUCCESS, FETCH_PDISURVEYS_FAILURE } from '../actions/types';
+import { 
+    SUBMIT_SURVEY_BEGIN,
+    SUBMIT_SURVEY_SUCCESS,
+    SUBMIT_SURVEY_FAILURE, 
+    FETCH_PDISURVEYS_BEGIN,
+    FETCH_PDISURVEYS_SUCCESS,
+    FETCH_PDISURVEYS_FAILURE,
+} from '../actions/types';
 
 const initialState = {
+    surveyResponse: null,
     responses: [],
     loading: false, 
     error: null 
@@ -8,11 +16,23 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch (action.type) {
-
-        case SUBMIT_SURVEY: 
-            console.log(action.payload);
+        case SUBMIT_SURVEY_BEGIN: 
             return {
-                responses: action.payload
+                ...state,
+                loading: true,
+                error: null
+            };
+        case SUBMIT_SURVEY_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                surveyResponse: action.payload.survey
+            };
+        case SUBMIT_SURVEY_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload.error
             }
         case FETCH_PDISURVEYS_BEGIN:
             return {

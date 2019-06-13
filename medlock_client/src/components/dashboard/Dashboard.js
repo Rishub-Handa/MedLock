@@ -1,6 +1,7 @@
 import React, { Component } from 'react'; 
 import DashIcon from './DashIcon';
 import '../../css/Dashboard.css';
+import auth0client from '../../auth/Auth';
 
 class Dashboard extends Component {
 
