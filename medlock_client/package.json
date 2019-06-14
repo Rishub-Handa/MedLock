@@ -8,6 +8,7 @@
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "css-grid": "^1.0.7",
+    "dataframe-js": "^1.4.1",
     "history": "^4.9.0",
     "jsdataframe": "^0.2.0",
     "react": "^16.8.6",

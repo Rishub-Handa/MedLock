@@ -7,6 +7,7 @@ const router = express.Router();
 // @desc    Get all dispenses. 
 // @access  public --> Will Change
 router.get('/', (req, res) => {
+    console.log("Get Dispenses Data"); 
     Dispense.findOne({ _id: req.query.id })
         .then(dispenseData => res.json(dispenseData))
         .catch(err => console.log(err)); 

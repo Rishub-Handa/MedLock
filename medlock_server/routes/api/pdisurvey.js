@@ -9,7 +9,6 @@ console.log('Reached PDISurvey Endpoint');
 // @desc    Get all survey responses for PDI Survey.  
 // @access  Public --> Will Change 
 router.get('/', (req, res) => {
-    console.log('Get Request'); 
     // Finds all survey responses, so find() does not have search parameters 
     PDISurvey.find({ 'ownerId': req.user.sub })
         .sort({ date: -1 })
@@ -25,7 +24,6 @@ router.get('/', (req, res) => {
 // @desc    Create a PDISurvey 
 // @access  Public --> Will Change 
 router.post('/', (req, res) => {
-    console.log('Post Request'); 
     // Create a new MongoDB Schema Model 
     // The date is default created with Date.now
     const newPDISurvey = new PDISurvey({
