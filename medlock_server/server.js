@@ -55,7 +55,7 @@ mongoose.connect(db, {
 // Send this /api/pdisurvey endpoint to pdisurvey.js 
 app.use('/api/pdisurvey', checkJwt, pdisurvey); 
 app.use('/api/patient', checkJwt, patient); 
-app.use('/api/dispense', dispense); 
+app.use('/api/dispense', checkJwt, dispense); 
 
 // Run the Server on a Port 
 const PORT = process.env.PORT || 5000; 
