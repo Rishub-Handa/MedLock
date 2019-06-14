@@ -94,15 +94,16 @@ const saveProfileFailure = error => ({
     }
 });
 
-export const saveProfile = (newProfile) => dispatch => {
+export function saveProfile(newProfile) {
+    console.log("Save Profile Running...");
     const { getAccessToken } = auth0client;
     const API_URL = 'http://localhost:5000/api';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
     return dispatch => {
         dispatch(saveProfileBegin());
-        return axios.post(`${API_URL}/patient`, newProfile, { headers })
-            .then(res => dispatch(saveProfileSuccess(res)))
+        return axios.put(`${API_URL}/patient`, newProfile, { headers })
+            .then(res => dispatch(saveProfileSuccess(res.data)))
             .catch(error => dispatch(saveProfileFailure(error)));
     }
 };

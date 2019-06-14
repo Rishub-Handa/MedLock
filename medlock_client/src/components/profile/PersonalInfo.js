@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { editProfile, saveProfile } from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import uuid from "uuid";
 
 /**
  * Component to display personal info on the profile page.
@@ -10,34 +9,39 @@ import uuid from "uuid";
 
 class PersonalInfo extends Component {
 
-    state = {
-        profile: {
-            _id: this.props.authProfile.userId,
-            name: this.prop.authProfile.name,
-            bio: "default bio"
-        }
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            profile: {
+                name: this.props.profile.name,
+                bio: this.props.profile.bio
+            }
+        };
+    }
 
     onButtonClick = () => {
         if (this.props.editable) {
             console.log("Saving Profile...")
-            var name = document.getElementById('name').innerText;
-            var bio = document.getElementById('bio').innerText;
-            this.props.saveProfile({
-                _id: this.state.profile._id,
-                name: name,
-                bio: bio
-            });
+            var newName = document.getElementById('name').innerText;
+            var newBio = document.getElementById('bio').innerText;
+            console.log(newName);
+            console.log(newBio);
+            this.props.saveProfile({newName, newBio});
         } else {
             console.log("Editing Profile...")
             this.props.editProfile();
         }
     }
 
+    onBioChange = (e) => {
+        var newBio = document.getElementById('bio').innerText;
+        console.log(newBio);
+        //this.setState({profile: {bio: newBio}});
+        console.log(this.state);
+    }
+
     
     render() {
-
-        console.log(this.props.authProfile);
 
         const { profile, loading, error, editable } = this.props;
 
@@ -63,14 +67,14 @@ class PersonalInfo extends Component {
         return (    
             <div>
                 <div>
-                    <img src={this.props.authProfile.picture} alt='Profile Picture' />
+                    <img src='' alt='Profile Picture' />
                 </div>
                 <div>
                     <h1 id='name' contentEditable={editable}>{this.state.profile.name}</h1>
                 </div>
                 <div>
                     <h3>Biography</h3>
-                    <p id='bio' contentEditable={editable}>{this.state.profile.bio}</p>
+                    <p id='bio' contentEditable={editable} onChange={this.onBioChange}>{this.state.profile.bio}</p>
                 </div>
                 <div>
                     <button onClick={this.onButtonClick}>
@@ -97,4 +101,4 @@ const mapStateToProps = state => ({
     error: state.profileState.error
 })
 
-export default connect(mapStateToProps, { editProfile, saveProfile})(PersonalInfo);
+export default connect(mapStateToProps, { editProfile, saveProfile })(PersonalInfo);

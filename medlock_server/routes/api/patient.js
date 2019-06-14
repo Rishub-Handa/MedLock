@@ -40,13 +40,19 @@ router.post('/', (req, res) => {
 // @route PUT api/patient
 // @desc update existing patient
 // @access Public --> Will Change
-router.put('/:id', (req, res) => {
+router.put('/', (req, res) => {
     console.log('PUT Request');
-    var db = req.db;
-    var patientId = req.params.id;
-    db.collection('patients').update({ _id: patientId }, req.body, (err, res) => {
-        res.send((err === null) ? {msg: ''} : {msg: err});
-    });
+    var patientId = req.user.sub.substring(6);
+    console.log(req.body);
+    Patient.findByIdAndUpdate(
+        patientId,
+        {name: req.body.newName, bio: req.body.newBio},
+        {new: true, useFindAndModify: false},
+        (err, patient) => {
+            if (err) return res.status(500).send(err);
+            console.log(patient);
+            return res.send(patient);
+        });
 });
 
 module.exports = router;

@@ -82,10 +82,7 @@ class Profile extends Component {
             <div className="profile-container">
                 <div className="main">
                     <div className="personalInfo-container">
-                        <h1>ID: {profile._id}</h1>
-                        <h1>NAME: {profile.name}</h1>
-                        <h1>BIO: {profile.bio}</h1>
-                        {/* <PersonalInfo loadedProfile={this.state.profile} /> */}
+                        <PersonalInfo profile={this.props.profile}/>
                     </div>
                     {/* <div className="profileModules-container">
                         {this.profileModulesHTML(modules.profileModules)}
