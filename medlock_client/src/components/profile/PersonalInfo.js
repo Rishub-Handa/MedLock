@@ -11,24 +11,22 @@ import uuid from "uuid";
 class PersonalInfo extends Component {
 
     state = {
-        user: {
-            _id: '',
-            name: this.props.userProfile.name,
-            bio: "40 years old. Proud former hoo. Born and raised in Centreville, VA."
+        profile: {
+            _id: this.props.authProfile.userId,
+            name: this.prop.authProfile.name,
+            bio: "default bio"
         }
-    }
+    };
+
     onButtonClick = () => {
         if (this.props.editable) {
             console.log("Saving Profile...")
-            var _id = uuid.v4();
             var name = document.getElementById('name').innerText;
             var bio = document.getElementById('bio').innerText;
             this.props.saveProfile({
-                _id: _id,
-                profile: {
-                    name: name,
-                    bio: bio,
-                }
+                _id: this.state.profile._id,
+                name: name,
+                bio: bio
             });
         } else {
             console.log("Editing Profile...")
@@ -38,23 +36,46 @@ class PersonalInfo extends Component {
 
     
     render() {
-        console.log(this.props);
-        return (
+
+        console.log(this.props.authProfile);
+
+        const { profile, loading, error, editable } = this.props;
+
+        if (error) {
+            return (
+                <div>
+                    Error: {error.message}
+                </div>
+            )
+        }
+
+        if (loading) {
+            return (
+                <div>
+                    Saving profile . . .
+                </div>
+            )
+        }
+        // } else if (!loading && profile.name && profile.bio) {
+        //     this.setState({profile: {name: user.name, bio: user.bio }});
+        // }
+
+        return (    
             <div>
                 <div>
-                    <img src={this.props.userProfile.picture} alt='Profile Picture' />
+                    <img src={this.props.authProfile.picture} alt='Profile Picture' />
                 </div>
                 <div>
-                    <h1 id='name' contentEditable={this.props.editable} onChange={this.onChange}>{this.props.userProfile.name}</h1>
+                    <h1 id='name' contentEditable={editable}>{this.state.profile.name}</h1>
                 </div>
                 <div>
                     <h3>Biography</h3>
-                    <p id='bio' contentEditable={this.props.editable} onChange={this.onChange}>{this.props.user.bio}</p>
+                    <p id='bio' contentEditable={editable}>{this.state.profile.bio}</p>
                 </div>
                 <div>
                     <button onClick={this.onButtonClick}>
                         {
-                            this.props.editable ? "Save" : "Edit"
+                            editable ? "Save" : "Edit"
                         }
                     </button>
                 </div>
@@ -65,12 +86,15 @@ class PersonalInfo extends Component {
 
 PersonalInfo.propTypes = {
     editProfile: PropTypes.func.isRequired,
+    saveProfile: PropTypes.func.isRequired,
     editable: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
-    user: state.profileState.user,
-    editable: state.profileState.editable
+    profile: state.profileState.profile,
+    editable: state.profileState.editable,
+    loading: state.profileState.loading,
+    error: state.profileState.error
 })
 
 export default connect(mapStateToProps, { editProfile, saveProfile})(PersonalInfo);
