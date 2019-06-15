@@ -8,9 +8,9 @@ function SecuredRoute({component: Component, ...rest}) {
         <div>
             <Route 
                 {...rest}
-                render={ props => 
-                    auth0client.isAuthenticated() ? (
-                        <Component {...props} />
+                render={ props => {
+                    return auth0client.isAuthenticated() ? (
+                        <Component {...rest} />
                     ) : (
                         <Redirect
                             to={{
@@ -18,8 +18,8 @@ function SecuredRoute({component: Component, ...rest}) {
                                 state: { from: props.location }
                             }}
                         />
-                    )
-                }
+                    );
+                }}
             />
         </div>
     );

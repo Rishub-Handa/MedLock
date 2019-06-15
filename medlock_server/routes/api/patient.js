@@ -27,7 +27,8 @@ router.post('/', (req, res) => {
     const newPatient = new Patient({
         _id: mongoose.Types.ObjectId(req.body._id),
         name: req.body.name,
-        bio: req.body.bio
+        bio: req.body.bio,
+        dispenser_id: mongoose.Types.ObjectId()
     });
 
     newPatient.save()

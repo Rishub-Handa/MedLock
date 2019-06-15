@@ -23,32 +23,32 @@ class SideBar extends Component {
                             </div>
                             <div>
                                 <Button className="button" id='inbox' onClick={() => {
-                                    this.props.history.push("/inbox");
+                                    this.props.history.push("/dashboard/inbox");
                                 }}>Inbox</Button>
                             </div>
                             <div>
                                 <Button className="button" id='mydata' onClick={() => {
-                                    this.props.history.push("/mydata");
+                                    this.props.history.push("/dashboard/mydata");
                                 }}>My Data</Button> 
                             </div>
                             <div>
                                 <Button className="button" id='profile' onClick={() => {
-                                    this.props.history.push("/profile");
+                                    this.props.history.push("/dashboard/profile");
                                 }}>Profile</Button> 
                             </div>
                             <div>
                                 <Button className="button" id='resources' onClick={() => {
-                                    this.props.history.push("/resources");
+                                    this.props.history.push("/dashboard/resources");
                                 }}>Resources</Button> 
                             </div>
                             <div>
                             <Button className="button" id='survey' onClick={() => {
-                                    this.props.history.push("/survey");
+                                    this.props.history.push("/dashboard/survey");
                                 }}>Survey</Button> 
                             </div>
                             <div>
                             <Button className="button" id='dispenser' onClick={() => {
-                                    this.props.history.push("/dispenser");
+                                    this.props.history.push("/dashboard/dispenser");
                                 }}>Dispenser</Button> 
                             </div>
                             <div>

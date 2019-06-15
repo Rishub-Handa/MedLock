@@ -8,3 +8,8 @@
     background: #ddd;
     border: 1px solid #ccc;
 }
+
+.dashboard-content {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+}

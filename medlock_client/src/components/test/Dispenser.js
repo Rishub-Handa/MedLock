@@ -1,10 +1,14 @@
 import React, { Component } from 'react'; 
+import auth0client from '../../auth/Auth';
 const axios = require('axios'); 
 
 class Dispenser extends Component {
 
-    state = {
-        id: 1 
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: props.profile.dispenser_id
+        }
     }
     
     onChange = (e) => {
@@ -17,7 +21,12 @@ class Dispenser extends Component {
         e.preventDefault(); 
         const dispense = {}; 
         Object.assign(dispense, this.state);
-        axios.post('http://localhost:5000/api/dispense', dispense) 
+
+        const { getAccessToken } = auth0client;
+        const API_URL = 'http://localhost:5000/api';
+        const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+        axios.post(`${API_URL}/dispense`, dispense, { headers }) 
             .then(res => {
                 console.log(res); 
             }) 

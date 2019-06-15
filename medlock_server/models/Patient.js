@@ -14,6 +14,10 @@ const PatientSchema = new Schema({
     bio: {
         type: String,
         required: true
+    },
+    dispenser_id: {
+        type: Schema.Types.ObjectId,
+        required: true
     }
 });
 
