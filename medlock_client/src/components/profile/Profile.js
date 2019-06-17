@@ -1,37 +1,54 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import PersonalInfo from './PersonalInfo';
 import ProfileModule from './ProfileModule';
+import { Button } from 'reactstrap';
 import '../../css/Profile.css';
-import auth0client from '../../auth/Auth';
-import EditProfile from './EditProfile';
-import { loadProfile, createProfile } from '../../actions/profileActions';
-import { connect } from 'react-redux';
-import { stat } from 'fs';
 
 class Profile extends Component {
 
     constructor(props) {
         super(props);
+        this.addProfileModule = this.addProfileModule.bind(this);
+        this.state = {
+            profileModules: [
+                {
+                    name: "Home Town",
+                    content: "Purcellville, VA",
+                    editable: false
+                },
+                {
+                    name: "Inspirational Quote",
+                    content: "Be who you are and say what you feel, because in the end those who matter don't mind and those that mind don't matter.",
+                    editable: false
+                }
+            ]
+        }
+
     }
 
-    // profileModulesHTML = profileModules => {
-    //     return profileModules.map(profileModule => (
-    //         <ProfileModule question={profileModule.question} answer={profileModule.answer} />
-    //     ));
-    // }; 
+    profileModulesHTML = profileModules => {
+         return profileModules.map(profileModule => (
+             <ProfileModule name={profileModule.name} content={profileModule.content} editable={profileModule.editable} />
+         ));
+    };
+    
+
+    addProfileModule() {
+
+        this.setState(prevState => ({
+            profileModules: [...prevState.profileModules, 
+                {
+                    
+                    name: "Name",
+                    content: "Content",
+                    editable: true
+                    
+                }
+            ]
+        }));
+    }
 
     render() {
-        // var modules = {
-        //     profileModules: [
-        //         {
-        //             question: "Question1",
-        //             answer: "Answer1"
-        //         }
-        //     ]
-        // }
-
-    
         const { profile } = this.props;
         
         return (
@@ -40,9 +57,10 @@ class Profile extends Component {
                     <div className="personalInfo-container">
                         <PersonalInfo profile={this.props.profile}/>
                     </div>
-                    {/* <div className="profileModules-container">
-                        {this.profileModulesHTML(modules.profileModules)}
-                    </div> */}
+                    <div className="profileModules-container">
+                        {this.profileModulesHTML(this.state.profileModules)}
+                        <Button onClick={this.addProfileModule}>+</Button>
+                    </div>                
                 </div>
             </div>
         );
