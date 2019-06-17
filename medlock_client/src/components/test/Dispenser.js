@@ -21,6 +21,7 @@ class Dispenser extends Component {
         e.preventDefault(); 
         const dispense = {}; 
         Object.assign(dispense, this.state);
+        console.log(dispense);
 
         const { getAccessToken } = auth0client;
         const API_URL = 'http://localhost:5000/api';
