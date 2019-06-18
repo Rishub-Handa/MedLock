@@ -7,7 +7,6 @@ class PDISurvey extends Component {
 
     state = {
         responses: [],
-
     }; 
 
     // State contains the value of the updated UI Element. 

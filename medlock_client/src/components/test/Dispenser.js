@@ -1,11 +1,14 @@
 import React, { Component } from 'react'; 
-import auth0client from '../../auth/Auth'; 
+import auth0client from '../../auth/Auth';
 const axios = require('axios'); 
 
 class Dispenser extends Component {
 
-    state = {
-        id: 1 
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: props.profile.dispenser_id
+        }
     }
     
     onChange = (e) => {

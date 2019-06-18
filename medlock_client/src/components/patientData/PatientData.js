@@ -10,7 +10,6 @@ import { VictoryBar,
         VictoryStack, 
         VictoryArea, 
         VictoryScatter } from 'victory'; 
-import SideBar from '../nav/SideBar'; 
 import '../../css/PatientData.css'; 
 
 const jd = require('jsdataframe'); 
@@ -19,6 +18,7 @@ const jd = require('jsdataframe');
  * Component for displaying individual patient data
  * in the patient portal. 
  */
+
 class PatientData extends Component {
 
     state = {
@@ -28,7 +28,7 @@ class PatientData extends Component {
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
-        this.props.fetchDispenses(1); 
+        this.props.fetchDispenses(this.props.profile.dispenser_id); 
         console.log("Calling fetchDispenses"); 
     }
 
@@ -353,7 +353,7 @@ class PatientData extends Component {
         if(surveyError || dispenseError) {
             return (
                 <div>
-                    <div>Survey Error: {surveyError ? surveyError.message : null}</div>
+                    <div>Survey Error: { surveyError ? surveyError.message : null}</div>
                     <div>Dispense Error: {dispenseError ? dispenseError.message : null}</div>
                 </div>
             ); 
@@ -367,6 +367,8 @@ class PatientData extends Component {
             console.log(dispenses); 
             this.loadDataToState(allPDISurveys, dispenses); 
         }
+
+
         
         return (
             <div className="pd-container">

@@ -1,59 +1,53 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import SideBar from '../nav/SideBar';
 import PersonalInfo from './PersonalInfo';
 import ProfileModule from './ProfileModule';
+import { Button } from 'reactstrap';
 import '../../css/Profile.css';
-import auth0client from '../../auth/Auth';
-
-import { connect } from 'react-redux';
-
 
 class Profile extends Component {
 
-    state = {
-        profile: {
-            name: '',
+    constructor(props) {
+        super(props);
+        console.log(props.profile.modules);
+        this.state = {
+            profileModules: props.profile.modules
         }
-    };
-
-    UNSAFE_componentWillMount() {
-        const { userProfile, getProfile } = auth0client;
-        this.setState({
-            profile: {
-                name: userProfile.name
-            }
-        })
-        console.log(userProfile);
 
     }
 
     profileModulesHTML = profileModules => {
+        var merged = [].concat.apply([], profileModules);
+        profileModules = merged;
         return profileModules.map(profileModule => (
-            <ProfileModule question={profileModule.question} answer={profileModule.answer} />
+            <ProfileModule name={profileModule.name} content={profileModule.content} editable={false} />
         ));
-    }; 
-
-    render() {
-        var modules = {
-            profileModules: [
+    };
+    
+    addProfileModule = () => { 
+        this.setState(prevState => ({
+            profileModules: [...prevState.profileModules, 
                 {
-                    question: "Question1",
-                    answer: "Answer1"
+                    name: "Name",
+                    content: "Content",
+                    editable: true   
                 }
             ]
-        }
+        }));
+    }
 
-        console.log(this.state.profile);
+    render() {
+        const { profile } = this.props;
+        
         return (
             <div className="profile-container">
                 <div className="main">
                     <div className="personalInfo-container">
-                        <PersonalInfo userProfile={this.state.profile} />
+                        <PersonalInfo profile={this.props.profile}/>
                     </div>
                     <div className="profileModules-container">
-                        {this.profileModulesHTML(modules.profileModules)}
-                    </div>
+                        {this.profileModulesHTML(this.state.profileModules)}
+                        <Button onClick={this.addProfileModule}>+</Button>
+                    </div>                
                 </div>
             </div>
         );

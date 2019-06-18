@@ -1,6 +1,10 @@
-import { FETCH_DISPENSES_BEGIN, 
-        FETCH_DISPENSES_SUCCESS, 
-        FETCH_DISPENSES_FAILURE } from './types'; 
+import {
+    FETCH_DISPENSES_BEGIN, 
+    FETCH_DISPENSES_SUCCESS, 
+    FETCH_DISPENSES_FAILURE 
+} from './types'; 
+
+import auth0client from '../auth/Auth';
 
 const axios = require('axios'); 
 
@@ -21,9 +25,13 @@ export const fetchDispensesFailure = error => ({
 
 // Fetch Dispenses Data from Server 
 export function fetchDispenses(id) {
+    const { getAccessToken } = auth0client;
+    const API_URL = 'http://localhost:5000/api';
+    const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
     return dispatch => {
-      dispatch(fetchDispensesBegin());
-      return axios.get(`http://localhost:5000/api/dispense?id=${id}`)
+        dispatch(fetchDispensesBegin());
+        return axios.get(`${API_URL}/dispense?id=` + id, { headers })
         .then(res => { 
             dispatch(fetchDispensesSuccess(res.data));
         })
