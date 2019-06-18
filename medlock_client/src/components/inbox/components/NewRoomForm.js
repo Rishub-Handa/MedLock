@@ -14,19 +14,21 @@ class NewRoomForm extends Component {
 
     onSubmit = (e) => {
         e.preventDefault(); 
-        this.props.createRoom(this.state.roomName); 
+        if(this.state.roomName) 
+            this.props.createRoom(this.state.roomName); 
     }
 
 
     render() {
         return (
             <div className="new-room-form">
-                <form onSubmit={this.onSubmit}>
-                    <input type="text" 
-                            value={this.state.roomName}
-                            placeholder="NewRoomForm"
-                            onChange={this.onChange}
-                            required /> 
+                <form onSubmit={this.onSubmit}> 
+                    <select name="Talk to..." onChange={this.onChange} value={this.state.roomName}>
+                        <option value="" selected disabled hidden>Choose here</option>
+                        <option value="physician">Physician</option>
+                        <option value="pharmacist">Pharmacist</option>
+                        <option value="caretaker">Caretaker</option>
+                    </select>
                     <button id="create-room-btn" type="submit">+</button>
                 </form>
             </div>

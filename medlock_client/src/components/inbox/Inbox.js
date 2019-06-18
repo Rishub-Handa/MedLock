@@ -20,7 +20,9 @@ class Inbox extends React.Component {
   componentDidMount() {
 
     const { userProfile } = auth0client; 
-  
+    
+    this.setState({ userId: 'rishub' }); 
+    
     // Make a register users module which registers users with Chat Kit and instantiates chats with providers 
 
     // Create new ChatManager with user and instance 
@@ -91,12 +93,22 @@ class Inbox extends React.Component {
     }); 
   }
 
-  createRoom = (name) => {
-    this.currentUser.createRoom({ 
-      name 
-    }) 
-    .then(room => this.subscribeToRoom(room.id)) 
-    .catch(error => console.log(error)); 
+  createRoom = (person) => {
+
+    let contains = false; 
+    this.currentUser.rooms.forEach(room => {
+      if(room.name === this.state.userId + '+' + person) contains = true; 
+    })
+
+    if(!contains) {
+      this.currentUser.createRoom({ 
+        name: this.state.userId + '+' + person, 
+        private: true, 
+        addUserIds: [person]
+      }) 
+      .then(room => this.subscribeToRoom(room.id)) 
+      .catch(error => console.log(error)); 
+    }
   }
 
   render() {
@@ -105,7 +117,8 @@ class Inbox extends React.Component {
         <div className="inbox">
           <RoomList rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
                     subscribeToRoom={this.subscribeToRoom}
-                    roomId={this.state.roomId}/> 
+                    roomId={this.state.roomId}
+                    userId={this.state.userId}/> 
           <MessageList messages={this.state.messages}
                         roomId={this.state.roomId}/> 
           <SendMessageForm sendMessage={this.sendMessage}
