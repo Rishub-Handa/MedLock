@@ -8,6 +8,7 @@ import auth0client from '../auth/Auth';
 
 const axios = require('axios'); 
 
+// Helper functions give access to the status of the request 
 export const fetchDispensesBegin = () => ({
     type: FETCH_DISPENSES_BEGIN 
 });
@@ -22,6 +23,7 @@ export const fetchDispensesFailure = error => ({
     payload: { error }
 });
 
+// Fetch Dispenses Data from Server 
 export function fetchDispenses(id) {
     const { getAccessToken } = auth0client;
     const API_URL = 'http://localhost:5000/api';

@@ -4,6 +4,7 @@
   "description": "Prescription Monitoring Service",
   "main": "server.js",
   "dependencies": {
+    "@pusher/chatkit-server": "^1.1.0",
     "config": "^3.1.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
