@@ -2,9 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema; 
 
 const DispenseSchema = new Schema({
+    //id of dispenser
     _id: {
-        type: Number
-    }, 
+        type: Schema.Types.ObjectId,
+        required: true
+    },
     dispenses: [
         {
             date: String, 

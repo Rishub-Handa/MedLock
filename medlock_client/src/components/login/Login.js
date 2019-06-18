@@ -1,18 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Button } from 'reactstrap';
+import auth0client from '../../auth/Auth';
 
 class Login extends Component {
-
-    state = {
-        isRegistered: true 
-    }
 
     render() {
         return (
             <div>
-                {}
-                <button name="toggleRegistered"></button>
+                <h1>You need to login.</h1>
+                <Button onClick={auth0client.login}>Login</Button>
             </div>
-        )
+        );
     }
 } 
 
