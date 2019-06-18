@@ -4,6 +4,7 @@ import { FETCH_DISPENSES_BEGIN,
 
 const axios = require('axios'); 
 
+// Helper functions give access to the status of the request 
 export const fetchDispensesBegin = () => ({
     type: FETCH_DISPENSES_BEGIN 
 });
@@ -18,6 +19,7 @@ export const fetchDispensesFailure = error => ({
     payload: { error }
 });
 
+// Fetch Dispenses Data from Server 
 export function fetchDispenses(id) {
     return dispatch => {
       dispatch(fetchDispensesBegin());

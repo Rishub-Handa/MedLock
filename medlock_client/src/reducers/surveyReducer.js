@@ -44,7 +44,6 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                // responses: action.payload.surveys
                 responses: action.payload.surveys
             };
     

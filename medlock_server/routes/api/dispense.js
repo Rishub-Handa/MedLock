@@ -3,12 +3,14 @@ const Dispense = require('../../models/Dispense');
 
 const router = express.Router(); 
 
+// NOT WORKING ??? 
+
 // @route   GET api/dispense
 // @desc    Get all dispenses. 
 // @access  public --> Will Change
 router.get('/', (req, res) => {
     console.log("Get Dispenses Data"); 
-    Dispense.findOne({ _id: req.query.id })
+    Dispense.findOne({ ownerId: req.user.sub })
         .then(dispenseData => res.json(dispenseData))
         .catch(err => console.log(err)); 
 });
@@ -19,20 +21,22 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     console.log('Dispense POST Request ');
     console.log(req.body);
-    if(!Dispense.findById(req.body.id)) {
+    console.log(req.user.sub); 
+    const id = req.user.sub; 
+    if(!Dispense.findOne({ "ownerId": id })) {
         console.log("Not Found"); 
         const newDispense = new Dispense({
-            _id: req.body.id,  
+            ownerId: id,  
             dipenses: []
         }); 
 
         newDispense.save()
-            .then(dispense => console.log("Saved. "))
+            .then(dispense => console.log(`Saved Dispense. `))
             .catch(err => console.log(err)); 
     } 
     
     Dispense.updateOne(
-        { "_id": req.body.id },
+        { "ownerId": id },
         { "$push": 
             {"dispenses": 
                 {

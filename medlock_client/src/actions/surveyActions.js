@@ -8,9 +8,9 @@ import {
 } from './types';
 import auth0client from '../auth/Auth';
 
-
 const axios = require('axios');
 
+// Helper functions give access to the status of the request 
 export const submitSurveyBegin = () => ({
   type: SUBMIT_SURVEY_BEGIN
 });
@@ -29,6 +29,7 @@ export const submitSurveyFailure = error => ({
   }
 });
 
+// Submit a survey to the server 
 export function submitSurvey(survey) {
   const { getAccessToken } = auth0client;
   const API_URL = 'http://localhost:5000/api';
@@ -42,6 +43,7 @@ export function submitSurvey(survey) {
   
 }
 
+// Helper functions give access to the status of the request 
 export const fetchPDISurveysBegin = () => ({
   type: FETCH_PDISURVEYS_BEGIN
 });
@@ -60,6 +62,7 @@ export const fetchPDISurveysFailure = error => ({
   }
 });
 
+// Fetch surveys for a particular user with Access Token 
 export function fetchPDISurveys() {
   const { getAccessToken } = auth0client;
   const API_URL = 'http://localhost:5000/api';

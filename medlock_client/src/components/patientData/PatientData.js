@@ -25,12 +25,14 @@ class PatientData extends Component {
         retrievedData: false 
     }
 
+    // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
         this.props.fetchDispenses(1); 
         console.log("Calling fetchDispenses"); 
     }
 
+    // Display all PDI Survey data 
     surveysHTML = (surveys) => {
         return (
             <div>
@@ -50,6 +52,7 @@ class PatientData extends Component {
         )
     }
 
+    // Display bar chart of average PDI Survey values 
     averagesHTML = () => {
         try {
             const avgs = []; 
@@ -103,6 +106,7 @@ class PatientData extends Component {
         } 
     }
 
+    // Display line graph for PDI Survey values 
     pdiLinesHTML = (painCategories) => {
 
         try {
@@ -151,6 +155,7 @@ class PatientData extends Component {
         } 
     }
 
+    // Display stacked line graph for PDI Survey values 
     pdiStackedHTML = (painCategories) => {
         try {
 
@@ -199,6 +204,7 @@ class PatientData extends Component {
         } 
     } 
 
+    // Display bar chart of time between doses 
     dispenseBarHTML = () => {
         
         try {
@@ -249,6 +255,7 @@ class PatientData extends Component {
         return (<p>Test. </p>)
     }
 
+    // Display scatter chart of dispenses 
     dispenseScatterHTML = () => {
 
         try {
@@ -286,7 +293,7 @@ class PatientData extends Component {
 
     }
 
-
+    // Load the fetched data to the state in a DataFrame 
     loadDataToState = (surveys, dispenses) => {
 
         try {
@@ -346,7 +353,7 @@ class PatientData extends Component {
         if(surveyError || dispenseError) {
             return (
                 <div>
-                    <div>Survey Error: {surveyError.message}</div>
+                    <div>Survey Error: {surveyError ? surveyError.message : null}</div>
                     <div>Dispense Error: {dispenseError ? dispenseError.message : null}</div>
                 </div>
             ); 
