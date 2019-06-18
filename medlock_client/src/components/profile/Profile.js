@@ -8,41 +8,28 @@ class Profile extends Component {
 
     constructor(props) {
         super(props);
-        this.addProfileModule = this.addProfileModule.bind(this);
+        console.log(props.profile.modules);
         this.state = {
-            profileModules: [
-                {
-                    name: "Home Town",
-                    content: "Purcellville, VA",
-                    editable: false
-                },
-                {
-                    name: "Inspirational Quote",
-                    content: "Be who you are and say what you feel, because in the end those who matter don't mind and those that mind don't matter.",
-                    editable: false
-                }
-            ]
+            profileModules: props.profile.modules
         }
 
     }
 
     profileModulesHTML = profileModules => {
-         return profileModules.map(profileModule => (
-             <ProfileModule name={profileModule.name} content={profileModule.content} editable={profileModule.editable} />
-         ));
+        var merged = [].concat.apply([], profileModules);
+        profileModules = merged;
+        return profileModules.map(profileModule => (
+            <ProfileModule name={profileModule.name} content={profileModule.content} editable={false} />
+        ));
     };
     
-
-    addProfileModule() {
-
+    addProfileModule = () => { 
         this.setState(prevState => ({
             profileModules: [...prevState.profileModules, 
                 {
-                    
                     name: "Name",
                     content: "Content",
-                    editable: true
-                    
+                    editable: true   
                 }
             ]
         }));

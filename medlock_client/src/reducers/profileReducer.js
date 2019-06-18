@@ -8,7 +8,10 @@ import {
     SAVE_PROFILE_BEGIN,
     SAVE_PROFILE_SUCCESS,
     SAVE_PROFILE_FAILURE,
-    EDIT_PROFILE
+    EDIT_PROFILE,
+    ADD_PROFILE_MODULE_BEGIN,
+    ADD_PROFILE_MODULE_SUCCESS,
+    ADD_PROFILE_MODULE_FAILURE
 } from '../actions/types';
 
 const initialState = {
@@ -22,14 +25,9 @@ const initialState = {
     profileLoaded: false,
     profileCreated: false,
     creating: false,
+    addingNewProfileModule: false,
     error: null,
-    profileModules: [
-        {
-            question: "Question",
-            answer: "Answer"
-
-        }
-    ]
+    profileModules: []
 }
 
 export default function(state = initialState, action) {
@@ -94,6 +92,24 @@ export default function(state = initialState, action) {
                 ...state,
                 loading: false,
                 error: action.payload.error,
+            };
+        case ADD_PROFILE_MODULE_BEGIN:
+            return {
+                ...state,
+                editable: false,
+                addingNewProfileModule: true,
+            };
+        case ADD_PROFILE_MODULE_SUCCESS: 
+            return {
+                ...state,
+                addingNewProfileModule: false,
+                profileModule: action.payload.newProfileModule
+            };
+        case ADD_PROFILE_MODULE_FAILURE: 
+            return {
+                ...state,
+                addingNewProfileModule: false,
+                error: action.payload.error
             };
         default:
             return state;

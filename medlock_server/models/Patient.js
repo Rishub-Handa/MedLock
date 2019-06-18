@@ -18,6 +18,9 @@ const PatientSchema = new Schema({
     dispenser_id: {
         type: Schema.Types.ObjectId,
         required: true
+    },
+    modules: {
+        type: Schema.Types.Array,
     }
 });
 

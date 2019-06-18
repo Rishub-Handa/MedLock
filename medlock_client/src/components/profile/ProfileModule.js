@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Input, Label, Text } from 'reactstrap';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
+import { addProfileModule } from '../../actions/profileActions';
+import { connect } from 'react-redux';
 import '../../css/ProfileModule.css';
 
 import PropTypes from 'prop-types';
@@ -8,7 +10,6 @@ class ProfileModule extends Component {
     
     constructor(props) {
         super(props);
-        this.onSave = this.onSave.bind(this);
         this.state = {
             name: this.props.name,
             content: this.props.content,
@@ -33,15 +34,21 @@ class ProfileModule extends Component {
     }
 
     onChange = (e) => {
+        console.log("onChange");
         this.setState({
             [e.target.name] : e.target.value
         });
     }
 
-    onSave() {
-        this.setState({
-            editable: false
-        });
+    onSave = (e) => {
+        console.log("onSave");
+        this.props.addProfileModule(
+            {
+                name: this.state.name,
+                content: this.state.content
+            }
+        );
+        this.setState({editable: false});
     }
 
     staticHTML = () => {
@@ -57,11 +64,28 @@ class ProfileModule extends Component {
         )
     }
 
+    componentDidUpdate() {
+        console.log(this.props);
+        console.log(this.state);
+    }
+
     render() {
+
+        const { loading } = this.props;
+        const { editable } = this.state;
+
+        if (loading) {
+            return (
+                <div>
+                    Loading . . .
+                </div>
+            )
+        }
+
         return (
             <div className="profileModule-container">
                 {
-                    this.state.editable ? this.editableHTML() : this.staticHTML()
+                    editable ? this.editableHTML() : this.staticHTML()
                 }
             </div>
         );
@@ -69,8 +93,16 @@ class ProfileModule extends Component {
 }
 
 ProfileModule.propTypes = {
-    quesion: PropTypes.string.isRequired,
-    answer: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    editable: PropTypes.bool.isRequired,
+    // saved: PropTypes.bool.isRequired,
+    addProfileModule: PropTypes.func.isRequired
 }
 
-export default ProfileModule;
+const mapStateToProps = state => ({
+    // editable: state.profileState.editable,
+    loading: state.profileState.loading
+});
+
+export default connect(mapStateToProps, { addProfileModule })(ProfileModule);

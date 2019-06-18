@@ -24,18 +24,6 @@ router.post('/', (req, res) => {
     console.log('Dispense POST Request ');
     console.log(req.body);
 
-    // if(!Dispense.findById(req.body.id)) {
-    //     console.log("Not Found"); 
-    //     const newDispense = new Dispense({
-    //         _id: mongoose.Types.ObjectId(req.body.id),  
-    //         dipenses: []
-    //     }); 
-
-    //     newDispense.save()
-    //         .then(dispense => console.log("Saved. "))
-    //         .catch(err => console.log(err)); 
-    // } 
-
     Dispense.findById(req.body.id, (err, res) => {
         if (err) return console.log(err);
         if (!res) {

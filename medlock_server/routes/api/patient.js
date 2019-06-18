@@ -13,7 +13,10 @@ router.get('/', (req, res) => {
     var id = req.user.sub.substring(6);
     console.log("GET Request");
     Patient.findById(id)
-        .then(patient => res.json(patient))
+        .then(patient => {
+            console.log(patient);
+            res.json(patient);
+        })
         .catch(error => res.status(404).json(error));
 });
 
@@ -28,7 +31,9 @@ router.post('/', (req, res) => {
         _id: mongoose.Types.ObjectId(req.body._id),
         name: req.body.name,
         bio: req.body.bio,
-        dispenser_id: mongoose.Types.ObjectId()
+        dispenser_id: mongoose.Types.ObjectId(),
+        modules: []
+
     });
 
     newPatient.save()
@@ -36,6 +41,31 @@ router.post('/', (req, res) => {
             console.log("Patient -> Database");
             res.json(patient);
         });
+});
+
+router.post('/modules', (req, res) => {
+    console.log("ProfileModule POST Request");
+    Patient.updateOne(
+        { "_id": req.user.sub.substring(6) },
+        { "$push":
+            { "modules":
+                {
+                    "name": req.body.name,
+                    "content": req.body.content
+                }    
+            }
+        }
+    )
+        .then(profileModule => res.json(profileModule))
+        .catch(err => res.json(err));
+});
+
+router.get('/modules', (req, res) => {
+    console.log("ProfileModule GET Request");
+    var id = req.user.sub.substring(6);
+    Patient.findById(id)
+        .then(patient => res.json(patient.modules))
+        .catch(err => console.log(err));
 });
 
 // @route PUT api/patient

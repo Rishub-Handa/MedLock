@@ -9,6 +9,9 @@ import {
     SAVE_PROFILE_SUCCESS,
     SUBMIT_SURVEY_FAILURE,
     EDIT_PROFILE, 
+    ADD_PROFILE_MODULE_BEGIN,
+    ADD_PROFILE_MODULE_SUCCESS,
+    ADD_PROFILE_MODULE_FAILURE
 } from './types';
 
 import axios from 'axios';
@@ -115,4 +118,36 @@ export const editProfile = () => dispatch => {
     }
     dispatch(action);
 };
+
+const addProfileModuleBegin = () => ({
+    type: ADD_PROFILE_MODULE_BEGIN
+});
+
+const addProfileModuleSuccess = newProfileModule => ({
+    type: ADD_PROFILE_MODULE_SUCCESS,
+    payload: {
+        newProfileModule
+    }
+});
+
+const addProfileModuleFailure = error => ({
+    type: ADD_PROFILE_MODULE_FAILURE,
+    payload: {
+        error
+    }
+});
+
+export function addProfileModule(newProfileModule) {
+    console.log("addProfileModule");
+    const { getAccessToken } = auth0client;
+    const API_URL = 'http://localhost:5000/api';
+    const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+    return dispatch => {
+        dispatch(addProfileModuleBegin());
+        return axios.post(`${API_URL}/patient/modules`, newProfileModule, { headers })
+            .then(res => dispatch(addProfileModuleSuccess(res.data)))
+            .catch(error => dispatch(addProfileModuleFailure(error)));
+    }
+}
 

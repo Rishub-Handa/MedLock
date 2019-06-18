@@ -37,6 +37,11 @@ const checkJwt = jwt({
 app.use(express.json()); 
 app.use(cors());
 
+var logger = function(req, res, next) {
+    console.log(req);
+    next();
+}
+
 const db = 'mongodb+srv://chase:chase123@patient-data-4fcpy.mongodb.net/patient-datadb?retryWrites=true&w=majority'
 
 // Connect to MongoDB 
