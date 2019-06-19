@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const PatientInfoSchema = new Schema({
     patientId: {
-        type: String, 
+        type: Schema.Types.ObjectId, 
         required: true 
     }, 
     // Risk scores and other metrics to evaluate the patient. 

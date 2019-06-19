@@ -62,8 +62,10 @@ router.post('/', (req, res) => {
             patient.save() 
                 .then(patient => {
                     res.json(patient.surveys.pdiSurveys); 
-                })
+                }) 
+                .catch(error => console.log(error)); 
 
+            
         })
         .catch(error => res.status(404).json(error));
 

@@ -2,7 +2,9 @@ const express = require('express');
 const { Provider } = require('../../../models/Provider'); 
 const { PatientInfo } = require('../../../models/Provider'); 
 
-// Update Patient Info 
+const router = express.Router(); 
+
+// TEST ALL METHODS 
 
 // @route   GET api/provider/allPatients 
 // @desc    Get all patients general information associated with provider.
@@ -61,5 +63,22 @@ router.delete('/:id', (req, res) => {
     
 }); 
 
+// @route   PUT api/provider/allPatients 
+// @desc    Change the patient data for provider patientList 
+// @access  Private, requires Auth0 Access Token  
+router.put('/:id', (req, res) => { 
 
+    // Might fix later 
+    const id = req.user.sub.substring(6); 
+    Provider.update({
+        "_id": id, 
+        "patientList.patient_id": req.params.id 
+        }, 
+        {
+            "$set": { "patientList.$.medicalData": req.body.medicalData }
+        }) 
+    
+}); 
+
+module.exports = router; 
 

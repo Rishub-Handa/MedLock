@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 
 const router = express.Router(); 
 
+// TEST ALL METHODS 
+
 // @route GET api/provider/provider
 // @desc Get provider info associated with id.
 // @access public --> Will Change
@@ -24,8 +26,10 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     console.log(req.body);
 
+    let id = req.user.sub.substring(6); 
+
     const newProvider = new Provider({
-        _id: mongoose.Types.ObjectId(req.body._id),
+        _id: mongoose.Types.ObjectId(id),
         name: req.body.name, 
         bio: req.body.bio, 
         patientList: req.body.patientList 
