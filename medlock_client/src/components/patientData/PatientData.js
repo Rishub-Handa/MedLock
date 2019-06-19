@@ -160,6 +160,7 @@ class PatientData extends Component {
         try {
 
             const df = this.state.dfSurvey; 
+             console.log(df); 
 
             if(!painCategories) {
                 painCategories = this.state.dfSurvey.names().values.slice(0,7)
@@ -172,24 +173,27 @@ class PatientData extends Component {
                         return parseInt(value); 
                     return -1; 
                 }).map((painData, index) => {
+                    console.log(index); 
                     return {
                         x: index, 
                         y: painData 
                     }
                 })
-                // console.log(dataPoints); 
+                console.log(dataPoints); 
                 return dataPoints; 
             }); 
 
             const labels = df.s(null, "date")._cols[0].values.map(date => date.substring(5, 10)); 
 
-            // console.log(allCoordinates); 
+            console.log(allCoordinates);
 
             return (
                 <div className="pdi-stacked"> 
                     <VictoryStack>
-                        {allCoordinates.map(lineData => {
-                            return ( <VictoryArea data={lineData}/> ); 
+                        {allCoordinates.map(coordinateData => {
+                            return (
+                                <VictoryArea data={coordinateData} />
+                            ); 
                         })}
                         <VictoryAxis dependentAxis />
                         <VictoryAxis tickValues={labels}/>
@@ -225,7 +229,7 @@ class PatientData extends Component {
                                 parseInt(minute)); 
             })
 
-            console.log(timeStamps); 
+            // console.log(timeStamps); 
 
             const timeDifferences = []; 
 
@@ -233,7 +237,7 @@ class PatientData extends Component {
                 timeDifferences[i] = (timeStamps[i+1] - timeStamps[i]) / (60 * 60 * 1000); 
             }
             
-            console.log(timeDifferences); 
+            // console.log(timeDifferences); 
 
             return(
                 <div className="dispense-bar">
@@ -261,7 +265,7 @@ class PatientData extends Component {
         try {
             const df = this.state.dfDispense; 
             const patientData = df.toObjArray(); 
-            console.log(patientData); 
+            // console.log(patientData); 
 
             const coordinates = patientData.map(dataPoint => {
                 const middleIndex = parseInt(dataPoint.time.indexOf(':')); 
@@ -274,14 +278,14 @@ class PatientData extends Component {
                 }); 
             })
 
-            console.log(coordinates); 
+            // console.log(coordinates); 
 
             return (
                 <div className="dispense-scatter">
                     <VictoryChart>
                         <VictoryScatter data={coordinates}
-                                        x="time"
-                                        y="date"/> 
+                                        x="date"
+                                        y="time"/> 
                     </VictoryChart>
                 </div>
             )
@@ -297,6 +301,7 @@ class PatientData extends Component {
     loadDataToState = (surveys, dispenses) => {
 
         try {
+            console.log(surveys); 
             if(surveys[0].responses) {
                 // console.log("Responses"); 
             }
@@ -316,7 +321,7 @@ class PatientData extends Component {
             }); 
             // console.log(dfData); 
             let dfSurvey = jd.dfFromObjArray(dfData).sort("date"); 
-            // df.p(); 
+            // dfSurvey.p(); 
 
             dispenses.dispenses.forEach(dispense => {
                 delete dispense._id; 

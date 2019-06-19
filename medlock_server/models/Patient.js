@@ -1,5 +1,20 @@
 const mongoose = require('mongoose');
+// const PDISurvey = require('./PDISurvey'); 
 const Schema = mongoose.Schema;
+
+// Export this to patients.js ??? 
+const PDISurveySchema = new Schema({
+    ownerId: {
+        type: String
+    },
+    responses: {
+        type: Array 
+    }, 
+    date: {
+        type: Date, 
+        default: Date.now 
+    }
+}); 
 
 // Create Schema 
 const PatientSchema = new Schema({
@@ -19,6 +34,11 @@ const PatientSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
+    surveys: {
+        pdiSurveys: {
+            type: [PDISurveySchema] 
+        }
+    }, 
     modules: {
         type: Schema.Types.Array,
     }
