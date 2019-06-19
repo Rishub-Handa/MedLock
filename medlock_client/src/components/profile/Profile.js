@@ -2,17 +2,23 @@ import React, { Component } from 'react';
 import PersonalInfo from './PersonalInfo';
 import ProfileModule from './ProfileModule';
 import { Button } from 'reactstrap';
+import { editProfile, saveProfile } from '../../actions/profileActions';
+import { connect } from 'react-redux';
 import '../../css/Profile.css';
 
 class Profile extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props.profile.modules);
         this.state = {
-            profileModules: props.profile.modules
+            profileModules: props.profile.modules,
+            newModule: null
         }
 
+    }
+
+    onPIButtonClick = () => {
+        
     }
 
     profileModulesHTML = profileModules => {
@@ -36,8 +42,24 @@ class Profile extends Component {
     }
 
     render() {
-        const { profile } = this.props;
+        const { profile, profileSaving, error, editable } = this.props;
         
+        if (error) {
+            return (
+                <div>
+                    Error: {error.message}
+                </div>
+            )
+        }
+
+        if (profileSaving) {
+            return (
+                <div>
+                    Saving profile . . .
+                </div>
+            )
+        }
+
         return (
             <div className="profile-container">
                 <div className="main">
@@ -54,4 +76,18 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+Profile.propTypes = {
+    editProfile: PropTypes.func.isRequired,
+    saveProfile: PropTypes.func.isRequired,
+    editable: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+    profile: state.profileState.profile,
+    editable: state.profileState.editable,
+    profileLoading: state.profileState.profileLoading,
+    profileSaving: state.profileState.profileSaving,
+    error: state.profileState.error
+})
+
+export default connect(mapStateToProps, { editProfile, saveProfile })(Profile);

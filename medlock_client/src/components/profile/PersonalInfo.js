@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { editProfile, saveProfile } from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 
 /**
  * Component to display personal info on the profile page.
@@ -17,6 +17,24 @@ class PersonalInfo extends Component {
                 bio: this.props.profile.bio
             }
         };
+    }
+
+    editableHTML = () => {
+        return (
+            <div className="personalInfo-editable">
+                <Form>
+                    <FormGroup>
+                        <Input type="text" name="name" id="pi-name" placeholder="Name" value={this.state.name} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Input type="date" name="dob" id="pi-dob" placeholder="Birthday" value={this.state.birthday} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Input type="textarea" name="bio" id="pi-bio" placeholder="Bio" value={this.state.bio} onChange={this.onChange} />
+                    </FormGroup>
+                </Form>
+            </div>
+        )
     }
 
     onButtonClick = () => {
@@ -45,21 +63,7 @@ class PersonalInfo extends Component {
 
         const { profile, loading, error, editable } = this.props;
 
-        if (error) {
-            return (
-                <div>
-                    Error: {error.message}
-                </div>
-            )
-        }
-
-        if (loading) {
-            return (
-                <div>
-                    Saving profile . . .
-                </div>
-            )
-        }
+      
         // } else if (!loading && profile.name && profile.bio) {
         //     this.setState({profile: {name: user.name, bio: user.bio }});
         // }
