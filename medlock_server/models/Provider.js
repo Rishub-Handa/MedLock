@@ -1,37 +1,48 @@
 const mongoose = require('mongoose'); 
 const Schema = mongoose.Schema; 
-
-const PatientInfoSchema = new Schema({
-    patientId: {
-        type: Schema.Types.ObjectId, 
-        required: true 
-    }, 
-    // Risk scores and other metrics to evaluate the patient. 
-    medicalData: {
-        type: Object 
-    }
-}); 
+const PatientInfoSchema = require('./schemas/PatientInfoSchema');
+const ProviderInfoSchema = require('./schemas/ProviderInfoSchema');
 
 const ProviderSchema = new Schema({
     _id: {
         type: Schema.Types.ObjectId,
         required: true
     },
-    name: {
-        type: String,
-        required: true
-    }, 
-    bio: {
-        type: String, 
-        required: true 
-    }, 
-    patientList: {
-        type: [PatientInfoSchema] 
-    } 
-
+    personalData: {
+        name: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        },
+        phone: {
+            type: String
+        },
+        chatname: {
+            type: String,
+            default: this.name
+        },
+        practiceData: {
+            name: {
+                type: String
+            },
+            address: {
+                type: String
+            },
+            phone: {
+                type: String
+            },
+            rating: {
+                type: Number
+            }
+        }
+    },
+    medicalData: {
+        patients: [PatientInfoSchema],
+        providers: [ProviderInfoSchema]
+    }
 }); 
 
-const Provider = mongoose.model('provider', ProviderSchema); 
-const PatientInfo = mongoose.model('patientInfo', PatientInfoSchema); 
-
-module.exports = { Provider, PatientInfo }; 
+module.exports = Provider = mongoose.model('provider', ProviderSchema);

@@ -2,11 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema; 
 
 // Create PDISurvey Schema 
-
 const PDISurveySchema = new Schema({
-    ownerId: {
-        type: String
-    },
     responses: {
         type: Array 
     }, 
@@ -16,5 +12,4 @@ const PDISurveySchema = new Schema({
     }
 }); 
 
-module.exports = PDISurvey = mongoose.model('pdisurvey', PDISurveySchema); 
-
+module.exports = PDISurveySchema;
