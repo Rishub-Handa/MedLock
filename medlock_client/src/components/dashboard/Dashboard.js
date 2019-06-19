@@ -32,7 +32,7 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         const { userProfile } = auth0client;
-        console.log(userProfile);
+        console.log(auth0client);
         this.state = {
             profile: {},
             icons: [

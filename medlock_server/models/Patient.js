@@ -1,46 +1,63 @@
 const mongoose = require('mongoose');
-// const PDISurvey = require('./PDISurvey'); 
 const Schema = mongoose.Schema;
 
-// Export this to patients.js ??? 
-const PDISurveySchema = new Schema({
-    ownerId: {
-        type: String
-    },
-    responses: {
-        type: Array 
-    }, 
-    date: {
-        type: Date, 
-        default: Date.now 
-    }
-}); 
+const PDISurveySchema = require('./schemas/PDISurveySchema'); 
+const DispenserSchema = require('./schemas/DispenserSchema');
+const PrescriptionSchema = require('./schemas/PrescriptionSchema');
+const ProviderInfoSchema = require('./schemas/ProviderInfoSchema');
 
-// Create Schema 
+// Create Patient Schema 
 const PatientSchema = new Schema({
     _id: {
         type: Schema.Types.ObjectId,
         required: true
     },
-    name: {
-        type: String,
-        required: true
-    },
-    bio: {
-        type: String,
-        required: true
-    },
-    dispenser_id: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
-    surveys: {
-        pdiSurveys: {
-            type: [PDISurveySchema] 
+    personalData: {
+        name: {
+            type: String,
+            required: true
+        },
+        sex: {
+            type: String,
+            required: true
+        },
+        birthday: {
+            type: Date,
+            required: true
+        },
+        address: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        },
+        phone: {
+            type: String,
+        },
+        chatname: {
+            type: String,
+            default: this.name
+        },
+        bio: {
+            type: String
         }
-    }, 
-    modules: {
-        type: Schema.Types.Array,
+    },
+    medicalData: {
+        surveys: {
+            pdiSurveys: [PDISurveySchema],
+            painSurveys: {
+                type: Array
+            }
+        },
+        dispenser: DispenserSchema,
+        prescription: PrescriptionSchema,
+        providers: [ProviderInfoSchema]
+    },
+    todos: {
+        appointments: [],
+        reminders: []
     }
 });
 
