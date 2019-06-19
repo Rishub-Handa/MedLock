@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 
 class RoomList extends Component {
 
+    getName = (room) => {
+        room.users.forEach(user => {
+            if(user.name !== this.props.userId) return user.name; 
+        })
+    }
+
     render() {
 
         const orderedRooms = [...this.props.rooms].sort((a, b) => a.id - b.id); 

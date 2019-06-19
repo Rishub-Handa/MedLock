@@ -3,10 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose'); 
 const path = require('path'); 
 const config = require('config'); 
-const pdisurvey = require('./routes/api/pdisurvey'); 
-const patient = require('./routes/api/patient'); 
-const dispense = require('./routes/api/dispense'); 
+const patient = require('./routes/api/patient/patient'); 
+const pdisurvey = require('./routes/api/patient/pdisurvey'); 
+const dispense = require('./routes/api/patient/dispense'); 
 const chatAuth = require('./routes/api/chatAuth'); 
+const provider = require('./routes/api/provider/provider'); 
+const allPatients = require('./routes/api/provider/allPatients'); 
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
@@ -58,9 +60,14 @@ mongoose.connect(db, {
     }); 
 
 // Route the request to an endpoint 
+// Define Patient Scope 
 app.use('/api/pdisurvey', checkJwt, pdisurvey); 
 app.use('/api/patient', checkJwt, patient); 
 app.use('/api/dispense', checkJwt, dispense); 
+
+// Define Provider Scope 
+app.use('/api/allPatients', allPatients); 
+app.use('/api/provider', provider); 
 
 // How will chatAuth authenticate with Auth0 ??? 
 // Cannot use checkJwt because the ChatKit server will also make a request to this endpoint without Auth0. 

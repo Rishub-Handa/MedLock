@@ -1,15 +1,16 @@
 const express = require('express');
-const Patient = require('../../models/Patient');
+const Patient = require('../../../models/Patient');
 const mongoose = require('mongoose');
 
 const router = express.Router();
 
 console.log('Reached Patient Endpoint');
 
-// @route GET api/patient
-// @desc Get patient info associated with id.
-// @access public --> Will Change
+// @route   GET api/patient/patient 
+// @desc    Get patient info associated with id.
+// @access  Private, requires Auth0 Access Token 
 router.get('/', (req, res) => {
+    // Allows patients to get their own information from the Access Token 
     var id = req.user.sub.substring(6);
     console.log("GET Request");
     Patient.findById(id)
@@ -20,9 +21,9 @@ router.get('/', (req, res) => {
         .catch(error => res.status(404).json(error));
 });
 
-// @route POST api/patient
-// @desc create new patient
-// @access Public --> Will Change
+// @route   POST api/patient/patient
+// @desc    create new patient
+// @access  Private, requires Auth0 Access Token 
 router.post('/', (req, res) => {
     console.log('POST Request');
     console.log(req.body);
@@ -68,9 +69,9 @@ router.get('/modules', (req, res) => {
         .catch(err => console.log(err));
 });
 
-// @route PUT api/patient
-// @desc update existing patient
-// @access Public --> Will Change
+// @route   PUT api/patient/patient
+// @desc    update existing patient
+// @access  Private, requires Auth0 Access Token 
 router.put('/', (req, res) => {
     console.log('PUT Request');
     var patientId = req.user.sub.substring(6);
