@@ -8,7 +8,7 @@ class Auth {
     userProfile;
     scopes;
 
-    requestedScopes = 'openid profile read:surveys';
+    requestedScopes = 'openid profile read:patients';
 
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
