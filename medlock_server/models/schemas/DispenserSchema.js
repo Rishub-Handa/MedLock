@@ -26,7 +26,7 @@ const DispenserSchema = new Schema({
     },
     dispenses: [
         {
-            type: Date,
+            type: Number,
         }
     ]
 });
