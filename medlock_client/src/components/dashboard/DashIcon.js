@@ -24,7 +24,7 @@ class DashIcon extends Component {
                 <h1>{this.props.name}</h1>
                 <div>
                     <img src={this.props.content.image} />
-                    <p>{this.props.content.description}</p>
+                    <p>{this.props.roles.description}</p>
                 </div>
             </div>
         );
@@ -33,7 +33,8 @@ class DashIcon extends Component {
 
 DashIcon.propTypes = {
     name: PropTypes.string.isRequired,
-    content: PropTypes.object.isRequired,
+    content: PropTypes.object.isRequired, 
+    roles: PropTypes.array.isRequired, 
     link: PropTypes.string.isRequired
 }
 
