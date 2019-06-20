@@ -15,16 +15,14 @@ import {
 } from '../actions/types';
 
 const initialState = {
-    profile: {
-        _id: null,
-        name: null,
-        bio: null
-    },
+    profile: null,
     editable: false,
     loading: false,
-    profileLoaded: false,
-    profileCreated: false,
-    creating: false,
+    loadingProfile: false,
+    savingProfile: false,
+    loadedProfile: false,
+    createdProfile: false,
+    creatingProfile: false,
     addingNewProfileModule: false,
     error: null,
     profileModules: []
@@ -35,38 +33,38 @@ export default function(state = initialState, action) {
         case CREATE_PROFILE_BEGIN:
             return {
                 ...state,
-                creating: true,
+                creatingProfile: true,
             };
         case CREATE_PROFILE_SUCCESS:
             return {
                 ...state,
-                creating: false,
-                profileCreated: true,
+                creatingProfile: false,
+                createdProfile: true,
                 profile: action.payload.profile
             };
         case CREATE_PROFILE_FAILURE:
             return {
                 ...state, 
-                creating: false,
+                creatingProfile: false,
                 error: action.payload.error
             };
         case LOAD_PROFILE_BEGIN:
             return {
                 ...state,
-                loading: true
+                loadingProfile: true
             };
         case LOAD_PROFILE_SUCCESS:
             return {
                 ...state,
-                loading: false,
-                profileLoaded: true,
+                loadingProfile: false,
+                loadedProfile: true,
                 profile: action.payload.profile
             };
         case LOAD_PROFILE_FAILURE:
             return {
                 ...state,
-                loading: false,
-                profileLoaded: true,
+                loadingProfile: false,
+                loadedProfile: true,
                 error: action.payload.error
             };
         case EDIT_PROFILE: 
@@ -78,19 +76,22 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 editable: false,
-                loading: true,
+                savingProfile: true,
                 error: null
             };
         case SAVE_PROFILE_SUCCESS:
+            console.log(action.payload.updatedPersonalData);
             return {
                 ...state,
-                loading: false,
-                profile: action.payload.newProfile
+                savingProfile: false,
+                profile: {
+                    personalData: action.payload.updatedPersonalData
+                }
             };
         case SAVE_PROFILE_FAILURE:
             return {
                 ...state,
-                loading: false,
+                savingProfile: false,
                 error: action.payload.error,
             };
         case ADD_PROFILE_MODULE_BEGIN:

@@ -16,9 +16,11 @@ import PDISurvey from '../survey/PDISurvey';
 import Dispenser from '../test/Dispenser';
 
 const makeMainRoutes = (props) => {
+    console.log("make routes");
+    console.log(props.profile.personalData);
     return (
         <div>
-            <SecuredRoute path="/dashboard/profile" profile={props.profile} component={Profile} />
+            <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
             <SecuredRoute path="/dashboard/inbox" component={Inbox} />
             <SecuredRoute path="/dashboard/mydata" profile={props.profile} component={PatientData} />
             <SecuredRoute path="/dashboard/resources" component={Resources} />
@@ -81,7 +83,7 @@ class Dashboard extends Component {
     render() {
         console.log("render");
 
-        const { profile, loading, creating, error } = this.props;
+        const { profile, loadingProfile, creatingProfile, error } = this.props;
         
         if (error) {
             return (
@@ -91,7 +93,7 @@ class Dashboard extends Component {
             );
         }
 
-        if (loading || creating || !profile) {
+        if (loadingProfile || creatingProfile || !profile) {
             return (
                 <div>
                     Loading . . .
@@ -103,7 +105,7 @@ class Dashboard extends Component {
             console.log(this.props);
             return (
                 <div>
-                    <DashHeader profile={this.props.profile} />
+                    <DashHeader name={this.props.profile.personalData.name} />
                     <div className="dashboard-content">
                         <SideBar />
                         <div className="icon-container">
@@ -116,7 +118,7 @@ class Dashboard extends Component {
 
         return (
             <div>
-                <DashHeader profile={this.props.profile} />
+                <DashHeader name={this.props.profile.personalData.name} />
                 <div className="dashboard-content" >
                     <SideBar />
                     {makeMainRoutes(this.props)}
@@ -128,12 +130,15 @@ class Dashboard extends Component {
 
     componentDidUpdate() {
         console.log("componentDidUpdate");
+        console.log(this.props.profile);
         const { userProfile } = auth0client;
-        if(this.props.profileLoaded && !this.props.creating && !this.props.profile) {
+        if(this.props.loadedProfile && !this.props.creatingProfile && !this.props.profile) {
             this.props.createProfile({
                 _id: userProfile.sub.substring(6),
-                name: userProfile.name,
-                bio: "default bio",
+                personalData: {
+                    name: userProfile.name,
+                    bio: "default bio"
+                }
             });
         }
     }
@@ -143,19 +148,19 @@ Dashboard.propTypes = {
     profile: PropTypes.object.isRequired,
     loadProfile: PropTypes.func.isRequired,
     createProfile: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
-    profileLoaded: PropTypes.bool.isRequired,
-    creating: PropTypes.bool.isRequired,
-    profileCreated: PropTypes.bool.isRequired,
+    loadingProfile: PropTypes.bool.isRequired,
+    loadedProfile: PropTypes.bool.isRequired,
+    creatingProfile: PropTypes.bool.isRequired,
+    createdProfile: PropTypes.bool.isRequired,
     error: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
     profile: state.profileState.profile,
-    loading: state.profileState.loading,
-    profileLoaded: state.profileState.profileLoaded,
-    creating: state.profileState.creating,
-    profileCreated: state.profileState.profileCreated,
+    loadingProfile: state.profileState.loadingProfile,
+    loadedProfile: state.profileState.loadedProfile,
+    creatingProfile: state.profileState.creatingProfile,
+    createdProfile: state.profileState.createdProfile,
     error: state.profileState.error
 });
 

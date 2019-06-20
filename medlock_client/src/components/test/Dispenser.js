@@ -7,23 +7,28 @@ class Dispenser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.profile.dispenser_id
+            id: props.profile.medicalData.dispenser._id,
+            timestamp: Date.now()
         }
     }
     
     onChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value  
-        })
+        // this.setState({
+        //     [e.target.name]: e.target.value  
+        // })
     }
 
     onSubmit = (e) => {
         e.preventDefault(); 
+
         const dispense = {}; 
         Object.assign(dispense, this.state);
+        console.log(dispense);
+
         const { getAccessToken } = auth0client;
         const API_URL = 'http://localhost:5000/api';
         const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
         axios.post(`${API_URL}/dispense`, dispense, { headers }) 
             .then(res => {
                 console.log(res); 
