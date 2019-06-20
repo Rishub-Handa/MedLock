@@ -66,8 +66,8 @@ app.use('/api/patient', checkJwt, patient);
 app.use('/api/dispense', checkJwt, dispense); 
 
 // Define Provider Scope 
-app.use('/api/allPatients', allPatients); 
-app.use('/api/provider', provider); 
+app.use('/api/allPatients', checkJwt, allPatients); 
+app.use('/api/provider', checkJwt, provider); 
 
 // How will chatAuth authenticate with Auth0 ??? 
 // Cannot use checkJwt because the ChatKit server will also make a request to this endpoint without Auth0. 

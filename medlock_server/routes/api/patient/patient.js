@@ -16,8 +16,11 @@ router.get('/', (req, res) => {
     console.log("GET Request");
     Patient.findById(id)
         .then(patient => {
-            console.log(patient);
-            res.json(patient);
+            if(patient) {
+                res.json(patient); 
+            } else {
+                res.status(404).send("Not Found"); 
+            }
         })
         .catch(error => res.status(404).json(error));
 });

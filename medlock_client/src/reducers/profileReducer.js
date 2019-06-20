@@ -27,6 +27,7 @@ const initialState = {
     profileLoaded: false,
     profileCreated: false,
     profileCreating: false,
+    profileCreateError: null, 
     profileSaving: false, 
     addingNewProfileModule: false,
     profileError: null,
@@ -44,7 +45,8 @@ export default function(state = initialState, action) {
         case CREATE_PROFILE_BEGIN:
             return {
                 ...state,
-                profileCreating: true,
+                profileCreating: true, 
+                profileError: null 
             };
         case CREATE_PROFILE_SUCCESS:
             return {
@@ -57,7 +59,7 @@ export default function(state = initialState, action) {
             return {
                 ...state, 
                 profileCreating: false,
-                profileError: action.payload.error
+                profileCreateError: action.payload.error
             };
         case LOAD_PROFILE_BEGIN:
             return {
@@ -65,6 +67,7 @@ export default function(state = initialState, action) {
                 profileLoading: true
             };
         case LOAD_PROFILE_SUCCESS:
+            console.log(action.payload.profile); 
             return {
                 ...state,
                 profileLoading: false,
