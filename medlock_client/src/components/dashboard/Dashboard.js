@@ -18,10 +18,9 @@ import Dispenser from '../test/Dispenser';
 import { modules } from '../nav/ModuleInfo'; 
 
 const makeMainRoutes = (props) => {
-
     return (
         <div>
-            <SecuredRoute path="/dashboard/profile" profile={props.profile} component={Profile} />
+            <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
             <SecuredRoute path="/dashboard/inbox" component={Inbox} />
             <SecuredRoute path="/dashboard/mydata" profile={props.profile} component={PatientData} />
             <SecuredRoute path="/dashboard/resources" component={Resources} />
@@ -39,7 +38,7 @@ class Dashboard extends Component {
         this.props.fetchAMT(); 
 
         const { userProfile } = auth0client;
-        console.log(userProfile);
+        console.log(auth0client);
         this.state = {
             profile: {},
             role: null, 
@@ -145,7 +144,7 @@ class Dashboard extends Component {
             console.log(this.props);
             return (
                 <div>
-                    <DashHeader profile={this.props.profile} />
+                    <DashHeader name={this.props.profile.personalData.name} />
                     <div className="dashboard-content">
                         <SideBar roles={this.state.roles}/>
                         <div className="icon-container">
@@ -158,7 +157,7 @@ class Dashboard extends Component {
 
         return (
             <div>
-                <DashHeader profile={this.props.profile} />
+                <DashHeader name={this.props.profile.personalData.name} />
                 <div className="dashboard-content" >
                     <SideBar roles={this.state.roles}/>
                     {makeMainRoutes(this.props)}

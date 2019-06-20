@@ -21,16 +21,13 @@ import {
 } from '../actions/types';
 
 const initialState = {
-    profile: {
-        _id: null,
-        name: null,
-        bio: null
-    },
+    profile: null,
     editable: false,
     profileLoading: false,
     profileLoaded: false,
     profileCreated: false,
     profileCreating: false,
+    profileSaving: false, 
     addingNewProfileModule: false,
     profileError: null,
     profileModules: [], 
@@ -90,20 +87,23 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 editable: false,
-                profileLoading: true,
+                profileSaving: true, 
                 profileError: null
             };
         case SAVE_PROFILE_SUCCESS:
+            console.log(action.payload.updatedPersonalData);
             return {
                 ...state,
-                profileLoading: false,
-                profile: action.payload.newProfile
+                profileSaving: false,
+                profile: {
+                    personalData: action.payload.updatedPersonalData
+                }
             };
         case SAVE_PROFILE_FAILURE:
             return {
                 ...state,
-                profileLoading: false,
-                profileError: action.payload.error,
+                profileSaving: false,
+                error: action.payload.error,
             };
         case ADD_PROFILE_MODULE_BEGIN:
             return {

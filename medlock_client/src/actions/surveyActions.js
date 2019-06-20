@@ -34,6 +34,7 @@ export function submitSurvey(survey) {
   const { getAccessToken } = auth0client;
   const API_URL = 'http://localhost:5000/api';
   const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+  
   return dispatch => {
     dispatch(submitSurveyBegin());
     return axios.post(`${API_URL}/pdisurvey`, survey, { headers })

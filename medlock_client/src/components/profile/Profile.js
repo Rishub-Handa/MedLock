@@ -2,24 +2,33 @@ import React, { Component } from 'react';
 import PersonalInfo from './PersonalInfo';
 import ProfileModule from './ProfileModule';
 import { Button } from 'reactstrap';
+import { editProfile, saveProfile } from '../../actions/profileActions';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import '../../css/Profile.css';
 
 class Profile extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props.profile.modules);
+        console.log(props);
         this.state = {
-            profileModules: props.profile.modules
         }
+    }
 
+    onProfileSave = (updatedPersonalData) => {
+        this.props.saveProfile(updatedPersonalData);
+    }
+
+    onProfileEdit = () => {
+        this.props.editProfile();
     }
 
     profileModulesHTML = profileModules => {
         var merged = [].concat.apply([], profileModules);
         profileModules = merged;
         return profileModules.map(profileModule => (
-            <ProfileModule name={profileModule.name} content={profileModule.content} editable={false} />
+            <ProfileModule name={profileModule.name} content={profileModule.content} editable={this.props.editable} />
         ));
     };
     
@@ -36,13 +45,30 @@ class Profile extends Component {
     }
 
     render() {
-        const { profile } = this.props;
+        const { personalData, savingProfile, error, editable } = this.props;
+        console.log(this.props);
         
+        if (error) {
+            return (
+                <div>
+                    Error: {error.message}
+                </div>
+            )
+        }
+
+        if (savingProfile) {
+            return (
+                <div>
+                    Saving profile . . .
+                </div>
+            )
+        }
+
         return (
             <div className="profile-container">
                 <div className="main">
                     <div className="personalInfo-container">
-                        <PersonalInfo profile={this.props.profile}/>
+                        <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} />
                     </div>
                     <div className="profileModules-container">
                         {this.profileModulesHTML(this.state.profileModules)}
@@ -54,4 +80,18 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+Profile.propTypes = {
+    editProfile: PropTypes.func.isRequired,
+    saveProfile: PropTypes.func.isRequired,
+    editable: PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+    personalData: state.profileState.profile.personalData,
+    editable: state.profileState.editable,
+    loadingProfile: state.profileState.loadingProfile,
+    loadingProfile: state.profileState.loadingProfile,
+    error: state.profileState.error
+})
+
+export default connect(mapStateToProps, { editProfile, saveProfile })(Profile);

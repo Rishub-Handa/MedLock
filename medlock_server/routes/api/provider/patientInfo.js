@@ -1,8 +1,7 @@
 const express = require('express'); 
 const Dispense = require('../../../models/Dispense'); 
 const { Provider } = require('../../../models/Provider'); 
-const { PatientInfo } = require('../../../model/Provider'); 
-const PDISurvey = require('../../../models/PDISurvey'); 
+const PDISurveySchema = require('../../../models/schemas/PDISurveySchema'); 
 
 const router = express.Router(); 
 
@@ -15,8 +14,6 @@ router.get('/:id', (req, res) => {
 
     Provider.findById(id)
         .then(provider => {
-
-           
             // Check this query ??? 
             provider.findOne({ "patientList.patient_id": req.params.id }) 
                 .then(patient => {
@@ -60,11 +57,11 @@ router.post('/:id', (req, res) => {
             provider.findOne({ "patientList.patient_id": req.params.id }) 
                 .then(patient => {
                     switch(req.query.type) {
-                        case pdiSurvey: 
-                            const newPDISurvey = new PDISurvey(req.body.pdiSurvey); 
-                            patient.surveys.pdiSurveys(newPDISurvey); 
+                        case PDISurveySchema: 
+                            const newPDISurveySchema = new PDISurveySchema(req.body.PDISurveySchema); 
+                            patient.surveys.PDISurveySchemas(newPDISurveySchema); 
                             patient.save() 
-                                .then(patient => res.json(patient.surveys.pdiSurveys)) 
+                                .then(patient => res.json(patient.surveys.PDISurveySchemas)) 
                                 .catch(error => console.log(error)); 
                             break; 
                         case dispenser: 
@@ -129,9 +126,9 @@ router.get('/:id', (req, res) => {
             provider.findOne({ "patientList.patient_id": req.params.id }) 
                 .then(patient => {
                     switch(req.query.type) {
-                        case pdiSurvey: 
+                        case PDISurveySchema: 
                             // How to query an array ??? 
-                            patient.surveys.pdiSurvey.findOneAndDelete(
+                            patient.surveys.PDISurveySchema.findOneAndDelete(
                                 { "date": req.body.date }
                             )
                             break; 
