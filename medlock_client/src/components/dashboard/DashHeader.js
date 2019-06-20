@@ -16,7 +16,7 @@ class DashHeader extends Component {
                 <div className="dash-container">
                     <img className="dash-logo" src={bigLogo} />
                     <h2>Some motivational quote</h2>
-                    <h2>{this.props.profile.name}</h2>
+                    <h2>{this.props.name}</h2>
                     <img className="profile-picture" src='' alt="Face"/>
                 </div>
             </div>

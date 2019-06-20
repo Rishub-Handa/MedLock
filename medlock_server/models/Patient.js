@@ -19,26 +19,21 @@ const PatientSchema = new Schema({
         },
         sex: {
             type: String,
-            required: true
         },
         birthday: {
             type: Date,
-            required: true
         },
         address: {
             type: String,
-            required: true
         },
         email: {
             type: String,
-            required: true
         },
         phone: {
             type: String,
         },
         chatname: {
             type: String,
-            default: this.name
         },
         bio: {
             type: String

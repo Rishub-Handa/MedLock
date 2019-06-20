@@ -1,5 +1,6 @@
 const express = require('express');
 const Patient = require('../../../models/Patient');
+const Dispenser = require('../../../models/Dispenser');
 const mongoose = require('mongoose');
 
 const router = express.Router();
@@ -28,13 +29,16 @@ router.post('/', (req, res) => {
     console.log('POST Request');
     console.log(req.body);
 
+    const newDispenser = new Dispenser({
+        _id: mongoose.Types.ObjectId(),
+    });
+
     const newPatient = new Patient({
         _id: mongoose.Types.ObjectId(req.body._id),
-        name: req.body.name,
-        bio: req.body.bio,
-        dispenser_id: mongoose.Types.ObjectId(),
-        modules: []
-
+        personalData: req.body.personalData,
+        medicalData: {
+            dispenser: newDispenser,
+        },
     });
 
     newPatient.save()
@@ -75,16 +79,25 @@ router.get('/modules', (req, res) => {
 router.put('/', (req, res) => {
     console.log('PUT Request');
     var patientId = req.user.sub.substring(6);
-    console.log(req.body);
-    Patient.findByIdAndUpdate(
-        patientId,
-        {name: req.body.newName, bio: req.body.newBio},
-        {new: true, useFindAndModify: false},
-        (err, patient) => {
-            if (err) return res.status(500).send(err);
-            console.log(patient);
-            return res.send(patient);
-        });
+    Patient.findById(patientId, (err, patient) => {
+        if (err) return res.status(500).send(err);
+        patient.personalData = req.body;
+        return patient.save()
+            .then(patient => {
+                console.log("Patient Updated.");
+                console.log(patient.personalData);
+                res.send(patient.personalData);
+            });
+    });
+    // Patient.findByIdAndUpdate(
+    //     patientId,
+    //     {personalData: req.body},
+    //     {new: true},
+    //     (err, patient) => {
+    //         if (err) return res.status(500).send(err);
+    //         console.log(patient);
+    //         return res.send(patient);
+    //     });
 });
 
 module.exports = router;

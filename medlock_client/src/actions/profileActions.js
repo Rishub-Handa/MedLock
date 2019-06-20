@@ -42,6 +42,7 @@ export function createProfile(newProfile) {
 
     return dispatch => {
         dispatch(createProfileBegin());
+        console.log(newProfile);
         return axios.post(`${API_URL}/patient`, newProfile, { headers })
             .then(res => dispatch(createProfileSuccess(res.data)))
             .catch(error => dispatch(createProfileFailure(error)));
@@ -79,14 +80,14 @@ export function loadProfile() {
     }
 }
 
-export const saveProfileBegin = () => ({
+const saveProfileBegin = () => ({
     type: SAVE_PROFILE_BEGIN
 });
 
-const saveProfileSuccess = newProfile => ({
+const saveProfileSuccess = updatedPersonalData => ({
     type: SAVE_PROFILE_SUCCESS,
     payload: {
-        newProfile
+        updatedPersonalData
     }
 });
 
@@ -97,16 +98,20 @@ const saveProfileFailure = error => ({
     }
 });
 
-export function saveProfile(newProfile) {
+export function saveProfile(updatedPersonalData) {
     console.log("Save Profile Running...");
+    console.log(updatedPersonalData);
     const { getAccessToken } = auth0client;
     const API_URL = 'http://localhost:5000/api';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
     return dispatch => {
         dispatch(saveProfileBegin());
-        return axios.put(`${API_URL}/patient`, newProfile, { headers })
-            .then(res => dispatch(saveProfileSuccess(res.data)))
+        return axios.put(`${API_URL}/patient`, updatedPersonalData, { headers })
+            .then(res => {
+                console.log(res.data);
+                dispatch(saveProfileSuccess(res.data))
+            })
             .catch(error => dispatch(saveProfileFailure(error)));
     }
 };

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Button, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 
 /**
  * Component to display personal info on the profile page.
@@ -12,10 +10,7 @@ class PersonalInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            profile: {
-                name: this.props.profile.name,
-                bio: this.props.profile.bio
-            }
+            personalData: props.personalData
         };
     }
 
@@ -24,85 +19,86 @@ class PersonalInfo extends Component {
             <div className="personalInfo-editable">
                 <Form>
                     <FormGroup>
-                        <Input type="text" name="name" id="pi-name" placeholder="Name" value={this.state.name} onChange={this.onChange} />
+                        <Label for="pi-name">Full Name</Label>
+                        <Input type="text" name="name" id="pi-name" placeholder="Jon Snow" value={this.state.personalData.name} onChange={this.onChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Input type="date" name="dob" id="pi-dob" placeholder="Birthday" value={this.state.birthday} onChange={this.onChange} />
+                        <Label for="pi-sex">Sex</Label>
+                        <Input type="select" name="sex" id="pi-sex" value={this.state.personalData.sex} onChange={this.onChange}>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </Input>
                     </FormGroup>
                     <FormGroup>
-                        <Input type="textarea" name="bio" id="pi-bio" placeholder="Bio" value={this.state.bio} onChange={this.onChange} />
+                        <Label for="pi-dob">Birthday</Label>
+                        <Input type="date" name="birthday" id="pi-dob" value={this.state.personalData.birthday} onChange={this.onChange} />
                     </FormGroup>
+                    <FormGroup>
+                        <Label for="pi-addr">Address</Label>
+                        <Input type="text" name="address" id="pi-addr" placeholder="123 Direwolf Ave Winterfell, Westeros 22301" value={this.state.personalData.address} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="pi-email">Email</Label>
+                        <Input type="email" name="email" id="pi-email" placeholder="jon.snow@nightswatch.org" value={this.state.personalData.email} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="pi-phone">Phone</Label>
+                        <Input type="text" name="phone" id="pi-phone" placeholder="(555) 555-5555" value={this.state.personalData.phone} onChange={this.onChange}  />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="pi-chatname">Chat Name</Label>
+                        <Input type="text" name="chatname" id="pi-chatname" placeholder="jsnow" value={this.state.personalData.chatname} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="pi-bio">Biography</Label>
+                        <Input type="textarea" name="bio" id="pi-bio" placeholder="I lived one hell of a life (and death and life). Heir to the Iron Throne but raised as a bastard. I rode a dragon a couple times. Also, I had sex with my aunt, then killed her." value={this.state.personalData.bio} onChange={this.onChange} />
+                    </FormGroup>
+                    <Button onClick={() => this.props.onProfileSave(this.state.personalData)}>Save</Button>
                 </Form>
             </div>
         )
     }
 
-    onButtonClick = () => {
-        if (this.props.editable) {
-            console.log("Saving Profile...")
-            var newName = document.getElementById('name').innerText;
-            var newBio = document.getElementById('bio').innerText;
-            console.log(newName);
-            console.log(newBio);
-            this.props.saveProfile({newName, newBio});
-        } else {
-            console.log("Editing Profile...")
-            this.props.editProfile();
-        }
-    }
-
-    onBioChange = (e) => {
-        var newBio = document.getElementById('bio').innerText;
-        console.log(newBio);
-        //this.setState({profile: {bio: newBio}});
-        console.log(this.state);
-    }
-
-    
-    render() {
-
-        const { profile, loading, error, editable } = this.props;
-
-      
-        // } else if (!loading && profile.name && profile.bio) {
-        //     this.setState({profile: {name: user.name, bio: user.bio }});
-        // }
-
-        return (    
-            <div>
+    staticHTML = () => {
+        const { personalData } = this.props;
+        return (
+            <div className="personalInfo-static">
                 <div>
-                    <img src='' alt='Profile Picture' />
-                </div>
-                <div>
-                    <h1 id='name' contentEditable={editable}>{this.state.profile.name}</h1>
-                </div>
-                <div>
-                    <h3>Biography</h3>
-                    <p id='bio' contentEditable={editable} onChange={this.onBioChange}>{this.state.profile.bio}</p>
-                </div>
-                <div>
-                    <button onClick={this.onButtonClick}>
-                        {
-                            editable ? "Save" : "Edit"
-                        }
-                    </button>
+                    <h2>Name: {personalData.name}</h2>
+                    <h4>Biography: {personalData.bio}</h4>
+                    <h6>Sex: {personalData.sex}</h6>
+                    <h6>Birthday: {personalData.birthday}</h6>
+                    <h6>Address: {personalData.address}</h6>
+                    <h6>Email: {personalData.email}</h6>
+                    <h6>Phone: {personalData.phone}</h6>
+                    <h6>Chat Name: {personalData.chatname}</h6>
+                    <div>
+                        <Button onClick={this.props.onProfileEdit}>Edit</Button>
+                    </div>
                 </div>
             </div>
         )
     }
+
+    onChange = (e) => {
+        console.log("onChange");
+        console.log(this.state);
+        this.setState({
+            personalData: {
+                ...this.state.personalData,
+                [e.target.name] : e.target.value
+            }
+        });
+    }
+
+    render() {
+        const { editable } = this.props;
+        if (editable) {
+            return this.editableHTML();
+        } else {
+            return this.staticHTML();
+        }
+    }
 }
 
-PersonalInfo.propTypes = {
-    editProfile: PropTypes.func.isRequired,
-    saveProfile: PropTypes.func.isRequired,
-    editable: PropTypes.object.isRequired,
-}
-
-const mapStateToProps = state => ({
-    profile: state.profileState.profile,
-    editable: state.profileState.editable,
-    loading: state.profileState.loading,
-    error: state.profileState.error
-})
-
-export default connect(mapStateToProps, { editProfile, saveProfile })(PersonalInfo);
+export default PersonalInfo;
