@@ -11,7 +11,13 @@ import {
     EDIT_PROFILE,
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
-    ADD_PROFILE_MODULE_FAILURE
+    ADD_PROFILE_MODULE_FAILURE, 
+    FETCH_ROLES_BEGIN, 
+    FETCH_ROLES_SUCCESS, 
+    FETCH_ROLES_FAILURE, 
+    FETCH_AMT_BEGIN, 
+    FETCH_AMT_SUCCESS, 
+    FETCH_AMT_FAILURE 
 } from '../actions/types';
 
 const initialState = {
@@ -21,13 +27,19 @@ const initialState = {
         bio: null
     },
     editable: false,
-    loading: false,
+    profileLoading: false,
     profileLoaded: false,
     profileCreated: false,
-    creating: false,
+    profileCreating: false,
     addingNewProfileModule: false,
-    error: null,
-    profileModules: []
+    profileError: null,
+    profileModules: [], 
+    roles: null, 
+    rolesLoading: false, 
+    rolesError: null, 
+    AMT: null, 
+    AMTLoading: false, 
+    AMTError: null 
 }
 
 export default function(state = initialState, action) {
@@ -35,39 +47,39 @@ export default function(state = initialState, action) {
         case CREATE_PROFILE_BEGIN:
             return {
                 ...state,
-                creating: true,
+                profileCreating: true,
             };
         case CREATE_PROFILE_SUCCESS:
             return {
                 ...state,
-                creating: false,
+                profileCreating: false,
                 profileCreated: true,
                 profile: action.payload.profile
             };
         case CREATE_PROFILE_FAILURE:
             return {
                 ...state, 
-                creating: false,
-                error: action.payload.error
+                profileCreating: false,
+                profileError: action.payload.error
             };
         case LOAD_PROFILE_BEGIN:
             return {
                 ...state,
-                loading: true
+                profileLoading: true
             };
         case LOAD_PROFILE_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                profileLoading: false,
                 profileLoaded: true,
                 profile: action.payload.profile
             };
         case LOAD_PROFILE_FAILURE:
             return {
                 ...state,
-                loading: false,
+                profileLoading: false,
                 profileLoaded: true,
-                error: action.payload.error
+                profileError: action.payload.error
             };
         case EDIT_PROFILE: 
             return {
@@ -78,20 +90,20 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 editable: false,
-                loading: true,
-                error: null
+                profileLoading: true,
+                profileError: null
             };
         case SAVE_PROFILE_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                profileLoading: false,
                 profile: action.payload.newProfile
             };
         case SAVE_PROFILE_FAILURE:
             return {
                 ...state,
-                loading: false,
-                error: action.payload.error,
+                profileLoading: false,
+                profileError: action.payload.error,
             };
         case ADD_PROFILE_MODULE_BEGIN:
             return {
@@ -109,8 +121,45 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 addingNewProfileModule: false,
-                error: action.payload.error
+                profileError: action.payload.error
             };
+        case FETCH_ROLES_BEGIN: 
+            return {
+                ...state, 
+                rolesLoading: true, 
+                rolesError: null 
+            }
+        case FETCH_ROLES_SUCCESS: 
+            return {
+                ...state, 
+                rolesLoading: false, 
+                roles: action.payload.roles 
+            }
+        case FETCH_ROLES_FAILURE: 
+            return {
+                ...state, 
+                rolesLoading: false, 
+                rolesError: action.payload.error, 
+                roles: {} 
+            }
+        case FETCH_AMT_BEGIN: 
+            return {
+                ...state, 
+                AMTLoading: true, 
+                AMTError: null 
+            }
+        case FETCH_AMT_SUCCESS: 
+            return {
+                ...state, 
+                AMTLoading: false, 
+                AMT: action.payload.AMT 
+            } 
+        case FETCH_AMT_FAILURE: 
+            return {
+                ...state, 
+                AMTLoading: false, 
+                AMTError: action.payload.error 
+            } 
         default:
             return state;
     }

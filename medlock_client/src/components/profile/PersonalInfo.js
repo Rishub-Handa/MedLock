@@ -97,7 +97,7 @@ PersonalInfo.propTypes = {
 const mapStateToProps = state => ({
     profile: state.profileState.profile,
     editable: state.profileState.editable,
-    loading: state.profileState.loading,
+    profileLoading: state.profileState.profileLoading,
     error: state.profileState.error
 })
 
