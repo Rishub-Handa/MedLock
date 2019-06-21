@@ -15,7 +15,6 @@ const ProviderSchema = new Schema({
         },
         email: {
             type: String,
-            required: true
         },
         phone: {
             type: String
