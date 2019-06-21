@@ -28,7 +28,7 @@ class PatientData extends Component {
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
-        this.props.fetchDispenses(this.props.profile.dispenser_id); 
+        this.props.fetchDispenses(this.props.profile.medicalData.dispenser_id); 
         console.log("Calling fetchDispenses"); 
     }
 
@@ -299,7 +299,7 @@ class PatientData extends Component {
 
     // Load the fetched data to the state in a DataFrame 
     loadDataToState = (surveys, dispenses) => {
-
+        
         try {
             console.log(surveys); 
             if(surveys[0].responses) {
@@ -325,9 +325,9 @@ class PatientData extends Component {
 
             dispenses.dispenses.forEach(dispense => {
                 delete dispense._id; 
-            })
+            });
 
-            // console.log(dispenses.dispenses); 
+            console.log(dispenses.dispenses); 
 
             let dfDispense = jd.dfFromObjArray(dispenses.dispenses); 
             // console.log(dfDispense); 
