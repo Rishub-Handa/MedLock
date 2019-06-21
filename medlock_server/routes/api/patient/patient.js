@@ -29,15 +29,13 @@ router.post('/', (req, res) => {
     console.log('POST Request');
     console.log(req.body);
 
-    const newDispenser = new Dispenser({
-        _id: mongoose.Types.ObjectId(),
-    });
+
 
     const newPatient = new Patient({
         _id: mongoose.Types.ObjectId(req.body._id),
         personalData: req.body.personalData,
         medicalData: {
-            dispenser: newDispenser,
+            dispenser_id: mongoose.Types.ObjectId(),
         },
     });
 

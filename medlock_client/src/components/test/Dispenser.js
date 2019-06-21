@@ -7,7 +7,7 @@ class Dispenser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.profile.medicalData.dispenser._id,
+            id: props.profile.medicalData.dispenser_id,
             timestamp: Date.now()
         }
     }
