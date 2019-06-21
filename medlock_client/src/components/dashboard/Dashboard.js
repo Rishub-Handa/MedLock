@@ -35,6 +35,7 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
 
+        // Fetch the API Management Token. 
         this.props.fetchAMT(); 
 
         const { userProfile } = auth0client;
@@ -46,60 +47,41 @@ class Dashboard extends Component {
         }
     }
 
-    
-    iconHTML = (icons, roles) => {
-        try {
-            return icons.filter(icon => {
-                    for(let i = 0; i < icon.roles.length; i++) {
-                        if(icon.roles[i].name === roles[0].name) 
-                            return true; 
-                    }
-                    return false; 
-                }). 
-                map(icon => (
-                    <div className="icon">
-                        <DashIcon name={icon.name} 
-                                roles={icon.roles} 
-                                content={icon.content} 
-                                link={icon.link} />
-                    </div>
-                ))
-        } catch(error) { console.log(error); } 
-
-        return (
-            <div>Loading . . . </div>
-        )
-    };
-
-    componentDidMount() {
-        console.log("componentDidMount");
-        this.props.loadProfile();
-    }
-
     componentDidUpdate() {
         console.log("componentDidUpdate");
+        // Fetch the Roles with the API Management Token. 
         if(this.props.AMT && !this.props.roles) {
             this.props.fetchRoles(this.props.AMT.access_token); 
         }
 
-        if(this.props.roles && !this.state.roles) {
-            console.log(this.props.roles.name); 
-            this.setState({ roles: this.props.roles }); 
+        // Fetch the Profile from the Database with the Roles. 
+        if(this.props.roles && !this.props.profileLoading && !this.props.profileLoaded) {
+            this.props.loadProfile(this.props.roles[0].name); 
+        }
 
-            // If no profile for patient or provider, create the profile here. 
-
-
+        // If loading a profile does not work, then create a new profile in the database. 
+        if(this.props.profileError && !this.props.profile && !this.props.profileCreating) {
+            console.log("Running Create prof"); 
+            const { userProfile } = auth0client; 
+            this.props.createProfile({
+                roles: this.props.roles[0].name, 
+                _id: userProfile.sub.substring(6), 
+                personalData: {
+                    name: userProfile.name
+                }
+            })
         }
 
     }
 
     render() {
         console.log("render");
-
-        const { profile, profileLoading, profileCreating, profileError, 
-                roles, rolesLoading, rolesError ,
-                AMT, AMTLoading, AMTError } = this.props;
         
+        const { profile, profileLoading, profileCreating, profileError, 
+                roles, rolesLoading, rolesError,
+                AMT, AMTLoading, AMTError } = this.props;
+
+        console.log(profile);
         if(AMT) {
             console.log(AMT); 
             console.log(roles); 
@@ -132,7 +114,8 @@ class Dashboard extends Component {
             )
         }
 
-        if (profileLoading || profileCreating || !profile) {
+        if (!profile) {
+            console.log(profile); 
             return (
                 <div>
                     Profile Loading . . .
@@ -146,9 +129,9 @@ class Dashboard extends Component {
                 <div>
                     <DashHeader name={this.props.profile.personalData.name} />
                     <div className="dashboard-content">
-                        <SideBar roles={this.state.roles}/>
+                        <SideBar roles={this.props.roles}/>
                         <div className="icon-container">
-                            {this.iconHTML(this.state.icons, this.state.roles)}
+                            {this.iconHTML(this.state.icons, this.props.roles)}
                         </div>
                     </div>
                 </div>
@@ -159,13 +142,38 @@ class Dashboard extends Component {
             <div>
                 <DashHeader name={this.props.profile.personalData.name} />
                 <div className="dashboard-content" >
-                    <SideBar roles={this.state.roles}/>
+                    <SideBar roles={this.props.roles}/>
                     {makeMainRoutes(this.props)}
                 </div>
 
             </div>
         )
     }
+
+    iconHTML = (icons, roles) => {
+        try {
+            return icons.filter(icon => {
+                    for(let i = 0; i < icon.roles.length; i++) {
+                        if(icon.roles[i].name === roles[0].name) 
+                            return true; 
+                    }
+                    return false; 
+                }). 
+                map(icon => (
+                    <div className="icon">
+                        <DashIcon name={icon.name} 
+                                roles={icon.roles} 
+                                content={icon.content} 
+                                link={icon.link} />
+                    </div>
+                ))
+        } catch(error) { console.log(error); } 
+
+        return (
+            <div>Loading . . . </div>
+        )
+    };
+
 
     
 }
@@ -178,6 +186,7 @@ Dashboard.propTypes = {
     profileLoaded: PropTypes.bool.isRequired,
     profileCreating: PropTypes.bool.isRequired,
     profileCreated: PropTypes.bool.isRequired,
+    profileCreateError: PropTypes.object.isRequired, 
     profileError: PropTypes.string, 
     roles: PropTypes.object.isRequired, 
     fetchRoles: PropTypes.func.isRequired, 
@@ -195,6 +204,7 @@ const mapStateToProps = state => ({
     profileLoaded: state.profileState.profileLoaded,
     profileCreating: state.profileState.profileCreating,
     profileCreated: state.profileState.profileCreated,
+    profileCreateError: state.profileState.profileCreateError, 
     profileError: state.profileState.profileError, 
     roles: state.profileState.roles, 
     rolesLoading: state.profileState.rolesLoading, 

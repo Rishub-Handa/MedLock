@@ -43,13 +43,22 @@ const createProfileFailure = error => ({
 
 export function createProfile(newProfile) {
     const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api';
+    let API_URL = 'http://localhost:5000/api';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+    switch (newProfile.roles) {
+        case "Patient": 
+            API_URL += "/patient"; 
+            break; 
+        case "Provider": 
+            API_URL += "/provider"; 
+            break; 
+    }
 
     return dispatch => {
         dispatch(createProfileBegin());
         console.log(newProfile);
-        return axios.post(`${API_URL}/patient`, newProfile, { headers })
+        return axios.post(API_URL, newProfile, { headers })
             .then(res => dispatch(createProfileSuccess(res.data)))
             .catch(error => dispatch(createProfileFailure(error)));
     }
@@ -73,15 +82,27 @@ const loadProfileFailure = error => ({
     }
 });
 
-export function loadProfile() {
+export function loadProfile(role) {
     const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api';
+    let API_URL = 'http://localhost:5000/api';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+    switch (role) {
+        case "Patient": 
+            API_URL += "/patient"; 
+            break; 
+        case "Provider": 
+            API_URL += "/provider"; 
+            break; 
+    }
 
     return dispatch => {
         dispatch(loadProfileBegin());
-        return axios.get(`${API_URL}/patient`, { headers })
-            .then(res => dispatch(loadProfileSuccess(res.data)))
+        return axios.get(API_URL, { headers })
+            .then(res => {
+                console.log(res); 
+                dispatch(loadProfileSuccess(res.data)); 
+            })
             .catch(error => dispatch(loadProfileFailure(error)));
     }
 }
