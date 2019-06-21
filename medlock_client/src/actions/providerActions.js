@@ -11,20 +11,35 @@ const registerPatientBegin = () => ({
     type: REGISTER_PATIENT_BEGIN
 });
 
-const registerPatientSuccess = () => ({
+const registerPatientSuccess = patient => ({
     type: REGISTER_PATIENT_SUCCESS,
+    payload: {
+        patient
+    }
 });
 
-const registerPatientFailure = () => ({
+const registerPatientFailure = error => ({
     type: REGISTER_PATIENT_FAILURE,
+    payload: {
+        error
+    }
 
 });
 
-export function registerPatient(patient, AMT) {
+export function registerPatient(patient, API_MANAGEMENT_TOKEN) {
     const API_URL = 'https://medlock-dev.auth0.com/api/v2/users';
-    const headers = { authorization: `Bearer ${AMT}`, 'Content-Type': 'application/json' };
+    const headers = { authorization: `Bearer ${API_MANAGEMENT_TOKEN}`, 'content-type': 'application/json' };
 
-    axios.post(API_URL, patient, { headers })
-
-
+    return dispatch => {
+        dispatch(registerPatientBegin());
+        return axios.post(API_URL, patient, { headers })
+            .then(res => {
+                console.log(res.data);
+                dispatch(registerPatientSuccess(res.data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(registerPatientFailure(error))
+            });
+    }
 }
