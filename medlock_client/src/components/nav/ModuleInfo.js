@@ -1,5 +1,9 @@
 export const modules = [
     {
+        name: 'Dashboard', 
+        link: '/dashboard' 
+    }, 
+    {
         name: 'Inbox', 
         roles: [
             {

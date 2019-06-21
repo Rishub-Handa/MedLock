@@ -1,5 +1,6 @@
 // Start of Server 
 const express = require('express'); 
+const bodyParser = require('body-parser'); 
 const mongoose = require('mongoose'); 
 const path = require('path'); 
 const config = require('config'); 
@@ -38,6 +39,7 @@ const checkJwt = jwt({
 
 // Body Parsers Middleware 
 app.use(express.json()); 
+app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cors());
 
 var logger = function(req, res, next) {
@@ -63,7 +65,7 @@ mongoose.connect(db, {
 // Define Patient Scope 
 app.use('/api/pdisurvey', checkJwt, pdisurvey); 
 app.use('/api/patient', checkJwt, patient); 
-app.use('/api/dispense', checkJwt, dispense); 
+app.use('/api/dispense', dispense); 
 
 // Define Provider Scope 
 app.use('/api/allPatients', checkJwt, allPatients); 
@@ -76,6 +78,6 @@ app.use('/api/chatAuth', chatAuth);
 // Run the Server on a Port 
 const PORT = process.env.PORT || 5000; 
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Process start on port: ${PORT}`); 
 }); 

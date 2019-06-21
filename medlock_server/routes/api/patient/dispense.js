@@ -27,38 +27,22 @@ router.post('/', (req, res) => {
     var dispenser_id = req.body.id;
 
     Dispenser.findById(dispenser_id, (err, dispenser) => {
-        if (err) return res.status(500).send(err);
+
+        if (err) return res.status(500).send(err); 
+
         if (!dispenser) {
             dispenser = new Dispenser({
                 _id: mongoose.Types.ObjectId(dispenser_id)
             });
         }
-        dispenser.dispenses.push(req.body.timestamp);
+
+        dispenser.dispenses.push(req.body.timestamp); 
         return dispenser.save()
             .then(dispenser => {
                 console.log("Dispense Logged.");
                 console.log(dispenser);
             });
-    })
-
-    // Dispenser.findById(req.body.id, (err, res) => {
-    //     if (err) return console.log(err);
-    //     if (!res) {
-    //         const newDispenser = new Dispenser({
-    //             _id: mongoose.Types.ObjectId(req.body.id),
-    //             dispenses: []
-    //         });
-
-    //         newDispenser.save()
-    //             .then(Dispenser => {
-    //                 console.log(`New dispenser with id=${req.body.id} created and saved.`);
-    //                 addDispense(req.body);
-    //             })
-    //             .catch(err => console.log(err));
-    //     } else {
-    //         addDispense(req.body);
-    //     }
-    // });
+    }); 
 });
 
 const addDispense = body => {

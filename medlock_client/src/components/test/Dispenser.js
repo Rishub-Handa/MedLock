@@ -8,28 +8,40 @@ class Dispenser extends Component {
         super(props);
         this.state = {
             id: props.profile.medicalData.dispenser._id,
-            timestamp: Date.now()
         }
     }
     
     onChange = (e) => {
-        // this.setState({
-        //     [e.target.name]: e.target.value  
-        // })
+        this.setState({
+            [e.target.name]: e.target.value  
+        })
     }
 
     onSubmit = (e) => {
         e.preventDefault(); 
 
-        const dispense = {}; 
-        Object.assign(dispense, this.state);
-        console.log(dispense);
+        const dispenseTime = new Date(); 
+        dispenseTime.setFullYear(parseInt(this.state.date.substring(6, 10))); 
+        dispenseTime.setMonth(parseInt(this.state.date.substring(0, 2)) - 1); 
+        dispenseTime.setDate(parseInt(this.state.date.substring(3, 5))); 
+        dispenseTime.setUTCHours(parseInt(this.state.time.substring(0, 2)) + 4); 
+        dispenseTime.setMinutes(parseInt(this.state.time.substring(3, 5))); 
+    
+        const dispenseSeconds = dispenseTime.getTime(); 
+
+        console.log(dispenseSeconds); 
+        console.log(dispenseTime); 
+
+        const data = {
+            id: this.state.id, 
+            timestamp: dispenseSeconds 
+        }
 
         const { getAccessToken } = auth0client;
         const API_URL = 'http://localhost:5000/api';
-        const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
-
-        axios.post(`${API_URL}/dispense`, dispense, { headers }) 
+        const headers = { 'Authorization': `Bearer ${getAccessToken()}`}; 
+        
+        axios.post(`${API_URL}/dispense`, data, { headers }) 
             .then(res => {
                 console.log(res); 
             }) 

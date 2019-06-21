@@ -153,6 +153,8 @@ class Dashboard extends Component {
     iconHTML = (icons, roles) => {
         try {
             return icons.filter(icon => {
+                    if(!icon.roles) return false; 
+                    
                     for(let i = 0; i < icon.roles.length; i++) {
                         if(icon.roles[i].name === roles[0].name) 
                             return true; 
