@@ -61,6 +61,8 @@ class MyPatients extends Component {
                 "password": "Password123!",
                 "connection": "Username-Password-Authentication"
             };
+            
+            const { patient } = this.props;
 
             this.props.registerPatient(newPatient, AMT.access_token)
                 .then(() => {
@@ -76,11 +78,16 @@ class MyPatients extends Component {
                             providers: [auth0client.userProfile.sub.substring(6)]
                         }
                     };
-                    this.props.createProfile(newPatientProfile);
+                    this.props.createProfile(newPatientProfile)
                 })
                 .then(() => {
                     const patient_id = this.props.patient.user_id;
                     this.props.assignPatientRole(patient_id, AMT.access_token);
+                })
+                .then(() => {
+                    const patientInfo = {
+                        //should be called to add patientInfo to the providers db
+                    }
                 });
 
         }

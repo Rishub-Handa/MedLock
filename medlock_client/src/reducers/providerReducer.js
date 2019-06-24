@@ -44,7 +44,6 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 roleAssigning: false,
-                patient: action.payload.patient
             };
         case ASSIGN_PATIENT_ROLE_FAILURE: 
             return {

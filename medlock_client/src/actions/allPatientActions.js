@@ -1,4 +1,11 @@
-import { FETCH_ALL_PATIENTS_BEGIN, FETCH_ALL_PATIENTS_SUCCESS, FETCH_ALL_PATIENTS_FAILURE } from './types'; 
+import { 
+  FETCH_ALL_PATIENTS_BEGIN,
+  FETCH_ALL_PATIENTS_SUCCESS,
+  FETCH_ALL_PATIENTS_FAILURE,
+  ADD_PATIENT_BEGIN,
+  ADD_PATIENT_SUCCESS,
+  ADD_PATIENT_FAILURE
+} from './types'; 
 import auth0client from '../auth/Auth'; 
 
 const axios = require('axios'); 
@@ -33,9 +40,44 @@ export function fetchAllPatients() {
             // Change this URL ??? 
         return axios.get(`${API_URL}/provider/allPatients`, { headers })
             .then(res => {
-            console.log(res.data);
-            dispatch(fetchAllPatientsSuccess(res.data));
+              console.log(res.data);
+              dispatch(fetchAllPatientsSuccess(res.data));
             })
             .catch(error => dispatch(fetchAllPatientsFailure(error)));
     };
+}
+
+const addPatientBegin = () => ({
+  type: ADD_PATIENT_BEGIN
+});
+
+
+const addPatientSuccess = allPatients => ({
+  type: ADD_PATIENT_SUCCESS,
+  payload: {
+    allPatients
   }
+});
+  
+const addPatientFailure = error => ({
+    type: ADD_PATIENT_FAILURE,
+    payload: {
+      error
+    }
+});
+
+export function addPatient(patient) {
+  const { getAccessToken } = auth0client;
+  const API_URL = 'http://localhost:5000/api/allPatients';
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+  dispatch(addPatientBegin());
+  return dispatch => {
+    return axios.post(API_URL, patient, { headers })
+      .then(res => dispatch(addPatientSuccess(res.data)))
+      .catch(error => {
+        console.log(error);
+        dispatch(addPatientFailure(error));
+      });
+  }
+}
