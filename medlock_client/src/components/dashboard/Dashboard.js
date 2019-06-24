@@ -7,15 +7,16 @@ import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
 import Inbox from '../inbox/Inbox';
-import { loadProfile, createProfile, fetchRoles, fetchAMT } from '../../actions/profileActions'; 
+import { loadProfile, createProfile } from '../../actions/profileActions'; 
+import { fetchRoles, fetchAMT } from '../../actions/authActions';
 import SecuredRoute from '../SecuredRoute';
 import DashHeader from './DashHeader';
 import SideBar from '../nav/SideBar';
 import PatientData from '../patientData/PatientData';
 import PDISurvey from '../survey/PDISurvey';
-import PatientList from '../patientList/PatientList'; 
 import Dispenser from '../test/Dispenser'; 
 import { modules } from '../nav/ModuleInfo'; 
+import MyPatients from '../myPatients/MyPatients';
 
 const makeMainRoutes = (props) => {
     return (
@@ -26,7 +27,7 @@ const makeMainRoutes = (props) => {
             <SecuredRoute path="/dashboard/resources" component={Resources} />
             <SecuredRoute path="/dashboard/survey" component={PDISurvey} />
             <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
-            <SecuredRoute path="/dashboard/mypatients" component={PatientList} /> 
+            <SecuredRoute path="/dashboard/mypatients" component={MyPatients} /> 
         </div>
     );   
 }
@@ -206,12 +207,12 @@ const mapStateToProps = state => ({
     profileCreated: state.profileState.profileCreated,
     profileCreateError: state.profileState.profileCreateError, 
     profileError: state.profileState.profileError, 
-    roles: state.profileState.roles, 
-    rolesLoading: state.profileState.rolesLoading, 
-    rolesError: state.profileState.rolesError, 
-    AMT: state.profileState.AMT, 
-    AMTLoading: state.profileState.AMTLoading, 
-    AMTError: state.profileState.AMTError 
+    roles: state.authState.roles, 
+    rolesLoading: state.authState.rolesLoading, 
+    rolesError: state.authState.rolesError, 
+    AMT: state.authState.AMT, 
+    AMTLoading: state.authState.AMTLoading, 
+    AMTError: state.authState.AMTError 
 });
 
 export default connect(mapStateToProps, { loadProfile, createProfile, fetchRoles, fetchAMT })(Dashboard); 

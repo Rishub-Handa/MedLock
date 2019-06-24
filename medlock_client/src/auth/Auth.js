@@ -142,6 +142,7 @@ class Auth {
 
 }
 
+
 const auth0client = new Auth();
 
 export default auth0client;

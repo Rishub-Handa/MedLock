@@ -2,19 +2,11 @@ import React, { Component } from 'react';
 import './App.css';
 import Dashboard from './components/dashboard/Dashboard'; 
 import { Route } from 'react-router-dom'; 
-import Inbox from './components/inbox/Inbox';
-import Resources from './components/resources/Resources';
-import PatientData from './components/patientData/PatientData';
-import Profile from './components/profile/Profile';
-import DashHeader from './components/dashboard/DashHeader';
-import PDISurvey from './components/survey/PDISurvey';
 import Callback from './components/Callback';
 import Home from './components/home/Home';
-import Dispenser from './components/test/Dispenser'; 
 import auth0client from './auth/Auth';
 import SecuredRoute from './components/SecuredRoute';
 import Login from './components/login/Login';
-import SideBar from './components/nav/SideBar';
 import { withRouter } from 'react-router-dom';
 
 const handleAuthentication = (nextState, replace) => {

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const PDISurveySchema = require('./schemas/PDISurveySchema'); 
 const PrescriptionSchema = require('./schemas/PrescriptionSchema');
-const ProviderInfoSchema = require('./schemas/ProviderInfoSchema');
+//const ProviderInfoSchema = require('./schemas/ProviderInfoSchema');
 
 // Create Patient Schema 
 const PatientSchema = new Schema({
@@ -47,7 +47,7 @@ const PatientSchema = new Schema({
         },
         dispenser_id: Schema.Types.ObjectId,
         prescription: PrescriptionSchema,
-        providers: [ProviderInfoSchema]
+        providers: []
     },
     todos: {
         appointments: [],
