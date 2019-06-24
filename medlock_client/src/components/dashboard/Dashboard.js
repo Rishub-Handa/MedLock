@@ -38,8 +38,6 @@ class Dashboard extends Component {
         // Fetch the API Management Token. 
         this.props.fetchAMT(); 
 
-        const { userProfile } = auth0client;
-        console.log(auth0client);
         this.state = {
             profile: {},
             role: null, 
@@ -47,6 +45,7 @@ class Dashboard extends Component {
         }
     }
 
+    // Change this so API Management Token -> Roles -> Load Profile -> If !profile.fields, display NewUser 
     componentDidUpdate() {
         console.log("componentDidUpdate");
         // Fetch the Roles with the API Management Token. 
@@ -63,6 +62,9 @@ class Dashboard extends Component {
         if(this.props.profileError && !this.props.profile && !this.props.profileCreating) {
             console.log("Running Create prof"); 
             const { userProfile } = auth0client; 
+
+            // Display New User Form 
+        
             this.props.createProfile({
                 roles: this.props.roles[0].name, 
                 _id: userProfile.sub.substring(6), 

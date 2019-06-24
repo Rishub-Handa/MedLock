@@ -6,8 +6,9 @@ class Dispenser extends Component {
 
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
-            id: props.profile.medicalData.dispenser._id,
+            id: props.profile.medicalData.dispenser_id,
         }
     }
     
@@ -26,6 +27,8 @@ class Dispenser extends Component {
         dispenseTime.setDate(parseInt(this.state.date.substring(3, 5))); 
         dispenseTime.setUTCHours(parseInt(this.state.time.substring(0, 2)) + 4); 
         dispenseTime.setMinutes(parseInt(this.state.time.substring(3, 5))); 
+
+        console.log(dispenseTime.toString()); 
     
         const dispenseSeconds = dispenseTime.getTime(); 
 

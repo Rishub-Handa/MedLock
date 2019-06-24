@@ -28,7 +28,8 @@ class PatientData extends Component {
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
-        this.props.fetchDispenses(this.props.profile.dispenser_id); 
+        console.log(this.props.profile);
+        this.props.fetchDispenses(this.props.profile.medicalData.dispenser_id); 
         console.log("Calling fetchDispenses"); 
     }
 
@@ -213,23 +214,12 @@ class PatientData extends Component {
         
         try {
             // Change null to Selection Range 
-            const df = this.state.dfDispense.s(null, ["date", "time"]); 
+            const df = this.state.dfDispense; 
+            // df.p(); 
 
-            const timeStamps = df.toObjArray().map(row => {
-                const year = row.date.substring(6, 8); 
-                const month = row.date.substring(0, 2); 
-                const day = row.date.substring(3, 5); 
-                const hour = row.time.substring(0, 2); 
-                const minute = row.time.substring(3, 5); 
+            const timeStamps = df.toArray().map(time => new Date(time)); 
 
-                return new Date(parseInt(year), 
-                                parseInt(month) - 1, 
-                                parseInt(day), 
-                                parseInt(hour), 
-                                parseInt(minute)); 
-            })
-
-            // console.log(timeStamps); 
+            console.log(timeStamps); 
 
             const timeDifferences = []; 
 
@@ -264,17 +254,24 @@ class PatientData extends Component {
 
         try {
             const df = this.state.dfDispense; 
-            const patientData = df.toObjArray(); 
+            const patientData = df.toArray(); 
             // console.log(patientData); 
 
-            const coordinates = patientData.map(dataPoint => {
-                const middleIndex = parseInt(dataPoint.time.indexOf(':')); 
-                const hours = parseInt(dataPoint.time.substring(0, middleIndex)); 
-                const minutes = (parseInt(dataPoint.time.substring(middleIndex+1, 5))) / 60; 
-                const time = hours + minutes; 
+            const dates = patientData.map(timestamp => new Date(timestamp)); 
+
+            const coordinates = dates.map((date, index) => {
+
+                const time = date.getHours() + (date.getMinutes() / 60); 
+                const dispenseDate = (date.getMonth() + 1) + "-" + date.getDate(); 
+                console.log(dispenseDate); 
+
+                // const middleIndex = parseInt(dataPoint.time.indexOf(':')); 
+                // const hours = parseInt(dataPoint.time.substring(0, middleIndex)); 
+                // const minutes = (parseInt(dataPoint.time.substring(middleIndex+1, 5))) / 60; 
+                // const time = hours + minutes; 
                 return ({
-                    time: time, 
-                    date: parseInt(dataPoint.date.substring(3, 5)) 
+                    time, 
+                    dispenseDate 
                 }); 
             })
 
@@ -284,7 +281,7 @@ class PatientData extends Component {
                 <div className="dispense-scatter">
                     <VictoryChart>
                         <VictoryScatter data={coordinates}
-                                        x="date"
+                                        x="dispenseDate"
                                         y="time"/> 
                     </VictoryChart>
                 </div>
@@ -301,7 +298,6 @@ class PatientData extends Component {
     loadDataToState = (surveys, dispenses) => {
 
         try {
-            console.log(surveys); 
             if(surveys[0].responses) {
                 // console.log("Responses"); 
             }
@@ -319,18 +315,14 @@ class PatientData extends Component {
                 })
                 return responseObj; 
             }); 
-            // console.log(dfData); 
+
             let dfSurvey = jd.dfFromObjArray(dfData).sort("date"); 
-            // dfSurvey.p(); 
 
             dispenses.dispenses.forEach(dispense => {
                 delete dispense._id; 
-            })
+            });
 
-            // console.log(dispenses.dispenses); 
-
-            let dfDispense = jd.dfFromObjArray(dispenses.dispenses); 
-            // console.log(dfDispense); 
+            let dfDispense = jd.vector(dispenses.dispenses).sort(); 
 
             this.setState({
                 retrievedData: true, 
