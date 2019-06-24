@@ -40,8 +40,9 @@ router.post('/', (req, res) => {
         _id: mongoose.Types.ObjectId(req.body._id),
         personalData: req.body.personalData,
         medicalData: {
+            ...req.body.medicalData,
             dispenser: newDispenser,
-        },
+        }
     });
 
     newPatient.save()

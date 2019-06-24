@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const PDISurveySchema = require('./schemas/PDISurveySchema'); 
 const DispenserSchema = require('./schemas/DispenserSchema');
 const PrescriptionSchema = require('./schemas/PrescriptionSchema');
-const ProviderInfoSchema = require('./schemas/ProviderInfoSchema');
+//const ProviderInfoSchema = require('./schemas/ProviderInfoSchema');
 
 // Create Patient Schema 
 const PatientSchema = new Schema({
@@ -48,7 +48,7 @@ const PatientSchema = new Schema({
         },
         dispenser: DispenserSchema,
         prescription: PrescriptionSchema,
-        providers: [ProviderInfoSchema]
+        providers: []
     },
     todos: {
         appointments: [],

@@ -3,7 +3,7 @@ import profileReducer from './profileReducer';
 import surveyReducer from './surveyReducer'; 
 import dispenseReducer from './dispenseReducer'; 
 import authReducer from './authReducer';
-import providerReducer from './profileReducer';
+import providerReducer from './providerReducer';
 
 export default combineReducers({
     profileState: profileReducer, 

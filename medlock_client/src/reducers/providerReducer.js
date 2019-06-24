@@ -2,13 +2,18 @@ import {
     REGISTER_PATIENT_BEGIN,
     REGISTER_PATIENT_SUCCESS,
     REGISTER_PATIENT_FAILURE,
-} from './types';
+    ASSIGN_PATIENT_ROLE_BEGIN,
+    ASSIGN_PATIENT_ROLE_SUCCESS,
+    ASSIGN_PATIENT_ROLE_FAILURE,
+} from '../actions/types';
 
 const initialState = {
     patients: [],
     patient: null,
     patientRegistering: false,
-    registerError: null
+    registerError: null,
+    roleAssigning: false,
+    roleAssignError: null
 }
 
 export default function(state = initialState, action) {
@@ -18,7 +23,7 @@ export default function(state = initialState, action) {
                 ...state,
                 patientRegistering: true,
             };
-        case REGISTER_PATIENT_SUCCESS: 
+        case REGISTER_PATIENT_SUCCESS:
             return {
                 ...state,
                 patientRegistering: false,
@@ -30,7 +35,24 @@ export default function(state = initialState, action) {
                 patientRegistering: false,
                 registerError: action.payload.error
             };
-        case default:
+        case ASSIGN_PATIENT_ROLE_BEGIN:
+            return {
+                ...state,
+                roleAssigning: true
+            };
+        case ASSIGN_PATIENT_ROLE_SUCCESS: 
+            return {
+                ...state,
+                roleAssigning: false,
+                patient: action.payload.patient
+            };
+        case ASSIGN_PATIENT_ROLE_FAILURE: 
+            return {
+                ...state,
+                roleAssigning: false,
+                roleAssignError: action.payload.error
+            };
+        default:
             return state;
     }
 }

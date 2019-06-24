@@ -35,23 +35,20 @@ const createProfileFailure = error => ({
     }
 });
 
+/**
+ * 
+ * TODO: createProfile should be called after registerProfile is called by the provider.
+ * Providers will be created by the admin.
+ *  
+ */
+
 export function createProfile(newProfile) {
     const { getAccessToken } = auth0client;
-    let API_URL = 'http://localhost:5000/api';
+    let API_URL = 'http://localhost:5000/api/patient';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
-
-    switch (newProfile.roles) {
-        case "Patient": 
-            API_URL += "/patient"; 
-            break; 
-        case "Provider": 
-            API_URL += "/provider"; 
-            break; 
-    }
 
     return dispatch => {
         dispatch(createProfileBegin());
-        console.log(newProfile);
         return axios.post(API_URL, newProfile, { headers })
             .then(res => dispatch(createProfileSuccess(res.data)))
             .catch(error => dispatch(createProfileFailure(error)));

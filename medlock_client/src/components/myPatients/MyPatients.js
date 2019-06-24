@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import PatientList from './PatientList';
 import AddPatientForm from './AddPatientForm';
 import { fetchAMT } from '../../actions/authActions';
-import { registerPatient } from '../../actions/providerActions';
+import { registerPatient, assignPatientRole } from '../../actions/providerActions';
+import { createProfile } from '../../actions/profileActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
+import auth0client from '../../auth/Auth';
+
 
 class MyPatients extends Component {
 
@@ -59,7 +62,27 @@ class MyPatients extends Component {
                 "connection": "Username-Password-Authentication"
             };
 
-            this.props.registerPatient(newPatient, AMT.access_token);
+            this.props.registerPatient(newPatient, AMT.access_token)
+                .then(() => {
+                    const { patient } = this.props;
+                    console.log(patient);
+                    const newPatientProfile = {
+                        _id: patient.user_id.substring(6),
+                        personalData: {
+                            name: patient.name,
+                            email: patient.name,
+                        },
+                        medicalData: {
+                            providers: [auth0client.userProfile.sub.substring(6)]
+                        }
+                    };
+                    this.props.createProfile(newPatientProfile);
+                })
+                .then(() => {
+                    const patient_id = this.props.patient.user_id;
+                    this.props.assignPatientRole(patient_id, AMT.access_token);
+                });
+
         }
     }
     
@@ -122,7 +145,8 @@ MyPatients.propTypes = {
     AMT: PropTypes.object.isRequired, 
     AMTLoading: PropTypes.bool.isRequired, 
     AMTError: PropTypes.object.isRequired, 
-
+    createProfile: PropTypes.func.isRequired,
+    assignPatientRole: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -132,7 +156,9 @@ const mapStateToProps = state => ({
     patients: state.providerState.patients,
     patient: state.providerState.patient,
     patientRegistering: state.providerState.patientRegistering,
-    registerError: state.providerState.registerError
+    registerError: state.providerState.registerError,
+    roleAssigning: state.providerState.roleAssigning,
+    roleAssignError: state.providerState.roleAssignError
 });
 
-export default connect(mapStateToProps, { fetchAMT, registerPatient })(MyPatients);
+export default connect(mapStateToProps, { fetchAMT, registerPatient, assignPatientRole, createProfile })(MyPatients);
