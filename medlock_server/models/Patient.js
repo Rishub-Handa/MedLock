@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const PDISurveySchema = require('./schemas/PDISurveySchema'); 
-const DispenserSchema = require('./schemas/DispenserSchema');
 const PrescriptionSchema = require('./schemas/PrescriptionSchema');
 //const ProviderInfoSchema = require('./schemas/ProviderInfoSchema');
 
@@ -46,7 +45,7 @@ const PatientSchema = new Schema({
                 type: Array
             }
         },
-        dispenser: DispenserSchema,
+        dispenser_id: Schema.Types.ObjectId,
         prescription: PrescriptionSchema,
         providers: []
     },

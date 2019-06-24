@@ -1,28 +1,20 @@
 const express = require('express'); 
-const PDISurveySchema = require('../../../models/schemas/PDISurveySchema'); 
+const PDISurvey = require('../../../models/PDISurvey'); 
 const Patient = require('../../../models/Patient'); 
 
 const router = express.Router(); 
 
-console.log('Reached PDISurveySchema Endpoint'); 
+console.log('Reached PDISurvey Endpoint'); 
 
 // @route   GET api/PDISurveySchema 
 // @desc    Get all survey responses for PDI Survey.  
 // @access  Public --> Will Change 
 router.get('/', (req, res) => {
-    /* Query PDISurveySchema Collection 
-    console.log('GET Request'); 
-    // Finds all survey responses, so find() does not have search parameters 
-    PDISurveySchema.find({ 'ownerId': req.user.sub })
-        .sort({ date: -1 })
-        .then(survey => res.json(survey)); 
-    */ 
-
     var id = req.user.sub.substring(6);
     Patient.findById(id)
         .then(patient => {
             // Return all PDISurveySchemas in the patient. 
-            res.json(patient.surveys.PDISurveySchemas); 
+            res.json(patient.medicalData.surveys.pdiSurveys); 
         })
         .catch(error => res.status(404).json(error));
 }); 
@@ -31,7 +23,7 @@ router.get('/', (req, res) => {
 // @desc    Create a PDISurveySchema 
 // @access  Public --> Will Change 
 router.post('/', (req, res) => {
-    console.log('POST Request'); 
+    console.log('PDISurvey POST Request'); 
     // Create a new MongoDB Schema Model 
     // The date is default created with Date.now
     /* Query PDISurveySchema Collection 
@@ -49,23 +41,36 @@ router.post('/', (req, res) => {
     */ 
 
     var id = req.user.sub.substring(6);
+    // Patient.findById(id, (err, patient) => {
+    //     if (err) return res.status(500).send(err);
+    //     if (!patient) return res.status(404).send("Patient not found.");
+    //     const newPDISurvey = new PDISurvey({
+    //         responses: req.body
+    //     });
+    //     console.log(patient);
+    //     patient.medicalData.surveys.pdiSurveys.push(newPDISurvey);
+    //     return patient.save()
+    //         .then(patient => {
+    //             console.log("PDISurvey Saved.");
+    //             console.log(patient);
+    //         });
+    // });
+
     Patient.findById(id)
         .then(patient => {
-            // Return all PDISurveySchemas in the patient. 
-            const newPDISurveySchema = new PDISurveySchema({
-                ownerId: req.user.sub,
-                responses: req.body 
+
+            // Create new PDISurvey from the responses.
+            const newPDISurvey = new PDISurvey({
+                responses: req.body, 
             }); 
 
-            patient.surveys.PDISurveySchemas.push(newPDISurveySchema); 
+            patient.medicalData.surveys.pdiSurveys.push(newPDISurvey); 
 
             patient.save() 
                 .then(patient => {
-                    res.json(patient.surveys.PDISurveySchemas); 
+                    res.json(patient.medicalData.surveys.pdiSurveys); 
                 }) 
-                .catch(error => console.log(error)); 
-
-            
+                .catch(error => console.log(error));
         })
         .catch(error => res.status(404).json(error));
 

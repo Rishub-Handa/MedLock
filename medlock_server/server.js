@@ -60,6 +60,7 @@ mongoose.connect(db, {
     }); 
 
 // Route the request to an endpoint 
+
 // Define Patient Scope 
 app.use('/api/pdisurvey', checkJwt, pdisurvey); 
 app.use('/api/patient', checkJwt, patient); 
