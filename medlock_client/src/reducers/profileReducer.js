@@ -11,13 +11,7 @@ import {
     EDIT_PROFILE,
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
-    ADD_PROFILE_MODULE_FAILURE, 
-    FETCH_ROLES_BEGIN, 
-    FETCH_ROLES_SUCCESS, 
-    FETCH_ROLES_FAILURE, 
-    FETCH_AMT_BEGIN, 
-    FETCH_AMT_SUCCESS, 
-    FETCH_AMT_FAILURE 
+    ADD_PROFILE_MODULE_FAILURE
 } from '../actions/types';
 
 const initialState = {
@@ -31,13 +25,7 @@ const initialState = {
     profileSaving: false, 
     addingNewProfileModule: false,
     profileError: null,
-    profileModules: [], 
-    roles: null, 
-    rolesLoading: false, 
-    rolesError: null, 
-    AMT: null, 
-    AMTLoading: false, 
-    AMTError: null 
+    profileModules: [] 
 }
 
 export default function(state = initialState, action) {
@@ -67,7 +55,6 @@ export default function(state = initialState, action) {
                 profileLoading: true
             };
         case LOAD_PROFILE_SUCCESS:
-            console.log(action.payload.profile); 
             return {
                 ...state,
                 profileLoading: false,
@@ -94,7 +81,6 @@ export default function(state = initialState, action) {
                 profileError: null
             };
         case SAVE_PROFILE_SUCCESS:
-            console.log(action.payload.updatedPersonalData);
             return {
                 ...state,
                 profileSaving: false,
@@ -126,43 +112,6 @@ export default function(state = initialState, action) {
                 addingNewProfileModule: false,
                 profileError: action.payload.error
             };
-        case FETCH_ROLES_BEGIN: 
-            return {
-                ...state, 
-                rolesLoading: true, 
-                rolesError: null 
-            }
-        case FETCH_ROLES_SUCCESS: 
-            return {
-                ...state, 
-                rolesLoading: false, 
-                roles: action.payload.roles 
-            }
-        case FETCH_ROLES_FAILURE: 
-            return {
-                ...state, 
-                rolesLoading: false, 
-                rolesError: action.payload.error, 
-                roles: {} 
-            }
-        case FETCH_AMT_BEGIN: 
-            return {
-                ...state, 
-                AMTLoading: true, 
-                AMTError: null 
-            }
-        case FETCH_AMT_SUCCESS: 
-            return {
-                ...state, 
-                AMTLoading: false, 
-                AMT: action.payload.AMT 
-            } 
-        case FETCH_AMT_FAILURE: 
-            return {
-                ...state, 
-                AMTLoading: false, 
-                AMTError: action.payload.error 
-            } 
         default:
             return state;
     }

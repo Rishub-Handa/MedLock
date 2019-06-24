@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
 
             provider.save() 
                 .then(provider => {
-                    res.json(newPatient); 
+                    res.json(provider); 
                 }); 
 
         })

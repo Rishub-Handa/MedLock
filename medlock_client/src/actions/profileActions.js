@@ -11,13 +11,7 @@ import {
     EDIT_PROFILE, 
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
-    ADD_PROFILE_MODULE_FAILURE, 
-    FETCH_ROLES_BEGIN, 
-    FETCH_ROLES_SUCCESS, 
-    FETCH_ROLES_FAILURE, 
-    FETCH_AMT_BEGIN, 
-    FETCH_AMT_SUCCESS, 
-    FETCH_AMT_FAILURE 
+    ADD_PROFILE_MODULE_FAILURE,  
 } from './types';
 
 import axios from 'axios';
@@ -41,23 +35,20 @@ const createProfileFailure = error => ({
     }
 });
 
+/**
+ * 
+ * TODO: createProfile should be called after registerProfile is called by the provider.
+ * Providers will be created by the admin.
+ *  
+ */
+
 export function createProfile(newProfile) {
     const { getAccessToken } = auth0client;
-    let API_URL = 'http://localhost:5000/api';
+    let API_URL = 'http://localhost:5000/api/patient';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
-
-    switch (newProfile.roles) {
-        case "Patient": 
-            API_URL += "/patient"; 
-            break; 
-        case "Provider": 
-            API_URL += "/provider"; 
-            break; 
-    }
 
     return dispatch => {
         dispatch(createProfileBegin());
-        console.log(newProfile);
         return axios.post(API_URL, newProfile, { headers })
             .then(res => dispatch(createProfileSuccess(res.data)))
             .catch(error => dispatch(createProfileFailure(error)));
@@ -181,74 +172,4 @@ export function addProfileModule(newProfileModule) {
             .then(res => dispatch(addProfileModuleSuccess(res.data)))
             .catch(error => dispatch(addProfileModuleFailure(error)));
     }
-}
-
-export const fetchRolesBegin = () => ({
-    type: FETCH_ROLES_BEGIN
-});
-  
-export const fetchRolesSuccess = roles => ({
-    type: FETCH_ROLES_SUCCESS,
-    payload: {
-        roles
-    }
-});
-
-export const fetchRolesFailure =error => ({
-    type: FETCH_ROLES_FAILURE,
-    payload: {
-        error
-    }
-});
-  
-  // Fetch surveys for a particular user with Access Token 
-export function fetchRoles(API_MANAGEMENT_TOKEN) {
-    const user_id = auth0client.userProfile.sub; 
-
-    const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}/roles`;
-    const headers = { authorization: `Bearer ${API_MANAGEMENT_TOKEN}`};
-    
-    return dispatch => {
-      dispatch(fetchRolesBegin());
-      return axios.get(API_URL, { headers })
-        .then(res => {
-          console.log(res.data);
-          dispatch(fetchRolesSuccess(res.data));
-        })
-        .catch(error => dispatch(fetchRolesFailure(error)));
-    };
-} 
-
-export const fetchAMTBegin = () => ({
-    type: FETCH_AMT_BEGIN
-});
-  
-export const fetchAMTSuccess = AMT => ({
-    type: FETCH_AMT_SUCCESS,
-    payload: {
-        AMT
-    }
-});
-
-export const fetchAMTFailure = error => ({
-    type: FETCH_AMT_FAILURE,
-    payload: {
-        error
-    }
-});
-
-export function fetchAMT() {
-    const AMTHeaders = { 'Content-Type': 'application/json' }; 
-    const AMTBody = {"client_id":"Wf9NsAneKffcZ8y24IhMzjZ4C3JvIken","client_secret":"sPFQ_UQ1G5e20F87cc2MDU-BDjzG1i9CHEnOISfnuHSgyYGvI_zhXQR5nsZto-tA","audience":"https://medlock-dev.auth0.com/api/v2/","grant_type":"client_credentials"}; 
-    const API_URL = `https://medlock-dev.auth0.com/oauth/token`;
-    
-    return dispatch => {
-        dispatch(fetchAMTBegin());
-        return axios.post(API_URL, AMTBody, AMTHeaders)
-        .then(res => {
-            console.log(res.data);
-            dispatch(fetchAMTSuccess(res.data));
-        })
-        .catch(error => dispatch(fetchAMTFailure(error)));
-    };
 }
