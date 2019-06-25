@@ -16,7 +16,8 @@ import PatientData from '../patientData/PatientData';
 import PDISurvey from '../survey/PDISurvey';
 import Dispenser from '../test/Dispenser'; 
 import { modules } from '../nav/ModuleInfo'; 
-import MyPatients from '../myPatients/MyPatients';
+import MyPatients from '../myPatients/MyPatients'; 
+import NewUser from './NewUser'; 
 
 const makeMainRoutes = (props) => {
     return (
@@ -37,12 +38,30 @@ class Dashboard extends Component {
         super(props);
 
         // Fetch the API Management Token. 
-        this.props.fetchAMT(); 
+        this.props.fetchAMT() 
+            .then(() => { 
+                console.log("AMT Fetch"); 
+                this.props.fetchRoles(this.props.AMT.access_token) 
+                    .then(() => {
+                        this.props.loadProfile(this.props.roles[0].name) 
+                            .then(() => {
+                                // Need better method of verifying that this is a new patient. 
+                                if(this.props.roles[0].name === 'Patient' && 
+                                    !this.props.profile.personalData.birthday) { 
+                                        this.setState({ 
+                                            newUser: true 
+                                        })
+                                }
+                                console.log(this.props.profile); 
+                            })
+                    }) 
+            }) 
 
         this.state = {
             profile: {},
             role: null, 
-            icons: modules 
+            icons: modules, 
+            newUser: false 
         }
     }
 
@@ -50,14 +69,14 @@ class Dashboard extends Component {
     componentDidUpdate() {
         console.log("componentDidUpdate");
         // Fetch the Roles with the API Management Token. 
-        if(this.props.AMT && !this.props.roles) {
-            this.props.fetchRoles(this.props.AMT.access_token); 
-        }
+        // if(this.props.AMT && !this.props.roles) {
+        //     this.props.fetchRoles(this.props.AMT.access_token); 
+        // }
 
         // Fetch the Profile from the Database with the Roles. 
-        if(this.props.roles && !this.props.profileLoading && !this.props.profileLoaded) {
-            this.props.loadProfile(this.props.roles[0].name); 
-        }
+        // if(this.props.roles && !this.props.profileLoading && !this.props.profileLoaded) {
+        //     this.props.loadProfile(this.props.roles[0].name); 
+        // }
 
         // If loading a profile does not work, then create a new profile in the database. 
         if(this.props.profileError && !this.props.profile && !this.props.profileCreating) {
@@ -75,6 +94,14 @@ class Dashboard extends Component {
             })
         }
 
+    }
+
+    toggleNewUser = () => {
+        this.setState(prevState => {
+            return {
+                newUser: !prevState.newUser 
+            }
+        })
     }
 
     render() {
@@ -125,6 +152,13 @@ class Dashboard extends Component {
                 </div>
             );
         } 
+
+        if(this.state.newUser) {
+            console.log("New User. "); 
+            return (
+                <NewUser toggle={this.toggleNewUser}/> 
+            )
+        }
 
         if (this.props.location.pathname === "/dashboard") {
             console.log(this.props);

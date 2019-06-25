@@ -23,7 +23,7 @@ const PatientSchema = new Schema({
             type: Date,
         },
         address: {
-            type: String,
+            type: Object,
         },
         email: {
             type: String,

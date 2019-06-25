@@ -8,9 +8,20 @@ class NewUser extends Component {
 
     onSubmit = e => {
         e.preventDefault(); 
-        const personalData = {}; 
-        Object.assign(personalData, this.state); 
+        const personalData = {
+            name: this.state.name, 
+            birthday: this.state.birthday, 
+            phone: this.state.phone, 
+            sex: this.state.sex, 
+            address: {
+                street: this.state.street, 
+                city: this.state.city, 
+                state: this.state.state, 
+                zip: this.state.zip 
+            }
+        }; 
         this.props.saveProfile(personalData); 
+        this.props.toggle(); 
     }
 
     onChange = e => {

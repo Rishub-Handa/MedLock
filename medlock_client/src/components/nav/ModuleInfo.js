@@ -1,3 +1,5 @@
+// Include Profiles Section 
+
 export const modules = [
     {
         name: 'Dashboard', 
