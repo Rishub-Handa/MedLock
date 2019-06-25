@@ -2,6 +2,9 @@ import {
     CREATE_PROFILE_BEGIN,
     CREATE_PROFILE_SUCCESS,
     CREATE_PROFILE_FAILURE,
+    CREATE_PROVIDER_PROFILE_BEGIN,
+    CREATE_PROVIDER_PROFILE_SUCCESS,
+    CREATE_PROVIDER_PROFILE_FAILURE,
     LOAD_PROFILE_BEGIN,
     LOAD_PROFILE_SUCCESS,
     LOAD_PROFILE_FAILURE,
@@ -11,7 +14,7 @@ import {
     EDIT_PROFILE,
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
-    ADD_PROFILE_MODULE_FAILURE
+    ADD_PROFILE_MODULE_FAILURE,
 } from '../actions/types';
 
 const initialState = {
@@ -41,9 +44,27 @@ export default function(state = initialState, action) {
                 ...state,
                 profileCreating: false,
                 profileCreated: true,
-                //profile: action.payload.profile
             };
         case CREATE_PROFILE_FAILURE:
+            return {
+                ...state, 
+                profileCreating: false,
+                profileCreateError: action.payload.error
+            };
+        case CREATE_PROVIDER_PROFILE_BEGIN:
+            return {
+                ...state,
+                profileCreating: true, 
+                profileError: null 
+            };
+        case CREATE_PROVIDER_PROFILE_SUCCESS:
+            return {
+                ...state,
+                profileCreating: false,
+                profileCreated: true,
+                profile: action.payload.profile
+            };
+        case CREATE_PROVIDER_PROFILE_FAILURE:
             return {
                 ...state, 
                 profileCreating: false,
