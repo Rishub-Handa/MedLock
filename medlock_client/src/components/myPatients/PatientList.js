@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
+import PatientListItem from './PatientListItem';
 
 class PatientList extends Component {
 
     patientHTML = (patients) => {
         return patients.map(patient => (
-            <div>
-                <h1>{patient.name}</h1>
-            </div>
+            <PatientListItem patientInfo={patient} viewPatient={this.props.onClickPatient} />
         ));
     }
 
