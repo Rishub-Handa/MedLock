@@ -1,6 +1,8 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux'; 
 import { saveProfile } from '../../actions/profileActions'; 
+import { resetPassword } from '../../auth/AuthManagement'; 
+import auth0client from '../../auth/Auth'; 
 
 class NewUser extends Component {
 
@@ -21,6 +23,12 @@ class NewUser extends Component {
             }
         }; 
         this.props.saveProfile(personalData); 
+
+        if(this.state.password === this.state.confirmPassword) { 
+            const { userProfile } = auth0client; 
+            resetPassword(userProfile.name); 
+        }
+
         this.props.toggle(); 
     }
 
@@ -48,10 +56,19 @@ class NewUser extends Component {
                     <p>City: <input type="text" name="city" onChange={this.onChange} required/></p>
                     <p>State: <input type="text" name="state" onChange={this.onChange} required/></p>
                     <p>Zip Code: <input type="number" name="zip" onChange={this.onChange} required/></p>
-                    <button type="submit">Submit</button>
+                    <p>New Password: <input type="password" name="password" onChange={this.onChange} required /></p>
+                    <p>Confirm New Password: <input type="password" name="confirmPassword" onChange={this.onChange} required /></p>
+                    <button type="submit">Submit and Reset Password </button>
                 </form>
             </div>
         )
     }
 } 
-export default connect(null, { saveProfile })(NewUser); 
+
+const mapStateToProps = state => ({
+    AMT: state.authState.AMT, 
+    AMTLoading: state.authState.AMTLoading, 
+    AMTError: state.authState.AMTError 
+});
+
+export default connect(mapStateToProps, { saveProfile })(NewUser); 
