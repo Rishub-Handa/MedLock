@@ -17,4 +17,26 @@ export function resetPassword(email) {
         
     return promise; 
         
+} 
+
+// THERE IS NO SECURITY HERE ??? 
+// Store hashed password ??? 
+// This does NOT work at the moment. 
+export function newPassword(password, user_id, AMT) {
+    const URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}`; 
+    const headers = { 'Content-Type': 'application/json', 
+                    authorization: `Bearer ${AMT}` }; 
+    const body = {
+        'password': password, 
+        'connection': 'Username-Password-Authentication' 
+    }
+
+    const promise = axios.patch(URL, body, headers) 
+        .then(res => {
+            console.log(`New Password: ${res.data}`); 
+        }) 
+        .catch(error => console.log(error)); 
+        
+    return promise; 
+        
 }

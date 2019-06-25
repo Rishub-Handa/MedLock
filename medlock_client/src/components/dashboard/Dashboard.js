@@ -3,6 +3,7 @@ import DashIcon from './DashIcon';
 import PropTypes from 'prop-types';
 import '../../css/Dashboard.css';
 import auth0client from '../../auth/Auth';
+import { newPassword } from '../../auth/AuthManagement'; 
 import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
@@ -39,6 +40,10 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
 
+        // Testing New Password 
+        const { userProfile } = auth0client; 
+
+
         // Fetch the API Management Token. 
         // TODO - move to component did mount for better lifecycle 
         this.props.fetchAMT() 
@@ -54,6 +59,9 @@ class Dashboard extends Component {
                                         this.setState({ 
                                             newUser: true 
                                         })
+                                // Testing New Password 
+                                } else {
+                                    console.log(userProfile); 
                                 }
                                 console.log(this.props.profile); 
                             })
