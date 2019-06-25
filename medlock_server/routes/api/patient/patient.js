@@ -83,7 +83,9 @@ router.put('/', (req, res) => {
     var patientId = req.user.sub.substring(6);
     Patient.findById(patientId, (err, patient) => {
         if (err) return res.status(500).send(err);
-        patient.personalData = req.body;
+        for(var property in req.body) {
+            patient.personalData[property] = req.body[property]; 
+        }
         return patient.save()
             .then(patient => {
                 console.log("Patient Updated.");

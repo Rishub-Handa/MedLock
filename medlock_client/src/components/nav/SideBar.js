@@ -3,9 +3,14 @@ import { Button, Nav, NavItem, UncontrolledCollapse } from 'reactstrap';
 import { runInThisContext } from 'vm';
 import { withRouter } from 'react-router-dom';
 import auth0client from '../../auth/Auth';
+import { modules } from './ModuleInfo'; 
 import '../../css/SideBar.css';
 
 class SideBar extends Component {
+
+    state = {
+        modules, 
+    }
     
     sideBarHTML = () => {
         return (
@@ -16,40 +21,27 @@ class SideBar extends Component {
                 <div>
                     <UncontrolledCollapse toggler="#toggler">
                         <div className="menu">
+                            {this.state.modules.map(module => {
+                                return (
+                                    <div>
+                                        <Button className="button" 
+                                                onClick={() => {
+                                                    this.props.history.push(module.link)
+                                            }}>{module.name}</Button>
+                                    </div>
+                                )
+                            })}
                             <div>
-                                <Button className="button" id='dashboard' onClick={() => {
-                                    this.props.history.push("/dashboard");
-                                }}>Dashboard</Button> 
+                            <Button className="button" 
+                                    onClick={() => {
+                                        this.props.history.push("/dashboard/survey");
+                                }}>Will Remove - Survey</Button> 
                             </div>
                             <div>
-                                <Button className="button" id='inbox' onClick={() => {
-                                    this.props.history.push("/dashboard/inbox");
-                                }}>Inbox</Button>
-                            </div>
-                            <div>
-                                <Button className="button" id='mydata' onClick={() => {
-                                    this.props.history.push("/dashboard/mydata");
-                                }}>My Data</Button> 
-                            </div>
-                            <div>
-                                <Button className="button" id='profile' onClick={() => {
-                                    this.props.history.push("/dashboard/profile");
-                                }}>Profile</Button> 
-                            </div>
-                            <div>
-                                <Button className="button" id='resources' onClick={() => {
-                                    this.props.history.push("/dashboard/resources");
-                                }}>Resources</Button> 
-                            </div>
-                            <div>
-                            <Button className="button" id='survey' onClick={() => {
-                                    this.props.history.push("/dashboard/survey");
-                                }}>Survey</Button> 
-                            </div>
-                            <div>
-                            <Button className="button" id='dispenser' onClick={() => {
-                                    this.props.history.push("/dashboard/dispenser");
-                                }}>Dispenser</Button> 
+                            <Button className="button" 
+                                    onClick={() => {
+                                        this.props.history.push("/dashboard/dispenser");
+                                }}>Will Remove - Dispenser</Button> 
                             </div>
                             <div>
                                 {

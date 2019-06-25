@@ -1,6 +1,6 @@
 const express = require('express'); 
 const { Provider } = require('../../../models/Provider'); 
-const { PatientInfo } = require('../../../models/Provider'); 
+const PatientInfoSchema = require('../../../models/schemas/PatientInfoSchema'); 
 
 const router = express.Router(); 
 
@@ -29,11 +29,8 @@ router.post('/', (req, res) => {
     Provider.findById(id)
         .then(provider => {
             // Return all PDISurveys in the patient. 
-            const newPatient = new PatientInfo({
-                // Should this include the patient name or keep data anonymized 
-                patientId: req.body.patientId,
-                medicalData: req.body.medicalData 
-            }); 
+            // Should this include the patient name or keep data anonymized 
+            const newPatient = new PatientInfoSchema(req.body); 
 
             provider.patientList.push(newPatient); 
 

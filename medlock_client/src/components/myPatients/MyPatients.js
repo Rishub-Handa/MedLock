@@ -3,11 +3,13 @@ import PatientList from './PatientList';
 import AddPatientForm from './AddPatientForm';
 import { fetchAMT } from '../../actions/authActions';
 import { registerPatient, assignPatientRole } from '../../actions/providerActions';
-import { createProfile } from '../../actions/profileActions';
+import { createProfile } from '../../actions/profileActions'; 
+import { addPatient } from '../../actions/allPatientActions'; 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth';
+import { resetPassword } from '../../auth/AuthManagement'; 
 
 
 class MyPatients extends Component {
@@ -66,6 +68,7 @@ class MyPatients extends Component {
 
             this.props.registerPatient(newPatient, AMT.access_token)
                 .then(() => {
+                    console.log("Patient Registered. Now Creating Profile . . . "); 
                     const { patient } = this.props;
                     console.log(patient);
                     const newPatientProfile = {
@@ -78,17 +81,25 @@ class MyPatients extends Component {
                             providers: [auth0client.userProfile.sub.substring(6)]
                         }
                     };
-                    this.props.createProfile(newPatientProfile)
+                    this.props.createProfile(newPatientProfile); 
+                    this.props.resetPassword(patient.name); 
+
                 })
                 .then(() => {
-                    const patient_id = this.props.patient.user_id;
+                    console.log("Patient Profile has been created. Now assigning role. "); 
+                    const patient_id = this.props.patient.user_id; 
                     this.props.assignPatientRole(patient_id, AMT.access_token);
                 })
                 .then(() => {
+                    console.log("Role has been assigned. Now adding Patient Information to Provider Document. "); 
+                    
                     const patientInfo = {
-                        //should be called to add patientInfo to the providers db
-                    }
-                });
+                        _id: patient.user_id 
+                    } 
+
+                    this.props.addPatient(patientInfo); 
+                })
+                .catch(error => console.log(error)); 
 
         }
     }
@@ -168,4 +179,8 @@ const mapStateToProps = state => ({
     roleAssignError: state.providerState.roleAssignError
 });
 
-export default connect(mapStateToProps, { fetchAMT, registerPatient, assignPatientRole, createProfile })(MyPatients);
+export default connect(mapStateToProps, { fetchAMT, 
+                                            registerPatient, 
+                                            assignPatientRole, 
+                                            createProfile, 
+                                            addPatient })(MyPatients);

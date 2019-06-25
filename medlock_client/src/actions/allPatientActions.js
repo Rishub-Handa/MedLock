@@ -71,8 +71,8 @@ export function addPatient(patient) {
   const API_URL = 'http://localhost:5000/api/allPatients';
   const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
-  dispatch(addPatientBegin());
   return dispatch => {
+    dispatch(addPatientBegin());
     return axios.post(API_URL, patient, { headers })
       .then(res => dispatch(addPatientSuccess(res.data)))
       .catch(error => {

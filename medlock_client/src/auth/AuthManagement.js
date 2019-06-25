@@ -1,16 +1,20 @@
 import axios from 'axios';
 
-export function fetchAMT() {
-    const AMTHeaders = { 'Content-Type': 'application/json' }; 
-    const AMTBody = {"client_id":"Wf9NsAneKffcZ8y24IhMzjZ4C3JvIken","client_secret":"sPFQ_UQ1G5e20F87cc2MDU-BDjzG1i9CHEnOISfnuHSgyYGvI_zhXQR5nsZto-tA","audience":"https://medlock-dev.auth0.com/api/v2/","grant_type":"client_credentials"}; 
-    const API_URL = `https://medlock-dev.auth0.com/oauth/token`;
+export function resetPassword(email) {
+    const URL = 'https://medlock-dev.auth0.com/dbconnections/change_password'; 
+    const headers = { 'Content-Headers': 'application/json' }; 
+    const body = {
+        'client_id': 'Wf9NsAneKffcZ8y24IhMzjZ4C3JvIken', 
+        'email': email, 
+        'connection': 'Username-Password-Authentication' 
+    } 
 
-    const promise = axios.post(API_URL, AMTBody, AMTHeaders)
+    const promise = axios.post(URL, body, headers) 
         .then(res => {
-            console.log(res.data);
-            dispatch(fetchAMTSuccess(res.data));
-        })
-        .catch(error => dispatch(fetchAMTFailure(error)));
-
-    return promise;
+            console.log(`Reset Password: ${res.data}`); 
+        }) 
+        .catch(error => console.log(error)); 
+        
+    return promise; 
+        
 }
