@@ -82,7 +82,7 @@ class MyPatients extends Component {
                         }
                     };
                     this.props.createProfile(newPatientProfile); 
-                    // this.props.resetPassword(patient.name); 
+                    resetPassword(email); 
 
                 })
                 .then(() => {

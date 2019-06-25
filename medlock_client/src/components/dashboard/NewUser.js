@@ -23,12 +23,7 @@ class NewUser extends Component {
             }
         }; 
         this.props.saveProfile(personalData); 
-
-        if(this.state.password === this.state.confirmPassword) { 
-            const { userProfile } = auth0client; 
-            resetPassword(userProfile.name); 
-        }
-
+        
         this.props.toggle(); 
     }
 
@@ -56,8 +51,8 @@ class NewUser extends Component {
                     <p>City: <input type="text" name="city" onChange={this.onChange} required/></p>
                     <p>State: <input type="text" name="state" onChange={this.onChange} required/></p>
                     <p>Zip Code: <input type="number" name="zip" onChange={this.onChange} required/></p>
-                    <p>New Password: <input type="password" name="password" onChange={this.onChange} required /></p>
-                    <p>Confirm New Password: <input type="password" name="confirmPassword" onChange={this.onChange} required /></p>
+                    {/* <p>New Password: <input type="password" name="password" onChange={this.onChange} required /></p>
+                    <p>Confirm New Password: <input type="password" name="confirmPassword" onChange={this.onChange} required /></p> */}
                     <button type="submit">Submit and Reset Password </button>
                 </form>
             </div>
