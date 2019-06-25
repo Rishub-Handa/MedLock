@@ -31,12 +31,10 @@ class Auth {
     }
 
     login() {
-        console.log("login");
         this.auth0.authorize();
     }
 
     handleAuthentication() {
-        console.log("handleAuthentication");
         this.auth0.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
@@ -49,17 +47,14 @@ class Auth {
     }
 
     getAccessToken() {
-        console.log("getAccessToken");
         return this.accessToken;
     }
 
     getIdToken() {
-        console.log("getIdToken");
         return this.idToken;
     }
 
     setSession(authResult) {
-        console.log("setSession");
         // Set isLoggedIn flag in localStorage
         localStorage.setItem('isLoggedIn', 'true');
 
@@ -76,7 +71,6 @@ class Auth {
     }
 
     renewSession() {
-        console.log("renewSession");
         this.auth0.checkSession({}, (err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
@@ -89,12 +83,10 @@ class Auth {
     }
 
     getProfile() {
-        console.log("getProfile");
         return this.userProfile;
     }
 
     logout() {
-        console.log("logout");
         // Remove tokens and expiry time
         this.accessToken = null;
         this.idToken = null;
@@ -115,7 +107,6 @@ class Auth {
     }
 
     isAuthenticated() {
-        console.log("isAuthenticated");
         // Check whether the current time is past 
         // the access token's expxiry time
         let expiresAt = this.expiresAt;
@@ -123,7 +114,6 @@ class Auth {
     }
 
     silentAuth() {
-        console.log("silentAuth");
         return new Promise((resolve, reject) => {
             this.auth0.checkSession({}, (err, authResult) => {
                 if (err) {

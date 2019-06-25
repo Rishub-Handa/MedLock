@@ -19,6 +19,7 @@ import Dispenser from '../test/Dispenser';
 import { modules } from '../nav/ModuleInfo'; 
 import MyPatients from '../myPatients/MyPatients'; 
 import NewUser from './NewUser'; 
+import PatientView from '../patientView/PatientView';
 
 const makeMainRoutes = (props) => {
     return (
@@ -29,7 +30,8 @@ const makeMainRoutes = (props) => {
             <SecuredRoute path="/dashboard/resources" component={Resources} />
             <SecuredRoute path="/dashboard/survey" component={PDISurvey} />
             <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
-            <SecuredRoute path="/dashboard/mypatients" component={MyPatients} /> 
+            <SecuredRoute exact path="/dashboard/mypatients" component={MyPatients} /> 
+            <SecuredRoute exact path="/dashboard/mypatients/viewpatient" component={PatientView} />
         </div>
     );   
 }
@@ -43,6 +45,7 @@ class Dashboard extends Component {
 
 
         // Fetch the API Management Token. 
+        // TODO - move to component did mount for better lifecycle 
         this.props.fetchAMT() 
             .then(() => { 
                 console.log("AMT Fetch"); 

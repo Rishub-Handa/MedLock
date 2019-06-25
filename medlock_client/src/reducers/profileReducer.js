@@ -41,7 +41,7 @@ export default function(state = initialState, action) {
                 ...state,
                 profileCreating: false,
                 profileCreated: true,
-                profile: action.payload.profile
+                //profile: action.payload.profile
             };
         case CREATE_PROFILE_FAILURE:
             return {

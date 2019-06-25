@@ -19,6 +19,13 @@ class MyPatients extends Component {
         this.state = {
             newPatientForm: false,
         }
+        console.log(props);
+    }
+
+    viewPatient = () => {
+        console.log("View Patient");
+        console.log(this.props);
+        this.props.history.push("/dashboard/mypatients/viewpatient");
     }
 
     componentDidMount() {
@@ -64,13 +71,12 @@ class MyPatients extends Component {
                 "connection": "Username-Password-Authentication"
             };
             
-            const { patient } = this.props;
 
             this.props.registerPatient(newPatient, AMT.access_token)
                 .then(() => {
-                    console.log("Patient Registered. Now Creating Profile . . . "); 
+                    console.log("Patient registered. Now creating profile . . . "); 
+                    
                     const { patient } = this.props;
-                    console.log(patient);
                     const newPatientProfile = {
                         _id: patient.user_id.substring(6),
                         personalData: {
@@ -82,21 +88,21 @@ class MyPatients extends Component {
                         }
                     };
                     this.props.createProfile(newPatientProfile); 
-                    resetPassword(email); 
 
                 })
                 .then(() => {
-                    console.log("Patient Profile has been created. Now assigning role. "); 
+                    console.log("Profile created. Now assigning role . . . "); 
+                    
                     const patient_id = this.props.patient.user_id; 
                     this.props.assignPatientRole(patient_id, AMT.access_token);
                 })
                 .then(() => {
-                    console.log("Role has been assigned. Now adding Patient Information to Provider Document. "); 
-                    
+                    console.log("Role assigned. Now adding Patient information to Provider document . . ."); 
                     const patientInfo = {
-                        _id: patient.user_id 
+                        _id: this.props.patient.user_id.substring(6)
                     } 
-
+                    
+                    console.log(patientInfo);
                     this.props.addPatient(patientInfo); 
                 })
                 .catch(error => console.log(error)); 
@@ -146,7 +152,7 @@ class MyPatients extends Component {
 
         return (
             <div>
-                <PatientList patients={tempPatients} />
+                <PatientList patients={tempPatients} onClickPatient={this.viewPatient} />
                 {this.displayNewPatientForm()}
             </div>
         );
@@ -179,8 +185,11 @@ const mapStateToProps = state => ({
     roleAssignError: state.providerState.roleAssignError
 });
 
-export default connect(mapStateToProps, { fetchAMT, 
-                                            registerPatient, 
-                                            assignPatientRole, 
-                                            createProfile, 
-                                            addPatient })(MyPatients);
+export default connect(
+    mapStateToProps, { 
+        fetchAMT, 
+        registerPatient, 
+        assignPatientRole, 
+        createProfile, 
+        addPatient 
+    })(MyPatients);
