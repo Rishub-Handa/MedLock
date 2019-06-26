@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PatientList from './PatientList';
 import AddPatientForm from './AddPatientForm';
-import { fetchAMT } from '../../actions/authActions';
-import { registerPatient, assignPatientRole } from '../../actions/providerActions';
-import { createProfile } from '../../actions/profileActions'; 
-import { addPatient } from '../../actions/allPatientActions'; 
+import { fetchAMT } from '../../auth/AuthManagement'; 
+import { auth0Registration, assignRoles } from '../../actions/authActions';
+import { createPatientProfile } from '../../actions/patientActions'; 
+import { addPatientToProviderList } from '../../actions/patientActions'; 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import auth0client from '../../auth/Auth';
-import { resetPassword } from '../../auth/AuthManagement'; 
+import auth0client from '../../auth/Auth'; 
 
+const axios = require('axios'); 
 
 class MyPatients extends Component {
 
@@ -26,11 +26,6 @@ class MyPatients extends Component {
         console.log("View Patient");
         console.log(this.props);
         this.props.history.push("/dashboard/mypatients/viewpatient");
-    }
-
-    componentDidMount() {
-        const { AMT } = this.props;
-        if (!AMT) this.props.fetchAMT();
     }
 
     addPatient = () => {
@@ -57,81 +52,78 @@ class MyPatients extends Component {
     }
 
     submitForm = (email) => {
-        const { AMT } = this.props;
 
-        if (!AMT) {
-            console.log("AMT NOT DEFINED!");
-        }
+        const password = Math.random().toString(36).slice(-12); 
 
-        else {
-
-            const newPatient = {
-                "email": email,
-                "password": "Password123!",
-                "connection": "Username-Password-Authentication"
-            };
+        const newPatient = {
+            "name": email, 
+            "email": email,
+            "password": password,
+            "connection": "Username-Password-Authentication"
+        };
             
 
-            this.props.registerPatient(newPatient, AMT.access_token)
+        fetchAMT() 
+            .then(res => {
+
+                const AMT = res.data.access_token; 
+                let userProfile = {}; 
+
+                this.props.auth0Registration(newPatient, AMT)
                 .then(() => {
                     console.log("Patient registered. Now creating profile . . . "); 
                     
-                    const { patient } = this.props;
+                    userProfile = this.props.userProfile; 
+                    console.log(userProfile); 
                     const newPatientProfile = {
-                        _id: patient.user_id.substring(6),
+                        _id: userProfile.user_id.substring(6),
                         personalData: {
-                            name: patient.name,
-                            email: patient.name,
+                            name: email,
+                            email: email,
                         },
                         medicalData: {
                             providers: [auth0client.userProfile.sub.substring(6)]
                         }
                     };
-                    this.props.createProfile(newPatientProfile); 
+                    this.props.createPatientProfile(newPatientProfile); 
+
+                    axios.post('http://localhost:5000/api/email', newPatient);
 
                 })
                 .then(() => {
                     console.log("Profile created. Now assigning role . . . "); 
-                    
-                    const patient_id = this.props.patient.user_id; 
-                    this.props.assignPatientRole(patient_id, AMT.access_token);
+
+                    const patient_id = userProfile.user_id; 
+                    this.props.assignRoles(patient_id, AMT, "Patient");
                 })
                 .then(() => {
                     console.log("Role assigned. Now adding Patient information to Provider document . . ."); 
-                    console.log(this.props.patient);
                     const patientInfo = {
-                        _id: this.props.patient.user_id.substring(6),
-                        name: this.props.patient.name,
-                        email: this.props.patient.email
+                        _id: userProfile.user_id.substring(6),
+                        name: userProfile.name,
+                        email: userProfile.email
                     } 
                     
                     console.log(patientInfo);
-                    this.props.addPatient(patientInfo); 
+                    this.props.addPatientToProviderList(patientInfo); 
                 })
                 .then(() => {
                     console.log("Patient added to patient list of Provider.");
                 })
                 .catch(error => console.log(error)); 
-
-        }
+            }) 
+            .catch(error => console.log(error)); 
+        
     }
+
     
     render() {
-        const { AMTLoading, AMTError, patientRegistering, registerError } = this.props;
+        const { patientRegistering, registerError } = this.props;
         
-        if(AMTError || registerError) {
+        if(registerError) {
             return (
                 <div>
-                    <p>API Management Token Error: {AMTError ? AMTError.message : null}</p>
                     <p>Register Error: {registerError ? registerError.message : null}</p>
-                </div>
-            )
-        }
-        
-        if (AMTLoading) {
-            return (
-                <div>
-                    API Management Token Loading . . . 
                 </div>
             )
         }
@@ -171,31 +163,26 @@ MyPatients.propTypes = {
     patient: PropTypes.object.isRequired,
     patientRegistering: PropTypes.bool.isRequired,
     registerError: PropTypes.object.isRequired,
-    fetchAMT: PropTypes.func.isRequired, 
-    AMT: PropTypes.object.isRequired, 
-    AMTLoading: PropTypes.bool.isRequired, 
-    AMTError: PropTypes.object.isRequired, 
-    createProfile: PropTypes.func.isRequired,
+    createPatientProfile: PropTypes.func.isRequired,
     assignPatientRole: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-    AMT: state.authState.AMT,
-    AMTLoading: state.authState.AMTLoading,
-    AMTError: state.authState.AMTError,
-    patients: state.providerState.patients,
-    patient: state.providerState.patient,
-    patientRegistering: state.providerState.patientRegistering,
+    patients: state.patientState.patients,
+    patient: state.patientState.patient,
+    patientRegistering: state.patientState.patientLoading, 
     registerError: state.providerState.registerError,
     roleAssigning: state.providerState.roleAssigning,
-    roleAssignError: state.providerState.roleAssignError
+    roleAssignError: state.providerState.roleAssignError, 
+    userProfile: state.authState.userProfile, 
+    userProfileLoading: state.authState.userProfileLoading, 
+    userProfileError: state.authState.userProfileError 
 });
 
 export default connect(
     mapStateToProps, { 
-        fetchAMT, 
-        registerPatient, 
-        assignPatientRole, 
-        createProfile, 
-        addPatient 
+        auth0Registration, 
+        assignRoles, 
+        createPatientProfile, 
+        addPatientToProviderList 
     })(MyPatients);

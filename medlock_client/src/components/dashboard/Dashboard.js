@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
 import Inbox from '../inbox/Inbox';
-import { loadProfile, createProfile, createProviderProfile } from '../../actions/profileActions'; 
-import { fetchRoles, fetchAMT } from '../../actions/authActions';
+import { loadProfile } from '../../actions/profileActions'; 
+import { fetchRoles } from '../../actions/authActions';
+import { fetchAMT } from '../../auth/AuthManagement'; 
 import SecuredRoute from '../SecuredRoute';
 import DashHeader from './DashHeader';
 import SideBar from '../nav/SideBar';
@@ -46,13 +47,16 @@ class Dashboard extends Component {
 
         // Fetch the API Management Token. 
         // TODO - move to component did mount for better lifecycle 
-        this.props.fetchAMT() 
-            .then(() => { 
+        fetchAMT() 
+            .then(res => { 
                 console.log("AMT Fetch"); 
-                this.props.fetchRoles(this.props.AMT.access_token) 
+                const AMT = res.data.access_token; 
+                this.props.fetchRoles(AMT) 
                     .then(() => {
+                        console.log(this.props.roles); 
                         this.props.loadProfile(this.props.roles[0].name) 
                             .then(() => {
+                                console.log(this.props.roles); 
                                 // Need better method of verifying that this is a new patient. 
                                 if(this.props.roles[0].name === 'Patient' && 
                                     !this.props.profile.personalData.birthday) { 
@@ -76,32 +80,6 @@ class Dashboard extends Component {
         }
     }
 
-    // Change this so API Management Token -> Roles -> Load Profile -> If !profile.fields, display NewUser 
-    componentDidUpdate() {
-        console.log("componentDidUpdate");
-        // Fetch the Roles with the API Management Token. 
-        // if(this.props.AMT && !this.props.roles) {
-        //     this.props.fetchRoles(this.props.AMT.access_token); 
-        // }
-
-        // Fetch the Profile from the Database with the Roles. 
-        // if(this.props.roles && !this.props.profileLoading && !this.props.profileLoaded) {
-        //     this.props.loadProfile(this.props.roles[0].name); 
-        // }
-
-        // If loading a profile does not work, then create a new profile in the database. 
-        if(this.props.profileError && !this.props.profile && !this.props.profileCreating) {
-            const { userProfile } = auth0client;
-            this.props.createProviderProfile({
-                _id: userProfile.sub.substring(6),
-                personalData: {
-                    name: userProfile.name
-                }
-            });
-        }
-
-    }
-
     toggleNewUser = () => {
         this.setState(prevState => {
             return {
@@ -113,34 +91,17 @@ class Dashboard extends Component {
     render() {
         console.log("render");
         
-        const { profile, profileLoading, profileCreating, profileError, 
-                roles, rolesLoading, rolesError,
-                AMT, AMTLoading, AMTError } = this.props;
+        const { profile, profileLoading, profileError, 
+                roles, rolesLoading, rolesError } = this.props;
 
-        console.log(profile);
-        if(AMT) {
-            console.log(AMT); 
-            console.log(roles); 
-        }
-
-        if(rolesError || profileError || AMTError) {
+        if(rolesError || profileError) {
             return (
                 <div>
                     <p>Profile Error: {profileError ? profileError.message : null}</p>
                     <p>Roles Error: {rolesError ? rolesError.message : null}</p>
-                    <p>API Management Token Error: {AMTError ? AMTError.message : null}</p>
                 </div>
             )
-        }
-        
-        
-        if(AMTLoading) {
-            return (
-                <div>
-                    API Management Token Loading . . . 
-                </div>
-            )
-        }
+        } 
 
         if(rolesLoading) {
             return (
@@ -162,7 +123,7 @@ class Dashboard extends Component {
         if(this.state.newUser) {
             console.log("New User. "); 
             return (
-                <NewUser toggle={this.toggleNewUser}/> 
+                <NewUser toggle={this.toggleNewUser} profile={this.props.profile}/> 
             )
         }
 
@@ -226,38 +187,23 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
     profile: PropTypes.object.isRequired,
     loadProfile: PropTypes.func.isRequired,
-    createProfile: PropTypes.func.isRequired,
     profileLoading: PropTypes.bool.isRequired,
-    profileLoaded: PropTypes.bool.isRequired,
-    profileCreating: PropTypes.bool.isRequired,
-    profileCreated: PropTypes.bool.isRequired,
-    profileCreateError: PropTypes.object.isRequired, 
+    profileLoaded: PropTypes.bool.isRequired, 
     profileError: PropTypes.string, 
     roles: PropTypes.object.isRequired, 
     fetchRoles: PropTypes.func.isRequired, 
     rolesLoading: PropTypes.bool.isRequired, 
     rolesError: PropTypes.string, 
-    AMT: PropTypes.object.isRequired, 
-    fetchAMT: PropTypes.func.isRequired, 
-    AMTLoading: PropTypes.bool.isRequired, 
-    AMTError: PropTypes.object.isRequired,
-    createProviderProfile: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
     profile: state.profileState.profile,
     profileLoading: state.profileState.profileLoading,
     profileLoaded: state.profileState.profileLoaded,
-    profileCreating: state.profileState.profileCreating,
-    profileCreated: state.profileState.profileCreated,
-    profileCreateError: state.profileState.profileCreateError, 
     profileError: state.profileState.profileError, 
     roles: state.authState.roles, 
     rolesLoading: state.authState.rolesLoading, 
     rolesError: state.authState.rolesError, 
-    AMT: state.authState.AMT, 
-    AMTLoading: state.authState.AMTLoading, 
-    AMTError: state.authState.AMTError 
 });
 
-export default connect(mapStateToProps, { loadProfile, createProfile, fetchRoles, fetchAMT, createProviderProfile })(Dashboard); 
+export default connect(mapStateToProps, { loadProfile, fetchRoles })(Dashboard); 

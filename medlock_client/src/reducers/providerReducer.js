@@ -1,55 +1,34 @@
 import {
-    REGISTER_PATIENT_BEGIN,
-    REGISTER_PATIENT_SUCCESS,
-    REGISTER_PATIENT_FAILURE,
-    ASSIGN_PATIENT_ROLE_BEGIN,
-    ASSIGN_PATIENT_ROLE_SUCCESS,
-    ASSIGN_PATIENT_ROLE_FAILURE,
+    CREATE_PROVIDER_PROFILE_BEGIN,
+    CREATE_PROVIDER_PROFILE_SUCCESS,
+    CREATE_PROVIDER_PROFILE_FAILURE 
 } from '../actions/types';
 
 const initialState = {
-    patients: [],
-    patient: null,
-    patientRegistering: false,
-    registerError: null,
-    roleAssigning: false,
-    roleAssignError: null
+    provider: null, 
+    providerLoading: false, 
+    providerError: null 
 }
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case REGISTER_PATIENT_BEGIN:
+        case CREATE_PROVIDER_PROFILE_BEGIN:
             return {
                 ...state,
-                patientRegistering: true,
+                providerLoading: true, 
+                providerError: null 
             };
-        case REGISTER_PATIENT_SUCCESS:
+        case CREATE_PROVIDER_PROFILE_SUCCESS:
             return {
                 ...state,
-                patientRegistering: false,
-                patient: action.payload.patient
+                providerLoading: false,
+                provider: action.payload.provider
             };
-        case REGISTER_PATIENT_FAILURE:
+        case CREATE_PROVIDER_PROFILE_FAILURE:
             return {
-                ...state,
-                patientRegistering: false,
-                registerError: action.payload.error
-            };
-        case ASSIGN_PATIENT_ROLE_BEGIN:
-            return {
-                ...state,
-                roleAssigning: true
-            };
-        case ASSIGN_PATIENT_ROLE_SUCCESS: 
-            return {
-                ...state,
-                roleAssigning: false,
-            };
-        case ASSIGN_PATIENT_ROLE_FAILURE: 
-            return {
-                ...state,
-                roleAssigning: false,
-                roleAssignError: action.payload.error
+                ...state, 
+                providerLoading: false,
+                providerError: action.payload.error
             };
         default:
             return state;
