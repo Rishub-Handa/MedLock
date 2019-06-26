@@ -33,7 +33,7 @@ const createPatientProfileFailure = error => ({
 
 export function createPatientProfile(newProfile) {
     const { getAccessToken } = auth0client;
-    let API_URL = 'http://localhost:5000/api/patient';
+    let API_URL = 'http://localhost:5000/api/provider/patients';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
     return dispatch => {
@@ -65,7 +65,7 @@ const addPatientBegin = () => ({
   
   export function addPatientToProviderList(patient) {
     const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api/allPatients';
+    const API_URL = 'http://localhost:5000/api/provider/patients';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
   
     return dispatch => {

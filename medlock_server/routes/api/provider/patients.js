@@ -1,60 +1,111 @@
 const express = require('express'); 
 const Provider = require('../../../models/Provider'); 
+const Patient = require('../../../models/Patient'); 
 const PatientInfoSchema = require('../../../models/schemas/PatientInfoSchema'); 
+const mongoose = require('mongoose'); 
 
 const router = express.Router(); 
 
-// TEST ALL METHODS 
-
 // @route   GET api/provider/allPatients 
-// @desc    Get all patients general information associated with provider.
+// @desc    Get all patients information associated with provider.
 // @access  Private, requires Auth0 Access Token 
 router.get('/', (req, res) => {
 
-    const id = req.user.sub.substring(6);
+    console.log("/api/provider/patients Endpoint Reached. "); 
+    
+    const id = req.user.sub.substring(6); 
+    console.log(id); 
 
-    Provider.findById(id)
+    Provider.findById(id) 
         .then(provider => {
-            res.json(provider.patientList); 
+            console.log(provider);
+
+            const patients = provider.medicalData.patients; 
+            const patientIds = patients.map(patient => mongoose.Types.ObjectId(patient._id)); 
+            Patient.find({
+                "_id": {
+                    "$in": patientIds 
+                }
+            }) 
+                .then(res => console.log(res)) 
+                .catch(error => console.log(error)); 
+
+            res.json(patientIds); 
         })
-        .catch(error => res.status(404).json(error));
+        .catch(error => console.log(error)); 
+
 }); 
 
-// @route   POST api/provider/allPatients
+// @route   POST api/provider/patients 
 // @desc    Add a patient to the provider patientList 
 // @access  Private, requires Auth0 Access Token 
 router.post('/', (req, res) => {
 
-    const id = req.user.sub.substring(6);
-    console.log(id);
-    // Provider.findById(id)
-    //     .then(provider => {
-    //         console.log(provider);
-    //         // Return all PDISurveys in the patient. 
-    //         // Should this include the patient name or keep data anonymized 
-    //         console.log(req.body);
-    //         const newPatient = new PatientInfoSchema(req.body); 
+    const providerId = req.user.sub.substring(6);
+    const patientId = req.body._id; 
+
+    // Check if patient exists 
+
+    Patient.find({
+        "_id": mongoose.Types.ObjectId(patientId) 
+    }).limit(1)  
+        .then(res => {
+            console.log("Creating New Patient . . . "); 
+
+            // Create patient in database if does not exist. 
+            if(res.length === 0) {
+                const newPatient = new Patient({
+                    _id: mongoose.Types.ObjectId(req.body._id),
+                    personalData: req.body.personalData,
+                    medicalData: {
+                        ...req.body.medicalData,
+                        dispenser_id: mongoose.Types.ObjectId(),
+                    },
+                });
+            
+                newPatient.save()
+                    .then(patient => {
+                        console.log("Patient -> Database");
+                    //    res.json(patient);
+                    });
+            } else {
+                // The patient exists in the database. Add the providerId to patient providers. 
+                
+            }
+        }) 
+        .catch(error => console.log(error)); 
 
 
-    //         provider.patientList.push(newPatient); 
-
-    //         provider.save() 
-    //             .then(provider => {
-    //                 res.json(provider); 
-    //             }); 
-
-    //     })
-    //     .catch(error => res.status(404).json(error));
-    Provider.findById(id, (err, provider) => {
+    // Add patient to Provider patient list. 
+    Provider.findById(providerId, (err, provider) => {
+        console.log("Reached");
+        console.log(req.body); 
         if (err) return res.status(500).send(err);
-        const newPatient = req.body;
+        const newPatient = {
+            _id: patientId, 
+            name: req.body.personalData.name, 
+            email: req.body.personalData.email 
+        };
         console.log(newPatient);
-        provider.medicalData.patients.push(newPatient);
-        return provider.save()
-            .then(provider => {
-                console.log(`Patient with id=${newPatient._id} added to patient list of Provder with id=${id}.`);
-            })
-            .catch(error => console.log(error));
+
+        // Check if newPatient exists in array. 
+        console.log(`Provider Patient List: ${provider.medicalData.patients}`); 
+        const contains = false; 
+
+        provider.medicalData.patients.forEach(patient => {
+            if(patient._id === patientId) 
+                contains = true; 
+        })
+
+        console.log(contains); 
+        if(!contains) {
+            provider.medicalData.patients.push(newPatient);
+            provider.save()
+                .then(provider => {
+                    console.log(`Patient with id=${newPatient._id} added to patient list of Provder with id=${providerId}.`);
+                })
+                .catch(error => console.log(error));
+        }
     });
 
 });

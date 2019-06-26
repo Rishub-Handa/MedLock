@@ -1,5 +1,17 @@
 import axios from 'axios'; 
 
+
+export function getUserByEmail(email, AMT) {
+    const API_URL = `https://medlock-dev.auth0.com/api/v2/users-by-email?email=${email}`;
+    const headers = { authorization: `Bearer ${AMT}`, 
+                    'content-type': 'application/json' };
+    
+    const promise = axios.get(API_URL, { headers }); 
+
+    return promise; 
+}
+
+
 export function fetchAMT() {
     const AMTHeader = { 'Content-Type': 'application/json' }; 
     const AMTBody = {"client_id":"Wf9NsAneKffcZ8y24IhMzjZ4C3JvIken","client_secret":"sPFQ_UQ1G5e20F87cc2MDU-BDjzG1i9CHEnOISfnuHSgyYGvI_zhXQR5nsZto-tA","audience":"https://medlock-dev.auth0.com/api/v2/","grant_type":"client_credentials"}; 

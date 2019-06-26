@@ -44,6 +44,12 @@ class SideBar extends Component {
                                 }}>Will Remove - Dispenser</Button> 
                             </div>
                             <div>
+                            <Button className="button" 
+                                    onClick={() => {
+                                        this.props.history.push("/dashboard/serverendpoints");
+                                }}>Will Remove - Server Endpoints</Button> 
+                            </div>
+                            <div>
                                 {
                                     auth0client.isAuthenticated() ? (
                                         <Button className="button" onClick={auth0client.logout}>Logout</Button>

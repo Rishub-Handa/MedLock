@@ -3,8 +3,8 @@ import {
     LOAD_PROFILE_SUCCESS,
     LOAD_PROFILE_FAILURE,
     SAVE_PROFILE_BEGIN,
-    SAVE_PROFILE_SUCCESS,
-    SUBMIT_SURVEY_FAILURE,
+    SAVE_PROFILE_SUCCESS, 
+    SAVE_PROFILE_FAILURE, 
     EDIT_PROFILE, 
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
@@ -39,7 +39,7 @@ export function loadProfile(role) {
 
     switch (role) {
         case "Patient": 
-            API_URL += "/patient"; 
+            API_URL += "/patient/patient"; 
             break; 
         case "Provider": 
             API_URL += "/provider"; 
@@ -69,7 +69,7 @@ const saveProfileSuccess = updatedPersonalData => ({
 });
 
 const saveProfileFailure = error => ({
-    type: SUBMIT_SURVEY_FAILURE,
+    type: SAVE_PROFILE_FAILURE,
     payload: {
         error
     }
@@ -79,7 +79,7 @@ export function saveProfile(updatedPersonalData) {
     console.log("Save Profile Running...");
     console.log(updatedPersonalData);
     const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api';
+    const API_URL = 'http://localhost:5000/api/patient';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
     return dispatch => {
@@ -122,7 +122,7 @@ const addProfileModuleFailure = error => ({
 export function addProfileModule(newProfileModule) {
     console.log("addProfileModule");
     const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api';
+    const API_URL = 'http://localhost:5000/api/patient';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
     return dispatch => {
