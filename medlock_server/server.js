@@ -8,8 +8,10 @@ const patient = require('./routes/api/patient/patient');
 const pdisurvey = require('./routes/api/patient/pdisurvey'); 
 const dispense = require('./routes/api/patient/dispense'); 
 const chatAuth = require('./routes/api/chatAuth'); 
+const email = require('./routes/api/email'); 
 const provider = require('./routes/api/provider/provider'); 
-const allPatients = require('./routes/api/provider/allPatients'); 
+const providerPatients = require('./routes/api/provider/patients'); 
+const adminProvider = require('./routes/api/administration/provider'); 
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
@@ -69,12 +71,17 @@ app.use('/api/patient', checkJwt, patient);
 app.use('/api/dispense', dispense); 
 
 // Define Provider Scope 
-app.use('/api/allPatients', checkJwt, allPatients); 
+app.use('/api/provider/patients', checkJwt, providerPatients); 
 app.use('/api/provider', checkJwt, provider); 
+
+// Define Administration Scope 
+// Create Administration Accounts --> Check JSON Web Tokens 
+app.use('/api/admin/provider', adminProvider); 
 
 // How will chatAuth authenticate with Auth0 ??? 
 // Cannot use checkJwt because the ChatKit server will also make a request to this endpoint without Auth0. 
 app.use('/api/chatAuth', chatAuth); 
+app.use('/api/email', email); 
 
 // Run the Server on a Port 
 const PORT = process.env.PORT || 5000; 

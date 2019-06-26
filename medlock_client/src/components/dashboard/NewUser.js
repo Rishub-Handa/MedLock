@@ -23,7 +23,9 @@ class NewUser extends Component {
             }
         }; 
         this.props.saveProfile(personalData); 
-        
+        // Send Password Reset Email and Test Temporary Password Email 
+        resetPassword(this.props.profile.personalData.email); 
+
         this.props.toggle(); 
     }
 
@@ -63,7 +65,7 @@ class NewUser extends Component {
 const mapStateToProps = state => ({
     AMT: state.authState.AMT, 
     AMTLoading: state.authState.AMTLoading, 
-    AMTError: state.authState.AMTError 
+    AMTError: state.authState.AMTError, 
 });
 
 export default connect(mapStateToProps, { saveProfile })(NewUser); 

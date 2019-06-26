@@ -1,13 +1,10 @@
 import {
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
     FETCH_ROLES_BEGIN, 
     FETCH_ROLES_SUCCESS, 
     FETCH_ROLES_FAILURE, 
-    FETCH_AMT_BEGIN, 
-    FETCH_AMT_SUCCESS, 
-    FETCH_AMT_FAILURE 
+    AUTH0_REGISTRATION_BEGIN, 
+    AUTH0_REGISTRATION_SUCCESS, 
+    AUTH0_REGISTRATION_FAILURE 
 } from '../actions/types';
 
 const initialState = {
@@ -16,7 +13,10 @@ const initialState = {
     rolesError: null, 
     AMT: null, 
     AMTLoading: false, 
-    AMTError: null
+    AMTError: null, 
+    userProfile: null, 
+    userProfileLoading: false, 
+    userProfileError: null 
 }
 
 export default function(state = initialState, action) {
@@ -39,25 +39,25 @@ export default function(state = initialState, action) {
                 rolesLoading: false, 
                 rolesError: action.payload.error, 
                 roles: {} 
-            };
-        case FETCH_AMT_BEGIN: 
+            }; 
+        case AUTH0_REGISTRATION_BEGIN: 
             return {
                 ...state, 
-                AMTLoading: true, 
-                AMTError: null 
-            };
-        case FETCH_AMT_SUCCESS: 
+                userProfileLoading: true, 
+                userProfileError: null 
+            }; 
+        case AUTH0_REGISTRATION_SUCCESS: 
             return {
                 ...state, 
-                AMTLoading: false, 
-                AMT: action.payload.AMT 
+                userProfileLoading: false, 
+                userProfile: action.payload.userProfile 
             };
-        case FETCH_AMT_FAILURE: 
+        case AUTH0_REGISTRATION_FAILURE: 
             return {
                 ...state, 
-                AMTLoading: false, 
-                AMTError: action.payload.error 
-            };
+                userProfileLoading: false, 
+                userProfileError: action.payload.error 
+            }; 
         default:
             return state;
     }

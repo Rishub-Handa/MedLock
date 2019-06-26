@@ -1,10 +1,4 @@
 import { 
-    CREATE_PROFILE_BEGIN,
-    CREATE_PROFILE_SUCCESS,
-    CREATE_PROFILE_FAILURE,
-    CREATE_PROVIDER_PROFILE_BEGIN,
-    CREATE_PROVIDER_PROFILE_SUCCESS,
-    CREATE_PROVIDER_PROFILE_FAILURE,
     LOAD_PROFILE_BEGIN,
     LOAD_PROFILE_SUCCESS,
     LOAD_PROFILE_FAILURE,
@@ -33,43 +27,6 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case CREATE_PROFILE_BEGIN:
-            return {
-                ...state,
-                profileCreating: true, 
-                profileError: null 
-            };
-        case CREATE_PROFILE_SUCCESS:
-            return {
-                ...state,
-                profileCreating: false,
-                profileCreated: true,
-            };
-        case CREATE_PROFILE_FAILURE:
-            return {
-                ...state, 
-                profileCreating: false,
-                profileCreateError: action.payload.error
-            };
-        case CREATE_PROVIDER_PROFILE_BEGIN:
-            return {
-                ...state,
-                profileCreating: true, 
-                profileError: null 
-            };
-        case CREATE_PROVIDER_PROFILE_SUCCESS:
-            return {
-                ...state,
-                profileCreating: false,
-                profileCreated: true,
-                profile: action.payload.profile
-            };
-        case CREATE_PROVIDER_PROFILE_FAILURE:
-            return {
-                ...state, 
-                profileCreating: false,
-                profileCreateError: action.payload.error
-            };
         case LOAD_PROFILE_BEGIN:
             return {
                 ...state,

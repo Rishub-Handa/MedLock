@@ -12,6 +12,7 @@
     "dataframe-js": "^1.4.1",
     "history": "^4.9.0",
     "jsdataframe": "^0.2.0",
+    "mailgun.js": "^2.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
