@@ -2,6 +2,9 @@ import {
     CREATE_PROFILE_BEGIN,
     CREATE_PROFILE_SUCCESS,
     CREATE_PROFILE_FAILURE,
+    CREATE_PROVIDER_PROFILE_BEGIN,
+    CREATE_PROVIDER_PROFILE_SUCCESS,
+    CREATE_PROVIDER_PROFILE_FAILURE,
     LOAD_PROFILE_BEGIN,
     LOAD_PROFILE_SUCCESS,
     LOAD_PROFILE_FAILURE,
@@ -54,6 +57,39 @@ export function createProfile(newProfile) {
             .catch(error => dispatch(createProfileFailure(error)));
     }
 }
+
+const createProviderProfileBegin = () => ({
+    type: CREATE_PROVIDER_PROFILE_BEGIN
+});
+
+const createProviderProfileSuccess = profile => ({
+    type: CREATE_PROVIDER_PROFILE_SUCCESS,
+    payload: {
+        profile
+    }
+});
+
+const createProviderProfileFailure = error => ({
+    type: CREATE_PROVIDER_PROFILE_FAILURE,
+    payload: {
+        error
+    }
+});
+
+export function createProviderProfile(newProfile) {
+    const { getAccessToken } = auth0client;
+    let API_URL = 'http://localhost:5000/api/provider';
+    const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+    return dispatch => {
+        dispatch(createProviderProfileBegin());
+        return axios.post(API_URL, newProfile, { headers })
+            .then(res => dispatch(createProviderProfileSuccess(res.data)))
+            .catch(error => dispatch(createProviderProfileFailure(error)));
+    }
+}
+
+
 
 const loadProfileBegin = () => ({
     type: LOAD_PROFILE_BEGIN

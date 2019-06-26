@@ -30,12 +30,9 @@ router.get('/', (req, res) => {
 // @access  Private, requires Auth0 Access Token 
 router.post('/', (req, res) => {
     console.log("Provider POST Request")
-    console.log(req.body);
-
-    let id = req.user.sub.substring(6); 
 
     const newProvider = new Provider({
-        _id: mongoose.Types.ObjectId(req.user.sub.substring(6)),
+        _id: mongoose.Types.ObjectId(req.body._id),
         personalData: req.body.personalData
     });
 
