@@ -50,7 +50,6 @@ export function loadProfile(role) {
         dispatch(loadProfileBegin());
         return axios.get(API_URL, { headers })
             .then(res => {
-                console.log(res); 
                 dispatch(loadProfileSuccess(res.data)); 
             })
             .catch(error => dispatch(loadProfileFailure(error)));
