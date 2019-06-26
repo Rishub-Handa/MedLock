@@ -9,7 +9,6 @@ import {
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
     ADD_PROFILE_MODULE_FAILURE,
-    SAVE_PROFILE_FAILURE,  
 } from './types';
 
 import axios from 'axios';

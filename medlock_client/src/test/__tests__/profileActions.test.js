@@ -22,7 +22,7 @@ describe("Profile Actions", () => {
             on success, dispatches LOAD_PROFILE_SUCCESS
             and returns data`, async () => {
                 
-                const API_URL = 'http://localhost:5000/api/patient';
+                const API_URL = 'http://localhost:5000/api/patient/patient';
                 
                 const mockProfile = {
                     name: "Chase Dawson"
@@ -32,6 +32,7 @@ describe("Profile Actions", () => {
 
                 await store.dispatch(loadProfile("Patient"));
                 const actions = store.getActions();
+                console.log(actions);
 
                 // verifies that a certain number of assertions are called during a test
                 // useful when testing asynchronous code
@@ -45,7 +46,7 @@ describe("Profile Actions", () => {
             on failure, dispatches LOAD_PROFILE_FAILURE
             and returns an error`, async () => {
                 
-                const API_URL = 'http://localhost:5000/api/patient';
+                const API_URL = 'http://localhost:5000/api/patient/patient';
 
                 const mockError = "Load Profile Failed.";
  
@@ -69,7 +70,7 @@ describe("Profile Actions", () => {
             on success, dispatches SAVE_PROFILE_SUCCESS
             and returns data`, async () => {
             
-                const API_URL = 'http://localhost:5000/api/patient';
+                const API_URL = 'http://localhost:5000/api/patient/patient';
 
                 const mockUpdatedPersonalData = {
                     name: "Rishub Handa"
@@ -90,7 +91,7 @@ describe("Profile Actions", () => {
         it(`dispatches SAVE_PROFILE_BEGIN and,
             on failure, dispatches SAVE_PROFILE_FAILURE
             and returns error`, async () => {
-                const API_URL = 'http://localhost:5000/api/patient';
+                const API_URL = 'http://localhost:5000/api/patient/patient';
 
                 const mockUpdatedPersonalData = {
                     name: "Rishub Handa"
