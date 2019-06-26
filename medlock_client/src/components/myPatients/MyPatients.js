@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PatientList from './PatientList';
 import AddPatientForm from './AddPatientForm';
-import { fetchAMT } from '../../auth/AuthManagement'; 
+import { fetchAMT, getUserByEmail } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions';
 import { createPatientProfile } from '../../actions/patientActions'; 
 import { addPatientToProviderList } from '../../actions/patientActions'; 
@@ -67,52 +67,45 @@ class MyPatients extends Component {
             .then(res => {
 
                 const AMT = res.data.access_token; 
-                let userProfile = {}; 
 
                 this.props.auth0Registration(newPatient, AMT)
-                .then(() => {
-                    console.log("Patient registered. Now creating profile . . . "); 
+                .then(() => { 
+                    this.createPatient(newPatient, AMT, this.props.userProfile.user_id); 
+                })
+                .catch(error => {
+                    console.log(`User Registration Error: ${error}`); 
+                    const errorString = `${error}`; 
+                    console.log(errorString.includes("409")); 
                     
-                    userProfile = this.props.userProfile; 
-                    console.log(userProfile); 
-                    const newPatientProfile = {
-                        _id: userProfile.user_id.substring(6),
-                        personalData: {
-                            name: email,
-                            email: email,
-                        },
-                        medicalData: {
-                            providers: [auth0client.userProfile.sub.substring(6)]
-                        }
-                    };
-                    this.props.createPatientProfile(newPatientProfile); 
-
-                    axios.post('http://localhost:5000/api/email', newPatient);
-
-                })
-                .then(() => {
-                    console.log("Profile created. Now assigning role . . . "); 
-
-                    const patient_id = userProfile.user_id; 
-                    this.props.assignRoles(patient_id, AMT, "Patient");
-                })
-                .then(() => {
-                    console.log("Role assigned. Now adding Patient information to Provider document . . ."); 
-                    const patientInfo = {
-                        _id: userProfile.user_id.substring(6),
-                        name: userProfile.name,
-                        email: userProfile.email
-                    } 
-                    
-                    console.log(patientInfo);
-                    this.props.addPatientToProviderList(patientInfo); 
-                })
-                .then(() => {
-                    console.log("Patient added to patient list of Provider.");
-                })
-                .catch(error => console.log(error)); 
+                    getUserByEmail(email, AMT) 
+                        .then(res => {
+                            const user_id = res.data[0].user_id; 
+                            console.log(user_id); 
+                            // Create a function for existing patient 
+                        })
+                }); 
             }) 
             .catch(error => console.log(error)); 
+        
+    }
+
+    createPatient = (newPatient, AMT, patient_id) => {
+        console.log("Patient registered. Now creating profile . . . "); 
+        console.log(patient_id); 
+        const newPatientProfile = {
+            _id: patient_id.substring(6),
+            personalData: {
+                name: newPatient.email,
+                email: newPatient.email,
+            },
+            medicalData: {
+                providers: [auth0client.userProfile.sub.substring(6)]
+            }
+        };
+        this.props.createPatientProfile(newPatientProfile); 
+        this.props.assignRoles(patient_id, AMT, "Patient");
+
+        axios.post('http://localhost:5000/api/email', newPatient); 
         
     }
 

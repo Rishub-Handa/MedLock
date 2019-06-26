@@ -67,7 +67,7 @@ mongoose.connect(db, {
 
 // Define Patient Scope 
 app.use('/api/pdisurvey', checkJwt, pdisurvey); 
-app.use('/api/patient', checkJwt, patient); 
+app.use('/api/patient/patient', checkJwt, patient); 
 app.use('/api/dispense', dispense); 
 
 // Define Provider Scope 

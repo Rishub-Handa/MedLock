@@ -17,6 +17,7 @@ import SideBar from '../nav/SideBar';
 import PatientData from '../patientData/PatientData';
 import PDISurvey from '../survey/PDISurvey';
 import Dispenser from '../test/Dispenser'; 
+import ServerEndpoints from '../test/ServerEndpoints'; 
 import { modules } from '../nav/ModuleInfo'; 
 import MyPatients from '../myPatients/MyPatients'; 
 import NewUser from './NewUser'; 
@@ -31,6 +32,7 @@ const makeMainRoutes = (props) => {
             <SecuredRoute path="/dashboard/resources" component={Resources} />
             <SecuredRoute path="/dashboard/survey" component={PDISurvey} />
             <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
+            <SecuredRoute path="/dashboard/serverendpoints" component={ServerEndpoints} /> 
             <SecuredRoute exact path="/dashboard/mypatients" component={MyPatients} /> 
             <SecuredRoute exact path="/dashboard/mypatients/viewpatient" component={PatientView} />
         </div>
@@ -57,6 +59,7 @@ class Dashboard extends Component {
                         this.props.loadProfile(this.props.roles[0].name) 
                             .then(() => {
                                 console.log(this.props.roles); 
+                                console.log(this.props.profile); 
                                 // Need better method of verifying that this is a new patient. 
                                 if(this.props.roles[0].name === 'Patient' && 
                                     !this.props.profile.personalData.birthday) { 
