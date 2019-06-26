@@ -13,6 +13,7 @@
     "express-jwt-authz": "^2.3.1",
     "jwks-rsa": "^1.5.1",
     "mongoose": "^5.5.13",
+    "nodemailer": "^6.2.1",
     "path": "^0.12.7"
   },
   "devDependencies": {},

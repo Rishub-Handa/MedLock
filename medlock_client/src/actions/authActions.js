@@ -1,43 +1,46 @@
 import { 
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
-    FETCH_AMT_BEGIN, 
-    FETCH_AMT_SUCCESS, 
-    FETCH_AMT_FAILURE,
+    // LOGIN_REQUEST,
+    // LOGIN_SUCCESS,
+    // LOGIN_FAILURE,
     FETCH_ROLES_BEGIN, 
     FETCH_ROLES_SUCCESS, 
-    FETCH_ROLES_FAILURE,
+    FETCH_ROLES_FAILURE, 
+    AUTH0_REGISTRATION_BEGIN, 
+    AUTH0_REGISTRATION_SUCCESS, 
+    AUTH0_REGISTRATION_FAILURE, 
+    ASSIGN_ROLES_BEGIN, 
+    ASSIGN_ROLES_SUCCESS, 
+    ASSIGN_ROLES_FAILURE 
  } from './types';
 
 import axios from 'axios';
 import auth0client from '../auth/Auth';
 
-const loginRequest = (creds) => ({
-    type: LOGIN_REQUEST,
-    isFetching: true,
-    isAuthenticated: false,
-    creds
-});
+// const loginRequest = (creds) => ({
+//     type: LOGIN_REQUEST,
+//     isFetching: true,
+//     isAuthenticated: false,
+//     creds
+// });
 
-const loginSuccess = (user) => ({
-    type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
-    id_token: user.id_token
+// const loginSuccess = (user) => ({
+//     type: LOGIN_SUCCESS,
+//     isFetching: false,
+//     isAuthenticated: true,
+//     id_token: user.id_token
     
-});
+// });
 
-const loginFailure = error => ({
-    type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    error
-});
+// const loginFailure = error => ({
+//     type: LOGIN_FAILURE,
+//     isFetching: false,
+//     isAuthenticated: false,
+//     error
+// });
 
-export function loginUser(creds) {
+// export function loginUser(creds) {
 
-}
+// }
 
 export const fetchRolesBegin = () => ({
     type: FETCH_ROLES_BEGIN
@@ -57,7 +60,6 @@ export const fetchRolesFailure =error => ({
     }
 });
   
-  // Fetch surveys for a particular user with Access Token 
 export function fetchRoles(API_MANAGEMENT_TOKEN) {
     const user_id = auth0client.userProfile.sub; 
 
@@ -75,36 +77,100 @@ export function fetchRoles(API_MANAGEMENT_TOKEN) {
     };
 } 
 
-export const fetchAMTBegin = () => ({
-    type: FETCH_AMT_BEGIN
+const auth0RegistrationBegin = () => ({
+    type: AUTH0_REGISTRATION_BEGIN
 });
-  
-export const fetchAMTSuccess = AMT => ({
-    type: FETCH_AMT_SUCCESS,
+
+const auth0RegistrationSuccess = userProfile => ({
+    type: AUTH0_REGISTRATION_SUCCESS,
     payload: {
-        AMT
+        userProfile
     }
 });
 
-export const fetchAMTFailure = error => ({
-    type: FETCH_AMT_FAILURE,
+const auth0RegistrationFailure = error => ({
+    type: AUTH0_REGISTRATION_FAILURE,
+    payload: {
+        error
+    }
+
+});
+
+export function auth0Registration(newUser, API_MANAGEMENT_TOKEN) {
+    const API_URL = 'https://medlock-dev.auth0.com/api/v2/users';
+    const headers = { authorization: `Bearer ${API_MANAGEMENT_TOKEN}`, 
+                    'content-type': 'application/json' };
+
+    return dispatch => {
+        dispatch(auth0RegistrationBegin());
+        return axios.post(API_URL, newUser, { headers })
+            .then(res => {
+                console.log(res.data);
+                dispatch(auth0RegistrationSuccess(res.data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(auth0RegistrationFailure(error));
+                throw error;
+            });
+    }
+}
+
+const assignRolesBegin = () => ({
+    type: ASSIGN_ROLES_BEGIN
+});
+
+const assignRolesSuccess = role => ({
+    type: ASSIGN_ROLES_SUCCESS,
+    payload: {
+        role
+    }
+});
+
+const assignRolesFailure = error => ({
+    type: ASSIGN_ROLES_FAILURE,
     payload: {
         error
     }
 });
 
-export function fetchAMT() {
-    const AMTHeaders = { 'Content-Type': 'application/json' }; 
-    const AMTBody = {"client_id":"Wf9NsAneKffcZ8y24IhMzjZ4C3JvIken","client_secret":"sPFQ_UQ1G5e20F87cc2MDU-BDjzG1i9CHEnOISfnuHSgyYGvI_zhXQR5nsZto-tA","audience":"https://medlock-dev.auth0.com/api/v2/","grant_type":"client_credentials"}; 
-    const API_URL = `https://medlock-dev.auth0.com/oauth/token`;
-    
+
+export function assignRoles(user_id, API_MANAGEMENT_TOKEN, role) {
+    const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}/roles`;
+    const headers = { authorization: `Bearer ${API_MANAGEMENT_TOKEN}`, 
+                    'Content-Type': 'application/json' };
+
+    let req_body = {}; 
+
+    switch(role) {
+        case "Patient": 
+            req_body = {
+                "roles": [
+                    "rol_3rJHjXxeLiD1ZJLo" 
+                ]
+            }
+            break; 
+        case "Provider": 
+            req_body = {
+                "roles": [
+                    "rol_eXgwl6628aJ35Cq4" 
+                ]
+            }
+            break; 
+        default: 
+    } 
+
     return dispatch => {
-        dispatch(fetchAMTBegin());
-        return axios.post(API_URL, AMTBody, AMTHeaders)
-        .then(res => {
-            console.log(res.data);
-            dispatch(fetchAMTSuccess(res.data));
-        })
-        .catch(error => dispatch(fetchAMTFailure(error)));
-    };
+        dispatch(assignRolesBegin());
+        return axios.post(API_URL, req_body, { headers })
+            .then(res => {
+                console.log(res.data);
+                dispatch(assignRolesSuccess(res.data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(assignRolesFailure(error));
+            });
+    }
 }
+
