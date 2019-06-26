@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
 import Inbox from '../inbox/Inbox';
-import { loadProfile, createProfile } from '../../actions/profileActions'; 
+import { loadProfile, createProfile, createProviderProfile } from '../../actions/profileActions'; 
 import { fetchRoles, fetchAMT } from '../../actions/authActions';
 import SecuredRoute from '../SecuredRoute';
 import DashHeader from './DashHeader';
@@ -91,18 +91,13 @@ class Dashboard extends Component {
 
         // If loading a profile does not work, then create a new profile in the database. 
         if(this.props.profileError && !this.props.profile && !this.props.profileCreating) {
-            console.log("Running Create prof"); 
-            const { userProfile } = auth0client; 
-
-            // Display New User Form 
-        
-            this.props.createProfile({
-                roles: this.props.roles[0].name, 
-                _id: userProfile.sub.substring(6), 
+            const { userProfile } = auth0client;
+            this.props.createProviderProfile({
+                _id: userProfile.sub.substring(6),
                 personalData: {
                     name: userProfile.name
                 }
-            })
+            });
         }
 
     }
@@ -245,7 +240,8 @@ Dashboard.propTypes = {
     AMT: PropTypes.object.isRequired, 
     fetchAMT: PropTypes.func.isRequired, 
     AMTLoading: PropTypes.bool.isRequired, 
-    AMTError: PropTypes.object.isRequired 
+    AMTError: PropTypes.object.isRequired,
+    createProviderProfile: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -264,4 +260,4 @@ const mapStateToProps = state => ({
     AMTError: state.authState.AMTError 
 });
 
-export default connect(mapStateToProps, { loadProfile, createProfile, fetchRoles, fetchAMT })(Dashboard); 
+export default connect(mapStateToProps, { loadProfile, createProfile, fetchRoles, fetchAMT, createProviderProfile })(Dashboard); 

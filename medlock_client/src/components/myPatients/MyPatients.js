@@ -98,12 +98,18 @@ class MyPatients extends Component {
                 })
                 .then(() => {
                     console.log("Role assigned. Now adding Patient information to Provider document . . ."); 
+                    console.log(this.props.patient);
                     const patientInfo = {
-                        _id: this.props.patient.user_id.substring(6)
+                        _id: this.props.patient.user_id.substring(6),
+                        name: this.props.patient.name,
+                        email: this.props.patient.email
                     } 
                     
                     console.log(patientInfo);
                     this.props.addPatient(patientInfo); 
+                })
+                .then(() => {
+                    console.log("Patient added to patient list of Provider.");
                 })
                 .catch(error => console.log(error)); 
 
