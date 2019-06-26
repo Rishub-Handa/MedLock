@@ -1,5 +1,5 @@
 const express = require('express'); 
-const { Provider } = require('../../../models/Provider'); 
+const Provider = require('../../../models/Provider'); 
 const PatientInfoSchema = require('../../../models/schemas/PatientInfoSchema'); 
 
 const router = express.Router(); 
@@ -26,21 +26,36 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
 
     const id = req.user.sub.substring(6);
-    Provider.findById(id)
-        .then(provider => {
-            // Return all PDISurveys in the patient. 
-            // Should this include the patient name or keep data anonymized 
-            const newPatient = new PatientInfoSchema(req.body); 
+    console.log(id);
+    // Provider.findById(id)
+    //     .then(provider => {
+    //         console.log(provider);
+    //         // Return all PDISurveys in the patient. 
+    //         // Should this include the patient name or keep data anonymized 
+    //         console.log(req.body);
+    //         const newPatient = new PatientInfoSchema(req.body); 
 
-            provider.patientList.push(newPatient); 
 
-            provider.save() 
-                .then(provider => {
-                    res.json(provider); 
-                }); 
+    //         provider.patientList.push(newPatient); 
 
-        })
-        .catch(error => res.status(404).json(error));
+    //         provider.save() 
+    //             .then(provider => {
+    //                 res.json(provider); 
+    //             }); 
+
+    //     })
+    //     .catch(error => res.status(404).json(error));
+    Provider.findById(id, (err, provider) => {
+        if (err) return res.status(500).send(err);
+        const newPatient = req.body;
+        console.log(newPatient);
+        provider.medicalData.patients.push(newPatient);
+        return provider.save()
+            .then(provider => {
+                console.log(`Patient with id=${newPatient._id} added to patient list of Provder with id=${id}.`);
+            })
+            .catch(error => console.log(error));
+    });
 
 });
 

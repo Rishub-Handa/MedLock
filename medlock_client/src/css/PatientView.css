@@ -1,0 +1,14 @@
+.patientDataView-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+}
+
+.patientDataView-container > * {
+    border: 1px solid #ccc;
+}
+
+.leftPanel {
+    display: flex;
+    flex-direction: column
+}
