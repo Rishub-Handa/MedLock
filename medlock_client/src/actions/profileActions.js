@@ -8,7 +8,8 @@ import {
     EDIT_PROFILE, 
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
-    ADD_PROFILE_MODULE_FAILURE,  
+    ADD_PROFILE_MODULE_FAILURE,
+    SAVE_PROFILE_FAILURE,  
 } from './types';
 
 import axios from 'axios';
@@ -68,7 +69,7 @@ const saveProfileSuccess = updatedPersonalData => ({
 });
 
 const saveProfileFailure = error => ({
-    type: SUBMIT_SURVEY_FAILURE,
+    type: SAVE_PROFILE_FAILURE,
     payload: {
         error
     }

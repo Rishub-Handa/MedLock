@@ -75,5 +75,63 @@ describe('Profile Reducer', () => {
 
         expect(reducer).toEqual(newState);
     });
+
+    it('handles SAVE_PROFILE_BEGIN as expected', () => {
+        const reducer = profileReducer(initialState, {
+            type: "SAVE_PROFILE_BEGIN"
+        });
+
+        const newState = {
+            ...initialState,
+            editable: false,
+            profileSaving: true,
+            profileError: null
+        };
+
+        expect(reducer).toEqual(newState);
+    });
+
+    it('handles SAVE_PROFILE_SUCCESS as expected', () => {
+        const mockUpdatedPersonalData = {
+            name: "Rishub Handa",
+            email: "rh4gh@virginia.edu"
+        }
+        
+        const reducer = profileReducer(initialState, {
+            type: "SAVE_PROFILE_SUCCESS",
+            payload: {
+                updatedPersonalData: mockUpdatedPersonalData
+            }
+        });
+
+        const newState = {
+            ...initialState,
+            profileSaving: false,
+            profile: {
+                personalData: mockUpdatedPersonalData
+            }
+        };
+
+        expect(reducer).toEqual(newState);
+    });
+
+    it('handles SAVE_PROFILE_FAILURE as expected', () => {
+        const mockError = "Save Profile Failed.";
+
+        const reducer = profileReducer(initialState, {
+            type: "SAVE_PROFILE_FAILURE",
+            payload: {
+                error: mockError
+            }
+        });
+
+        const newState = {
+            ...initialState,
+            profileSaving: false,
+            error: mockError
+        };
+
+        expect(reducer).toEqual(newState);
+    });
     
 });
