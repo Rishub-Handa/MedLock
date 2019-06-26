@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 
 const router = express.Router(); 
 
+// CHECK BUG FOR CONNECTION TIMEOUT 
 router.post('/', (req, res) => {
     console.log(req.body); 
     const output = `
