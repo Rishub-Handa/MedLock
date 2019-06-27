@@ -36,7 +36,12 @@ router.post('/', (req, res) => {
             });
         }
 
-        dispenser.dispenses.push(req.body.timestamp); 
+        const timestamp = req.body.timestamp; 
+        if(timestamp === "0") 
+            timestamp = Date.now(); 
+
+        // dispenser.dispenses.push(req.body.timestamp); 
+        dispenser.dispenses.push(timestamp); 
         return dispenser.save()
             .then(dispenser => {
                 console.log("Dispense Logged.");
