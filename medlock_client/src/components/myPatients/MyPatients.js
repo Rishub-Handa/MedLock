@@ -3,8 +3,7 @@ import PatientList from './PatientList';
 import AddPatientForm from './AddPatientForm';
 import { fetchAMT, getUserByEmail } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions';
-import { createPatientProfile } from '../../actions/patientActions'; 
-import { addPatientToProviderList } from '../../actions/patientActions'; 
+import { createPatientProfile, addPatientToProviderList, fetchPatients } from '../../actions/patientActions'; 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
@@ -109,7 +108,11 @@ class MyPatients extends Component {
         
     }
 
-    
+    componentDidMount() {
+        this.props.fetchPatients()
+            .then(() => console.log(this.props.patients));
+    }
+
     render() {
         const { patientRegistering, registerError } = this.props;
         
@@ -143,7 +146,7 @@ class MyPatients extends Component {
 
         return (
             <div>
-                <PatientList patients={tempPatients} onClickPatient={this.viewPatient} />
+                <PatientList patients={this.props.patients} onClickPatient={this.viewPatient} />
                 {this.displayNewPatientForm()}
             </div>
         );
@@ -177,5 +180,6 @@ export default connect(
         auth0Registration, 
         assignRoles, 
         createPatientProfile, 
-        addPatientToProviderList 
+        addPatientToProviderList,
+        fetchPatients
     })(MyPatients);

@@ -31,6 +31,8 @@ const createPatientProfileFailure = error => ({
     }
 }); 
 
+
+// naming convention ???
 export function createPatientProfile(newProfile) {
     const { getAccessToken } = auth0client;
     let API_URL = 'http://localhost:5000/api/provider/patients';
@@ -49,35 +51,35 @@ const addPatientBegin = () => ({
   });
   
   
-  const addPatientSuccess = allPatients => ({
-    type: ADD_PATIENT_SUCCESS,
-    payload: {
-      allPatients
-    }
-  });
-    
-  const addPatientFailure = error => ({
-      type: ADD_PATIENT_FAILURE,
-      payload: {
-        error
-      }
-  });
-  
-  export function addPatientToProviderList(patient) {
-    const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api/provider/patients';
-    const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
-  
-    return dispatch => {
-      dispatch(addPatientBegin());
-      return axios.post(API_URL, patient, { headers })
-        .then(res => dispatch(addPatientSuccess(res.data)))
-        .catch(error => {
-          console.log(error);
-          dispatch(addPatientFailure(error));
-        });
-    }
+const addPatientSuccess = allPatients => ({
+  type: ADD_PATIENT_SUCCESS,
+  payload: {
+    allPatients
   }
+});
+  
+const addPatientFailure = error => ({
+    type: ADD_PATIENT_FAILURE,
+    payload: {
+      error
+    }
+});
+
+export function addPatientToProviderList(patient) {
+  const { getAccessToken } = auth0client;
+  const API_URL = 'http://localhost:5000/api/provider/patients';
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+  return dispatch => {
+    dispatch(addPatientBegin());
+    return axios.post(API_URL, patient, { headers })
+      .then(res => dispatch(addPatientSuccess(res.data)))
+      .catch(error => {
+        console.log(error);
+        dispatch(addPatientFailure(error));
+      });
+  }
+}
   
   // Helper functions give access to the status of the request 
 export const fetchPatientsBegin = () => ({
