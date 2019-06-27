@@ -43,17 +43,17 @@ router.post('/', (req, res) => {
 
     const providerId = req.user.sub.substring(6);
     const patientId = req.body._id; 
+    console.log(patientId); 
 
     // Check if patient exists 
 
     Patient.find({
         "_id": mongoose.Types.ObjectId(patientId) 
     }).limit(1)  
-        .then(res => {
-            console.log("Creating New Patient . . . "); 
-
+        .then(res => { 
             // Create patient in database if does not exist. 
             if(res.length === 0) {
+                console.log("Creating New Patient . . . "); 
                 const newPatient = new Patient({
                     _id: mongoose.Types.ObjectId(req.body._id),
                     personalData: req.body.personalData,
@@ -66,11 +66,29 @@ router.post('/', (req, res) => {
                 newPatient.save()
                     .then(patient => {
                         console.log("Patient -> Database");
-                    //    res.json(patient);
                     });
             } else {
                 // The patient exists in the database. Add the providerId to patient providers. 
-                
+                Patient.findById(patientId) 
+                    .then(patient => {
+                        let contains = false; 
+
+                        patient.medicalData.providers.forEach(provider => {
+                            if(provider === providerId) {
+                                contains = true; 
+                            }
+                        }); 
+
+                        if(!contains) {
+                            console.log("Adding Provider to patient provider list. "); 
+                            patient.medicalData.providers.push(providerId); 
+                            patient.save() 
+                                .then(patient => {
+                                    console.log("Provider added to patient provider list. "); 
+                                })
+                        }
+
+                    })
             }
         }) 
         .catch(error => console.log(error)); 
@@ -90,10 +108,11 @@ router.post('/', (req, res) => {
 
         // Check if newPatient exists in array. 
         console.log(`Provider Patient List: ${provider.medicalData.patients}`); 
-        const contains = false; 
+        let contains = false; 
 
         provider.medicalData.patients.forEach(patient => {
-            if(patient._id === patientId) 
+            console.log(patient._id); 
+            if("" + patient._id === "" + patientId)  
                 contains = true; 
         })
 
