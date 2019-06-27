@@ -3,6 +3,7 @@
 export const modules = [
     {
         name: 'Dashboard', 
+        roles: null,
         link: '/dashboard' 
     }, 
     {
@@ -64,8 +65,19 @@ export const modules = [
             image: '', 
         }, 
         link: '/dashboard/mypatients' 
+    },
+    {
+        name: 'Profile',
+        roles: [
+            {
+                name: 'Patient',
+                description: 'View and edit your profile '
+            }
+        ],
+        content: {
+            image: '',
+        },
+        link: '/dashboard/profile'
     }
-
-
 
 ]
