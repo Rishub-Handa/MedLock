@@ -76,12 +76,25 @@ class MyPatients extends Component {
                     const errorString = `${error}`; 
                     console.log(errorString.includes("409")); 
                     
-                    getUserByEmail(email, AMT) 
-                        .then(res => {
-                            const user_id = res.data[0].user_id; 
-                            console.log(user_id); 
-                            // Create a function for existing patient 
+                    if(errorString.includes("409")) {
+                        getUserByEmail(email, AMT) 
+                            .then(res => {
+                                const user_id = res.data[0].user_id; 
+                                console.log(user_id); 
+
+                                const newPatientProfile = {
+                                    _id: user_id.substring(6),
+                                    personalData: {
+                                        name: email,
+                                        email: email,
+                                    },
+                                    medicalData: {
+                                        providers: [auth0client.userProfile.sub.substring(6)]
+                                    }
+                                };
+                            this.props.createPatientProfile(newPatientProfile);
                         })
+                    }
                 }); 
             }) 
             .catch(error => console.log(error)); 
