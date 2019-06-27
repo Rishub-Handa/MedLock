@@ -1,0 +1,9 @@
+.PatientList-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.PatientList-container > * {
+    background: #ddd;
+    border: 1px solid #ccc;
+}
