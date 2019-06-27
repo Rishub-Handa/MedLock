@@ -97,8 +97,7 @@ class MyPatients extends Component {
                     }
                 }); 
             }) 
-            .catch(error => console.log(error)); 
-        
+            .catch(error => console.log(error))
     }
 
     createPatient = (newPatient, AMT, patient_id) => {
@@ -122,12 +121,11 @@ class MyPatients extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchPatients()
-            .then(() => console.log(this.props.patients));
+        this.props.fetchPatients();
     }
 
     render() {
-        const { patientRegistering, registerError } = this.props;
+        const { patientRegistering, registerError, patientsLoading } = this.props;
         
         if(registerError) {
             return (
@@ -141,6 +139,14 @@ class MyPatients extends Component {
             return (
                 <div>
                     Registering patient . . .
+                </div>
+            )
+        }
+
+        if (patientsLoading) {
+            return (
+                <div>
+                    Loading patients . . .
                 </div>
             )
         }
@@ -173,7 +179,10 @@ MyPatients.propTypes = {
     patientRegistering: PropTypes.bool.isRequired,
     registerError: PropTypes.object.isRequired,
     createPatientProfile: PropTypes.func.isRequired,
-    assignPatientRole: PropTypes.func.isRequired
+    assignPatientRole: PropTypes.func.isRequired,
+    fetchPatients: PropTypes.func.isRequired,
+    patientsLoading: PropTypes.bool.isRequired,
+    fetchPatientsError: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -185,7 +194,9 @@ const mapStateToProps = state => ({
     roleAssignError: state.providerState.roleAssignError, 
     userProfile: state.authState.userProfile, 
     userProfileLoading: state.authState.userProfileLoading, 
-    userProfileError: state.authState.userProfileError 
+    userProfileError: state.authState.userProfileError,
+    patientsLoading: state.patientState.patientsLoading,
+    fetchPatientsError: state.patientState.fetchPatientsError
 });
 
 export default connect(

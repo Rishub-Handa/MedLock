@@ -86,10 +86,10 @@ export const fetchPatientsBegin = () => ({
     type: FETCH_PATIENTS_BEGIN
   });
   
-export const fetchPatientsSuccess = allPatients => ({
+export const fetchPatientsSuccess = patients => ({
     type: FETCH_PATIENTS_SUCCESS,
     payload: {
-        allPatients
+        patients
     }
   });
   
@@ -100,20 +100,19 @@ export const fetchPatientsError = error => ({
     }
   });
   
-  // Fetch surveys for a particular user with Access Token 
+// fetches patients for the authenticated provider
 export function fetchPatients() {
-    const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api';
-    const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
-    
-    return dispatch => {
-        dispatch(fetchPatientsBegin());
-            // Change this URL ??? 
-        return axios.get(`${API_URL}/provider/allPatients`, { headers })
-            .then(res => {
-              console.log(res.data);
-              dispatch(fetchPatientsSuccess(res.data));
-            })
-            .catch(error => dispatch(fetchPatientsError(error)));
-    };
+  const { getAccessToken } = auth0client;
+  const API_URL = 'http://localhost:5000/api';
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+  
+  return dispatch => {
+      dispatch(fetchPatientsBegin());
+      return axios.get(`${API_URL}/provider/patients`, { headers })
+          .then(res => {
+            console.log(res.data);
+            dispatch(fetchPatientsSuccess(res.data));
+          })
+          .catch(error => dispatch(fetchPatientsError(error)));
+  };
 }

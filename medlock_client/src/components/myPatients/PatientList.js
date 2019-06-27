@@ -6,7 +6,7 @@ class PatientList extends Component {
 
     patientHTML = (patients) => {
         return patients.map(patient => (
-            <PatientListItem patientInfo={patient} viewPatient={this.props.onClickPatient} />
+            <PatientListItem patient={patient} viewPatient={this.props.onClickPatient} />
         ));
     }
 

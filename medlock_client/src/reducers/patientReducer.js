@@ -20,8 +20,6 @@ const initialState = {
     newAddedPatient: null, 
     addPatientLoading: false, 
     addPatientError: null, 
-
-
 } 
 
 export default function(state = initialState, action) {
@@ -72,7 +70,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 patientsLoading: false,
-                patients: action.payload.patient
+                patients: action.payload.patients
             };
         case FETCH_PATIENTS_FAILURE:
             return {
