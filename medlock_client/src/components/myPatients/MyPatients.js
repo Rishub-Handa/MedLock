@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth'; 
+import PatientView from '../patientView/PatientView';
 
 const axios = require('axios'); 
 
@@ -17,14 +18,17 @@ class MyPatients extends Component {
         super(props);
         this.state = {
             newPatientForm: false,
+            onePatientView: false,
+            viewedPatient: null
         }
         console.log(props);
     }
 
-    viewPatient = () => {
-        console.log("View Patient");
-        console.log(this.props);
-        this.props.history.push("/dashboard/mypatients/viewpatient");
+    viewPatient = (patient) => {
+        this.setState({
+            onePatientView: true,
+            viewedPatient: patient
+        });
     }
 
     addPatient = () => {
@@ -119,7 +123,6 @@ class MyPatients extends Component {
         this.props.assignRoles(patient_id, AMT, "Patient");
 
         axios.post('http://localhost:5000/api/email', newPatient); 
-        
     }
 
     componentDidMount() {
@@ -127,7 +130,7 @@ class MyPatients extends Component {
     }
 
     render() {
-        const { patientRegistering, registerError, patientsLoading, fetchPatients } = this.props;
+        const { patientRegistering, registerError, patientsLoading } = this.props;
         
         if(registerError) {
             return (
@@ -153,17 +156,13 @@ class MyPatients extends Component {
             )
         }
 
-        const tempPatients = [
-            {
-                name: "Jane"
-            },
-            {
-                name: "Joe"
-            },
-            {
-                name: "Bill"
-            },
-        ];
+        if (this.state.onePatientView) {
+            if (this.state.viewedPatient === null)
+                throw "onePatientView is true, but viewedPatient is null!"
+            return (
+                <PatientView patient={this.state.viewedPatient} />
+            );
+        }
 
         return (
             <div>
@@ -171,6 +170,7 @@ class MyPatients extends Component {
                 {this.displayNewPatientForm()}
             </div>
         );
+
     }
 }
 

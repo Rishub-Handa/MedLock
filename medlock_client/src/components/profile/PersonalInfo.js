@@ -61,6 +61,7 @@ class PersonalInfo extends Component {
 
     staticHTML = () => {
         const { personalData } = this.props;
+        console.log(personalData);
         return (
             <div className="personalInfo-static">
                 <div>
@@ -68,7 +69,7 @@ class PersonalInfo extends Component {
                     <h4>Biography: {personalData.bio}</h4>
                     <h6>Sex: {personalData.sex}</h6>
                     <h6>Birthday: {personalData.birthday}</h6>
-                    <h6>Address: {personalData.address}</h6>
+                    <h6>Street: {personalData.address.street}</h6>
                     <h6>Email: {personalData.email}</h6>
                     <h6>Phone: {personalData.phone}</h6>
                     <h6>Chat Name: {personalData.chatname}</h6>

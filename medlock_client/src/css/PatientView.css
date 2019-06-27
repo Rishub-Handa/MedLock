@@ -1,14 +1,48 @@
-.patientDataView-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 1em;
+.patientView-container {
+    display: flex;
+    flex-direction: row;
 }
 
-.patientDataView-container > * {
+.patientView-container > * {
     border: 1px solid #ccc;
 }
 
 .leftPanel {
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+}
+
+.leftPanel > * {
+    border: 1px solid #ccc;
+}
+
+.personalDataView-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.personalDataView-container > * {
+    align-self: center;
+}
+
+.medicalDataView-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.medicalDataView-container > * {
+    align-self: center;
+}
+
+.consumptionDataView-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.consumptionDataView-container > * {
+    align-self: center;
+}
+
+.content {
+    align-self: center;
 }
