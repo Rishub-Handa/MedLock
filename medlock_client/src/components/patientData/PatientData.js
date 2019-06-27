@@ -68,24 +68,6 @@ class PatientData extends Component {
                 }
             }
 
-            // let avgResponses = surveys[0].responses; 
-            // console.log(avgResponses); 
-            // avgResponses.map(response => {
-            //     response.answer = parseInt(response.answer); 
-            // })
-            // for(let i = 1; i < surveys.length; i++) {
-            //     for(let j = 0; j < avgResponses.length; j++) {
-            //         avgResponses[j].answer += parseInt(surveys[i].responses[j].answer); 
-            //     }
-            // }
-
-            // avgResponses.map(response => {
-            //     response.answer = response.answer / surveys.length; 
-            // })
-
-            // console.log(avgResponses); 
-            // console.log(this.state); 
-
             return (
                 <div>
                     <div className="avg-pdi-bar">
@@ -113,6 +95,11 @@ class PatientData extends Component {
         try {
 
             const df = this.state.dfSurvey; 
+            
+            if(!painCategories) {
+                console.log("Creating Categories. "); 
+                painCategories = this.state.dfSurvey.names().values.slice(0,7)
+            }
 
             const allCoordinates = painCategories.map(category => {
                 // Change null to domain 
@@ -122,11 +109,11 @@ class PatientData extends Component {
                     return -1; 
                 }).map((painData, index) => {
                     return {
-                        x: index, 
+                        x: index + 1, 
                         y: painData 
                     }
                 })
-                // console.log(dataPoints); 
+                console.log(dataPoints); 
                 return dataPoints; 
             }); 
 
@@ -161,7 +148,7 @@ class PatientData extends Component {
         try {
 
             const df = this.state.dfSurvey; 
-             console.log(df); 
+            console.log(df); 
 
             if(!painCategories) {
                 painCategories = this.state.dfSurvey.names().values.slice(0,7)
@@ -176,7 +163,7 @@ class PatientData extends Component {
                 }).map((painData, index) => {
                     console.log(index); 
                     return {
-                        x: index, 
+                        x: index + 1, 
                         y: painData 
                     }
                 })
@@ -190,7 +177,7 @@ class PatientData extends Component {
 
             return (
                 <div className="pdi-stacked"> 
-                    <VictoryStack>
+                    <VictoryStack> 
                         {allCoordinates.map(coordinateData => {
                             return (
                                 <VictoryArea data={coordinateData} />
@@ -377,7 +364,7 @@ class PatientData extends Component {
                     </div>
                     <div>
                         <h3>Line Graph Data</h3>
-                        {this.pdiLinesHTML(['recreation', 'occupation'])} 
+                        {this.pdiLinesHTML()} 
                     </div> 
                     <div>
                         <h3>Stacked Graph Data</h3>
