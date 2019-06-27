@@ -69,7 +69,7 @@ class MyPatients extends Component {
 
                 this.props.auth0Registration(newPatient, AMT)
                 .then(() => { 
-                    this.createPatient(newPatient, AMT, this.props.userProfile.user_id); 
+                    this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
                 })
                 .catch(error => {
                     console.log(`User Registration Error: ${error}`); 
@@ -92,10 +92,11 @@ class MyPatients extends Component {
                                         providers: [auth0client.userProfile.sub.substring(6)]
                                     }
                                 };
-                            this.props.createPatientProfile(newPatientProfile);
-                        })
+                            this.props.createPatientProfile(newPatientProfile)
+                                .then(this.props.fetchPatients());
+                        });
                     }
-                }); 
+                });
             }) 
             .catch(error => console.log(error))
     }
@@ -113,7 +114,8 @@ class MyPatients extends Component {
                 providers: [auth0client.userProfile.sub.substring(6)]
             }
         };
-        this.props.createPatientProfile(newPatientProfile); 
+        this.props.createPatientProfile(newPatientProfile)
+            .then(this.props.fetchPatients());
         this.props.assignRoles(patient_id, AMT, "Patient");
 
         axios.post('http://localhost:5000/api/email', newPatient); 
@@ -125,7 +127,7 @@ class MyPatients extends Component {
     }
 
     render() {
-        const { patientRegistering, registerError, patientsLoading } = this.props;
+        const { patientRegistering, registerError, patientsLoading, fetchPatients } = this.props;
         
         if(registerError) {
             return (
