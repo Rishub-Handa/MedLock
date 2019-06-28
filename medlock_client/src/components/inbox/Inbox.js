@@ -5,6 +5,8 @@ import RoomList from './components/RoomList';
 import NewRoomForm from './components/NewRoomForm'; 
 import { tokenUrl, instanceLocator } from './config'; 
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client'; 
+import { loadProfile } from '../../actions/profileActions'; 
+import { connect } from 'react-redux'; 
 import auth0client from '../../auth/Auth'; 
 import '../../css/Inbox.css'; 
 
@@ -18,6 +20,8 @@ class Inbox extends React.Component {
   }
 
   componentDidMount() {
+  
+    console.log(this.props.profile); 
 
     const { userProfile } = auth0client; 
     
@@ -130,4 +134,8 @@ class Inbox extends React.Component {
   } 
 }
 
-export default Inbox;
+const mapStateToProps = state => ({
+  profile: state.profileState.profile 
+})
+
+export default connect(mapStateToProps, { loadProfile })(Inbox); 
