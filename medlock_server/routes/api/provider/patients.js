@@ -1,8 +1,14 @@
 const express = require('express'); 
+const mongoose = require('mongoose'); 
+const Chatkit = require('@pusher/chatkit-server'); 
 const Provider = require('../../../models/Provider'); 
 const Patient = require('../../../models/Patient'); 
 const PatientInfoSchema = require('../../../models/schemas/PatientInfoSchema'); 
-const mongoose = require('mongoose'); 
+
+const chatkit = new Chatkit.default({
+    instanceLocator: 'v1:us1:b72e93e8-22d4-4227-a9f3-ad03723ca266', 
+    key: '3e67a467-115d-40eb-ad91-a2293080a4ae:wsDhZD7NcvPnu6kVGeKnu/nWjRTsNloQVBCZxeTNBzw='
+});
 
 const router = express.Router(); 
 
@@ -61,7 +67,18 @@ router.post('/', (req, res) => {
                         ...req.body.medicalData,
                         dispenser_id: mongoose.Types.ObjectId(),
                     },
-                });
+                }); 
+
+                // Create new user in ChatKit when creating new user in MongoDB 
+                // Create name field in patient registration 
+                chatkit.createUser({
+                    id: patientId, 
+                    name: req.body.personalData.name 
+                }) 
+                    .then(() => {
+                        console.log("User was created. "); 
+                    }) 
+                    .catch(error => console.log(error)); 
             
                 newPatient.save()
                     .then(patient => {
@@ -118,6 +135,26 @@ router.post('/', (req, res) => {
 
         console.log(contains); 
         if(!contains) {
+
+            // If the provider has not already registered with the patient, create a chat. 
+
+            // TODO: Create field to transmit patient name. 
+            // Have all joinable rooms display 
+            // Have providers search for joinable rooms 
+
+            chatkit.createRoom({
+                creatorId: providerId,
+                name: `${req.body.personalData.name} + ${provider.personalData.name}`,
+                isPrivate: true, 
+                userIds: [patient._id] 
+            })
+                .then(() => {
+                  console.log('Room created successfully');
+                }).catch((err) => {
+                  console.log(err);
+                });
+
+
             provider.medicalData.patients.push(newPatient);
             provider.save()
                 .then(provider => {

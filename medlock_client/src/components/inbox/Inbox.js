@@ -20,24 +20,25 @@ class Inbox extends React.Component {
   }
 
   componentDidMount() {
-  
+
     console.log(this.props.profile); 
 
+    const { profile } = this.props; 
     const { userProfile } = auth0client; 
     
-    this.setState({ userId: 'rishub' }); 
+    this.setState({ userId: userProfile.sub}); 
     
     // Make a register users module which registers users with Chat Kit and instantiates chats with providers 
 
     // Create new ChatManager with user and instance 
     const chatManager = new ChatManager({
       instanceLocator, 
-      userId: 'rishub', 
+      userId: this.state.userId, 
       tokenProvider: new TokenProvider({
         // TokenUrl may point to backend Node Server. How would it interface with ChatKit API ??? 
         url: `http://localhost:5000/api/chatAuth`, 
         queryParams: {
-          user_id: 'rishub' 
+          user_id: this.state.userId 
         }
       })
     }); 
