@@ -4,13 +4,11 @@ import * as dataForge from 'data-forge';
 import { 
     VictoryBar, 
     VictoryChart, 
-    VictoryLine, 
     VictoryAxis, 
-    VictoryTheme,
-    VictoryContainer
+    VictoryLabel
  } from 'victory'; 
 
-export const getAveragePDISurveyResponse = (surveys) => {
+const format = (surveys) => {
     let resArr = [];
     var numSurveys = surveys.length;
     surveys.map(survey => survey.responses)
@@ -44,15 +42,11 @@ export const getAveragePDISurveyResponse = (surveys) => {
 };
 
 export default function AveragePDISurvey(props) {
-
-    console.log(props.data)
-    var avgPDISurvey = getAveragePDISurveyResponse(props.data);
+    var avgPDISurvey = format(props.data);
 
     avgPDISurvey.forEach(response => {
         response.question = response.question.replace(/ /g, "\n");
     });
-
-    console.log(avgPDISurvey);
 
     return (
         <div>
@@ -61,7 +55,12 @@ export default function AveragePDISurvey(props) {
                 domainPadding={10}
                 height={400}
             >
-                
+                <VictoryLabel 
+                    text="Average PDI Survey Response"
+                    textAnchor="middle"
+                    x={250} 
+                    y={30}
+                />
                 <VictoryAxis />
                 <VictoryAxis dependentAxis
                     tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}

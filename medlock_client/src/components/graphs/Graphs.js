@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import AveragePDISurvey, { getAveragePDISurveyResponse } from './AveragePDISurvey';
+import AveragePDISurvey from './AveragePDISurvey';
 
 import { dispenses, surveys } from './dummyData';
-import { formatWithOptions } from 'util';
+import DispenseScatterData from './DispenseScatterData';
 
 export default class Graphs extends Component {
 
@@ -10,6 +10,7 @@ export default class Graphs extends Component {
         return (
             <div>
                 <AveragePDISurvey data={surveys} />
+                <DispenseScatterData data={dispenses} />
             </div>
         )
     }

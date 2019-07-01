@@ -139,6 +139,7 @@ class PatientData extends Component {
                     <VictoryAxis dependentAxis /> 
                     <VictoryAxis tickValues={labels}/> 
                         {allCoordinates.map((lineData, index) => {
+                            console.log(lineData);
                             if(index === 0) {
                                 return ( <VictoryLine data={lineData}/> ); 
                             } else { return(<VictoryLine data={lineData}/>); }
