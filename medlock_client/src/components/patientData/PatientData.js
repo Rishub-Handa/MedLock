@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPDISurveys } from '../../actions/surveyActions'; 
 import { fetchDispenses } from '../../actions/dispenserActions'; 
-import { VictoryBar, 
-        VictoryChart, 
-        VictoryLine, 
-        VictoryAxis, 
-        VictoryStack, 
-        VictoryArea, 
-        VictoryScatter } from 'victory'; 
+import { 
+    VictoryBar, 
+    VictoryChart, 
+    VictoryLine, 
+    VictoryAxis, 
+    VictoryStack, 
+    VictoryArea, 
+    VictoryScatter, 
+    VictoryTheme,
+    VictoryContainer
+} from 'victory'; 
+import AveragePDISurvey from '../graphs/AveragePDISurvey';
 import '../../css/PatientData.css'; 
 
 const jd = require('jsdataframe'); 
@@ -68,17 +73,24 @@ class PatientData extends Component {
                 }
             }
 
+            console.log(avgs);
+
             return (
-                <div>
-                    <div className="avg-pdi-bar">
-                    <VictoryChart padding={{left: 120, top: 20}}>
-                            <VictoryBar horizontal 
-                                        data={avgs}
-                                        x="question"
-                                        y="answer"
-                                        />
-                        </VictoryChart>
-                    </div>
+                <div className="avg-pdi-bar">
+                    <VictoryChart 
+                        theme={VictoryTheme.material}
+                        domainPadding={20}
+                        padding={{left: 120, top: 20}}
+                    >
+                        <VictoryBar 
+                            horizontal 
+                            data={avgs} 
+                            x="question" 
+                            y="answer"
+                            containerComponent={<VictoryContainer responsive={true} />} 
+                        
+                        />
+                    </VictoryChart>
                 </div>
             ); 
             
@@ -326,6 +338,8 @@ class PatientData extends Component {
     }
 
     render() {
+        console.log(this.props.dispenses);
+        console.log(this.props.allPDISurveys);
         
         const { allPDISurveys, 
                 surveyLoading, 

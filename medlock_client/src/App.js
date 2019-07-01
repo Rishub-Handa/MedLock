@@ -9,6 +9,7 @@ import SecuredRoute from './components/SecuredRoute';
 import Login from './components/login/Login';
 import Admin from './components/administration/Admin'; 
 import { withRouter } from 'react-router-dom';
+import Graphs from './components/graphs/Graphs';
 
 const handleAuthentication = (nextState, replace) => {
     if (/access_token|id_token|error/.test(nextState.location.hash)) {
@@ -21,6 +22,7 @@ const makeMainRoutes = () => {
     <div>
       <Route exact path="/" component={Login} />
       <Route exact path="/admin" component={Admin} />
+      <Route path="/graphs" component={Graphs} />
       <SecuredRoute path="/home" component={Home} />
       <SecuredRoute path="/dashboard" component={Dashboard} />
       <Route path="/callback" render={(props) =>{
