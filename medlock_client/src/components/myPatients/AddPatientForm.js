@@ -7,7 +7,8 @@ export default class AddPatient extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: null,
+            name: null, 
+            email: null 
         };
     }
 
@@ -22,10 +23,18 @@ export default class AddPatient extends Component {
             <div>
                 <Form>
                     <FormGroup>
+                        <Label for="patient-name">Name</Label>
+                        <Input type="text" name="name" id="patient-name" 
+                                placeholder="Jon Snow" 
+                                value={this.state.name} 
+                                onChange={this.onChange} />
                         <Label for="patient-email">Email</Label>
-                        <Input type="email" name="email" id="patient-email" placeholder="jon.snow@nightswatch.org" value={this.state.email} onChange={this.onChange} />
+                        <Input type="email" name="email" id="patient-email" 
+                                placeholder="jon.snow@nightswatch.org" 
+                                value={this.state.email} 
+                                onChange={this.onChange} />
                     </FormGroup>
-                    <Button onClick={() => this.props.onSubmit(this.state.email)}>Register</Button>
+                    <Button onClick={() => this.props.onSubmit(this.state.name, this.state.email)}>Register</Button>
                 </Form>
             </div>
         );

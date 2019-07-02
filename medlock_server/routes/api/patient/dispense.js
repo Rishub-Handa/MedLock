@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
             });
         }
 
-        const timestamp = req.body.timestamp; 
+        let timestamp = req.body.timestamp; 
         if(timestamp === "0") 
             timestamp = Date.now(); 
 

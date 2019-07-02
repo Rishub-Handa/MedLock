@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require('express'); 
+const mongoose = require('mongoose'); 
 const Patient = require('../../../models/Patient');
 const Dispenser = require('../../../models/Dispenser');
-const mongoose = require('mongoose');
 
 const router = express.Router();
 
@@ -23,29 +23,6 @@ router.get('/', (req, res) => {
             }
         })
         .catch(error => res.status(404).json(error));
-});
-
-// @route   POST api/patient/patient
-// @desc    create new patient
-// @access  Private, requires Auth0 Access Token 
-router.post('/', (req, res) => {
-    console.log('POST Request');
-    console.log(req.body);
-
-    const newPatient = new Patient({
-        _id: mongoose.Types.ObjectId(req.body._id),
-        personalData: req.body.personalData,
-        medicalData: {
-            ...req.body.medicalData,
-            dispenser_id: mongoose.Types.ObjectId(),
-        },
-    });
-
-    newPatient.save()
-        .then(patient => {
-            console.log("Patient -> Database");
-            res.json(patient);
-        });
 });
 
 router.post('/modules', (req, res) => {
@@ -80,7 +57,8 @@ router.put('/', (req, res) => {
     console.log('PUT Request');
     var patientId = req.user.sub.substring(6);
     Patient.findById(patientId, (err, patient) => {
-        if (err) return res.status(500).send(err);
+        if (err) return res.status(500).send(err); 
+
         for(var property in req.body) {
             patient.personalData[property] = req.body[property]; 
         }

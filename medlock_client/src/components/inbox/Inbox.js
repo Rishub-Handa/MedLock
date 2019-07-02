@@ -5,35 +5,34 @@ import RoomList from './components/RoomList';
 import NewRoomForm from './components/NewRoomForm'; 
 import { tokenUrl, instanceLocator } from './config'; 
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client'; 
+import { loadProfile } from '../../actions/profileActions'; 
+import { connect } from 'react-redux'; 
 import auth0client from '../../auth/Auth'; 
 import '../../css/Inbox.css'; 
 
 class Inbox extends React.Component {
 
+
   state = {
     messages: [], 
     roomId: null, 
     joinableRooms: [], 
-    joinedRooms: [] 
+    joinedRooms: [], 
+    userId: auth0client.userProfile.sub.substring(6) 
   }
 
-  componentDidMount() {
-
-    const { userProfile } = auth0client; 
-    
-    this.setState({ userId: 'rishub' }); 
-    
+  componentDidMount() {    
     // Make a register users module which registers users with Chat Kit and instantiates chats with providers 
 
     // Create new ChatManager with user and instance 
     const chatManager = new ChatManager({
       instanceLocator, 
-      userId: 'rishub', 
+      userId: this.state.userId, 
       tokenProvider: new TokenProvider({
         // TokenUrl may point to backend Node Server. How would it interface with ChatKit API ??? 
         url: `http://localhost:5000/api/chatAuth`, 
         queryParams: {
-          user_id: 'rishub' 
+          user_id: this.state.userId 
         }
       })
     }); 
@@ -130,4 +129,8 @@ class Inbox extends React.Component {
   } 
 }
 
-export default Inbox;
+const mapStateToProps = state => ({
+  profile: state.profileState.profile 
+})
+
+export default connect(mapStateToProps, { loadProfile })(Inbox); 
