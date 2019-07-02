@@ -54,12 +54,12 @@ class MyPatients extends Component {
         }
     }
 
-    submitForm = (email) => {
+    submitForm = (name, email) => {
 
         const password = Math.random().toString(36).slice(-12); 
 
         const newPatient = {
-            "name": email, 
+            "name": name, 
             "email": email,
             "password": password,
             "connection": "Username-Password-Authentication"
@@ -89,7 +89,7 @@ class MyPatients extends Component {
                                 const newPatientProfile = {
                                     _id: user_id.substring(6),
                                     personalData: {
-                                        name: email,
+                                        name: name,
                                         email: email,
                                     },
                                     medicalData: {
@@ -111,7 +111,7 @@ class MyPatients extends Component {
         const newPatientProfile = {
             _id: patient_id.substring(6),
             personalData: {
-                name: newPatient.email,
+                name: newPatient.name,
                 email: newPatient.email,
             },
             medicalData: {
