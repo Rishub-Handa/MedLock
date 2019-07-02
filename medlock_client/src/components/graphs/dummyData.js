@@ -63,11 +63,77 @@ export const surveys = [
             },
             {
                 question: "occupation",
-                answer: "8"
+                answer: "3"
             },
             {
                 question: "sexual behavior",
                 answer: "5"
+            },
+            {
+                question: "self care",
+                answer: "2"
+            },
+            {
+                question: "life support activities",
+                answer: "7"
+            },
+        ]
+    },
+    {
+        date: "2019-06-29T19:36:59.095Z",
+        responses: [
+            {
+                question: "family",
+                answer: "3"
+            },
+            {
+                question: "recreation",
+                answer: "1"
+            },
+            {
+                question: "social activity",
+                answer: "3"
+            },
+            {
+                question: "occupation",
+                answer: "2"
+            },
+            {
+                question: "sexual behavior",
+                answer: "3"
+            },
+            {
+                question: "self care",
+                answer: "2"
+            },
+            {
+                question: "life support activities",
+                answer: "7"
+            },
+        ]
+    },
+    {
+        date: "2019-06-30T19:36:59.095Z",
+        responses: [
+            {
+                question: "family",
+                answer: "4"
+            },
+            {
+                question: "recreation",
+                answer: "2"
+            },
+            {
+                question: "social activity",
+                answer: "3"
+            },
+            {
+                question: "occupation",
+                answer: "1"
+            },
+            {
+                question: "sexual behavior",
+                answer: "1"
             },
             {
                 question: "self care",
