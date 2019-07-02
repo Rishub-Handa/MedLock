@@ -77,6 +77,8 @@ router.post('/', (req, res) => {
                 }) 
                     .then(() => {
                         console.log("User was created. "); 
+                        // Create Provider Patient Communication Chat. 
+                        addPatientCreateChat(req, res, providerId, patientId); 
                     }) 
                     .catch(error => console.log(error)); 
             
@@ -105,11 +107,19 @@ router.post('/', (req, res) => {
                                 })
                         }
 
-                    })
+                    }); 
+
+                // Create Provider Patient Communication Channel 
+                addPatientCreateChat(req, res, providerId, patientId); 
             }
         }) 
         .catch(error => console.log(error)); 
 
+
+
+});
+
+const addPatientCreateChat = (req, res, providerId, patientId) => {
 
     // Add patient to Provider patient list. 
     Provider.findById(providerId, (err, provider) => {
@@ -146,7 +156,7 @@ router.post('/', (req, res) => {
                 creatorId: providerId,
                 name: `${req.body.personalData.name} + ${provider.personalData.name}`,
                 isPrivate: true, 
-                userIds: [patient._id] 
+                userIds: [patientId] 
             })
                 .then(() => {
                   console.log('Room created successfully');
@@ -163,8 +173,7 @@ router.post('/', (req, res) => {
                 .catch(error => console.log(error));
         }
     });
-
-});
+}
 
 // @route   DELETE api/provider/allPatients 
 // @desc    Delete a patient from provider patientList 

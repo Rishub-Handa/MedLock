@@ -12,22 +12,16 @@ import '../../css/Inbox.css';
 
 class Inbox extends React.Component {
 
+
   state = {
     messages: [], 
     roomId: null, 
     joinableRooms: [], 
-    joinedRooms: [] 
+    joinedRooms: [], 
+    userId: auth0client.userProfile.sub.substring(6) 
   }
 
-  componentDidMount() {
-
-    console.log(this.props.profile); 
-
-    const { profile } = this.props; 
-    const { userProfile } = auth0client; 
-    
-    this.setState({ userId: userProfile.sub}); 
-    
+  componentDidMount() {    
     // Make a register users module which registers users with Chat Kit and instantiates chats with providers 
 
     // Create new ChatManager with user and instance 
