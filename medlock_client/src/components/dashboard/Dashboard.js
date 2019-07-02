@@ -51,15 +51,11 @@ class Dashboard extends Component {
         // TODO - move to component did mount for better lifecycle 
         fetchAMT() 
             .then(res => { 
-                console.log("AMT Fetch"); 
                 const AMT = res.data.access_token; 
                 this.props.fetchRoles(AMT) 
                     .then(() => {
-                        console.log(this.props.roles); 
                         this.props.loadProfile(this.props.roles[0].name) 
                             .then(() => {
-                                console.log(this.props.roles); 
-                                console.log(this.props.profile); 
                                 // Need better method of verifying that this is a new patient. 
                                 if(this.props.roles[0].name === 'Patient' && 
                                     !this.props.profile.personalData.birthday) { 
@@ -70,10 +66,9 @@ class Dashboard extends Component {
                                 } else {
                                     console.log(userProfile); 
                                 }
-                                console.log(this.props.profile); 
-                            })
-                    }) 
-            }) 
+                            });
+                    }); 
+            }); 
 
         this.state = {
             profile: {},
@@ -92,7 +87,6 @@ class Dashboard extends Component {
     }
 
     render() {
-        console.log("render");
         
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
@@ -115,7 +109,6 @@ class Dashboard extends Component {
         }
 
         if (!profile) {
-            console.log(profile); 
             return (
                 <div>
                     Profile Loading . . .
@@ -124,14 +117,12 @@ class Dashboard extends Component {
         } 
 
         if(this.state.newUser) {
-            console.log("New User. "); 
             return (
                 <NewUser toggle={this.toggleNewUser} profile={this.props.profile}/> 
             )
         }
 
         if (this.props.location.pathname === "/dashboard") {
-            console.log(this.props);
             return (
                 <div>
                     <DashHeader name={this.props.profile.personalData.name} />

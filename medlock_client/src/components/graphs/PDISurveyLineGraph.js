@@ -1,16 +1,7 @@
 import React from 'react';
 import { VictoryChart, VictoryLine, VictoryLabel, VictoryAxis, VictoryLegend } from 'victory';
 
-const colors = {
-    "family": "#52ffbc",
-    "recreation": "#4ae8d8",
-    "social acivity": "5fe4ff",
-    "occupation": "#4aa4e8",
-    "sexual behavior": "#5287ff",
-    "self care": "#5678e8",
-    "life support activities": "635eff" 
-}
-
+const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
 const categories = ["family", "recreation", "social acitivity", "occupation", "sexual behavior", "self care", "life support activities"];
 
 const format = (surveys) => {
@@ -34,7 +25,7 @@ const format = (surveys) => {
 }
 
 const makeLines = (lines) => {
-    return lines.map(line => {
+    return lines.map((line, index) => {
         
         var points = [];
         var question;
@@ -47,7 +38,7 @@ const makeLines = (lines) => {
         return (
             <VictoryLine
                 style={{
-                    data: { stroke: colors[question] },
+                    data: { stroke: colors[index] },
                 }}
                 data={points}
             />
@@ -56,7 +47,7 @@ const makeLines = (lines) => {
 }
 
 export default function PDISurveyLineGraph(props) {
-
+    console.log(props.data);
     const lines = format(props.data);
     const dates = lines[0].map(point => point.date);
     console.log(dates);
@@ -84,8 +75,8 @@ export default function PDISurveyLineGraph(props) {
                     itemsPerRow={4}
                     symbolSpacer={5}
                     gutter={0}
-                    data={categories.map(category => ({ 
-                        name: category, symbol: { fill: colors[category] } 
+                    data={categories.map((category, index) => ({ 
+                        name: category, symbol: { fill: colors[index] } 
                     }))}
                     style={{
                         labels: { fontSize: 6}

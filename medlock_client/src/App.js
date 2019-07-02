@@ -26,7 +26,6 @@ const makeMainRoutes = () => {
       <SecuredRoute path="/home" component={Home} />
       <SecuredRoute path="/dashboard" component={Dashboard} />
       <Route path="/callback" render={(props) =>{
-          console.log("called");
           handleAuthentication(props);
           return <Callback {...props} />
       }} />

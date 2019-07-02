@@ -10,7 +10,9 @@ import {
 const initialState = {
     surveyResponse: null,
     responses: [],
-    loading: false, 
+    surveysLoading: false, 
+    surveysLoaded: false,
+    loading: false,
     error: null 
 }
 
@@ -37,13 +39,14 @@ export default function(state = initialState, action) {
         case FETCH_PDISURVEYS_BEGIN:
             return {
                 ...state,
-                loading: true,
+                surveysLoading: true,
                 error: null
             };
         case FETCH_PDISURVEYS_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                surveysLoading: false,
+                surveysLoaded: true,
                 responses: action.payload.surveys
             };
     

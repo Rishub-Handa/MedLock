@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import {
-    VictoryStack, VictoryArea, VictoryLabel, VictoryAxis, VictoryChart
+    VictoryStack,
+    VictoryArea,
+    VictoryLabel,
+    VictoryAxis,
+    VictoryChart,
+    VictoryLegend
 } from 'victory';
+
+const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+const categories = ["family", "recreation", "social acitivity", "occupation", "sexual behavior", "self care", "life support activities"];
 
 export default class PDISurveyStack extends Component {
 
@@ -45,6 +53,7 @@ export default class PDISurveyStack extends Component {
             console.log(points);
             return (
                 <VictoryArea 
+                    style={{ data: { fill: colors[index] } }}
                     data={points}
                 />
             );
@@ -76,6 +85,20 @@ export default class PDISurveyStack extends Component {
                     <VictoryAxis 
                         dependentAxis
                         tickValues={0, 10, 20, 30, 40, 50, 60, 70}
+                    />
+                    <VictoryLegend 
+                        x={325} y={40}
+                        orientation="vertical"
+                        itemsPerRow={4}
+                        symbolSpacer={5}
+                        gutter={0}
+                        data={categories.map((category, index) => ({ 
+                            name: category, symbol: { fill: colors[index] } 
+                        }))}
+                        style={{
+                            labels: { fontSize: 6}
+                        }}
+                        labelComponent={<VictoryLabel />}
                     />
                 </VictoryChart>
 

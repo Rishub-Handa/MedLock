@@ -34,16 +34,11 @@ class SideBar extends Component {
             // module filtered out
             else return false;
         });
-        console.log(newModules);
         this.setState({modules: newModules});
     }
 
     componentDidMount() {
         this.filterModules();
-        console.log(this.state);
-        console.log("Filtering modules . . .");
-        this.filterModules();
-        console.log(this.state);
     }
     sideBarHTML = () => {
 
