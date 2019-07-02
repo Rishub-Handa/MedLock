@@ -43,7 +43,7 @@ const makeLines = (lines) => {
             question = point.question;
             points.push({x: date, y: answer});
         });
-        
+        console.log(points);
         return (
             <VictoryLine
                 style={{
@@ -59,6 +59,7 @@ export default function PDISurveyLineGraph(props) {
 
     const lines = format(props.data);
     const dates = lines[0].map(point => point.date);
+    console.log(dates);
 
     return (
         <div>

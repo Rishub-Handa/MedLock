@@ -192,6 +192,7 @@ class PatientData extends Component {
                 <div className="pdi-stacked"> 
                     <VictoryStack> 
                         {allCoordinates.map(coordinateData => {
+                            console.log(coordinateData);
                             return (
                                 <VictoryArea data={coordinateData} />
                             ); 
