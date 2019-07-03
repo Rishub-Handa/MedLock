@@ -3,6 +3,8 @@ import { FETCH_DISPENSES_BEGIN, FETCH_DISPENSES_SUCCESS, FETCH_DISPENSES_FAILURE
 const initialState = {
     dispenses: [],
     loading: false, 
+    dispensesLoading: false,
+    dispensesLoaded: false,
     error: null 
 }
 
@@ -11,20 +13,21 @@ export default function(state = initialState, action) {
         case FETCH_DISPENSES_BEGIN:
             return {
                 ...state,
-                loading: true,
+                dispensesLoading: true,
                 error: null
             };
         case FETCH_DISPENSES_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                dispensesLoading: false,
+                dispensesLoaded: true,
                 dispenses: action.payload.dispenses
             };
     
         case FETCH_DISPENSES_FAILURE:
             return {
                 ...state,
-                loading: false,
+                dispensesLoading: false,
                 error: action.payload.error,
                 dispenses: []
             }; 

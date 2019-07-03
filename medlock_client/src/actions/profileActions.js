@@ -8,7 +8,7 @@ import {
     EDIT_PROFILE, 
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
-    ADD_PROFILE_MODULE_FAILURE,  
+    ADD_PROFILE_MODULE_FAILURE,
 } from './types';
 
 import axios from 'axios';
@@ -50,7 +50,6 @@ export function loadProfile(role) {
         dispatch(loadProfileBegin());
         return axios.get(API_URL, { headers })
             .then(res => {
-                console.log(res); 
                 dispatch(loadProfileSuccess(res.data)); 
             })
             .catch(error => dispatch(loadProfileFailure(error)));

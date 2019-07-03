@@ -3,12 +3,12 @@ import PatientList from './PatientList';
 import AddPatientForm from './AddPatientForm';
 import { fetchAMT, getUserByEmail } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions';
-import { createPatientProfile } from '../../actions/patientActions'; 
-import { addPatientToProviderList } from '../../actions/patientActions'; 
+import { createPatientProfile, addPatientToProviderList, fetchPatients } from '../../actions/patientActions'; 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth'; 
+import PatientView from '../patientView/PatientView';
 
 const axios = require('axios'); 
 
@@ -18,14 +18,17 @@ class MyPatients extends Component {
         super(props);
         this.state = {
             newPatientForm: false,
+            onePatientView: false,
+            viewedPatient: null
         }
         console.log(props);
     }
 
-    viewPatient = () => {
-        console.log("View Patient");
-        console.log(this.props);
-        this.props.history.push("/dashboard/mypatients/viewpatient");
+    viewPatient = (patient) => {
+        this.setState({
+            onePatientView: true,
+            viewedPatient: patient
+        });
     }
 
     addPatient = () => {
@@ -70,7 +73,7 @@ class MyPatients extends Component {
 
                 this.props.auth0Registration(newPatient, AMT)
                 .then(() => { 
-                    this.createPatient(newPatient, AMT, this.props.userProfile.user_id); 
+                    this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
                 })
                 .catch(error => {
                     console.log(`User Registration Error: ${error}`); 
@@ -93,13 +96,13 @@ class MyPatients extends Component {
                                         providers: [auth0client.userProfile.sub.substring(6)]
                                     }
                                 };
-                            this.props.createPatientProfile(newPatientProfile);
-                        })
+                            this.props.createPatientProfile(newPatientProfile)
+                                .then(this.props.fetchPatients());
+                        });
                     }
-                }); 
+                });
             }) 
-            .catch(error => console.log(error)); 
-        
+            .catch(error => console.log(error))
     }
 
     createPatient = (newPatient, AMT, patient_id) => {
@@ -115,16 +118,19 @@ class MyPatients extends Component {
                 providers: [auth0client.userProfile.sub.substring(6)]
             }
         };
-        this.props.createPatientProfile(newPatientProfile); 
+        this.props.createPatientProfile(newPatientProfile)
+            .then(this.props.fetchPatients());
         this.props.assignRoles(patient_id, AMT, "Patient");
 
         axios.post('http://localhost:5000/api/email', newPatient); 
-        
     }
 
-    
+    componentDidMount() {
+        this.props.fetchPatients();
+    }
+
     render() {
-        const { patientRegistering, registerError } = this.props;
+        const { patientRegistering, registerError, patientsLoading } = this.props;
         
         if(registerError) {
             return (
@@ -142,24 +148,29 @@ class MyPatients extends Component {
             )
         }
 
-        const tempPatients = [
-            {
-                name: "Jane"
-            },
-            {
-                name: "Joe"
-            },
-            {
-                name: "Bill"
-            },
-        ];
+        if (patientsLoading) {
+            return (
+                <div>
+                    Loading patients . . .
+                </div>
+            )
+        }
+
+        if (this.state.onePatientView) {
+            if (this.state.viewedPatient === null)
+                throw "onePatientView is true, but viewedPatient is null!"
+            return (
+                <PatientView patient={this.state.viewedPatient} />
+            );
+        }
 
         return (
             <div>
-                <PatientList patients={tempPatients} onClickPatient={this.viewPatient} />
+                <PatientList patients={this.props.patients} onClickPatient={this.viewPatient} />
                 {this.displayNewPatientForm()}
             </div>
         );
+
     }
 }
 
@@ -170,7 +181,10 @@ MyPatients.propTypes = {
     patientRegistering: PropTypes.bool.isRequired,
     registerError: PropTypes.object.isRequired,
     createPatientProfile: PropTypes.func.isRequired,
-    assignPatientRole: PropTypes.func.isRequired
+    assignPatientRole: PropTypes.func.isRequired,
+    fetchPatients: PropTypes.func.isRequired,
+    patientsLoading: PropTypes.bool.isRequired,
+    fetchPatientsError: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -182,7 +196,9 @@ const mapStateToProps = state => ({
     roleAssignError: state.providerState.roleAssignError, 
     userProfile: state.authState.userProfile, 
     userProfileLoading: state.authState.userProfileLoading, 
-    userProfileError: state.authState.userProfileError 
+    userProfileError: state.authState.userProfileError,
+    patientsLoading: state.patientState.patientsLoading,
+    fetchPatientsError: state.patientState.fetchPatientsError
 });
 
 export default connect(
@@ -190,5 +206,6 @@ export default connect(
         auth0Registration, 
         assignRoles, 
         createPatientProfile, 
-        addPatientToProviderList 
+        addPatientToProviderList,
+        fetchPatients
     })(MyPatients);

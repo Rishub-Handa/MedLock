@@ -33,10 +33,8 @@ router.get('/', (req, res) => {
                     "$in": patientIds 
                 }
             }) 
-                .then(res => console.log(res)) 
+                .then(patientInfo => res.json(patientInfo)) 
                 .catch(error => console.log(error)); 
-
-            res.json(patientIds); 
         })
         .catch(error => console.log(error)); 
 

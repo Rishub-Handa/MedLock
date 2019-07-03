@@ -11,8 +11,37 @@ class SideBar extends Component {
     state = {
         modules, 
     }
-    
+
+    containsRole = (roles, requiredRole) => {
+        var retval = false;
+        roles.forEach(role => {
+            if (role.name === requiredRole) 
+                retval = true;
+        });
+        return retval;
+    }
+
+    filterModules = () => {
+        const { roles } = this.props;
+        const role = roles[0].name;
+        const newModules = modules.filter(module => {
+            // module can be seen by all roles
+            if (module.roles === null) return true;
+
+            // module can only be seen by specific role
+            else if (this.containsRole(module.roles, role)) return true;
+
+            // module filtered out
+            else return false;
+        });
+        this.setState({modules: newModules});
+    }
+
+    componentDidMount() {
+        this.filterModules();
+    }
     sideBarHTML = () => {
+
         return (
             <div>
                 <div>

@@ -12,8 +12,7 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         console.log(props);
-        this.state = {
-        }
+        this.state = {}
     }
 
     onProfileSave = (updatedPersonalData) => {
@@ -32,20 +31,20 @@ class Profile extends Component {
         ));
     };
     
-    addProfileModule = () => { 
-        this.setState(prevState => ({
-            profileModules: [...prevState.profileModules, 
-                {
-                    name: "Name",
-                    content: "Content",
-                    editable: true   
-                }
-            ]
-        }));
-    }
+    // addProfileModule = () => { 
+    //     this.setState(prevState => ({
+    //         profileModules: [...prevState.profileModules, 
+    //             {
+    //                 name: "Name",
+    //                 content: "Content",
+    //                 editable: true   
+    //             }
+    //         ]
+    //     }));
+    // }
 
     render() {
-        const { personalData, savingProfile, error, editable } = this.props;
+        const { personalData, profileSaving, error, editable } = this.props;
         console.log(this.props);
         
         if (error) {
@@ -56,7 +55,7 @@ class Profile extends Component {
             )
         }
 
-        if (savingProfile) {
+        if (profileSaving) {
             return (
                 <div>
                     Saving profile . . .
@@ -70,10 +69,10 @@ class Profile extends Component {
                     <div className="personalInfo-container">
                         <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} />
                     </div>
-                    <div className="profileModules-container">
+                    {/* <div className="profileModules-container">
                         {this.profileModulesHTML(this.state.profileModules)}
                         <Button onClick={this.addProfileModule}>+</Button>
-                    </div>                
+                    </div>                 */}
                 </div>
             </div>
         );
@@ -83,15 +82,16 @@ class Profile extends Component {
 Profile.propTypes = {
     editProfile: PropTypes.func.isRequired,
     saveProfile: PropTypes.func.isRequired,
-    editable: PropTypes.object.isRequired
+    editable: PropTypes.object.isRequired,
+    personalData: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => ({
     personalData: state.profileState.profile.personalData,
     editable: state.profileState.editable,
-    loadingProfile: state.profileState.loadingProfile,
-    loadingProfile: state.profileState.loadingProfile,
+    profileLoading: state.profileState.loadingProfile,
+    profileSaving: state.profileState.profileSaving,
     error: state.profileState.error
-})
+});
 
 export default connect(mapStateToProps, { editProfile, saveProfile })(Profile);

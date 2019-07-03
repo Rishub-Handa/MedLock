@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import PatientListItem from './PatientListItem';
+import '../../css/PatientList.css';
 
 class PatientList extends Component {
 
     patientHTML = (patients) => {
         return patients.map(patient => (
-            <PatientListItem patientInfo={patient} viewPatient={this.props.onClickPatient} />
+            <PatientListItem className="listItem" patient={patient} viewPatient={this.props.onClickPatient} />
         ));
     }
 
@@ -14,7 +15,7 @@ class PatientList extends Component {
         return (
             <div>
                 <h3>My Patients</h3>
-                <div>{this.patientHTML(this.props.patients)}</div>
+                <div className="PatientList-container">{this.patientHTML(this.props.patients)}</div>
             </div>
         );
     }
