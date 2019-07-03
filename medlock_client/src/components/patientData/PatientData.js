@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPDISurveys } from '../../actions/surveyActions'; 
-import { fetchDispenses } from '../../actions/dispenserActions'; 
+import { fetchDispenser } from '../../actions/dispenserActions'; 
 import { 
     VictoryBar, 
     VictoryChart, 
@@ -38,7 +38,7 @@ class PatientData extends Component {
     componentWillMount() {
         console.log("Fetching");
         this.props.fetchPDISurveys(); 
-        this.props.fetchDispenses(this.props.profile.medicalData.dispenser_id); 
+        this.props.fetchDispenser(this.props.profile.medicalData.dispenser_id); 
     }
 
     // Display all PDI Survey data 
@@ -126,7 +126,7 @@ class PatientData extends Component {
     // Display scatter chart of dispenses 
     dispenseScatterHTML = () => {
         return (
-            <DispenseScatterData data={this.props.dispenses} />
+            <DispenseScatterData data={this.props.dispenser.dispenses} />
         )
     }
 
@@ -173,31 +173,26 @@ class PatientData extends Component {
     //     return null; 
     // }
 
-    render() {
-        console.log(this.props.dispenses);
-        console.log(this.props.allPDISurveys);
-        console.log(this.props.surveysLoading);
-        console.log(this.props.dispensesLoading);
-        
+    render() {        
         const { allPDISurveys, 
                 surveysLoading, 
                 surveysLoaded,
                 surveyError, 
-                dispenses, 
-                dispensesLoading, 
-                dispensesLoaded,
-                dispenseError } = this.props; 
+                dispenser, 
+                dispenserLoading, 
+                dispenserLoaded,
+                dispenserError } = this.props; 
 
-        if(surveyError || dispenseError) {
+        if(surveyError || dispenserError) {
             return (
                 <div>
                     <div>Survey Error: { surveyError ? surveyError.message : null}</div>
-                    <div>Dispense Error: {dispenseError ? dispenseError.message : null}</div>
+                    <div>Dispense Error: {dispenserError ? dispenserError.message : null}</div>
                 </div>
             ); 
         }
 
-        if(surveysLoading || dispensesLoading || !surveysLoaded || !dispensesLoaded) {
+        if(surveysLoading || dispenserLoading || !surveysLoaded || !dispenserLoaded) {
             return (
                 <div>Loading . . . </div>
             )
@@ -208,9 +203,7 @@ class PatientData extends Component {
         // }
 
 
-        console.log(surveysLoading);
-        console.log(dispensesLoading);
-        console.log(this.state.retrievedData);
+        console.log(dispenser.dispenses);
 
         return (
             <div className="pd-container">
@@ -228,9 +221,9 @@ class PatientData extends Component {
                     <div>
                         <PDISurveyPie data={allPDISurveys} />
                     </div>
-                    {/* <div>
-                        <DispenseScatterData data={dispenses} />
-                    </div> */}
+                    <div>
+                        <DispenseScatterData data={dispenser.dispenses} />
+                    </div>
                     {/* <div>
                         <h3>Averages Data</h3>
                         {this.averagesHTML()} 
@@ -260,12 +253,12 @@ class PatientData extends Component {
 PatientData.propTypes = {
     fetchPDISurveys: PropTypes.func.isRequired,
     allPDISurveys: PropTypes.array.isRequired, 
-    fetchDispenses: PropTypes.func.isRequired, 
-    dispenses: PropTypes.array.isRequired,
+    fetchDispenser: PropTypes.func.isRequired, 
+    dispenser: PropTypes.array.isRequired,
     surveysLoading: PropTypes.bool.isRequired,
     surveysLoaded: PropTypes.bool.isRequired,
-    dispensesLoading: PropTypes.bool.isRequired,
-    dispensesLoaded: PropTypes.bool.isRequired
+    dispenserLoading: PropTypes.bool.isRequired,
+    dispenserLoaded: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -273,12 +266,12 @@ const mapStateToProps = state => ({
     surveysLoading: state.surveyState.surveysLoading,
     surveysLoaded: state.surveyState.surveysLoaded,
     surveyError: state.surveyState.error,  
-    dispenses: state.dispenseState.dispenses, 
-    dispensesLoading: state.dispenseState.dispensesLoading,
-    dispensesLoaded: state.dispenseState.dispensesLoaded,
-    dispenseError: state.dispenseState.error 
+    dispenser: state.dispenseState.dispenser, 
+    dispenserLoading: state.dispenseState.dispenserLoading,
+    dispenserLoaded: state.dispenseState.dispenserLoaded,
+    dispenserError: state.dispenseState.error 
 
 });
 
-export default connect(mapStateToProps, { fetchPDISurveys, fetchDispenses })(PatientData);
+export default connect(mapStateToProps, { fetchPDISurveys, fetchDispenser })(PatientData);
 

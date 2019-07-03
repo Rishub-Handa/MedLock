@@ -1,35 +1,35 @@
-import { FETCH_DISPENSES_BEGIN, FETCH_DISPENSES_SUCCESS, FETCH_DISPENSES_FAILURE } from '../actions/types';
+import { FETCH_DISPENSER_BEGIN, FETCH_DISPENSER_SUCCESS, FETCH_DISPENSER_FAILURE } from '../actions/types';
 
 const initialState = {
+    dispenser: {},
     dispenses: [],
     loading: false, 
-    dispensesLoading: false,
-    dispensesLoaded: false,
+    dispenserLoading: false,
+    dispenserLoaded: false,
     error: null 
 }
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case FETCH_DISPENSES_BEGIN:
+        case FETCH_DISPENSER_BEGIN:
             return {
                 ...state,
-                dispensesLoading: true,
+                dispenserLoading: true,
                 error: null
             };
-        case FETCH_DISPENSES_SUCCESS:
+        case FETCH_DISPENSER_SUCCESS:
             return {
                 ...state,
-                dispensesLoading: false,
-                dispensesLoaded: true,
-                dispenses: action.payload.dispenses
+                dispenserLoading: false,
+                dispenserLoaded: true,
+                dispenser: action.payload.dispenser
             };
     
-        case FETCH_DISPENSES_FAILURE:
+        case FETCH_DISPENSER_FAILURE:
             return {
                 ...state,
-                dispensesLoading: false,
+                dispenserLoading: false,
                 error: action.payload.error,
-                dispenses: []
             }; 
         default:
             return state;
