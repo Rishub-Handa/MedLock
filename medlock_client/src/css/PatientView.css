@@ -1,6 +1,6 @@
 .patientView-container {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 1fr 1fr
 }
 
 .patientView-container > * {
@@ -30,8 +30,9 @@
     flex-direction: column;
 }
 
-.medicalDataView-container > * {
-    align-self: center;
+.medicalDataView-content {
+    display: flex;
+    flex-direction: column;
 }
 
 .consumptionDataView-container {
@@ -39,10 +40,7 @@
     flex-direction: column;
 }
 
-.consumptionDataView-container > * {
-    align-self: center;
-}
-
-.content {
-    align-self: center;
+.consumptionDataView-content {
+    display: flex;
+    flex-direction: column;
 }

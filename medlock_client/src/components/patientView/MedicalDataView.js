@@ -12,7 +12,7 @@ export default class MedicalDataView extends Component {
                 <div className="title">
                     <h2>Medical Data</h2>
                 </div>
-                <div className="content">
+                <div className="medicalDataView-content">
                     <div>
                         <AveragePDISurveyBar data={pdiSurveys} />
                     </div>

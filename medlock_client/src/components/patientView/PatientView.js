@@ -45,10 +45,10 @@ class PatientView extends Component {
             <div className="patientView-container">
                 <div className="leftPanel">
                     <PersonalDataView personalData={patient.personalData} />
-                    <MedicalDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}} />
+                    <ConsumptionDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}}/>
                 </div>
                 <div className="rightPanel">
-                    <ConsumptionDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}}/>
+                    <MedicalDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}} />
                 </div>
             </div>
         )

@@ -8,7 +8,7 @@ export default class ConsumptionView extends Component {
                 <div className="title">
                     <h2>Consumption Data</h2>
                 </div>
-                <div className="content">
+                <div className="consumptionDataView-content">
                     <div>
                         <DispenseScatter data={this.props.data.dispenses} />
                     </div>

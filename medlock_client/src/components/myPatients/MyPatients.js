@@ -159,8 +159,11 @@ class MyPatients extends Component {
         if (this.state.onePatientView) {
             if (this.state.viewedPatient === null)
                 throw "onePatientView is true, but viewedPatient is null!"
+
+            this.props.history.push("/dashboard/mypatients/viewpatient");
+
             return (
-                <PatientView patient={this.state.viewedPatient} />
+                 <PatientView patient={this.state.viewedPatient} />
             );
         }
 
