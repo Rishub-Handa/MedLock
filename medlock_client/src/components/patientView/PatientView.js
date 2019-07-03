@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PersonalDataView from './PersonalDataView';
 import MedicalDataView from './MedicalDataView';
 import ConsumptionDataView from './ConsumptionDataView';
+import { connect } from 'react-redux';
+import { fetchDispenser } from '../../actions/dispenserActions';  
+import PropTypes from 'prop-types';
 import '../../css/PatientView.css';
 
 class PatientView extends Component {
@@ -10,20 +13,61 @@ class PatientView extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
+    }
+
     render() {
-        const { patient } = this.props;
+        const { patient,
+                dispenser, 
+                dispenserLoading, 
+                dispenserLoaded,
+                dispenserError } = this.props; 
+
+        const { dispenses } = dispenser;
+        const { pdiSurveys } = patient.medicalData.surveys;
+
+        if(dispenserError) {
+            return (
+                <div>
+                    <div>Dispense Error: {dispenserError.message}</div>
+                </div>
+            ); 
+        }
+
+        if(dispenserLoading || !dispenserLoaded) {
+            return (
+                <div>Loading . . . </div>
+            )
+        }
+
         return (
             <div className="patientView-container">
                 <div className="leftPanel">
                     <PersonalDataView personalData={patient.personalData} />
-                    <MedicalDataView medicalData={patient.medicalData} />
+                    <MedicalDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}} />
                 </div>
                 <div className="rightPanel">
-                    <ConsumptionDataView medicalData={patient.medicalData} />
+                    <ConsumptionDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}}/>
                 </div>
             </div>
         )
     }
 }
 
-export default PatientView;
+PatientView.propTypes = {
+    fetchDispenser: PropTypes.func.isRequired, 
+    dispenser: PropTypes.array.isRequired,
+    dispenserLoading: PropTypes.bool.isRequired,
+    dispenserLoaded: PropTypes.bool.isRequired,
+    dispenserError: PropTypes.object
+}
+
+const mapStateToProps = state => ({
+    dispenser: state.dispenseState.dispenser, 
+    dispenserLoading: state.dispenseState.dispenserLoading,
+    dispenserLoaded: state.dispenseState.dispenserLoaded,
+    dispenserError: state.dispenseState.error 
+})
+
+export default connect(mapStateToProps, { fetchDispenser })(PatientView);

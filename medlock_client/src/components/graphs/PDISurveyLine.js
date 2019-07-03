@@ -46,7 +46,7 @@ const makeLines = (lines) => {
     });
 }
 
-export default function PDISurveyLineGraph(props) {
+export default function PDISurveyLine(props) {
     console.log(props.data);
     const lines = format(props.data);
     const dates = lines[0].map(point => point.date);
