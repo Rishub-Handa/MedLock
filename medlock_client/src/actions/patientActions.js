@@ -110,7 +110,6 @@ export function fetchPatients() {
       dispatch(fetchPatientsBegin());
       return axios.get(`${API_URL}/provider/patients`, { headers })
           .then(res => {
-            console.log(res.data);
             dispatch(fetchPatientsSuccess(res.data));
           })
           .catch(error => dispatch(fetchPatientsError(error)));

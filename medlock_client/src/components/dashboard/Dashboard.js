@@ -33,7 +33,7 @@ const makeMainRoutes = (props) => {
             <SecuredRoute path="/dashboard/survey" component={PDISurvey} />
             <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
             <SecuredRoute path="/dashboard/serverendpoints" component={ServerEndpoints} /> 
-            <SecuredRoute path="/dashboard/mypatients" component={MyPatients} /> 
+            <SecuredRoute path="/dashboard/mypatients" component={MyPatients} />
         </div>
     );   
 }

@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth'; 
 import PatientView from '../patientView/PatientView';
+import SearchField from 'react-search-field';
+import SecuredRoute from '../SecuredRoute';
 
 const axios = require('axios'); 
 
@@ -19,9 +21,9 @@ class MyPatients extends Component {
         this.state = {
             newPatientForm: false,
             onePatientView: false,
+            displayedPatients: this.props.patients,
             viewedPatient: null
         }
-        console.log(props);
     }
 
     viewPatient = (patient) => {
@@ -29,6 +31,7 @@ class MyPatients extends Component {
             onePatientView: true,
             viewedPatient: patient
         });
+        this.props.history.push("/dashboard/mypatients/viewpatient");
     }
 
     addPatient = () => {
@@ -125,12 +128,28 @@ class MyPatients extends Component {
         axios.post('http://localhost:5000/api/email', newPatient); 
     }
 
+    onSearchChange = (value, e) => {
+        e.preventDefault();
+
+        // break if patients aren't fetched
+        if (!this.props.patientsFetched) return;
+
+        // search by name
+        const searchResults = this.props.patients.filter(patient => {
+            return patient.personalData.name.substring(0, value.length) === value
+        });
+
+        this.setState({displayedPatients: searchResults});
+    }
+
     componentDidMount() {
-        this.props.fetchPatients();
+        this.props.fetchPatients()
+            .then(() => this.setState({ displayedPatients: this.props.patients }));
     }
 
     render() {
-        const { patientRegistering, registerError, patientsLoading } = this.props;
+        console.log(this.state.displayedPatients);
+        const { patientRegistering, registerError, patientsFetching, patientsFetched } = this.props;
         
         if(registerError) {
             return (
@@ -148,7 +167,7 @@ class MyPatients extends Component {
             )
         }
 
-        if (patientsLoading) {
+        if (patientsFetching || !patientsFetched) {
             return (
                 <div>
                     Loading patients . . .
@@ -159,17 +178,22 @@ class MyPatients extends Component {
         if (this.state.onePatientView) {
             if (this.state.viewedPatient === null)
                 throw "onePatientView is true, but viewedPatient is null!"
-
-            this.props.history.push("/dashboard/mypatients/viewpatient");
-
+            
             return (
                  <PatientView patient={this.state.viewedPatient} />
             );
         }
 
+        console.log(this.props)
         return (
             <div>
-                <PatientList patients={this.props.patients} onClickPatient={this.viewPatient} />
+
+                <SearchField 
+                    placeholder='Search Item'
+                    onChange={this.onSearchChange}
+                />
+
+                <PatientList patients={this.state.displayedPatients} onClickPatient={this.viewPatient} />
                 {this.displayNewPatientForm()}
             </div>
         );
@@ -186,7 +210,8 @@ MyPatients.propTypes = {
     createPatientProfile: PropTypes.func.isRequired,
     assignPatientRole: PropTypes.func.isRequired,
     fetchPatients: PropTypes.func.isRequired,
-    patientsLoading: PropTypes.bool.isRequired,
+    patientsFetching: PropTypes.bool.isRequired,
+    patientsFetched: PropTypes.bool.isRequired,
     fetchPatientsError: PropTypes.object.isRequired
 }
 
@@ -194,14 +219,17 @@ const mapStateToProps = state => ({
     patients: state.patientState.patients,
     patient: state.patientState.patient,
     patientRegistering: state.patientState.patientLoading, 
+    patientsFetching: state.patientState.patientsFetching,
+    patientsFetched: state.patientState.patientsFetched,
+    fetchPatientsError: state.patientState.fetchPatientsError,
+
     registerError: state.providerState.registerError,
     roleAssigning: state.providerState.roleAssigning,
-    roleAssignError: state.providerState.roleAssignError, 
+    roleAssignError: state.providerState.roleAssignError,
+
     userProfile: state.authState.userProfile, 
     userProfileLoading: state.authState.userProfileLoading, 
     userProfileError: state.authState.userProfileError,
-    patientsLoading: state.patientState.patientsLoading,
-    fetchPatientsError: state.patientState.fetchPatientsError
 });
 
 export default connect(
