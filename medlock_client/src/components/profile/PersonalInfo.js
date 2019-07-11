@@ -9,12 +9,13 @@ class PersonalInfo extends Component {
 
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             personalData: props.personalData
         };
     }
 
-    editableHTML = () => {
+    patientFormHTML = () => {
         return (
             <div className="personalInfo-editable">
                 <Form>
@@ -59,31 +60,83 @@ class PersonalInfo extends Component {
         )
     }
 
-    staticHTML = () => {
-        const { personalData } = this.props;
-        console.log(personalData);
+    providerFormHTML = () => {
         return (
-            <div className="personalInfo-static">
+            <div className="personalInfo-editable">
+                <Form>
+                    <FormGroup>
+                        <Label for="pi-name">Full Name</Label>
+                        <Input type="text" name="name" id="pi-name" placeholder="Jon Snow" value={this.state.personalData.name} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="pi-email">Email</Label>
+                        <Input type="email" name="email" id="pi-email" placeholder="jon.snow@nightswatch.org" value={this.state.personalData.email} onChange={this.onChange} />
+                    </FormGroup>
+                    <Button onClick={() => this.props.onProfileSave(this.state.personalData)}>Save</Button>
+                </Form>
+            </div>
+        );
+    }
+
+    editableHTML = () => {
+        const { role } = this.props;
+        if (role === "Patient") {
+            return this.patientFormHTML();
+        }
+        else {
+            return this.providerFormHTML();
+        }   
+    }
+
+    patientProfileInfo = (personalData) => {
+        return (
+            <div>
+                <h2>Name: {personalData.name}</h2>
+                <h4>Biography: {personalData.bio}</h4>
+                <h6>Sex: {personalData.sex}</h6>
+                <h6>Birthday: {personalData.birthday}</h6>
+                <h6>Street: {personalData.address.street}</h6>
+                <h6>Email: {personalData.email}</h6>
+                <h6>Phone: {personalData.phone}</h6>
+                <h6>Chat Name: {personalData.chatname}</h6>
+            </div>
+        );  
+    }
+
+    providerProfileInfo = (personalData) => {
+        return (
+            <div>
+                <h2>Name: {personalData.name}</h2>
+                <h6>Email: {personalData.email}</h6>
+            </div>
+        );
+    }
+
+    staticHTML = () => {
+        const { personalData, role } = this.props;
+        if (role === "Patient") {
+            return (
+                <div className="personalInfo-static">
+                {this.patientProfileInfo(personalData)}
                 <div>
-                    <h2>Name: {personalData.name}</h2>
-                    <h4>Biography: {personalData.bio}</h4>
-                    <h6>Sex: {personalData.sex}</h6>
-                    <h6>Birthday: {personalData.birthday}</h6>
-                    <h6>Street: {personalData.address.street}</h6>
-                    <h6>Email: {personalData.email}</h6>
-                    <h6>Phone: {personalData.phone}</h6>
-                    <h6>Chat Name: {personalData.chatname}</h6>
-                    <div>
-                        <Button onClick={this.props.onProfileEdit}>Edit</Button>
-                    </div>
+                    <Button onClick={this.props.onProfileEdit}>Edit</Button>
                 </div>
             </div>
-        )
+            )
+        }
+        else {
+            return (
+                <div className="personalInfo-static">
+                {this.providerProfileInfo(personalData)}
+                <div>
+                    <Button onClick={this.props.onProfileEdit}>Edit</Button>
+                </div>
+            </div>
+            )
+        }
     }
 
     onChange = (e) => {
-        console.log("onChange");
-        console.log(this.state);
         this.setState({
             personalData: {
                 ...this.state.personalData,

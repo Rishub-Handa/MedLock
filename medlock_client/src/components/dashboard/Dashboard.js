@@ -86,7 +86,7 @@ class Dashboard extends Component {
     }
 
     render() {
-        
+        console.log(this.props);
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
 

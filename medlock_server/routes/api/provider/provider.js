@@ -57,17 +57,31 @@ router.post('/', (req, res) => {
 // @desc    update existing provider
 // @access  Private, requires Auth0 Access Token 
 router.put('/', (req, res) => {
-    var id = req.user.sub.substring(6);
-    console.log(req.body);
-    Provider.findByIdAndUpdate(
-        id,
-        {name: req.body.newName, bio: req.body.newBio},
-        {new: true, useFindAndModify: false},
-        (err, provider) => {
-            if (err) return res.status(500).send(err);
-            console.log(provider);
-            return res.send(provider); 
-        });
+    var providerId = req.user.sub.substring(6);
+    Provider.findById(providerId, (err, provider) => {
+        if (err) return res.status(500).send(err);
+
+        for (var property in req.body) {
+            provider.personalData[property] = req.body[property];
+        }
+
+        return provider.save()
+            .then(provder => {
+                console.log("Provider Updated.");
+                console.log(provider.personalData);
+                res.send(provider.personalData);
+            });
+    });
+
+    // Provider.findByIdAndUpdate(
+    //     id,
+    //     {personalData: req.body},
+    //     {new: true, useFindAndModify: false},
+    //     (err, provider) => {
+    //         if (err) return res.status(500).send(err);
+    //         console.log(provider);
+    //         return res.send(provider); 
+    //     });
 });
 
 module.exports = router; 

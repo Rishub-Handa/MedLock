@@ -72,6 +72,10 @@ export const modules = [
             {
                 name: 'Patient',
                 description: 'View and edit your profile '
+            },
+            {
+                name: 'Provider',
+                description: 'View and edit your profile '
             }
         ],
         content: {
