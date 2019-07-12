@@ -11,7 +11,7 @@ class PersonalInfo extends Component {
         super(props);
         console.log(props);
         this.state = {
-            personalData: props.personalData
+            personalData: props.personalData,
         };
     }
 
@@ -28,6 +28,7 @@ class PersonalInfo extends Component {
                         <Input type="select" name="sex" id="pi-sex" value={this.state.personalData.sex} onChange={this.onChange}>
                             <option>Male</option>
                             <option>Female</option>
+                            <option>Other</option>
                         </Input>
                     </FormGroup>
                     <FormGroup>
@@ -36,7 +37,19 @@ class PersonalInfo extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Label for="pi-addr">Address</Label>
-                        <Input type="text" name="address" id="pi-addr" placeholder="123 Direwolf Ave Winterfell, Westeros 22301" value={this.state.personalData.address} onChange={this.onChange} />
+                        <Input type="text" name="address.street" id="pi-addr" placeholder="123 Direwolf Ave" value={this.state.personalData.address.street} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="pi-city">City</Label>
+                        <Input type="text" name="city" id="pi-city" placeholder="Winterfell" value={this.state.personalData.address.city} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="pi-state">State</Label>
+                        <Input type="text" name="state" id="pi-state" placeholder="The North" value={this.state.personalData.address.state} onChange={this.onChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="pi-zip">Zip</Label>
+                        <Input type="text" name="zip" id="pi-zip" placeholder="12345" value={this.state.personalData.address.zip} onChange={this.onChange} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="pi-email">Email</Label>
@@ -95,7 +108,7 @@ class PersonalInfo extends Component {
                 <h4>Biography: {personalData.bio}</h4>
                 <h6>Sex: {personalData.sex}</h6>
                 <h6>Birthday: {personalData.birthday}</h6>
-                <h6>Street: {personalData.address.street}</h6>
+                <h6>Address: {personalData.address.street} {personalData.address.city}, {personalData.address.state} {personalData.address.zip}</h6>
                 <h6>Email: {personalData.email}</h6>
                 <h6>Phone: {personalData.phone}</h6>
                 <h6>Chat Name: {personalData.chatname}</h6>
@@ -137,12 +150,26 @@ class PersonalInfo extends Component {
     }
 
     onChange = (e) => {
-        this.setState({
-            personalData: {
-                ...this.state.personalData,
-                [e.target.name] : e.target.value
-            }
-        });
+        console.log(this.state.personalData);
+        if (e.target.name === "street" || e.target.name === "city"   ||
+            e.target.name === "state"  || e.target.name === "zip") {
+            this.setState({
+                personalData: {
+                    ...this.state.personalData,
+                    address: {
+                        ...this.state.personalData.address,
+                        [e.target.name]: e.target.value
+                    }
+                }
+            });
+        } else {
+            this.setState({ 
+                personalData: {
+                    ...this.state.personalData,
+                    [e.target.name]: e.target.value 
+                }
+            });
+        }
     }
 
     render() {
