@@ -41,13 +41,21 @@ const makeMainRoutes = (props) => {
 class Dashboard extends Component {
     constructor(props) {
         super(props);
+        
+        this.state = {
+            profile: {},
+            role: null, 
+            icons: modules, 
+            newUser: false 
+        }
+    }
 
-        // Testing New Password 
-        const { userProfile } = auth0client; 
+    componentDidMount() {
 
+        const { userProfile } = auth0client;
+        console.log(auth0client);
 
         // Fetch the API Management Token. 
-        // TODO - move to component did mount for better lifecycle 
         fetchAMT() 
             .then(res => { 
                 const AMT = res.data.access_token; 
@@ -57,10 +65,10 @@ class Dashboard extends Component {
                             .then(() => {
                                 // Need better method of verifying that this is a new patient. 
                                 if(this.props.roles[0].name === 'Patient' && 
-                                    !this.props.profile.personalData.birthday) { 
+                                    !this.props.profile.personalData.bio) { 
                                         this.setState({ 
                                             newUser: true 
-                                        })
+                                        });
                                 // Testing New Password 
                                 } else {
                                     console.log(userProfile); 
@@ -68,13 +76,6 @@ class Dashboard extends Component {
                             });
                     }); 
             }); 
-
-        this.state = {
-            profile: {},
-            role: null, 
-            icons: modules, 
-            newUser: false 
-        }
     }
 
     toggleNewUser = () => {
@@ -117,8 +118,8 @@ class Dashboard extends Component {
 
         if(this.state.newUser) {
             return (
-                <NewUser toggle={this.toggleNewUser} profile={this.props.profile}/> 
-            )
+                <NewUser toggle={this.toggleNewUser} profile={this.props.profile} role={roles[0].name}/> 
+            );
         }
 
         if (this.props.location.pathname === "/dashboard") {

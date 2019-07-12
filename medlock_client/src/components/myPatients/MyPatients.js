@@ -10,7 +10,6 @@ import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth'; 
 import PatientView from '../patientView/PatientView';
 import SearchField from 'react-search-field';
-import SecuredRoute from '../SecuredRoute';
 
 const axios = require('axios'); 
 
@@ -99,13 +98,19 @@ class MyPatients extends Component {
                                         providers: [auth0client.userProfile.sub.substring(6)]
                                     }
                                 };
-                            this.props.createPatientProfile(newPatientProfile)
-                                .then(this.props.fetchPatients());
-                        });
+                                this.props.createPatientProfile(newPatientProfile);
+                            })
+                            .then(() => {
+                                console.log("successful");
+                                this.props.fetchPatients();
+                            })
+
                     }
                 });
             }) 
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
+
+        this.setState({ newPatientForm: false });
     }
 
     createPatient = (newPatient, AMT, patient_id) => {
@@ -121,8 +126,10 @@ class MyPatients extends Component {
                 providers: [auth0client.userProfile.sub.substring(6)]
             }
         };
+
         this.props.createPatientProfile(newPatientProfile)
             .then(this.props.fetchPatients());
+
         this.props.assignRoles(patient_id, AMT, "Patient");
 
         axios.post('http://localhost:5000/api/email', newPatient); 
@@ -177,14 +184,13 @@ class MyPatients extends Component {
 
         if (this.state.onePatientView) {
             if (this.state.viewedPatient === null)
-                throw "onePatientView is true, but viewedPatient is null!"
+                throw "onePatientView is true, but viewedPatient is null!";
             
             return (
                  <PatientView patient={this.state.viewedPatient} />
             );
         }
 
-        console.log(this.props)
         return (
             <div>
 

@@ -11,5 +11,6 @@
 
 .dashboard-content {
     display: grid;
+    height: 90vh;
     grid-template-columns: 1fr 9fr;
 }
