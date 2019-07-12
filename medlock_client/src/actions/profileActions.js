@@ -74,26 +74,32 @@ const saveProfileFailure = error => ({
     }
 });
 
-export function saveProfile(updatedPersonalData) {
-    console.log("Save Profile Running...");
-    console.log(updatedPersonalData);
+export function saveProfile(updatedPersonalData, role) {
     const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api/patient';
+    let API_URL = 'http://localhost:5000/api';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+    switch (role) {
+        case "Patient": 
+            API_URL += "/patient/patient"; 
+            break; 
+        case "Provider": 
+            API_URL += "/provider"; 
+            break; 
+    }
 
     return dispatch => {
         dispatch(saveProfileBegin());
-        return axios.put(`${API_URL}/patient`, updatedPersonalData, { headers })
+        return axios.put(`${API_URL}`, updatedPersonalData, { headers })
             .then(res => {
                 console.log(res.data);
-                dispatch(saveProfileSuccess(res.data))
+                dispatch(saveProfileSuccess(res.data));
             })
             .catch(error => dispatch(saveProfileFailure(error)));
     }
 };
 
 export const editProfile = () => dispatch => {
-    console.log(EDIT_PROFILE);
     const action = {
         type: EDIT_PROFILE
     }
@@ -119,7 +125,6 @@ const addProfileModuleFailure = error => ({
 });
 
 export function addProfileModule(newProfileModule) {
-    console.log("addProfileModule");
     const { getAccessToken } = auth0client;
     const API_URL = 'http://localhost:5000/api/patient';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};

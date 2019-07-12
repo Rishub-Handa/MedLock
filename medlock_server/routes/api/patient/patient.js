@@ -54,7 +54,6 @@ router.get('/modules', (req, res) => {
 // @desc    update existing patient
 // @access  Private, requires Auth0 Access Token 
 router.put('/', (req, res) => {
-    console.log('PUT Request');
     var patientId = req.user.sub.substring(6);
     Patient.findById(patientId, (err, patient) => {
         if (err) return res.status(500).send(err); 
@@ -62,6 +61,7 @@ router.put('/', (req, res) => {
         for(var property in req.body) {
             patient.personalData[property] = req.body[property]; 
         }
+
         return patient.save()
             .then(patient => {
                 console.log("Patient Updated.");

@@ -12,7 +12,7 @@ const format = (dispenses) => {
 
     return data;
 }
-export default function DispenseScatterData(props) {
+export default function DispenseScatter(props) {
     
     const data = format(props.data);
     console.log(data);
@@ -27,23 +27,27 @@ export default function DispenseScatterData(props) {
                     textAnchor="middle"
                     x={225} 
                     y={30}
+                    padding={{}}
                 />
 
                 <VictoryAxis 
+                    label="Date"
                     tickValues={data.map(pair => pair.x)}
                     tickFormat={(x) => {
                         var date = new Date(x);
                         return `${date.getMonth()}-${date.getDate()}`;
                     }}
+                    
                 />
 
                 <VictoryAxis dependentAxis
-                    tickValues={data.map(pair => pair.y)}
+                    domain={[0, 1440]}
+                    tickValues={[0, 180, 360, 540, 720, 900, 1080, 1260, 1440]}
                     tickFormat={(x) =>{
                         const hour = Math.floor(x/60);
-                        const minutes = x % 60;
-                        return `${hour}:${minutes}`;
+                        return `${hour}:00`;
                     }}
+                    //padding={100}
                 />
 
                 <VictoryScatter 

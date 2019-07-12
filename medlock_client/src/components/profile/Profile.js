@@ -12,11 +12,14 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         console.log(props);
-        this.state = {}
+        this.state = {
+            role: props.roles[0].name,
+        }
     }
 
     onProfileSave = (updatedPersonalData) => {
-        this.props.saveProfile(updatedPersonalData);
+        console.log(this.state.role);
+        this.props.saveProfile(updatedPersonalData, this.state.role);
     }
 
     onProfileEdit = () => {
@@ -67,7 +70,7 @@ class Profile extends Component {
             <div className="profile-container">
                 <div className="main">
                     <div className="personalInfo-container">
-                        <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} />
+                        <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} role={this.state.role} />
                     </div>
                     {/* <div className="profileModules-container">
                         {this.profileModulesHTML(this.state.profileModules)}
@@ -91,7 +94,8 @@ const mapStateToProps = state => ({
     editable: state.profileState.editable,
     profileLoading: state.profileState.loadingProfile,
     profileSaving: state.profileState.profileSaving,
-    error: state.profileState.error
+    error: state.profileState.error,
+    roles: state.authState.roles,
 });
 
 export default connect(mapStateToProps, { editProfile, saveProfile })(Profile);

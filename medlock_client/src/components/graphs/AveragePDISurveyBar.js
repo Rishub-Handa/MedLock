@@ -41,7 +41,7 @@ const format = (surveys) => {
     return avgPDISurvey;
 };
 
-export default function AveragePDISurvey(props) {
+export default function AveragePDISurveyBar(props) {
     var avgPDISurvey = format(props.data);
 
     avgPDISurvey.forEach(response => {

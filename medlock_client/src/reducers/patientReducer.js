@@ -12,7 +12,8 @@ import {
 
 const initialState = {
     patients: [], 
-    patientsLoading: false, 
+    patientsFetching: false, 
+    patientsFetched: false,
     fetchPatientsError: null, 
     patient: null, 
     patientRegistering: false, 
@@ -63,19 +64,20 @@ export default function(state = initialState, action) {
         case FETCH_PATIENTS_BEGIN:
             return {
                 ...state,
-                patientsLoading: true, 
+                patientsFetching: true, 
                 fetchPatientsError: null 
             };
         case FETCH_PATIENTS_SUCCESS: 
             return {
                 ...state,
-                patientsLoading: false,
+                patientsFetching: false,
+                patientsFetched: true,
                 patients: action.payload.patients
             };
         case FETCH_PATIENTS_FAILURE:
             return {
                 ...state, 
-                patientsLoading: false,
+                patientsFetching: false,
                 fetchPatientsError: action.payload.error
             };
         default:

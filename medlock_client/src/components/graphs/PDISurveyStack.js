@@ -84,7 +84,7 @@ export default class PDISurveyStack extends Component {
                     />
                     <VictoryAxis 
                         dependentAxis
-                        tickValues={0, 10, 20, 30, 40, 50, 60, 70}
+                        tickValues={[0, 10, 20, 30, 40, 50, 60, 70]}
                     />
                     <VictoryLegend 
                         x={325} y={40}

@@ -40,6 +40,7 @@ class SideBar extends Component {
     componentDidMount() {
         this.filterModules();
     }
+    
     sideBarHTML = () => {
 
         return (

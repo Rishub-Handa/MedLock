@@ -12,6 +12,7 @@ class PatientList extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <div>
                 <h3>My Patients</h3>
