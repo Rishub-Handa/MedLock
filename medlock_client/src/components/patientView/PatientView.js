@@ -23,8 +23,10 @@ class PatientView extends Component {
                 dispenserLoading, 
                 dispenserLoaded,
                 dispenserError } = this.props; 
-
-        const { dispenses } = dispenser;
+        
+        let dispenses = null;
+        if(!dispenser) dispenses = [];
+        else dispenses = dispenser.dispenses;
         const { pdiSurveys } = patient.medicalData.surveys;
 
         if(dispenserError) {
