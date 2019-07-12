@@ -75,9 +75,11 @@ class MyPatients extends Component {
 
                 this.props.auth0Registration(newPatient, AMT)
                 .then(() => { 
+                    alert(`Patient Succesfully Added`);
                     this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
                 })
                 .catch(error => {
+                    alert(`Failed To Add Patient. Error Code: ${error}`);
                     console.log(`User Registration Error: ${error}`); 
                     const errorString = `${error}`; 
                     console.log(errorString.includes("409")); 
@@ -108,7 +110,7 @@ class MyPatients extends Component {
                     }
                 });
             }) 
-            .catch(error => console.log(error));
+            .catch(error => {alert(`Failed To Create Provider. Error Code: ${error}`); console.log(error);});
 
         this.setState({ newPatientForm: false });
     }

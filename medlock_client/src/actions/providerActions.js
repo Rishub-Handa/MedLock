@@ -48,8 +48,8 @@ export function createProviderProfile(newProfile, creatorScope) {
     return dispatch => {
         dispatch(createProviderProfileBegin());
         return axios.post(API_URL, newProfile, { headers })
-            .then(res => dispatch(createProviderProfileSuccess(res.data)))
-            .catch(error => dispatch(createProviderProfileFailure(error)));
+            .then(res => {alert(`Provider Added Successfully`); dispatch(createProviderProfileSuccess(res.data))})
+            .catch(error => {alert(`Failed To Create Provider. Error Code: ${error}`); dispatch(createProviderProfileFailure(error))});
     }
 }
 
