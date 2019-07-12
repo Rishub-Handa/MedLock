@@ -135,6 +135,6 @@ class Inbox extends React.Component {
 
 const mapStateToProps = state => ({
   profile: state.profileState.profile 
-})
+});
 
 export default connect(mapStateToProps, { loadProfile })(Inbox); 

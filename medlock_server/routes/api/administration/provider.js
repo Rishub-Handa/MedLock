@@ -32,4 +32,17 @@ router.post('/', (req, res) => {
         });
 });
 
+// @route   DELETE api/admin/provider
+// @desc    deletes all providers
+// @access Public --> Will Change
+router.delete('/', (req, res) => {
+    console.log("Provider DELETE Request");
+
+    // delete chatkit account
+    // delete auth0 account
+    // delete medlock account
+
+    Provider.deleteMany({}, err => console.log(err));
+});
+
 module.exports = router; 

@@ -7,9 +7,9 @@ import { createProviderProfile } from '../../actions/providerActions';
 
 const axios = require('axios'); 
 
+const API_URL = 'http://localhost:5000/api';
+
 class Admin extends Component {
-
-
 
     state = {}; 
 
@@ -70,16 +70,36 @@ class Admin extends Component {
         axios.post('http://localhost:5000/api/email', newProvider); 
     }
 
+    deleteAllProviders = () => {
+        axios.delete(`${API_URL}/admin/provider`)
+            .then(console.log("All Providers Deleted Successfully"))
+            .catch(err => console.log(err));
+    }
+
+    deleteAllPatients = () => {
+        axios.delete(`${API_URL}/admin/patient`)
+            .then(console.log("All Patients Deleted Successfully"))
+            .catch(err => console.log(err));
+    }
+
     render() {
         return (
             <div>
                 <h1>Administration</h1>
-                <h1>Create New Provider</h1>
-                <form onSubmit={this.createNewProvider}>
-                    <p>Name: <input type="text" name="name" onChange={this.onChange} /></p>
-                    <p>Email: <input type="text" name="email" onChange={this.onChange} /></p>
-                    <button type="submit">Create. </button>
-                </form>
+                <div>
+                    <h1>Create New Provider</h1>
+                    <form onSubmit={this.createNewProvider}>
+                        <p>Name: <input type="text" name="name" onChange={this.onChange} /></p>
+                        <p>Email: <input type="text" name="email" onChange={this.onChange} /></p>
+                        <button type="submit">Create New Provider </button>
+                    </form>
+                </div>
+                <div>
+                    <h1>DANGER ZONE</h1>
+                    <button onClick={this.deleteAllProviders}>DELETE ALL PROVIDERS</button>
+                    <button onClick={this.deleteAllPatients}>DELETE ALL PATIENTS</button>
+                </div>
+
             </div>
         )
     }

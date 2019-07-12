@@ -12,6 +12,7 @@ const email = require('./routes/api/email');
 const provider = require('./routes/api/provider/provider'); 
 const providerPatients = require('./routes/api/provider/patients'); 
 const adminProvider = require('./routes/api/administration/provider'); 
+const adminPatient = require('./routes/api/administration/patient');
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
@@ -77,6 +78,7 @@ app.use('/api/provider', checkJwt, provider);
 // Define Administration Scope 
 // Create Administration Accounts --> Check JSON Web Tokens 
 app.use('/api/admin/provider', adminProvider); 
+app.use('/api/admin/patient', adminPatient);
 
 // How will chatAuth authenticate with Auth0 ??? 
 // Cannot use checkJwt because the ChatKit server will also make a request to this endpoint without Auth0. 

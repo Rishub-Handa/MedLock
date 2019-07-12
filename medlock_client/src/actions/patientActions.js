@@ -41,7 +41,10 @@ export function createPatientProfile(newProfile) {
     return dispatch => {
         dispatch(createPatientProfileBegin());
         return axios.post(API_URL, newProfile, { headers })
-            .then(res => dispatch(createPatientProfileSuccess(res.data)))
+            .then(res => {
+                console.log(res.data);
+                dispatch(createPatientProfileSuccess(res.data));
+            })
             .catch(error => dispatch(createPatientProfileFailure(error)));
     }
 } 
@@ -110,6 +113,7 @@ export function fetchPatients() {
       dispatch(fetchPatientsBegin());
       return axios.get(`${API_URL}/provider/patients`, { headers })
           .then(res => {
+            console.log(res.data);
             dispatch(fetchPatientsSuccess(res.data));
           })
           .catch(error => dispatch(fetchPatientsError(error)));

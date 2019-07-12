@@ -53,6 +53,7 @@ class Dashboard extends Component {
     componentDidMount() {
 
         const { userProfile } = auth0client;
+        console.log(auth0client);
 
         // Fetch the API Management Token. 
         fetchAMT() 
@@ -64,7 +65,7 @@ class Dashboard extends Component {
                             .then(() => {
                                 // Need better method of verifying that this is a new patient. 
                                 if(this.props.roles[0].name === 'Patient' && 
-                                    this.props.profile.__v === 0) { 
+                                    !this.props.profile.personalData.bio) { 
                                         this.setState({ 
                                             newUser: true 
                                         });

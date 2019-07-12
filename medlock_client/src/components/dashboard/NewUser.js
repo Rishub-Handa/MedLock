@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { saveProfile } from '../../actions/profileActions'; 
 import { resetPassword } from '../../auth/AuthManagement'; 
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import auth0client from '../../auth/Auth'; 
+import auth0client from '../../auth/Auth';
 
 class NewUser extends Component {
 
@@ -59,7 +59,7 @@ class NewUser extends Component {
         return (
             <div>
                 <Form>
-                    <FormGroup>
+                    <FormGroup required>
                         <Label for="pi-name">Full Name</Label>
                         <Input type="text" name="name" id="pi-name" placeholder="Jon Snow" value={this.state.personalData.name} onChange={this.onChange} />
                     </FormGroup>
@@ -91,7 +91,7 @@ class NewUser extends Component {
                         <Label for="pi-zip">Zip</Label>
                         <Input type="text" name="zip" id="pi-zip" placeholder="12345" value={this.state.personalData.address.zip} onChange={this.onChange} />
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup required>
                         <Label for="pi-email">Email</Label>
                         <Input type="email" name="email" id="pi-email" placeholder="jon.snow@nightswatch.org" value={this.state.personalData.email} onChange={this.onChange} />
                     </FormGroup>
@@ -103,7 +103,7 @@ class NewUser extends Component {
                         <Label for="pi-chatname">Chat Name</Label>
                         <Input type="text" name="chatname" id="pi-chatname" placeholder="jsnow" value={this.state.personalData.chatname} onChange={this.onChange} />
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup required>
                         <Label for="pi-bio">Biography</Label>
                         <Input type="textarea" name="bio" id="pi-bio" placeholder="I lived one hell of a life (and death and life). Heir to the Iron Throne but raised as a bastard. I rode a dragon a couple times. Also, I had sex with my aunt, then killed her." value={this.state.personalData.bio} onChange={this.onChange} />
                     </FormGroup>
