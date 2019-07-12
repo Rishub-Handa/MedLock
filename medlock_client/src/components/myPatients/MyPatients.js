@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth'; 
 import PatientView from '../patientView/PatientView';
-import SearchField from 'react-search-field';
 
 const axios = require('axios'); 
 
@@ -20,9 +19,9 @@ class MyPatients extends Component {
         this.state = {
             newPatientForm: false,
             onePatientView: false,
-            displayedPatients: this.props.patients,
             viewedPatient: null
         }
+        console.log(props);
     }
 
     viewPatient = (patient) => {
@@ -30,7 +29,6 @@ class MyPatients extends Component {
             onePatientView: true,
             viewedPatient: patient
         });
-        this.props.history.push("/dashboard/mypatients/viewpatient");
     }
 
     addPatient = () => {
@@ -76,8 +74,10 @@ class MyPatients extends Component {
                 this.props.auth0Registration(newPatient, AMT)
                 .then(() => { 
                     this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
+                    alert("Patient Created Successfully");
                 })
                 .catch(error => {
+                    alert(`Failed To Create Patient: Error Code ${error}`);
                     console.log(`User Registration Error: ${error}`); 
                     const errorString = `${error}`; 
                     console.log(errorString.includes("409")); 
@@ -98,19 +98,13 @@ class MyPatients extends Component {
                                         providers: [auth0client.userProfile.sub.substring(6)]
                                     }
                                 };
-                                this.props.createPatientProfile(newPatientProfile);
-                            })
-                            .then(() => {
-                                console.log("successful");
-                                this.props.fetchPatients();
-                            })
-
+                            this.props.createPatientProfile(newPatientProfile)
+                                .then(this.props.fetchPatients());
+                        });
                     }
                 });
             }) 
-            .catch(error => console.log(error));
-
-        this.setState({ newPatientForm: false });
+            .catch(error => {console.log(error); alert(`Failed To Create Patient: Error Code ${error}`);})
     }
 
     createPatient = (newPatient, AMT, patient_id) => {
@@ -126,37 +120,19 @@ class MyPatients extends Component {
                 providers: [auth0client.userProfile.sub.substring(6)]
             }
         };
-
         this.props.createPatientProfile(newPatientProfile)
             .then(this.props.fetchPatients());
-
         this.props.assignRoles(patient_id, AMT, "Patient");
 
         axios.post('http://localhost:5000/api/email', newPatient); 
     }
 
-    onSearchChange = (value, e) => {
-        e.preventDefault();
-
-        // break if patients aren't fetched
-        if (!this.props.patientsFetched) return;
-
-        // search by name
-        const searchResults = this.props.patients.filter(patient => {
-            return patient.personalData.name.substring(0, value.length) === value
-        });
-
-        this.setState({displayedPatients: searchResults});
-    }
-
     componentDidMount() {
-        this.props.fetchPatients()
-            .then(() => this.setState({ displayedPatients: this.props.patients }));
+        this.props.fetchPatients();
     }
 
     render() {
-        console.log(this.state.displayedPatients);
-        const { patientRegistering, registerError, patientsFetching, patientsFetched } = this.props;
+        const { patientRegistering, registerError, patientsLoading } = this.props;
         
         if(registerError) {
             return (
@@ -174,7 +150,7 @@ class MyPatients extends Component {
             )
         }
 
-        if (patientsFetching || !patientsFetched) {
+        if (patientsLoading) {
             return (
                 <div>
                     Loading patients . . .
@@ -184,22 +160,15 @@ class MyPatients extends Component {
 
         if (this.state.onePatientView) {
             if (this.state.viewedPatient === null)
-                throw "onePatientView is true, but viewedPatient is null!";
-            
+                throw "onePatientView is true, but viewedPatient is null!"
             return (
-                 <PatientView patient={this.state.viewedPatient} />
+                <PatientView patient={this.state.viewedPatient} />
             );
         }
 
         return (
             <div>
-
-                <SearchField 
-                    placeholder='Search Item'
-                    onChange={this.onSearchChange}
-                />
-
-                <PatientList patients={this.state.displayedPatients} onClickPatient={this.viewPatient} />
+                <PatientList patients={this.props.patients} onClickPatient={this.viewPatient} />
                 {this.displayNewPatientForm()}
             </div>
         );
@@ -216,8 +185,7 @@ MyPatients.propTypes = {
     createPatientProfile: PropTypes.func.isRequired,
     assignPatientRole: PropTypes.func.isRequired,
     fetchPatients: PropTypes.func.isRequired,
-    patientsFetching: PropTypes.bool.isRequired,
-    patientsFetched: PropTypes.bool.isRequired,
+    patientsLoading: PropTypes.bool.isRequired,
     fetchPatientsError: PropTypes.object.isRequired
 }
 
@@ -225,17 +193,14 @@ const mapStateToProps = state => ({
     patients: state.patientState.patients,
     patient: state.patientState.patient,
     patientRegistering: state.patientState.patientLoading, 
-    patientsFetching: state.patientState.patientsFetching,
-    patientsFetched: state.patientState.patientsFetched,
-    fetchPatientsError: state.patientState.fetchPatientsError,
-
     registerError: state.providerState.registerError,
     roleAssigning: state.providerState.roleAssigning,
-    roleAssignError: state.providerState.roleAssignError,
-
+    roleAssignError: state.providerState.roleAssignError, 
     userProfile: state.authState.userProfile, 
     userProfileLoading: state.authState.userProfileLoading, 
     userProfileError: state.authState.userProfileError,
+    patientsLoading: state.patientState.patientsLoading,
+    fetchPatientsError: state.patientState.fetchPatientsError
 });
 
 export default connect(
