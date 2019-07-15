@@ -10,13 +10,14 @@ const axios = require('axios');
 const API_URL = 'http://localhost:5000/api';
 
 class Admin extends Component {
-
-    state = {}; 
+ 
+    state = {};
 
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value 
-        })
+        });
+        
     }
 
     createNewProvider = (e) => {
@@ -76,9 +77,17 @@ class Admin extends Component {
             .catch(err => console.log(err));
     }
 
+    deletePatient = () => {
+        this.setState({deleteAll : false});
+        axios.delete(`${API_URL}/admin/patient?_id=${this.state._id}&deleteAll=false`)
+            .then(alert("Patient(s) Deleted Successfully"))
+            .catch(err => alert(`Error On Delete: ${err}`));
+    }
+
     deleteAllPatients = () => {
-        axios.delete(`${API_URL}/admin/patient`)
-            .then(console.log("All Patients Deleted Successfully"))
+        this.setState({deleteAll : true});
+        axios.delete(`${API_URL}/admin/patient?_id=${this.state._id}&deleteAll=true`)
+            .then(alert("All Patient(s) Deleted Successfully"))
             .catch(err => console.log(err));
     }
 
@@ -97,8 +106,21 @@ class Admin extends Component {
                 <div>
                     <h1>DANGER ZONE</h1>
                     <button onClick={this.deleteAllProviders}>DELETE ALL PROVIDERS</button>
-                    <button onClick={this.deleteAllPatients}>DELETE ALL PATIENTS</button>
                 </div>
+                <div>
+                    <form>
+                        <label>
+                            User ID To Delete:
+                            <input type="text" name="_id" onChange={this.onChange} />
+                        </label>
+                        {/* <button onClick={this.deletePatient}>DELETE PATIENT</button> */}
+                    </form>
+                    <button onClick={this.deletePatient}>DELETE SPECIFIED PATIENT</button>
+                </div>
+                <div>
+                <button onClick={this.deleteAllPatients}>DELETE ALL PATIENTS</button>
+                </div>
+            
 
             </div>
         )
