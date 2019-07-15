@@ -74,48 +74,47 @@ class MyPatients extends Component {
                 const AMT = res.data.access_token; 
 
                 this.props.auth0Registration(newPatient, AMT)
-                .then(() => { 
-                    this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
-                })
-                .catch(error => {
-                    console.log(`User Registration Error: ${error}`); 
-                    const errorString = `${error}`; 
-                    console.log(errorString.includes("409")); 
+                    .then(() => { 
+                        this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
+                    })
+                    .catch(error => {
+                        console.log(`User Registration Error: ${error}`); 
+                        const errorString = `${error}`; 
+                        console.log(errorString.includes("409")); 
                     
-                    if(errorString.includes("409")) {
-                        getUserByEmail(email, AMT) 
-                            .then(res => {
-                                const user_id = res.data[0].user_id; 
-                                console.log(user_id); 
+                        if(errorString.includes("409")) {
+                            getUserByEmail(email, AMT) 
+                                .then(res => {
+                                    const user_id = res.data[0].user_id; 
+                                    console.log(user_id); 
 
-                                const newPatientProfile = {
-                                    _id: user_id.substring(6),
-                                    personalData: {
-                                        name: name,
-                                        email: email,
-                                    },
-                                    medicalData: {
-                                        providers: [auth0client.userProfile.sub.substring(6)]
-                                    }
-                                };
-                                this.props.createPatientProfile(newPatientProfile);
-                            })
-                            .then(() => {
-                                console.log("successful");
-                                this.props.fetchPatients();
-                            })
+                                    const newPatientProfile = {
+                                        _id: user_id.substring(6),
+                                        personalData: {
+                                            name: name,
+                                            email: email,
+                                        },
+                                        medicalData: {
+                                            providers: [auth0client.userProfile.sub.substring(6)]
+                                        }
+                                    };
 
-                    }
-                });
-            }) 
-            .catch(error => console.log(error));
+                                    this.props.createPatientProfile(newPatientProfile)
+                                        .then(() => {
+                                            console.log("successful");
+                                            this.props.fetchPatients();
+                                        })
+                                })
+                            }
+                    });
+                }) 
+                .catch(error => console.log(error));
 
         this.setState({ newPatientForm: false });
     }
 
     createPatient = (newPatient, AMT, patient_id) => {
         console.log("Patient registered. Now creating profile . . . "); 
-        console.log(patient_id); 
         const newPatientProfile = {
             _id: patient_id.substring(6),
             personalData: {
@@ -128,7 +127,10 @@ class MyPatients extends Component {
         };
 
         this.props.createPatientProfile(newPatientProfile)
-            .then(this.props.fetchPatients());
+            .then(() => {
+                console.log("also successful!");
+                this.props.fetchPatients();
+            });
 
         this.props.assignRoles(patient_id, AMT, "Patient");
 
