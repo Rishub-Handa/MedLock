@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions'; 
 import { createProviderProfile } from '../../actions/providerActions'; 
+import { auth0client } from '../../auth/Auth';
 
 const axios = require('axios'); 
 
@@ -79,6 +80,7 @@ class Admin extends Component {
 
     deletePatient = () => {
         this.setState({deleteAll : false});
+    
         axios.delete(`${API_URL}/admin/patient?_id=${this.state._id}&deleteAll=false`)
             .then(alert("Patient(s) Deleted Successfully"))
             .catch(err => alert(`Error On Delete: ${err}`));
