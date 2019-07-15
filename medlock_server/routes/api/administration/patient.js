@@ -20,9 +20,17 @@ router.delete('/', (req, res) => {
     // delete chatkit account
     // delete auth0 account
     // delete medlock account
-
-    Patient.deleteMany({}, err => console.log(err));
-    Dispenser.deleteMany({}, err => console.log(err));
+    if(req.body._id) {
+        Patient.find({_id: req.body._id}).remove().exec();
+        Dispenser.find({_id: req.body.medicalData.dispenser_id}).remove().exec();
+    }
+    else if(!req.body.deleteAll){
+        Patient.deleteMany({}, err => console.log(err));
+        Dispenser.deleteMany({}, err => console.log(err));
+    }
+    else {
+        console.log("Error: No delete function specified");
+    }
 });
 
 module.exports = router; 
