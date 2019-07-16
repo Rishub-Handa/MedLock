@@ -1,25 +1,9 @@
-const express = require('express'); 
-const mongoose = require('mongoose'); 
-const Chatkit = require('@pusher/chatkit-server'); 
-const Patient = require('../../../models/Patient'); 
-const Dispenser = require('../../../models/Dispenser');
-const Provider = require('../../../models/Provider')
-const chatkit = new Chatkit.default({
-    instanceLocator: 'v1:us1:b72e93e8-22d4-4227-a9f3-ad03723ca266', 
-    key: '3e67a467-115d-40eb-ad91-a2293080a4ae:wsDhZD7NcvPnu6kVGeKnu/nWjRTsNloQVBCZxeTNBzw='
-}); 
-const router = express.Router(); 
-//const functions = require('../functions/endpointFunctions.js')
-// @route   DELETE api/admin/patient
-// @desc    deletes all patients or individual patient
-// @access Public --> Will Change
 
 const deletePatientMongo = (_id) => {
-    var deletedPatient = 0;
     Patient.findOne({_id : _id}, 
         (err, result) => {
 
-            deletedPatient = result;
+            const deletedPatient = result;
 
             if(err) {console.log(`Error: ${err}`)}
             
@@ -80,31 +64,60 @@ const deletePatientChatKit = (_id) => {
             .catch(err => {console.log("Failed To Find/Delete User From Chatkit")});
 }
 
-router.delete('/', (req, res) => {
-    console.log("Patient DELETE Request");
+const addPatientCreateChat = (req, res, providerId, patientId) => {
 
-    const _id = req.query._id;
-    //initializes data for patient that is deleted
-    var deletePatient = 0;
-    if(_id && !req.query.deleteAll) {
-        //Deletes User From Chatkit
-        //console.log(req.query.deleteAll);
+    // Add patient to Provider patient list. 
+    Provider.findById(providerId, (err, provider) => {
+        console.log("Reached");
+        console.log(req.body); 
+        if (err) return res.status(500).send(err);
+        const newPatient = {
+            _id: patientId, 
+            name: req.body.personalData.name, 
+            email: req.body.personalData.email 
+        };
+        console.log(newPatient);
 
-        deletePatientChatKit(_id);
-        
-        //Deletes User and Dispenser From MongoDB Database
-        deletePatient = deletePatientMongo(_id);
+        // Check if newPatient exists in array. 
+        console.log(`Provider Patient List: ${provider.medicalData.patients}`); 
+        let contains = false; 
 
-        //Deletes User From Auth0
+        provider.medicalData.patients.forEach(patient => {
+            console.log(patient._id); 
+            if("" + patient._id === "" + patientId)  
+                contains = true; 
+        })
 
-    }
-    else if(req.query.deleteAll) {
-        deleteAllPatientsMongo();
-    }
-    else {
-        console.log("Error: No delete function specified");
-    }
-    return deletePatient;
-});
+        console.log(contains); 
+        if(!contains) {
 
-module.exports = router; 
+            // If the provider has not already registered with the patient, create a chat. 
+
+            // TODO: Create field to transmit patient name. 
+            // Have all joinable rooms display 
+            // Have providers search for joinable rooms 
+
+            chatkit.createRoom({
+                creatorId: providerId,
+                name: `${req.body.personalData.name} + ${provider.personalData.name}`,
+                isPrivate: true, 
+                userIds: [patientId] 
+            })
+                .then(() => {
+                  console.log('Room created successfully');
+                }).catch((err) => {
+                  console.log(err);
+                });
+
+
+            provider.medicalData.patients.push(newPatient);
+            provider.save()
+                .then(provider => {
+                    console.log(`Patient with id=${newPatient._id} added to patient list of Provder with id=${providerId}.`);
+                })
+                .catch(error => console.log(error));
+        }
+    });
+}
+
+module.exports = deleteAllPatientsMongo, deletePatientChatKit, deletePatientMongo, addPatientCreateChat;

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions'; 
 import { createProviderProfile } from '../../actions/providerActions'; 
-import { auth0client } from '../../auth/Auth';
 
 const axios = require('axios'); 
 
@@ -78,19 +77,16 @@ class Admin extends Component {
             .catch(err => console.log(err));
     }
 
-    deletePatient = () => {
-        this.setState({deleteAll : false});
-    
-        axios.delete(`${API_URL}/admin/patient?_id=${this.state._id}&deleteAll=false`)
-            .then(alert("Patient(s) Deleted Successfully"))
+    deletePatient = (patient) => {
+        axios.delete(`${API_URL}/admin/patient?_id=${patient._id}&deleteAll=false`)
+            .then(alert(`Patient ${patient._id} deleted successfully`))
             .catch(err => alert(`Error On Delete: ${err}`));
     }
 
-    deleteAllPatients = () => {
-        this.setState({deleteAll : true});
-        axios.delete(`${API_URL}/admin/patient?_id=${this.state._id}&deleteAll=true`)
-            .then(alert("All Patient(s) Deleted Successfully"))
-            .catch(err => console.log(err));
+    deleteAllPatients = (patient) => {
+        axios.delete(`${API_URL}/admin/patient?_id=0&deleteAll=true`)
+            .then(alert(`All patients deleted successfully`))
+            .catch(err => alert(`Error On Delete: ${err}`));
     }
 
     render() {
