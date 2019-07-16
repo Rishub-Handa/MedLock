@@ -5,7 +5,7 @@ import '../../css/PatientListItem.css';
 export default class PatientListItem extends Component {
 
     render() {
-        const { patient, viewPatient } = this.props;
+        const { patient, viewPatient, deletePatient } = this.props;
 
         return (
             <div className="PatientListItem-container">
@@ -16,6 +16,7 @@ export default class PatientListItem extends Component {
                 
                 <div>
                     <Button onClick={() => viewPatient(patient)}>View</Button>
+                    <Button onClick={() => deletePatient(patient)}>Delete</Button>
                 </div>
 
             </div>

@@ -10,9 +10,8 @@ import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth'; 
 import PatientView from '../patientView/PatientView';
 import SearchField from 'react-search-field';
-
 const axios = require('axios'); 
-
+const API_URL = 'http://localhost:5000/api'
 class MyPatients extends Component {
 
     constructor(props) {
@@ -31,6 +30,12 @@ class MyPatients extends Component {
             viewedPatient: patient
         });
         this.props.history.push("/dashboard/mypatients/viewpatient");
+    }
+
+    deletePatient = (patient) => {
+        axios.delete(`${API_URL}/admin/patient?_id=${patient._id}&deleteAll=false`)
+            .then(alert(`Patient ${patient._id} deleted successfully`))
+            .catch(err => alert(`Error On Delete: ${err}`));
     }
 
     addPatient = () => {
@@ -74,41 +79,42 @@ class MyPatients extends Component {
                 const AMT = res.data.access_token; 
 
                 this.props.auth0Registration(newPatient, AMT)
-                    .then(() => { 
-                        this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
-                    })
-                    .catch(error => {
-                        console.log(`User Registration Error: ${error}`); 
-                        const errorString = `${error}`; 
-                        console.log(errorString.includes("409")); 
+                .then(() => { 
+                    alert(`Patient Succesfully Added`);
+                    this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
+                })
+                .catch(error => {
+                    alert(`Failed To Add Patient. Error Code: ${error}`);
+                    console.log(`User Registration Error: ${error}`); 
+                    const errorString = `${error}`; 
+                    console.log(errorString.includes("409")); 
                     
-                        if(errorString.includes("409")) {
-                            getUserByEmail(email, AMT) 
-                                .then(res => {
-                                    const user_id = res.data[0].user_id; 
-                                    console.log(user_id); 
+                    if(errorString.includes("409")) {
+                        getUserByEmail(email, AMT) 
+                            .then(res => {
+                                const user_id = res.data[0].user_id; 
+                                console.log(user_id); 
 
-                                    const newPatientProfile = {
-                                        _id: user_id.substring(6),
-                                        personalData: {
-                                            name: name,
-                                            email: email,
-                                        },
-                                        medicalData: {
-                                            providers: [auth0client.userProfile.sub.substring(6)]
-                                        }
-                                    };
-
-                                    this.props.createPatientProfile(newPatientProfile)
-                                        .then(() => {
-                                            console.log("successful");
-                                            this.props.fetchPatients();
-                                        })
-                                })
-                            }
-                    });
-                }) 
-                .catch(error => console.log(error));
+                                const newPatientProfile = {
+                                    _id: user_id.substring(6),
+                                    personalData: {
+                                        name: name,
+                                        email: email,
+                                    },
+                                    medicalData: {
+                                        providers: [auth0client.userProfile.sub.substring(6)]
+                                    }
+                                };
+                                this.props.createPatientProfile(newPatientProfile);
+                            })
+                            .then(() => {
+                                console.log("successful");
+                                this.props.fetchPatients();
+                            })
+                    }
+                });
+            }) 
+            .catch(error => {alert(`Failed To Create Provider. Error Code: ${error}`); console.log(error);});
 
         this.setState({ newPatientForm: false });
     }
@@ -201,7 +207,8 @@ class MyPatients extends Component {
                     onChange={this.onSearchChange}
                 />
 
-                <PatientList patients={this.state.displayedPatients} onClickPatient={this.viewPatient} />
+                <PatientList patients={this.state.displayedPatients} deletePatient={this.deletePatient} 
+                onClickPatient={this.viewPatient} />
                 {this.displayNewPatientForm()}
             </div>
         );
