@@ -20,7 +20,6 @@ router.delete('/', (req, res) => {
     // delete auth0 account
     const _id = req.query._id;
 
-
     if(req.query._id) {
         chatkit.deleteUser({id: _id,})
             .then(curUser => {console.log(`User ${_id} Deleted Successfully From Chatkit`)})
@@ -28,17 +27,49 @@ router.delete('/', (req, res) => {
         
         Patient.findOne({_id : _id}, 
             (err, result) => {
-                
+
                 if(err) {console.log(`Error: ${err}`)}
                 
-                Dispenser.findByIdAndDelete({dispenser_id : result.medicalData.dispenser_id})
-                    .then(() => console.log("DELETED DISPENSER FROM DATABASE"))
-                    .catch((err) => console.log(`Error Code: ${err}`));
+                if(result.medicalData.dispenser_id) {
+                    Dispenser.findByIdAndDelete({dispenser_id : result.medicalData.dispenser_id})
+                        .then(() => console.log("DELETED DISPENSER FROM DATABASE"))
+                        .catch((err) => console.log(`Error Code: ${err}`));
+                }  
+                for(var i = 0; i < result.medicalData.providers.length; i++)
+                {
+                    console.log("REACHED INSIDE OF FOR LOOP");
+                    Provider.findOne({_id: result.medicalData.providers[i]}, 
+                        (err, result) => {
 
-                Patient.findByIdAndDelete({_id : _id})
-                    .then(() => console.log("DELETED PATIENT FROM DATABASE"))
-                    .catch((err) => console.log(`Error Code: ${err}`));
-            });
+                            console.log("FOUND PROVIDER:" + result.personalData.name);
+
+                            if(err) {console.log(`Error: ${err}`)}
+
+                            var newPatients = result.medicalData.patients.filter((value) => {
+                                return value._id != _id;
+                            })
+
+                            result.medicalData.patients = newPatients;
+                            console.log("RESULT PATIENTS:" + result.medicalData.patients);
+                            console.log(`FILTERED PATIENTS: ${newPatients}`);
+                            result.save()
+                                .then()
+                                .catch((err) => console.log(err));
+
+                            // Provider.findByIdAndUpdate(result._id, {$set: {'meta.medicalData.patients': newPatients}}, (err, doc) => {
+                            //     console.log(err);
+                            //     console.log(doc);
+                            // }).then().catch((err) => console.log(err));
+
+                        }).then(() => {
+
+                            Patient.findByIdAndDelete({_id : _id})
+                            .then(() => console.log("DELETED PATIENT FROM DATABASE"))
+                            .catch((err) => console.log(`Error Code: ${err}`));
+
+                        }).catch((err) => {console.log(err)});
+                }
+            }).then().catch((err) => {console.log(err)});
     }
     else if(req.query.deleteAll == true){
         Patient.deleteMany({}, err => console.log(err));
