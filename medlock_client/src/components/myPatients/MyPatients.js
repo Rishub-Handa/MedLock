@@ -10,9 +10,8 @@ import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth'; 
 import PatientView from '../patientView/PatientView';
 import SearchField from 'react-search-field';
-
 const axios = require('axios'); 
-
+const API_URL = 'http://localhost:5000/api'
 class MyPatients extends Component {
 
     constructor(props) {
@@ -31,6 +30,12 @@ class MyPatients extends Component {
             viewedPatient: patient
         });
         this.props.history.push("/dashboard/mypatients/viewpatient");
+    }
+
+    deletePatient = (patient) => {
+        axios.delete(`${API_URL}/admin/patient?_id=${patient._id}&deleteAll=false`)
+            .then(alert(`Patient ${patient._id} deleted successfully`))
+            .catch(err => alert(`Error On Delete: ${err}`));
     }
 
     addPatient = () => {
@@ -201,7 +206,8 @@ class MyPatients extends Component {
                     onChange={this.onSearchChange}
                 />
 
-                <PatientList patients={this.state.displayedPatients} onClickPatient={this.viewPatient} />
+                <PatientList patients={this.state.displayedPatients} deletePatient={this.deletePatient} 
+                onClickPatient={this.viewPatient} />
                 {this.displayNewPatientForm()}
             </div>
         );
