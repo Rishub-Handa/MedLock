@@ -9,8 +9,34 @@ const chatkit = new Chatkit.default({
     instanceLocator: 'v1:us1:b72e93e8-22d4-4227-a9f3-ad03723ca266', 
     key: '3e67a467-115d-40eb-ad91-a2293080a4ae:wsDhZD7NcvPnu6kVGeKnu/nWjRTsNloQVBCZxeTNBzw='
 });
-//const functions = require('../functions/endpointFunctions.js');
 const router = express.Router(); 
+
+const createChatKitRoom = (providerId, patientName, providerName, patientId) => {
+    chatkit.createRoom({
+        creatorId: providerId,
+        name: `${patientName} + ${providerName}`,
+        isPrivate: true, 
+        userIds: [patientId] 
+    })
+        .then(() => {
+          console.log('Room created successfully');
+        }).catch((err) => {
+          console.log(err);
+        });
+}
+
+const createChatKitUser = (req, res, providerId, patientId) => {
+    chatkit.createUser({
+        id: patientId, 
+        name: req.body.personalData.name 
+    }) 
+        .then(() => {
+            console.log("User was created. "); 
+            // Create Provider Patient Communication Chat. 
+            addPatientCreateChat(req, res, providerId, patientId); 
+        }) 
+        .catch(error => console.log(error)); 
+}
 
 const addPatientCreateChat = (req, res, providerId, patientId) => {
 
@@ -27,16 +53,16 @@ const addPatientCreateChat = (req, res, providerId, patientId) => {
         console.log(newPatient);
 
         // Check if newPatient exists in array. 
-        console.log(`Provider Patient List: ${provider.medicalData.patients}`); 
+        //console.log(`Provider Patient List: ${provider.medicalData.patients}`); 
         let contains = false; 
 
         provider.medicalData.patients.forEach(patient => {
-            console.log(patient._id); 
+            //console.log(patient._id); 
             if("" + patient._id === "" + patientId)  
                 contains = true; 
         })
 
-        console.log(contains); 
+        //console.log(contains); 
         if(!contains) {
 
             // If the provider has not already registered with the patient, create a chat. 
@@ -45,18 +71,19 @@ const addPatientCreateChat = (req, res, providerId, patientId) => {
             // Have all joinable rooms display 
             // Have providers search for joinable rooms 
 
-            chatkit.createRoom({
-                creatorId: providerId,
-                name: `${req.body.personalData.name} + ${provider.personalData.name}`,
-                isPrivate: true, 
-                userIds: [patientId] 
-            })
-                .then(() => {
-                  console.log('Room created successfully');
-                }).catch((err) => {
-                  console.log(err);
-                });
+            // chatkit.createRoom({
+            //     creatorId: providerId,
+            //     name: `${req.body.personalData.name} + ${provider.personalData.name}`,
+            //     isPrivate: true, 
+            //     userIds: [patientId] 
+            // })
+            //     .then(() => {
+            //       console.log('Room created successfully');
+            //     }).catch((err) => {
+            //       console.log(err);
+            //     });
 
+            createChatKitRoom(providerId, req.body.personalData.name, provider.personalData.name, patientId);
 
             provider.medicalData.patients.push(newPatient);
             provider.save()
@@ -125,17 +152,18 @@ router.post('/', (req, res) => {
 
                 // Create new user in ChatKit when creating new user in MongoDB 
                 // Create name field in patient registration 
-                chatkit.createUser({
-                    id: patientId, 
-                    name: req.body.personalData.name 
-                }) 
-                    .then(() => {
-                        console.log("User was created. "); 
-                        // Create Provider Patient Communication Chat. 
-                        addPatientCreateChat(req, res, providerId, patientId); 
-                    }) 
-                    .catch(error => console.log(error)); 
-            
+                // chatkit.createUser({
+                //     id: patientId, 
+                //     name: req.body.personalData.name 
+                // }) 
+                //     .then(() => {
+                //         console.log("User was created. "); 
+                //         // Create Provider Patient Communication Chat. 
+                //         addPatientCreateChat(req, res, providerId, patientId); 
+                //     }) 
+                //     .catch(error => console.log(error)); 
+                createChatKitUser(req, res, providerId, patientId);
+
                 newPatient.save()
                     .then(patient => {
                         console.log("Patient -> Database");
@@ -173,8 +201,7 @@ router.post('/', (req, res) => {
 
 });
 
-
-// @route   DELETE api/provider/allPatients 
+// @route   DELETE api/provider/patient 
 // @desc    Delete a patient from provider patientList 
 // @access  Private, requires Auth0 Access Token  
 router.delete('/:id', (req, res) => { 
@@ -191,8 +218,6 @@ router.delete('/:id', (req, res) => {
         
         //Deletes User and Dispenser From MongoDB Database
         deletePatient = deletePatientMongo(_id);
-
-        //Deletes User From Auth0
 
     }
     else {
