@@ -55,8 +55,8 @@ describe("/provider/patients endpoint", () => {
             password: providerInfo.password,
             audience: 'http://localhost:5000',
             scope: 'openid',
-            client_id: 'W9rzBzl2LptTI02ZR2oPfxH51dYSC0eg',
-            client_secret: 'nzHsVWu9QDW_4V5eA-qFc_dyWWH6NS2l5Zs_Aq52sNy5FOEieJYC03NOP9jgUHIQ'
+            client_id: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
+            client_secret: '9KehLwVpY_YAEkPEct03DizxEkZpTNa3tNFvUanVotpOnlZ5wStrzdOsGuaiRH2H'
         };
 
         //"client_secret":"sPFQ_UQ1G5e20F87cc2MDU-BDjzG1i9CHEnOISfnuHSgyYGvI_zhXQR5nsZto-tA","audience":"https://medlock-dev.auth0.com/api/v2/"
