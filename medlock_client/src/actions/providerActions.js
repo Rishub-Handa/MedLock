@@ -42,9 +42,7 @@ export function createProviderProfile(newProfile, creatorScope) {
             API_URL = 'http://localhost:5000/api/provider'; 
     }
 
-
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
-
     return dispatch => {
         dispatch(createProviderProfileBegin());
         return axios.post(API_URL, newProfile, { headers })
