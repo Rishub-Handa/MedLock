@@ -116,7 +116,6 @@ class MyPatients extends Component {
                                 console.log("successful");
                                 this.props.fetchPatients();
                             })
-
                     }
                 });
             }) 
@@ -127,7 +126,6 @@ class MyPatients extends Component {
 
     createPatient = (newPatient, AMT, patient_id) => {
         console.log("Patient registered. Now creating profile . . . "); 
-        console.log(patient_id); 
         const newPatientProfile = {
             _id: patient_id.substring(6),
             personalData: {
@@ -140,7 +138,10 @@ class MyPatients extends Component {
         };
 
         this.props.createPatientProfile(newPatientProfile)
-            .then(this.props.fetchPatients());
+            .then(() => {
+                console.log("also successful!");
+                this.props.fetchPatients();
+            });
 
         this.props.assignRoles(patient_id, AMT, "Patient");
 

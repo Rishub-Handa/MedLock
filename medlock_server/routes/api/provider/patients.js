@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Chatkit = require('@pusher/chatkit-server'); 
 const Provider = require('../../../models/Provider'); 
 const Patient = require('../../../models/Patient'); 
-const PatientInfoSchema = require('../../../models/schemas/PatientInfoSchema'); 
 
 const chatkit = new Chatkit.default({
     instanceLocator: 'v1:us1:b72e93e8-22d4-4227-a9f3-ad03723ca266', 
@@ -98,7 +97,7 @@ router.get('/', (req, res) => {
 }); 
 
 // @route   POST api/provider/patients 
-// @desc    Add a patient to the provider patientList 
+// @desc    Add a patient to the provider's list of patients 
 // @access  Private, requires Auth0 Access Token 
 router.post('/', (req, res) => {
 
@@ -106,74 +105,51 @@ router.post('/', (req, res) => {
     const patientId = req.body._id; 
     console.log(patientId); 
 
-    // Check if patient exists 
+    Patient.find({ "_id": mongoose.Types.ObjectId(patientId) })
+    .then(patients => {
+        if (patients.length > 1) throw new Error("Multiple patients with same id exist!");
+        
+        // patient does not exist in our database
+        else if (patients.length === 0) {
+            // create new patient
+            const newPatient = new Patient({
+                _id: mongoose.Types.ObjectId(patientId),
+                personalData: req.body.personalData,
+                medicalData: {
+                    ...req.body.medicalData,
+                    dispenser_id: mongoose.Types.ObjectId()
+                },
+            });
+            newPatient.medicalData.providers.push(providerId);
+            newPatient.save().then(patient => console.log("Patient -> MedLock Database"));
+        }
 
-    Patient.find({
-        "_id": mongoose.Types.ObjectId(patientId) 
-    }).limit(1)  
-        .then(res => { 
-            // Create patient in database if does not exist. 
-            if(res.length === 0) {
-                console.log("Creating New Patient . . . "); 
-                const newPatient = new Patient({
-                    _id: mongoose.Types.ObjectId(req.body._id),
-                    personalData: req.body.personalData,
-                    medicalData: {
-                        ...req.body.medicalData,
-                        dispenser_id: mongoose.Types.ObjectId(),
-                    },
-                }); 
+        const newPatientInfo = {
+            _id: patientId,
+            name: req.body.personalData.name,
+            email: req.body.personalData.email
+        };
 
-                // Create new user in ChatKit when creating new user in MongoDB 
-                // Create name field in patient registration 
-                chatkit.createUser({
-                    id: patientId, 
-                    name: req.body.personalData.name 
-                }) 
-                    .then(() => {
-                        console.log("User was created. "); 
-                        // Create Provider Patient Communication Chat. 
-                        addPatientCreateChat(req, res, providerId, patientId); 
-                    }) 
-                    .catch(error => console.log(error)); 
-            
-                newPatient.save()
-                    .then(patient => {
-                        console.log("Patient -> Database");
-                    });
-            } else {
-                // The patient exists in the database. Add the providerId to patient providers. 
-                Patient.findById(patientId) 
-                    .then(patient => {
-                        let contains = false; 
-
-                        patient.medicalData.providers.forEach(provider => {
-                            if(provider === providerId) {
-                                contains = true; 
-                            }
-                        }); 
-
-                        if(!contains) {
-                            console.log("Adding Provider to patient provider list. "); 
-                            patient.medicalData.providers.push(providerId); 
-                            patient.save() 
-                                .then(patient => {
-                                    console.log("Provider added to patient provider list. "); 
-                                })
-                        }
-
-                    }); 
-
-                // Create Provider Patient Communication Channel 
-                addPatientCreateChat(req, res, providerId, patientId); 
-            }
-        }) 
-        .catch(error => console.log(error)); 
-
-
+        addPatientToProviderList(providerId, newPatientInfo);
+    });
 
 });
 
+const addPatientToProviderList = (providerId, newPatientInfo) => {
+    const patientId = newPatientInfo._id;
+    Provider.findById(providerId, (err, provider) => {
+        if (err) return res.status(500).send(err);
+        const duplicatePatients = provider.medicalData.patients.filter(patient => patientId === patient._id);
+        if (duplicatePatients.length === 0) throw new Error(`Provider with id=${providerId} already has a patient with id=${patientId}`);
+        else {
+            // add patient to provider list
+            provider.medicalData.patients.push(newPatientInfo);
+            provider.save()
+                .then(provider => console.log(`Patient with id=${patientId} added to patient list of Provder with id=${providerId}.`))
+                .catch(error => console.log(error));
+        }
+    });
+}
 
 // @route   DELETE api/provider/patients 
 // @desc    Delete a patient from provider patientList 
@@ -185,10 +161,30 @@ router.delete('/:id', (req, res) => {
     const patientId = req.query._id;
 
     //initializes data for patient that is deleted
+<<<<<<< HEAD
     var deletePatient = 0;
     if(id) {        
 
     }
+=======
+    var removedPatient;
+
+    Provider.findById(providerId)
+        .then(provider => {
+            const newPatientList = provider.medicalData.patients.filter(patient => patient._id !== patientId);
+            provider.medicalData.patients = newPatientList;
+            provider.save()
+                .then(() => console.log(`provider(id=${providerId}) removed patient(id=${patientId}) from their list of patients`));
+        });
+    
+    Patient.findById(patientId)
+        .then(patient => {
+            const newProviderList = patient.medicalData.providers.filter(provider => provider._id === providerId);
+            patient.medicalData.providers = newProviderList;
+            patient.save()
+                .then(() => console.log(`provider(id=${providerId}) has been removed from list of providers of patient(id=${patientId})`));
+        });
+>>>>>>> master
     
 }); 
 

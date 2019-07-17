@@ -1,4 +1,4 @@
 const mongoose = require('mongoose'); 
-const PDISurveySchema = require('./schemas/PatientInfoSchema');
+const PatientInfoSchema = require('./schemas/PatientInfoSchema');
 
-module.exports = PDISurvey = mongoose.model('patientInfo', PatientInfoSchema); 
+module.exports = PatientInfo = mongoose.model('patientInfo', PatientInfoSchema); 
