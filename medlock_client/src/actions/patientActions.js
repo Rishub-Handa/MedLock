@@ -7,7 +7,13 @@ import {
     ADD_PATIENT_FAILURE, 
     FETCH_PATIENTS_BEGIN,
     FETCH_PATIENTS_SUCCESS,
-    FETCH_PATIENTS_FAILURE 
+    FETCH_PATIENTS_FAILURE,
+    DELETE_ALL_PATIENTS_BEGIN,
+    DELETE_ALL_PATIENTS_SUCCESS,
+    DELETE_ALL_PATIENTS_FAILURE,
+    DELETE_PATIENT_BEGIN,
+    DELETE_PATIENT_SUCCESS,
+    DELETE_PATIENT_FAILURE,
 } from './types';
 
 import axios from 'axios';
@@ -118,4 +124,75 @@ export function fetchPatients() {
           })
           .catch(error => dispatch(fetchPatientsError(error)));
   };
+}
+  
+export const deletePatientBegin = () => ({
+    type: DELETE_PATIENT_BEGIN,
+})
+
+export const deletePatientSuccess = (patient) => ({
+  type: DELETE_PATIENT_SUCCESS,
+  payload: {
+    patient
+  }
+})
+
+export const deletePatientError = (error) => ({
+  type: DELETE_PATIENT_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export function deletePatient(_id) {
+  const { getAccessToken } = auth0client;
+  const API_URL = 'http://localhost:5000/api';
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+  return dispatch => {
+    dispatch(deletePatientBegin());
+    return axios.delete(`${API_URL}/admin/patient?_id=${_id}&deleteAll=false`)
+        .then(res => {
+          console.log(res);
+          dispatch(deletePatientSuccess(res));
+        })
+        .catch(err => {
+          dispatch(deletePatientError(err));
+        });
+  }
+}
+export const deleteAllPatientsBegin = () => ({
+    type: DELETE_ALL_PATIENTS_BEGIN
+})
+
+export const deleteAllPatientsSuccess = (patients) => ({
+  type: DELETE_ALL_PATIENTS_SUCCESS,
+  payload: {
+    patients
+  }
+})
+
+export const deleteAllPatientsError = (error) => ({
+  type: DELETE_ALL_PATIENTS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export function deleteAllPatients() {
+  const { getAccessToken } = auth0client;
+  const API_URL = 'http://localhost:5000/api';
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+
+  return dispatch => {
+    dispatch(deleteAllPatientsBegin());
+    return axios.delete(`${API_URL}/admin/patient?_id=$0&deleteAll=true`)
+        .then(res => {
+          console.log(res);
+          dispatch(deleteAllPatientsSuccess(res));
+        })
+        .catch(err => {
+          dispatch(deleteAllPatientsError(err));
+        });
+  }
 }

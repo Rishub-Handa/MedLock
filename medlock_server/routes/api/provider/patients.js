@@ -8,10 +8,66 @@ const chatkit = new Chatkit.default({
     instanceLocator: 'v1:us1:b72e93e8-22d4-4227-a9f3-ad03723ca266', 
     key: '3e67a467-115d-40eb-ad91-a2293080a4ae:wsDhZD7NcvPnu6kVGeKnu/nWjRTsNloQVBCZxeTNBzw='
 });
-
+//const functions = require('../functions/endpointFunctions.js');
 const router = express.Router(); 
 
-// @route   GET api/provider/patients 
+const addPatientCreateChat = (req, res, providerId, patientId) => {
+
+    // Add patient to Provider patient list. 
+    Provider.findById(providerId, (err, provider) => {
+        console.log("Reached");
+        console.log(req.body); 
+        if (err) return res.status(500).send(err);
+        const newPatient = {
+            _id: patientId, 
+            name: req.body.personalData.name, 
+            email: req.body.personalData.email 
+        };
+        console.log(newPatient);
+
+        // Check if newPatient exists in array. 
+        console.log(`Provider Patient List: ${provider.medicalData.patients}`); 
+        let contains = false; 
+
+        provider.medicalData.patients.forEach(patient => {
+            console.log(patient._id); 
+            if("" + patient._id === "" + patientId)  
+                contains = true; 
+        })
+
+        console.log(contains); 
+        if(!contains) {
+
+            // If the provider has not already registered with the patient, create a chat. 
+
+            // TODO: Create field to transmit patient name. 
+            // Have all joinable rooms display 
+            // Have providers search for joinable rooms 
+
+            chatkit.createRoom({
+                creatorId: providerId,
+                name: `${req.body.personalData.name} + ${provider.personalData.name}`,
+                isPrivate: true, 
+                userIds: [patientId] 
+            })
+                .then(() => {
+                  console.log('Room created successfully');
+                }).catch((err) => {
+                  console.log(err);
+                });
+
+
+            provider.medicalData.patients.push(newPatient);
+            provider.save()
+                .then(provider => {
+                    console.log(`Patient with id=${newPatient._id} added to patient list of Provder with id=${providerId}.`);
+                })
+                .catch(error => console.log(error));
+        }
+    });
+}
+
+// @route   GET api/provider/allPatients 
 // @desc    Get all patients information associated with provider.
 // @access  Private, requires Auth0 Access Token 
 router.get('/', (req, res) => {
@@ -78,6 +134,7 @@ router.post('/', (req, res) => {
 
 });
 
+<<<<<<< HEAD
 const addPatientToProviderList = (providerId, newPatientInfo) => {
     const patientId = newPatientInfo._id;
     Provider.findById(providerId, (err, provider) => {
@@ -93,6 +150,8 @@ const addPatientToProviderList = (providerId, newPatientInfo) => {
         }
     });
 }
+=======
+>>>>>>> master
 
     // Check if patient exists 
 
@@ -240,13 +299,25 @@ const addPatientToProviderList = (providerId, newPatientInfo) => {
 router.delete('/:id', (req, res) => { 
 
     // Might fix later 
-    const id = req.user.sub.substring(6); 
-    Provider.update({
-        "_id": id 
-        }, 
-        {
-            "$pull": { "patientList": { "patientId": req.params.id }}
-        }) 
+    console.log("Patient DELETE Request");
+
+    const _id = req.query._id;
+    //initializes data for patient that is deleted
+    var deletePatient = 0;
+    if(_id) {
+        //Deletes User From Chatkit
+        deletePatientChatKit(_id);
+        
+        //Deletes User and Dispenser From MongoDB Database
+        deletePatient = deletePatientMongo(_id);
+
+        //Deletes User From Auth0
+
+    }
+    else {
+        console.log("Error: No delete function specified");
+    }
+    return deletePatient;
     
 }); 
 
