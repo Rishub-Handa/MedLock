@@ -9,6 +9,7 @@ const chatkit = new Chatkit.default({
     instanceLocator: 'v1:us1:b72e93e8-22d4-4227-a9f3-ad03723ca266', 
     key: '3e67a467-115d-40eb-ad91-a2293080a4ae:wsDhZD7NcvPnu6kVGeKnu/nWjRTsNloQVBCZxeTNBzw='
 });
+
 //const functions = require('../functions/endpointFunctions.js');
 const router = express.Router(); 
 
@@ -174,31 +175,20 @@ router.post('/', (req, res) => {
 });
 
 
-// @route   DELETE api/provider/allPatients 
+// @route   DELETE api/provider/patients 
 // @desc    Delete a patient from provider patientList 
 // @access  Private, requires Auth0 Access Token  
 router.delete('/:id', (req, res) => { 
+    console.log("Patient DELETE Request -- remove patient from provider's list of patients");
 
-    // Might fix later 
-    console.log("Patient DELETE Request");
+    const providerId = req.body.sub.substring(6);
+    const patientId = req.query._id;
 
-    const _id = req.query._id;
     //initializes data for patient that is deleted
     var deletePatient = 0;
-    if(_id) {
-        //Deletes User From Chatkit
-        deletePatientChatKit(_id);
-        
-        //Deletes User and Dispenser From MongoDB Database
-        deletePatient = deletePatientMongo(_id);
-
-        //Deletes User From Auth0
+    if(id) {        
 
     }
-    else {
-        console.log("Error: No delete function specified");
-    }
-    return deletePatient;
     
 }); 
 

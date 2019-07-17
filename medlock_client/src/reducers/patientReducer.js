@@ -7,15 +7,24 @@ import {
     ADD_PATIENT_FAILURE, 
     FETCH_PATIENTS_BEGIN, 
     FETCH_PATIENTS_SUCCESS, 
-    FETCH_PATIENTS_FAILURE 
+    FETCH_PATIENTS_FAILURE, 
+    DELETE_PATIENT_BEGIN,
+    DELETE_PATIENT_SUCCESS,
+    DELETE_PATIENT_FAILURE
 } from '../actions/types'; 
 
 const initialState = {
     patients: [], 
+    patient: null, 
+
     patientsFetching: false, 
     patientsFetched: false,
     fetchPatientsError: null, 
-    patient: null, 
+
+    patientDeleting: false,
+    lastPatientDeleted: null,
+    deletePatientError: null,
+
     patientRegistering: false, 
     createPatientError: null, 
     newAddedPatient: null, 
@@ -79,6 +88,23 @@ export default function(state = initialState, action) {
                 ...state, 
                 patientsFetching: false,
                 fetchPatientsError: action.payload.error
+            };
+        case DELETE_PATIENT_BEGIN: 
+            return {
+                ...state,
+                patientDeleting: true,
+            };
+        case DELETE_PATIENT_SUCCESS:
+            return {
+                ...state,
+                patientDeleting: false,
+                lastPatientDeleted: action.payload.patient
+            };
+        case DELETE_PATIENT_FAILURE:
+            return {
+                ...state,
+                patientDeleting: false,
+                deletePatientError: action.payload.error
             };
         default:
             return state;
