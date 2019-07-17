@@ -41,7 +41,6 @@ export function fetchRoles(API_MANAGEMENT_TOKEN) {
       dispatch(fetchRolesBegin());
       return axios.get(API_URL, { headers })
         .then(res => {
-          console.log(res.data);
           dispatch(fetchRolesSuccess(res.data));
         })
         .catch(error => dispatch(fetchRolesFailure(error)));
@@ -76,7 +75,6 @@ export function auth0Registration(newUser, API_MANAGEMENT_TOKEN) {
         dispatch(auth0RegistrationBegin());
         return axios.post(API_URL, newUser, { headers })
             .then(res => {
-                console.log(res.data);
                 dispatch(auth0RegistrationSuccess(res.data));
             })
             .catch(error => {
@@ -135,7 +133,6 @@ export function assignRoles(user_id, API_MANAGEMENT_TOKEN, role) {
         dispatch(assignRolesBegin());
         return axios.post(API_URL, req_body, { headers })
             .then(res => {
-                console.log(res.data);
                 dispatch(assignRolesSuccess(res.data));
             })
             .catch(error => {
