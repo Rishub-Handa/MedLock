@@ -134,6 +134,7 @@ router.post('/', (req, res) => {
 
 });
 
+
 const addPatientToProviderList = (providerId, newPatientInfo) => {
     const patientId = newPatientInfo._id;
     Provider.findById(providerId, (err, provider) => {
