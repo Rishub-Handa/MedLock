@@ -4,6 +4,7 @@ const Chatkit = require('@pusher/chatkit-server');
 const Patient = require('../../../models/Patient'); 
 const Dispenser = require('../../../models/Dispenser');
 const Provider = require('../../../models/Provider');
+const axios = require('axios');
 
 const servers = require('../../../config/servers');
 const { MEDLOCK_AUTH0 } = servers;
@@ -22,15 +23,16 @@ const router = express.Router();
 // @access Public --> Will Change
 
 const deletePatientMongo = (patientId) => {
+    console.log(`deleting user(id=${patientId}) from MedLock db`);
     Patient.findByIdAndDelete(patientId, (err, deletedPatient) => {
-        if (err) console.log(`Error: ${err}`);
+        if (err) console.log(`MedLock: ${err}`);
 
         // Deletes Dispenser From MongoDB Database
-        if(deletedPatient.medicalData.dispenser_id) {
-            Dispenser.findByIdAndDelete({dispenser_id : deletedPatient.medicalData.dispenser_id})
-                .then(() => console.log("DELETED DISPENSER FROM DATABASE"))
-                .catch((err) => console.log(`Error: ${err}`));
-        }
+        // if(deletedPatient.medicalData.dispenser_id) {
+        //     Dispenser.findByIdAndDelete({dispenser_id : deletedPatient.medicalData.dispenser_id})
+        //         .then(() => console.log("DELETED DISPENSER FROM DATABASE"))
+        //         .catch((err) => console.log(`Error: ${err}`));
+        // }
         
         // removes deleted patient from patient list of associated providers
         deletedPatient.medicalData.providers.forEach(providerId => {
@@ -52,23 +54,33 @@ const deleteAllPatientsMongo = () => {
 }
 
 const deletePatientChatKit = (id) => {
+    console.log(`deleting user(id=${id}) from ChatKit`);
     chatkit.deleteUser({ id: id,})
-            .then(curUser => console.log(`User(id=${id}) Deleted Successfully From Chatkit`))
-            .catch(err => console.log(`Error: ${err}`));
+            .then((user) => console.log(`user(id=${id}) deleted from ChatKit`))
+            .catch(err => console.log(`ChatKit: ${err}`));
+}
+
+const deleteUserFromAuth0 = (patientId, AMT) => {
+    console.log(`deleting user(id=${patientId}) from Auth0`);
+    patientId = "auth0|" + patientId;
+    var url = `${MEDLOCK_AUTH0}/v2/users/${patientId}`;
+    const headers = { authorization: `Bearer ${AMT}`};
+    axios.delete(url, { headers })
+        .then(() => console.log(`patient(id=${patientId}) deleted from Auth0`))
+        .catch(err => console.log(`Auth0: ${err}`));
 }
 
 router.delete('/', (req, res) => {
     console.log("Patient DELETE Request");
-    console.log(req.body);
-    console.log("___________");
-    console.log(req.config);
 
     const patientId = req.query._id;
     const AMT = req.body.AMT;
+    console.log(patientId);
 
-    if (patientId && !req.query.deleteAll) {
-        deletePatientChatKit(patientId);
+    if (patientId) { //TODO look for deleteAll param too!
+        console.log("deleting patient!");
         deletePatientMongo(patientId);
+        deletePatientChatKit(patientId);
         deleteUserFromAuth0(patientId, AMT);
     } else if (req.query.deleteAll) {
         deleteAllPatientsMongo();
@@ -76,13 +88,5 @@ router.delete('/', (req, res) => {
         throw new Error("no delete function specified");
     }
 });
-
-const deleteUserFromAuth0 = (patientId, AMT) => {
-    var url = `${MEDLOCK_AUTH0}/v2/users/${id}`;
-    const headers = { authorization: `Bearer ${AMT}`};
-    axios.delete(url, headers)
-        .then(console.log(`patient(id=${patientId}) deleted from Auth0`))
-        .catch(err => console.log(`Error: ${err}`));
-}
 
 module.exports = router; 

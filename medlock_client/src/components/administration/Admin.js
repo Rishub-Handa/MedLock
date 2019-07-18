@@ -79,8 +79,9 @@ class Admin extends Component {
             .catch(err => console.log(err));
     }
 
-    deletePatient = (patient) => {
-        var url = `${MEDLOCK_API}/admin/patient?_id=${patient._id}&deleteAll=false`;
+    deletePatient = (patientId) => {
+        console.log(patientId);
+        var url = `${MEDLOCK_API}/admin/patient?_id=${patientId}&deleteAll=false`;
         fetchAMT()
             .then(res => {
                 const AMT = res.data.access_token; 
@@ -89,7 +90,7 @@ class Admin extends Component {
                         AMT
                     }
                 })
-                    .then(alert(`Patient ${patient._id} deleted successfully`))
+                    .then(alert(`Patient ${patientId} deleted successfully`))
                     .catch(err => alert(`Error On Delete: ${err}`));
             });            
     }
@@ -125,7 +126,7 @@ class Admin extends Component {
                         </label>
                         {/* <button onClick={this.deletePatient}>DELETE PATIENT</button> */}
                     </form>
-                    <button onClick={this.deletePatient}>DELETE SPECIFIED PATIENT</button>
+                    <button onClick={() => this.deletePatient(this.state._id)}>DELETE SPECIFIED PATIENT</button>
                 </div>
                 <div>
                 <button onClick={this.deleteAllPatients}>DELETE ALL PATIENTS</button>
