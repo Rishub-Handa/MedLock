@@ -79,7 +79,10 @@ class Admin extends Component {
 
     deletePatient = (patient) => {
         axios.delete(`${API_URL}/admin/patient?_id=${patient._id}&deleteAll=false`)
-            .then(alert(`Patient ${patient._id} deleted successfully`))
+            .then((err, result) => {
+                if(err) {console.log(err); throw new Error(err)};
+                alert(`Patient ${patient._id} deleted successfully`)
+            })
             .catch(err => alert(`Error On Delete: ${err}`));
     }
 
