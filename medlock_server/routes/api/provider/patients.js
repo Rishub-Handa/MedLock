@@ -25,22 +25,6 @@ const createChatKitRoom = (providerId, patientName, providerName, patientId) => 
         });
 }
 
-const createChatKitUser = (req, res, providerId, patientId) => {
-    chatkit.createUser({
-        id: patientId, 
-        name: req.body.personalData.name 
-    }) 
-        .then(() => {
-            console.log("User was created. "); 
-            // Create Provider Patient Communication Chat. 
-            addPatientCreateChat(req, res, providerId, patientId); 
-        }) 
-        .catch(error => console.log(error)); 
-}
-
-
-
-
 const createChatKitUser = (req, providerId, providerName, patientId) => {
     chatkit.createUser({
         id: patientId, 
