@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions'; 
 import { createProviderProfile } from '../../actions/providerActions'; 
+import { MEDLOCK_API } from '../../config/servers';
 
 const axios = require('axios'); 
 
-const API_URL = 'http://localhost:5000/api';
 
 class Admin extends Component {
  
@@ -68,23 +68,35 @@ class Admin extends Component {
     }
 
     newProviderEmail = (newProvider) => {
-        axios.post('http://localhost:5000/api/email', newProvider); 
+        var url = `${MEDLOCK_API}/email`;
+        axios.post(url, newProvider); 
     }
 
     deleteAllProviders = () => {
-        axios.delete(`${API_URL}/admin/provider`)
+        var url = `${MEDLOCK_API}/admin/provider`;
+        axios.delete(url)
             .then(console.log("All Providers Deleted Successfully"))
             .catch(err => console.log(err));
     }
 
     deletePatient = (patient) => {
-        axios.delete(`${API_URL}/admin/patient?_id=${patient._id}&deleteAll=false`)
-            .then(alert(`Patient ${patient._id} deleted successfully`))
-            .catch(err => alert(`Error On Delete: ${err}`));
+        var url = `${MEDLOCK_API}/admin/patient?_id=${patient._id}&deleteAll=false`;
+        fetchAMT()
+            .then(res => {
+                const AMT = res.data.access_token; 
+                axios.delete(url, {
+                    data: {
+                        AMT
+                    }
+                })
+                    .then(alert(`Patient ${patient._id} deleted successfully`))
+                    .catch(err => alert(`Error On Delete: ${err}`));
+            });            
     }
 
-    deleteAllPatients = (patient) => {
-        axios.delete(`${API_URL}/admin/patient?_id=0&deleteAll=true`)
+    deleteAllPatients = () => {
+        var url = `${MEDLOCK_API}/admin/patient?_id=0&deleteAll=true`;
+        axios.delete(url)
             .then(alert(`All patients deleted successfully`))
             .catch(err => alert(`Error On Delete: ${err}`));
     }

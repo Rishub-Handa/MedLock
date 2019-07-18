@@ -27,7 +27,7 @@ import {
 
 import axios from 'axios';
 import auth0client from '../auth/Auth';
-import { MEDLOCK_API, MEDLOCK_AUTH0 } from '../../config/servers';
+import { MEDLOCK_API, MEDLOCK_AUTH0 } from '../config/servers';
 
 const createPatientProfileBegin = () => ({
   type: CREATE_PATIENT_PROFILE_BEGIN
@@ -217,8 +217,7 @@ export function deletePatient(id, AMT) {
   return dispatch => {
     dispatch(deletePatientBegin());
     return axios.delete(API_URL, { headers })
-      .then(async res => {
-        await deleteUserFromAuth0(id, AMT);
+      .then(res => {
         dispatch(deletePatientSuccess(res));
       })
       .catch(err => {
@@ -267,11 +266,3 @@ export function deleteAllPatients() {
   }
 }
 
-const deleteUserFromAuth0 = (id, AMT) => {
-  const API_URL = `${MEDLOCK_AUTH0}/v2/users/${id}`;
-  const headers = { authorization: `Bearer ${AMT}`};
-
-  return axios.delete(API_URL, headers)
-    .then(console.log(`Successfully deleted user with id=${id} from Auth0.`))
-    .catch(error => console.log(error));
-}

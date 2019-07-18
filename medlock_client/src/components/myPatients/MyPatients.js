@@ -10,9 +10,9 @@ import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth'; 
 import PatientView from '../patientView/PatientView';
 import SearchField from 'react-search-field';
-const axios = require('axios'); 
-const API_URL = 'http://localhost:5000/api';
+import { MEDLOCK_API } from '../../config/servers';
 
+const axios = require('axios'); 
 
 class MyPatients extends Component {
 
@@ -145,7 +145,8 @@ class MyPatients extends Component {
 
         this.props.assignRoles(patient_id, AMT, "Patient");
 
-        axios.post('http://localhost:5000/api/email', newPatient); 
+        var url = `${MEDLOCK_API}/email`;
+        axios.post(url, newPatient); 
     }
 
     onSearchChange = (value, e) => {

@@ -103,7 +103,6 @@ router.post('/', (req, res) => {
 
     const providerId = req.user.sub.substring(6);
     const patientId = req.body._id; 
-    console.log(patientId); 
 
     Patient.find({ "_id": mongoose.Types.ObjectId(patientId) })
     .then(patients => {
@@ -160,15 +159,6 @@ router.delete('/:id', (req, res) => {
     const providerId = req.body.sub.substring(6);
     const patientId = req.query._id;
 
-    //initializes data for patient that is deleted
-<<<<<<< HEAD
-    var deletePatient = 0;
-    if(id) {        
-
-    }
-=======
-    var removedPatient;
-
     Provider.findById(providerId)
         .then(provider => {
             const newPatientList = provider.medicalData.patients.filter(patient => patient._id !== patientId);
@@ -184,11 +174,9 @@ router.delete('/:id', (req, res) => {
             patient.save()
                 .then(() => console.log(`provider(id=${providerId}) has been removed from list of providers of patient(id=${patientId})`));
         });
->>>>>>> master
-    
 }); 
 
-// @route   PUT api/provider/allPatients 
+// @route   PUT api/provider/patients 
 // @desc    Change the patient data for provider patientList 
 // @access  Private, requires Auth0 Access Token  
 router.put('/:id', (req, res) => { 
