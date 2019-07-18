@@ -139,7 +139,7 @@ const addPatientToProviderList = (providerId, newPatientInfo) => {
     Provider.findById(providerId, (err, provider) => {
         if (err) return res.status(500).send(err);
         const duplicatePatients = provider.medicalData.patients.filter(patient => patientId === patient._id);
-        if (duplicatePatients.length === 0) throw new Error(`Provider with id=${providerId} already has a patient with id=${patientId}`);
+        if (duplicatePatients.length != 0) throw new Error(`Provider with id=${providerId} already has a patient with id=${patientId}`);
         else {
             // add patient to provider list
             provider.medicalData.patients.push(newPatientInfo);
