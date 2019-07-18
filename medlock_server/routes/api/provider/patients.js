@@ -25,66 +25,6 @@ const createChatKitRoom = (providerId, patientName, providerName, patientId) => 
         });
 }
 
-const createChatKitUser = (req, res, providerId, patientId) => {
-    chatkit.createUser({
-        id: patientId, 
-        name: req.body.personalData.name 
-    }) 
-        .then(() => {
-            console.log("User was created. "); 
-            // Create Provider Patient Communication Chat. 
-            addPatientCreateChat(req, res, providerId, patientId); 
-        }) 
-        .catch(error => console.log(error)); 
-}
-
-const addPatientCreateChat = (req, res, providerId, patientId) => {
-
-    // Add patient to Provider patient list. 
-    Provider.findById(providerId, (err, provider) => {
-        console.log("Reached");
-        console.log(req.body); 
-        if (err) return res.status(500).send(err);
-        const newPatient = {
-            _id: patientId, 
-            name: req.body.personalData.name, 
-            email: req.body.personalData.email 
-        };
-        console.log(newPatient);
-
-        // Check if newPatient exists in array. 
-        //console.log(`Provider Patient List: ${provider.medicalData.patients}`); 
-        let contains = false; 
-
-        provider.medicalData.patients.forEach(patient => {
-            //console.log(patient._id); 
-            if("" + patient._id === "" + patientId)  
-                contains = true; 
-        })
-
-        //console.log(contains); 
-        if(!contains) {
-
-            // If the provider has not already registered with the patient, create a chat. 
-
-            // TODO: Create field to transmit patient name. 
-            // Have all joinable rooms display 
-            // Have providers search for joinable rooms 
-
-            // chatkit.createRoom({
-            //     creatorId: providerId,
-            //     name: `${req.body.personalData.name} + ${provider.personalData.name}`,
-            //     isPrivate: true, 
-            //     userIds: [patientId] 
-            // })
-            //     .then(() => {
-            //       console.log('Room created successfully');
-            //     }).catch((err) => {
-            //       console.log(err);
-            //     });
-
-            createChatKitRoom(providerId, req.body.personalData.name, provider.personalData.name, patientId);
-
 const createChatKitUser = (req, providerId, providerName, patientId) => {
     chatkit.createUser({
         id: patientId, 
