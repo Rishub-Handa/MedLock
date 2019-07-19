@@ -34,9 +34,7 @@ class Admin extends Component {
         console.log(this.state);
     }
 
-    createNewProvider = (e) => {
-        e.preventDefault(); 
-
+    createNewProvider = (name, email) => {
         fetchAMT() 
             .then(res => {
                 console.log(res); 
@@ -45,8 +43,8 @@ class Admin extends Component {
                 const password = Math.random().toString(36).slice(-12); 
 
                 const newProvider = {
-                    "name": this.state.name, 
-                    "email": this.state.email,
+                    "name": name, 
+                    "email": email,
                     "password": password,
                     "connection": "Username-Password-Authentication"
                 };
@@ -62,8 +60,8 @@ class Admin extends Component {
                         this.props.createProviderProfile({
                             _id: user_id.substring(6), 
                             personalData: {
-                                name: this.state.name, 
-                                email: this.state.email 
+                                name, 
+                                email,
                             }
                         // Eventually create administrator roles and query user roles. 
                         }, "Admin"); 
@@ -118,33 +116,33 @@ class Admin extends Component {
             .catch(err => alert(`Error On Delete: ${err}`));
     }
 
-    createNewProviderForm = () => {
-        return (
-            <Form>
-                <FormGroup>
-                    <Label for="newProviderName">Name</Label>
-                    <Input 
-                        type="text" 
-                        name="newProviderName" 
-                        id="newProviderName"
-                        onChange={this.onChange}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="newProviderEmail">Email</Label>
-                    <Input 
-                        type="text" 
-                        name="newProviderEmail" 
-                        id="newProviderEmail"
-                        onChange={this.onChange}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Button onClick={this.createNewProvider}>Create</Button>
-                </FormGroup>
-            </Form>
-        )
-    }
+    // createNewProviderForm = () => {
+    //     return (
+    //         <Form>
+    //             <FormGroup>
+    //                 <Label for="newProviderName">Name</Label>
+    //                 <Input 
+    //                     type="text" 
+    //                     name="newProviderName" 
+    //                     id="newProviderName"
+    //                     onChange={this.onChange}
+    //                 />
+    //             </FormGroup>
+    //             <FormGroup>
+    //                 <Label for="newProviderEmail">Email</Label>
+    //                 <Input 
+    //                     type="text" 
+    //                     name="newProviderEmail" 
+    //                     id="newProviderEmail"
+    //                     onChange={this.onChange}
+    //                 />
+    //             </FormGroup>
+    //             <FormGroup>
+    //                 <Button onClick={this.createNewProvider}>Create</Button>
+    //             </FormGroup>
+    //         </Form>
+    //     )
+    // }
 
     render() {
         console.log(this.props);
@@ -177,13 +175,13 @@ class Admin extends Component {
             return (
                 <div>
                     <h1>Administration</h1>
-                    <div>
+                    {/* <div>
                         <h1>Create New Provider</h1>
                         {this.createNewProviderForm()}
-                    </div>
+                    </div> */}
                     <div>
                         <h1>DANGER ZONE</h1>
-                        <button onClick={this.deleteAllProviders}>DELETE ALL PROVIDERS</button>
+                        <Button onClick={this.deleteAllProviders}>DELETE ALL PROVIDERS</Button>
                     </div>
                     <div>
                         <form>
@@ -200,7 +198,9 @@ class Admin extends Component {
                     </div>
                     <div>
                         <PatientSection patients={patients}/>
-                        <ProviderSection providers={providers} />
+                        <ProviderSection 
+                            providers={providers}
+                            createNewProvider={this.createNewProvider} />
                     </div>
                 </div>
             );
