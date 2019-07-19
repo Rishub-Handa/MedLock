@@ -10,6 +10,19 @@ const chatkit = new Chatkit.default({
 
 const router = express.Router(); 
 
+
+// @route   GET api/admin/provider
+// @desc    fetches all providers
+// @access  Public --> Will Change
+router.get('/', (req, res) => {
+    console.log("Provider GET Request");
+
+    Provider.find({}, (err, providers) => {
+        if (err) console.log(err);
+        res.json(providers);
+    });
+}); 
+
 // @route   POST api/admin/provider
 // @desc    create new provider
 // @access  Private, requires Auth0 Access Token 

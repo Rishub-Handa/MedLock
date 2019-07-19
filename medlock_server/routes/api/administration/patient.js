@@ -18,6 +18,19 @@ const router = express.Router();
 
 //const functions = require('../functions/endpointFunctions.js')
 
+// @route   GET api/admin/patient
+// @desc    fetches all patients
+// @access  Public --> Will Change
+router.get('/', (req, res) => {
+    console.log("Patient GET Request");
+
+    Patient.find({}, (err, patients) => {
+        if (err) console.log(err);
+        res.json(patients);
+    });
+
+});
+
 // @route   DELETE api/admin/patient
 // @desc    deletes all patients or individual patient
 // @access Public --> Will Change

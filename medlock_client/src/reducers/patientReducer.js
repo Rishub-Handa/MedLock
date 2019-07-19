@@ -2,15 +2,23 @@ import {
     CREATE_PATIENT_PROFILE_BEGIN,
     CREATE_PATIENT_PROFILE_SUCCESS,
     CREATE_PATIENT_PROFILE_FAILURE, 
+
     ADD_PATIENT_BEGIN,
     ADD_PATIENT_SUCCESS,
     ADD_PATIENT_FAILURE, 
+
     FETCH_PATIENTS_BEGIN, 
     FETCH_PATIENTS_SUCCESS, 
     FETCH_PATIENTS_FAILURE, 
+
     DELETE_PATIENT_BEGIN,
     DELETE_PATIENT_SUCCESS,
-    DELETE_PATIENT_FAILURE
+    DELETE_PATIENT_FAILURE,
+
+    FETCH_ALL_PATIENTS_BEGIN,
+    FETCH_ALL_PATIENTS_SUCCESS,
+    FETCH_ALL_PATIENTS_FAILURE,
+
 } from '../actions/types'; 
 
 const initialState = {
@@ -105,6 +113,25 @@ export default function(state = initialState, action) {
                 ...state,
                 patientDeleting: false,
                 deletePatientError: action.payload.error
+            };
+        case FETCH_ALL_PATIENTS_BEGIN:
+            return {
+                ...state,
+                patientsFetching: true,
+            };
+        case FETCH_ALL_PATIENTS_SUCCESS:
+            return {
+                ...state,
+                patientsFetching: false,
+                patientsFetched: true,
+                patients: action.payload.patients
+            };
+        case FETCH_ALL_PATIENTS_FAILURE:
+            return {
+                ...state,
+                patientsFetching: false,
+                patientsFetched: false,
+                patients: action.payload.error
             };
         default:
             return state;

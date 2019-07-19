@@ -23,6 +23,10 @@ import {
   DELETE_PATIENT_SUCCESS,
   DELETE_PATIENT_FAILURE,
 
+  FETCH_ALL_PATIENTS_BEGIN,
+  FETCH_ALL_PATIENTS_SUCCESS,
+  FETCH_ALL_PATIENTS_FAILURE,
+
 } from './types';
 
 import axios from 'axios';
@@ -148,18 +152,18 @@ export function removePatientFromProviderList(id) {
 }
 
 // Helper functions give access to the status of the request 
-export const fetchPatientsBegin = () => ({
+const fetchPatientsBegin = () => ({
   type: FETCH_PATIENTS_BEGIN
 });
 
-export const fetchPatientsSuccess = patients => ({
+const fetchPatientsSuccess = patients => ({
   type: FETCH_PATIENTS_SUCCESS,
   payload: {
     patients
   }
 });
 
-export const fetchPatientsError = error => ({
+const fetchPatientsError = error => ({
   type: FETCH_PATIENTS_FAILURE,
   payload: {
     error
@@ -264,5 +268,36 @@ export function deleteAllPatients() {
         dispatch(deleteAllPatientsError(err));
       });
   }
+}
+
+const fetchAllPatientsBegin = () => ({
+  type: FETCH_ALL_PATIENTS_BEGIN
+});
+
+const fetchAllPatientsSuccess = patients => ({
+  type: FETCH_ALL_PATIENTS_SUCCESS,
+  payload: {
+    patients
+  }
+});
+
+const fetchAllPatientsFailure = error => ({
+  type: FETCH_ALL_PATIENTS_FAILURE,
+  payload: {
+    error
+  }
+});
+
+export function fetchAllPatients() {
+  console.log("FETCHING ALL PATIENTS");
+  const API_URL = `${MEDLOCK_API}/admin/patient`;
+  
+  return dispatch => {
+    dispatch(fetchAllPatientsBegin());
+    return axios.get(API_URL)
+      .then(res => dispatch(fetchAllPatientsSuccess(res.data)))
+      .catch(err => dispatch(fetchAllPatientsFailure(err)));
+  }
+
 }
 

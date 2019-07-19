@@ -3,21 +3,35 @@ import { connect } from 'react-redux';
 
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions'; 
-import { createProviderProfile } from '../../actions/providerActions'; 
+import { createProviderProfile, fetchAllProviders } from '../../actions/providerActions'; 
+import { fetchAllPatients } from '../../actions/patientActions';
 import { MEDLOCK_API } from '../../config/servers';
 
-const axios = require('axios'); 
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import PatientSection from './sections/patients/PatientSection';
 
+import axios from 'axios';
+import ProviderSection from './sections/providers/ProviderSection';
+import PropTypes from 'prop-types';
 
 class Admin extends Component {
- 
-    state = {};
+    
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    componentDidMount() {
+        this.props.fetchAllPatients();
+        this.props.fetchAllProviders();
+    }
 
     onChange = (e) => {
         this.setState({
+            ...this.state,
             [e.target.name]: e.target.value 
         });
-        
+        console.log(this.state);
     }
 
     createNewProvider = (e) => {
@@ -99,44 +113,130 @@ class Admin extends Component {
             .catch(err => alert(`Error On Delete: ${err}`));
     }
 
-    render() {
+    createNewProviderForm = () => {
         return (
-            <div>
-                <h1>Administration</h1>
-                <div>
-                    <h1>Create New Provider</h1>
-                    <form onSubmit={this.createNewProvider}>
-                        <p>Name: <input type="text" name="name" onChange={this.onChange} /></p>
-                        <p>Email: <input type="text" name="email" onChange={this.onChange} /></p>
-                        <button type="submit">Create New Provider </button>
-                    </form>
-                </div>
-                <div>
-                    <h1>DANGER ZONE</h1>
-                    <button onClick={this.deleteAllProviders}>DELETE ALL PROVIDERS</button>
-                </div>
-                <div>
-                    <form>
-                        <label>
-                            User ID To Delete:
-                            <input type="text" name="_id" onChange={this.onChange} />
-                        </label>
-                        {/* <button onClick={this.deletePatient}>DELETE PATIENT</button> */}
-                    </form>
-                    <button onClick={() => this.deletePatient(this.state._id)}>DELETE SPECIFIED PATIENT</button>
-                </div>
-                <div>
-                <button onClick={this.deleteAllPatients}>DELETE ALL PATIENTS</button>
-                </div>
-            
-
-            </div>
+            <Form>
+                <FormGroup>
+                    <Label for="newProviderName">Name</Label>
+                    <Input 
+                        type="text" 
+                        name="newProviderName" 
+                        id="newProviderName"
+                        onChange={this.onChange}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="newProviderEmail">Email</Label>
+                    <Input 
+                        type="text" 
+                        name="newProviderEmail" 
+                        id="newProviderEmail"
+                        onChange={this.onChange}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Button onClick={this.createNewProvider}>Create</Button>
+                </FormGroup>
+            </Form>
         )
+    }
+
+    render() {
+        console.log(this.props);
+        const { patients, 
+                patientsFetching, 
+                patientsFetched, 
+                fetchPatientsError,
+                providers,
+                providersFetching,
+                providersFetched,
+                fetchProvidersError
+            } = this.props;
+
+        
+        if (fetchProvidersError || fetchPatientsError) {
+            return (
+                <div>
+                    PROVIDER: ${fetchProvidersError}
+                    PATIENT: ${fetchPatientsError}
+                </div>
+            );
+        }
+
+        if (providersFetching || patientsFetching) {
+            return (
+                <div> Loading . . .</div>
+            );
+        } 
+
+            return (
+                <div>
+                    <h1>Administration</h1>
+                    <div>
+                        <h1>Create New Provider</h1>
+                        {this.createNewProviderForm()}
+                    </div>
+                    <div>
+                        <h1>DANGER ZONE</h1>
+                        <button onClick={this.deleteAllProviders}>DELETE ALL PROVIDERS</button>
+                    </div>
+                    <div>
+                        <form>
+                            <label>
+                                User ID To Delete:
+                                <input type="text" name="_id" onChange={this.onChange} />
+                            </label>
+                            {/* <button onClick={this.deletePatient}>DELETE PATIENT</button> */}
+                        </form>
+                        <button onClick={() => this.deletePatient(this.state._id)}>DELETE SPECIFIED PATIENT</button>
+                    </div>
+                    <div>
+                    <button onClick={this.deleteAllPatients}>DELETE ALL PATIENTS</button>
+                    </div>
+                    <div>
+                        <PatientSection patients={patients}/>
+                        <ProviderSection providers={providers} />
+                    </div>
+                </div>
+            );
+        
     }
 } 
 
+Admin.propTypes = {
+    userProfile: PropTypes.object.isRequired,
+
+    fetchAllPatients: PropTypes.func.isRequired,
+    patients: PropTypes.array.isRequired,
+    patientsFetching: PropTypes.bool.isRequired,
+    patientsFetched: PropTypes.bool.isRequired,
+    fetchPatientsError: PropTypes.object,
+
+    fetchAllProviders: PropTypes.func.isRequired,
+    providers: PropTypes.array.isRequired,
+    providersFetching: PropTypes.bool.isRequired,
+    providersFetched: PropTypes.bool.isRequired,
+    fetchProvidersError: PropTypes.object,
+}
+
 const mapStateToProps = state => ({
-    userProfile: state.authState.userProfile 
+    userProfile: state.authState.userProfile,
+
+    patients: state.patientState.patients,
+    patientsFetching: state.patientState.patientsFetching,
+    patientsFetched: state.patientState.patientsFetched,
+    fetchPatientsError: state.patientState.fetchPatientsError,
+
+    providers: state.providerState.providers,
+    providersFetching: state.providerState.providersFetching,
+    providersFetched: state.providerState.providersFetched,
+    fetchProvidersError: state.providerState.providerError
 });
 
-export default connect(mapStateToProps, { auth0Registration, createProviderProfile, assignRoles })(Admin); 
+export default connect(mapStateToProps, { 
+    auth0Registration, 
+    createProviderProfile, 
+    assignRoles, 
+    fetchAllPatients, 
+    fetchAllProviders
+})(Admin); 

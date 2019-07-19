@@ -1,0 +1,9 @@
+.Users-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.Users-container > * {
+    background: #ddd;
+    border: 1px solid #ccc;
+}
