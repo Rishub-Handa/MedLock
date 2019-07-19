@@ -28,17 +28,16 @@ const deletePatientMongo = (patientId) => {
         if (err) console.log(`MedLock: ${err}`);
 
         // Deletes Dispenser From MongoDB Database
-        // if(deletedPatient.medicalData.dispenser_id) {
-        //     Dispenser.findByIdAndDelete({dispenser_id : deletedPatient.medicalData.dispenser_id})
-        //         .then(() => console.log("DELETED DISPENSER FROM DATABASE"))
-        //         .catch((err) => console.log(`Error: ${err}`));
-        // }
+        Dispenser.findByIdAndDelete(deletedPatient.medicalData.dispenser_id, (err, dispenser) => {
+            if (err) console.log(`Dispenser: ${err}`);
+            else console.log(`dispenser(id=${deletedPatient.medicalData.dispenser_id}) of patient(id=${patientId}) deleted`);
+        });
         
         // removes deleted patient from patient list of associated providers
         deletedPatient.medicalData.providers.forEach(providerId => {
             Provider.findOne({ _id: providerId }, (err, provider) => {
                 if (err) console.log(`Error: ${err}`);
-                const newPatientList = provider.medicalData.patients.filter(patient => patient._id !== patientId);
+                const newPatientList = provider.medicalData.patients.filter(patient => patient._id != patientId); // use != bc different types
                 provider.medicalData.patients = newPatientList;
                 provider.save()
                     .then(() => console.log(`provider(id=${providerId}) removed patient(id=${patientId}) from their list of patients`));
@@ -61,8 +60,8 @@ const deletePatientChatKit = (id) => {
 }
 
 const deleteUserFromAuth0 = (patientId, AMT) => {
-    console.log(`deleting user(id=${patientId}) from Auth0`);
     patientId = "auth0|" + patientId;
+    console.log(`deleting user(id=${patientId}) from Auth0`);
     var url = `${MEDLOCK_AUTH0}/v2/users/${patientId}`;
     const headers = { authorization: `Bearer ${AMT}`};
     axios.delete(url, { headers })
@@ -77,7 +76,7 @@ router.delete('/', (req, res) => {
     const AMT = req.body.AMT;
     console.log(patientId);
 
-    if (patientId) { //TODO look for deleteAll param too!
+    if (patientId) { // TODO look for deleteAll param too!
         console.log("deleting patient!");
         deletePatientMongo(patientId);
         deletePatientChatKit(patientId);

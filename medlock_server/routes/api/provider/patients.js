@@ -143,7 +143,7 @@ router.delete('/:id', (req, res) => {
 
     Provider.findById(providerId)
         .then(provider => {
-            const newPatientList = provider.medicalData.patients.filter(patient => patient._id !== patientId);
+            const newPatientList = provider.medicalData.patients.filter(patient => patient._id != patientId); // use != bc different types
             provider.medicalData.patients = newPatientList;
             provider.save()
                 .then(() => console.log(`provider(id=${providerId}) removed patient(id=${patientId}) from their list of patients`));
@@ -151,7 +151,7 @@ router.delete('/:id', (req, res) => {
     
     Patient.findById(patientId)
         .then(patient => {
-            const newProviderList = patient.medicalData.providers.filter(provider => provider._id === providerId);
+            const newProviderList = patient.medicalData.providers.filter(provider => provider._id != providerId); // use != bc different types
             patient.medicalData.providers = newProviderList;
             patient.save()
                 .then(() => console.log(`provider(id=${providerId}) has been removed from list of providers of patient(id=${patientId})`));
