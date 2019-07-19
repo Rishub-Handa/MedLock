@@ -87,10 +87,10 @@ class MyPatients extends Component {
                     this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
                 })
                 .catch(error => {
-                    alert(`Failed To Add Patient. Error Code: ${error}`);
                     console.log(`User Registration Error: ${error}`); 
                     const errorString = `${error}`; 
                     console.log(errorString.includes("409")); 
+                    if(!errorString.includes("409")) alert(`Failed To Add Patient. Error Code: ${error}`);
                     
                     if(errorString.includes("409")) {
                         getUserByEmail(email, AMT) 
