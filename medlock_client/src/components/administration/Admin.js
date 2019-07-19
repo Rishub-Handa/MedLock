@@ -87,7 +87,10 @@ class Admin extends Component {
                         AMT
                     }
                 })
-                    .then(alert(`Patient ${patientId} deleted successfully`))
+                    .then((err) => {
+                        if(err) {console.log(err); throw Error(err)};
+                        alert(`Patient ${patientId} deleted successfully`);
+                    })
                     .catch(err => alert(`Error On Delete: ${err}`));
             });            
     }
