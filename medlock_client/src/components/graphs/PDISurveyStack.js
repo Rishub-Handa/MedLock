@@ -64,47 +64,91 @@ export default class PDISurveyStack extends Component {
         const lines = this.format(this.props.data);
         const dates = lines[0].map(point => point.date);
         console.log(dates);
+        if(dates[0]){
+            return ( 
+                <div>
 
-        return ( 
-            <div>
+                    <VictoryChart>
+                        <VictoryLabel
+                            text="Aggregate PDI Survey Response Over Time"
+                            textAnchor="middle"
+                            x={225}
+                            y={30}
+                        />
+                        <VictoryStack>
+                            {this.makeStacks(lines)}
+                        </VictoryStack>
+                        <VictoryAxis 
+                            tickValues={dates}
+                            tickFormat={date => `${date.getMonth() + 1}-${date.getDate()}`}
+                        />
+                        <VictoryAxis 
+                            dependentAxis
+                            tickValues={[0, 10, 20, 30, 40, 50, 60, 70]}
+                        />
+                        <VictoryLegend 
+                            x={325} y={40}
+                            orientation="vertical"
+                            itemsPerRow={4}
+                            symbolSpacer={5}
+                            gutter={0}
+                            data={categories.map((category, index) => ({ 
+                                name: category, symbol: { fill: colors[index] } 
+                            }))}
+                            style={{
+                                labels: { fontSize: 6}
+                            }}
+                            labelComponent={<VictoryLabel />}
+                        />
+                    </VictoryChart>
 
-                <VictoryChart>
-                    <VictoryLabel
-                        text="Aggregate PDI Survey Response Over Time"
-                        textAnchor="middle"
-                        x={225}
-                        y={30}
-                    />
-                    <VictoryStack>
-                        {this.makeStacks(lines)}
-                    </VictoryStack>
-                    <VictoryAxis 
-                        tickValues={dates}
-                        tickFormat={date => `${date.getMonth() + 1}-${date.getDate()}`}
-                    />
-                    <VictoryAxis 
-                        dependentAxis
-                        tickValues={[0, 10, 20, 30, 40, 50, 60, 70]}
-                    />
-                    <VictoryLegend 
-                        x={325} y={40}
-                        orientation="vertical"
-                        itemsPerRow={4}
-                        symbolSpacer={5}
-                        gutter={0}
-                        data={categories.map((category, index) => ({ 
-                            name: category, symbol: { fill: colors[index] } 
-                        }))}
-                        style={{
-                            labels: { fontSize: 6}
-                        }}
-                        labelComponent={<VictoryLabel />}
-                    />
-                </VictoryChart>
+                    
+                    
+                </div>
+            )
+        }
+        else{
+            return ( 
+                <div>
 
-                
-                
-            </div>
-        )
+                    <VictoryChart>
+                        <VictoryLabel
+                            text="Aggregate PDI Survey Response Over Time"
+                            textAnchor="middle"
+                            x={225}
+                            y={30}
+                        />
+                        <VictoryStack>
+                            {this.makeStacks(lines)}
+                        </VictoryStack>
+                        <VictoryAxis 
+                            tickValues={dates}
+                            //tickFormat={date => `${date.getMonth() + 1}-${date.getDate()}`}
+                        />
+                        <VictoryAxis 
+                            dependentAxis
+                            tickValues={[0, 10, 20, 30, 40, 50, 60, 70]}
+                        />
+                        <VictoryLegend 
+                            x={325} y={40}
+                            orientation="vertical"
+                            itemsPerRow={4}
+                            symbolSpacer={5}
+                            gutter={0}
+                            data={categories.map((category, index) => ({ 
+                                name: category, symbol: { fill: colors[index] } 
+                            }))}
+                            style={{
+                                labels: { fontSize: 6}
+                            }}
+                            labelComponent={<VictoryLabel />}
+                        />
+                    </VictoryChart>
+
+                    
+                    
+                </div>
+            )
+        }
     }
 }

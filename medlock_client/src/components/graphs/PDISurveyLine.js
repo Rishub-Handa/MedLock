@@ -47,43 +47,82 @@ const makeLines = (lines) => {
 }
 
 export default function PDISurveyLine(props) {
-    console.log(props.data);
+    console.log("PROPS.DATA:" + props.data);
     const lines = format(props.data);
     const dates = lines[0].map(point => point.date);
-    console.log(dates);
-
-    return (
-        <div>
-            <VictoryChart>
-                <VictoryLabel 
-                    text="PDI Survey Response Over Time"
-                    textAnchor="middle"
-                    x={225}
-                    y={30}
-                />
-                <VictoryAxis dependentAxis 
-                    tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-                />
-                <VictoryAxis 
-                    tickValues={dates}
-                    tickFormat={date => `${date.getMonth() + 1}-${date.getDate()}`}  
-                />
-                {makeLines(lines)}
-                <VictoryLegend 
-                    x={325} y={40}
-                    orientation="vertical"
-                    itemsPerRow={4}
-                    symbolSpacer={5}
-                    gutter={0}
-                    data={categories.map((category, index) => ({ 
-                        name: category, symbol: { fill: colors[index] } 
-                    }))}
-                    style={{
-                        labels: { fontSize: 6}
-                    }}
-                    labelComponent={<VictoryLabel />}
-                />
-            </VictoryChart>
-        </div>
-    )
+    console.log("DATES:" + dates);
+    if(dates[0])
+    {
+        return (
+            <div>
+                <VictoryChart>
+                    <VictoryLabel 
+                        text="PDI Survey Response Over Time"
+                        textAnchor="middle"
+                        x={225}
+                        y={30}
+                    />
+                    <VictoryAxis dependentAxis 
+                        tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                    />
+                    <VictoryAxis 
+                        tickValues={dates}
+                        tickFormat={date => `${date.getMonth() + 1}-${date.getDate()}`}  
+                    />
+                    {makeLines(lines)}
+                    <VictoryLegend 
+                        x={325} y={40}
+                        orientation="vertical"
+                        itemsPerRow={4}
+                        symbolSpacer={5}
+                        gutter={0}
+                        data={categories.map((category, index) => ({ 
+                            name: category, symbol: { fill: colors[index] } 
+                        }))}
+                        style={{
+                            labels: { fontSize: 6}
+                        }}
+                        labelComponent={<VictoryLabel />}
+                    />
+                </VictoryChart>
+            </div>
+        )
+    }
+    else
+    {
+        return (
+            <div>
+                <VictoryChart>
+                    <VictoryLabel 
+                        text="PDI Survey Response Over Time"
+                        textAnchor="middle"
+                        x={225}
+                        y={30}
+                    />
+                    <VictoryAxis dependentAxis 
+                        tickValues={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                    />
+                    <VictoryAxis 
+                        tickValues={dates}
+                        //tickFormat={date => `${date.getMonth() + 1}-${date.getDate()}`}  
+                    />
+                    {makeLines(lines)}
+                    <VictoryLegend 
+                        x={325} y={40}
+                        orientation="vertical"
+                        itemsPerRow={4}
+                        symbolSpacer={5}
+                        gutter={0}
+                        data={categories.map((category, index) => ({ 
+                            name: category, symbol: { fill: colors[index] } 
+                        }))}
+                        style={{
+                            labels: { fontSize: 6}
+                        }}
+                        labelComponent={<VictoryLabel />}
+                    />
+                </VictoryChart>
+            </div>
+        )
+    }
 }
