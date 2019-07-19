@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions'; 
 import { createProviderProfile } from '../../actions/providerActions'; 
+import { MEDLOCK_API } from '../../config/servers';
 
 const axios = require('axios'); 
 
-const API_URL = 'http://localhost:5000/api';
 
 class Admin extends Component {
  
@@ -60,34 +60,41 @@ class Admin extends Component {
 
                     }) 
                     .catch(error => console.log(error)); 
-            
-            
-            
             }) 
             .catch(error => console.log(error)); 
     }
 
     newProviderEmail = (newProvider) => {
-        axios.post('http://localhost:5000/api/email', newProvider); 
+        var url = `${MEDLOCK_API}/email`;
+        axios.post(url, newProvider); 
     }
 
     deleteAllProviders = () => {
-        axios.delete(`${API_URL}/admin/provider`)
+        var url = `${MEDLOCK_API}/admin/provider`;
+        axios.delete(url)
             .then(console.log("All Providers Deleted Successfully"))
             .catch(err => console.log(err));
     }
 
-    deletePatient = (patient) => {
-        axios.delete(`${API_URL}/admin/patient?_id=${patient._id}&deleteAll=false`)
-            .then((err, result) => {
-                if(err) {console.log(err); throw new Error(err)};
-                alert(`Patient ${patient._id} deleted successfully`)
-            })
-            .catch(err => alert(`Error On Delete: ${err}`));
+    deletePatient = (patientId) => {
+        console.log(patientId);
+        var url = `${MEDLOCK_API}/admin/patient?_id=${patientId}&deleteAll=false`;
+        fetchAMT()
+            .then(res => {
+                const AMT = res.data.access_token; 
+                axios.delete(url, {
+                    data: {
+                        AMT
+                    }
+                })
+                    .then(alert(`Patient ${patientId} deleted successfully`))
+                    .catch(err => alert(`Error On Delete: ${err}`));
+            });            
     }
 
-    deleteAllPatients = (patient) => {
-        axios.delete(`${API_URL}/admin/patient?_id=0&deleteAll=true`)
+    deleteAllPatients = () => {
+        var url = `${MEDLOCK_API}/admin/patient?_id=0&deleteAll=true`;
+        axios.delete(url)
             .then(alert(`All patients deleted successfully`))
             .catch(err => alert(`Error On Delete: ${err}`));
     }
@@ -116,7 +123,7 @@ class Admin extends Component {
                         </label>
                         {/* <button onClick={this.deletePatient}>DELETE PATIENT</button> */}
                     </form>
-                    <button onClick={this.deletePatient}>DELETE SPECIFIED PATIENT</button>
+                    <button onClick={() => this.deletePatient(this.state._id)}>DELETE SPECIFIED PATIENT</button>
                 </div>
                 <div>
                 <button onClick={this.deleteAllPatients}>DELETE ALL PATIENTS</button>

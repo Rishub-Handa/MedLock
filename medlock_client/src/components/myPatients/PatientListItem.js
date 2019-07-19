@@ -16,7 +16,7 @@ export default class PatientListItem extends Component {
                 
                 <div>
                     <Button onClick={() => viewPatient(patient)}>View</Button>
-                    <Button onClick={() => deletePatient(patient)}>Delete</Button>
+                    <Button onClick={() => deletePatient(patient._id)}>Delete</Button>
                 </div>
 
             </div>

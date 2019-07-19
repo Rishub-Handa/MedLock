@@ -132,29 +132,33 @@ const addPatientToProviderList = (providerId, newPatientInfo) => {
     });
 }
 
+// @route   DELETE api/provider/patients 
 // @desc    Delete a patient from provider patientList 
 // @access  Private, requires Auth0 Access Token  
 router.delete('/:id', (req, res) => { 
+    console.log("Patient DELETE Request -- remove patient from provider's list of patients");
 
-    // Might fix later 
-    console.log("Patient DELETE Request");
+    const providerId = req.body.sub.substring(6);
+    const patientId = req.query._id;
 
-    const _id = req.query._id;
-    //initializes data for patient that is deleted
-    var deletePatient = 0;
-    if(_id) {
-        //Deletes User From Chatkit
-        deletePatientChatKit(_id);
-        
-        //Deletes User and Dispenser From MongoDB Database
-        deletePatient = deletePatientMongo(_id);
-    }
-    else {
-        console.log("Error: No delete function specified");
-    }
+    Provider.findById(providerId)
+        .then(provider => {
+            const newPatientList = provider.medicalData.patients.filter(patient => patient._id != patientId); // use != bc different types
+            provider.medicalData.patients = newPatientList;
+            provider.save()
+                .then(() => console.log(`provider(id=${providerId}) removed patient(id=${patientId}) from their list of patients`));
+        });
+    
+    Patient.findById(patientId)
+        .then(patient => {
+            const newProviderList = patient.medicalData.providers.filter(provider => provider._id != providerId); // use != bc different types
+            patient.medicalData.providers = newProviderList;
+            patient.save()
+                .then(() => console.log(`provider(id=${providerId}) has been removed from list of providers of patient(id=${patientId})`));
+        });
 }); 
 
-// @route   PUT api/provider/allPatients 
+// @route   PUT api/provider/patients 
 // @desc    Change the patient data for provider patientList 
 // @access  Private, requires Auth0 Access Token  
 router.put('/:id', (req, res) => { 
@@ -171,5 +175,4 @@ router.put('/:id', (req, res) => {
     
 }); 
 
-module.exports = router; 
-
+module.exports = router;
