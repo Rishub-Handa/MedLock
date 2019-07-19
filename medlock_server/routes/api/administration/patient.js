@@ -34,7 +34,6 @@ router.get('/', (req, res) => {
 // @route   DELETE api/admin/patient
 // @desc    deletes all patients or individual patient
 // @access Public --> Will Change
-
 const deletePatientMongo = (patientId) => {
     console.log(`deleting user(id=${patientId}) from MedLock db`);
     Patient.findByIdAndDelete(patientId, (err, deletedPatient) => {
@@ -87,14 +86,14 @@ router.delete('/', (req, res) => {
 
     const patientId = req.query._id;
     const AMT = req.body.AMT;
-    console.log(patientId);
+    const deleteAll = req.body.deleteAll;
 
-    if (patientId) { // TODO look for deleteAll param too!
+    if (patientId && !deleteAll) { // TODO look for deleteAll param too!
         console.log("deleting patient!");
         deletePatientMongo(patientId);
         deletePatientChatKit(patientId);
         deleteUserFromAuth0(patientId, AMT);
-    } else if (req.query.deleteAll) {
+    } else if (deleteAll) {
         deleteAllPatientsMongo();
     } else {
         throw new Error("no delete function specified");

@@ -92,13 +92,14 @@ class Admin extends Component {
 
     deletePatient = (patientId) => {
         console.log(patientId);
-        var url = `${MEDLOCK_API}/admin/patient?_id=${patientId}&deleteAll=false`;
+        var url = `${MEDLOCK_API}/admin/patient?_id=${patientId}`;
         fetchAMT()
             .then(res => {
                 const AMT = res.data.access_token; 
                 axios.delete(url, {
                     data: {
-                        AMT
+                        AMT,
+                        deleteAll: false,
                     }
                 })
                     .then(alert(`Patient ${patientId} deleted successfully`))
@@ -107,8 +108,12 @@ class Admin extends Component {
     }
 
     deleteAllPatients = () => {
-        var url = `${MEDLOCK_API}/admin/patient?_id=0&deleteAll=true`;
-        axios.delete(url)
+        var url = `${MEDLOCK_API}/admin/patient?_id=0`;
+        axios.delete(url, {
+            data: {
+                deleteAll: true,
+            }
+        })
             .then(alert(`All patients deleted successfully`))
             .catch(err => alert(`Error On Delete: ${err}`));
     }

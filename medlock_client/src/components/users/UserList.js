@@ -15,7 +15,7 @@ export default class UserList extends Component {
     }
     
     userHTML = (users) => {
-        return users.map(user => (
+        return this.state.displayedUsers.map(user => (
             <UserListItem 
                 className="listItem"
                 user={user}
