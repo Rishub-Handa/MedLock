@@ -14,7 +14,8 @@ export default class PDISurveyPie extends Component {
             line.forEach(point => {
                 sum += Number(point.answer);
             });
-            return {x: line[0].question, y: sum}
+            if(!line[0]) return {x: 0, y:0};
+            else return {x: line[0].question, y: sum};
         });
         return data;
     }
@@ -32,7 +33,7 @@ export default class PDISurveyPie extends Component {
                         innerRadius={50}
                         padAngle={3}
                         labels={(d) => {
-                            return d.x.replace(/ /g, "\n");
+                            return `${d.x}`;
                         }}
                         // events={[{
                         //     target: "data",
