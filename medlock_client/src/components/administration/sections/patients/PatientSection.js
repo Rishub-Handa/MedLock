@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UserList from '../../../users/UserList';
+import { Button } from 'reactstrap';
 
 
 export default class PatientSection extends Component {
@@ -19,9 +20,10 @@ export default class PatientSection extends Component {
                     <UserList 
                         users={this.props.patients}
                         viewUser={this.viewUser}
-                        deleteUser={this.deleteUser}
+                        deleteUser={this.props.deletePatient}
                     />
                 </div>
+                <Button onClick={this.props.deleteAllPatients}>Delete All</Button>
             </div>
         );
     }

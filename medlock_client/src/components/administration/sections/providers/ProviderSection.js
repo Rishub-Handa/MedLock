@@ -4,6 +4,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 
 export default class ProviderSection extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -63,14 +64,15 @@ export default class ProviderSection extends Component {
                 <div className="providerList-container">
                     <UserList 
                         users={this.props.providers}
-                        viewUser={this.viewUser}
-                        deleteUser={this.deleteUser}
+                        viewUser={this.viewProvider}
+                        deleteUser={this.deleteProvider}
                     />
                 </div>
                 <div>
                     <h4>Create New Provider</h4>
                     {this.createNewProviderForm()}
                 </div>
+                <Button onClick={this.props.deleteAllProviders}>Delete All</Button>
             </div>
         );
     }

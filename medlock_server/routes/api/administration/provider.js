@@ -2,6 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose'); 
 const Chatkit = require('@pusher/chatkit-server'); 
 const Provider = require('../../../models/Provider'); 
+const Patient = require('../../../models/Patient');
+
+const servers = require('../../../config/servers');
+const { MEDLOCK_AUTH0 } = servers;
 
 const chatkit = new Chatkit.default({
     instanceLocator: 'v1:us1:b72e93e8-22d4-4227-a9f3-ad03723ca266', 
@@ -51,11 +55,51 @@ router.post('/', (req, res) => {
 router.delete('/', (req, res) => {
     console.log("Provider DELETE Request");
 
-    // delete chatkit account
-    // delete auth0 account
-    // delete medlock account
-
-    Provider.deleteMany({}, err => console.log(err));
+    const ids = req.body.ids;
+    ids.forEach(id => {
+        deleteUser(id);
+        console.log(`deleted provider(id=${id})`);
+    });
 });
+
+const deleteUser = (id) => {
+    deleteProviderMongo(id);
+    deleteProviderChatKit(id);
+    deleteUserFromAuth0(id);
+}
+
+const deleteProviderMongo = (providerId) => {
+    console.log(`deleting user(id=${providerId}) from MedLock db`);
+    Provider.findByIdAndDelete(providerId, (err, deletedProvider) => {
+        if (err) console.log(`MedLock: ${err}`);
+
+        deletedProvider.medicalData.patients.forEach(patient => {
+            Patient.findOne({ _id: patient._id }, (err, patient) => {
+                if (err) console.log(err);
+                const newProviderList = patient.medicalData.providers.filter(id => id != providerId);
+                patient.medicalData.providers = newProviderList;
+                patient.save()
+                    .then(() => console.log(`patient(id=${patient._id} and provider(id=${providerId}) unlinked`));
+            });
+        });
+    });
+}
+
+const deleteProviderChatKit = (id) => {
+    console.log(`deleting user(id=${id}) from ChatKit`);
+    chatkit.deleteUser({ id: id,})
+            .then((user) => console.log(`user(id=${id}) deleted from ChatKit`))
+            .catch(err => console.log(`ChatKit: ${err}`));
+}
+
+const deleteUserFromAuth0 = (userId, AMT) => {
+    userId = "auth0|" + userId;
+    console.log(`deleting user(id=${userId}) from Auth0`);
+    var url = `${MEDLOCK_AUTH0}/v2/users/${userId}`;
+    const headers = { authorization: `Bearer ${AMT}`};
+    axios.delete(url, { headers })
+        .then(() => console.log(`user(id=${userId}) deleted from Auth0`))
+        .catch(err => console.log(`Auth0: ${err}`));
+}
 
 module.exports = router; 

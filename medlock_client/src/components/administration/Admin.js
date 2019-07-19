@@ -13,6 +13,7 @@ import PatientSection from './sections/patients/PatientSection';
 import axios from 'axios';
 import ProviderSection from './sections/providers/ProviderSection';
 import PropTypes from 'prop-types';
+import '../../css/Admin.css';
 
 class Admin extends Component {
     
@@ -83,9 +84,19 @@ class Admin extends Component {
 
     deleteAllProviders = () => {
         var url = `${MEDLOCK_API}/admin/provider`;
-        axios.delete(url)
-            .then(console.log("All Providers Deleted Successfully"))
-            .catch(err => console.log(err));
+        const ids = this.props.providers.map(provider => provider._id);
+        fetchAMT()
+            .then(res => {
+                const AMT = res.data.access_token;
+                axios.delete(url, {
+                    data: {
+                        AMT,
+                        ids, 
+                    }
+                })
+                .then(console.log("All Providers Deleted Successfully"))
+                .catch(err => console.log(err));
+            });
     }
 
     deletePatient = (patientId) => {
@@ -115,34 +126,6 @@ class Admin extends Component {
             .then(alert(`All patients deleted successfully`))
             .catch(err => alert(`Error On Delete: ${err}`));
     }
-
-    // createNewProviderForm = () => {
-    //     return (
-    //         <Form>
-    //             <FormGroup>
-    //                 <Label for="newProviderName">Name</Label>
-    //                 <Input 
-    //                     type="text" 
-    //                     name="newProviderName" 
-    //                     id="newProviderName"
-    //                     onChange={this.onChange}
-    //                 />
-    //             </FormGroup>
-    //             <FormGroup>
-    //                 <Label for="newProviderEmail">Email</Label>
-    //                 <Input 
-    //                     type="text" 
-    //                     name="newProviderEmail" 
-    //                     id="newProviderEmail"
-    //                     onChange={this.onChange}
-    //                 />
-    //             </FormGroup>
-    //             <FormGroup>
-    //                 <Button onClick={this.createNewProvider}>Create</Button>
-    //             </FormGroup>
-    //         </Form>
-    //     )
-    // }
 
     render() {
         console.log(this.props);
@@ -174,33 +157,22 @@ class Admin extends Component {
 
             return (
                 <div>
-                    <h1>Administration</h1>
-                    {/* <div>
-                        <h1>Create New Provider</h1>
-                        {this.createNewProviderForm()}
-                    </div> */}
-                    <div>
-                        <h1>DANGER ZONE</h1>
-                        <Button onClick={this.deleteAllProviders}>DELETE ALL PROVIDERS</Button>
-                    </div>
-                    <div>
-                        <form>
-                            <label>
-                                User ID To Delete:
-                                <input type="text" name="_id" onChange={this.onChange} />
-                            </label>
-                            {/* <button onClick={this.deletePatient}>DELETE PATIENT</button> */}
-                        </form>
-                        <button onClick={() => this.deletePatient(this.state._id)}>DELETE SPECIFIED PATIENT</button>
-                    </div>
-                    <div>
-                    <button onClick={this.deleteAllPatients}>DELETE ALL PATIENTS</button>
-                    </div>
-                    <div>
-                        <PatientSection patients={patients}/>
-                        <ProviderSection 
-                            providers={providers}
-                            createNewProvider={this.createNewProvider} />
+                    <h1>MedLock Admin Page</h1>
+                    <div className="Admin-content">
+                        <div className="leftPanel">
+                            <PatientSection 
+                                patients={patients}
+                                deletePatient={this.deletePatient}
+                                deleteAllPatients={this.deleteAllPatients}
+                            />
+                        </div>
+                        <div className="rightPanel">
+                            <ProviderSection 
+                                providers={providers}
+                                createNewProvider={this.createNewProvider}
+                                deleteAllProviders={this.deleteAllProviders} 
+                            />
+                        </div>
                     </div>
                 </div>
             );

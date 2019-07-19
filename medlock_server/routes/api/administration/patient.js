@@ -48,7 +48,7 @@ const deletePatientMongo = (patientId) => {
         // removes deleted patient from patient list of associated providers
         deletedPatient.medicalData.providers.forEach(providerId => {
             Provider.findOne({ _id: providerId }, (err, provider) => {
-                if (err) console.log(`Error: ${err}`);
+                if (err) console.log(err);
                 const newPatientList = provider.medicalData.patients.filter(patient => patient._id != patientId); // use != bc different types
                 provider.medicalData.patients = newPatientList;
                 provider.save()
