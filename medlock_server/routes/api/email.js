@@ -16,11 +16,11 @@ router.post('/', (req, res) => {
     `; 
 
     let transporter = nodemailer.createTransport({
-        service: 'gmail', 
-        secure: false, // true for 465, false for other ports
+        host: 'smtp.office365.com', 
+        secureConnection: true, // true for 465, false for other ports
         auth: {
-          user: 'medlockers@gmail.com', 
-          pass: 'freakysnowman2019' 
+          user: 'contact@medlocksolutions.com', 
+          pass: 'iPNq#prkXu77' 
         }, 
         tls: {
             rejectUnauthorized: false 
@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
     
     // send mail with defined transport object
     let info = transporter.sendMail({
-        from: '"MedLock" <medlockers@gmail.com>', // sender address
+        from: '"MedLock" <contact@medlocksolutions.com>', // sender address
         to: [req.body.email], // list of receivers
         subject: "New Account", // Subject line
         html: output // html body
