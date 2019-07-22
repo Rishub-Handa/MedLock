@@ -189,24 +189,20 @@ class Admin extends Component {
             return (
                 <div>
                     <div className="Admin-header">
-                        <h1>MedLock Admin Page</h1>
+                        <h1>MedLock Admin</h1>
                     </div>
                     <div className="Admin-content">
-                        <div className="leftPanel">
                             <PatientSection 
                                 patients={patients}
                                 deletePatient={this.deletePatient}
                                 deleteAllPatients={this.deleteAllPatients}
                             />
-                        </div>
-                        <div className="rightPanel">
                             <ProviderSection 
                                 providers={providers}
                                 createNewProvider={this.createNewProvider}
                                 deleteProvider={this.deleteProvider}
                                 deleteAllProviders={this.deleteAllProviders} 
                             />
-                        </div>
                     </div>
                 </div>
             );
