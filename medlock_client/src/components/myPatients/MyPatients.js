@@ -41,6 +41,10 @@ class MyPatients extends Component {
                 this.props.deletePatient(patientId, AMT);
             })
             .catch(error => console.log(error));
+
+        this.props.patients = this.props.patients.filter(patient => patient._id != patientId);
+        console.log("PATIENTS:" + this.props.patients);
+        this.setState({displayedPatients: this.props.patients});
     }
 
     addPatient = () => {
@@ -119,6 +123,10 @@ class MyPatients extends Component {
                     }
                 });
             }) 
+            .then((err) => {
+                this.props.fetchPatients();
+                if(err) console.log(err);
+            })
             .catch(error => {alert(`Failed To Create Provider. Error Code: ${error}`); console.log(error);});
 
         this.setState({ newPatientForm: false });
@@ -145,6 +153,9 @@ class MyPatients extends Component {
 
         this.props.assignRoles(patient_id, AMT, "Patient");
 
+        this.props.patients.push(newPatientProfile);
+        this.setState({displayedPatients: this.props.patients});
+
         var url = `${MEDLOCK_API}/email`;
         axios.post(url, newPatient); 
     }
@@ -168,10 +179,13 @@ class MyPatients extends Component {
             .then(() => this.setState({ displayedPatients: this.props.patients }));
     }
 
+
+
     render() {
-        console.log(this.state.displayedPatients);
+        console.log("DISPLAYED PATIENTS:" + this.state.displayedPatients);
         const { patientRegistering, registerError, patientsFetching, patientsFetched } = this.props;
-        
+        //console.log("DISPLAYED PATIENTS AFTER SET EQUALS:" + this.state.displayedPatients);
+    
         if(registerError) {
             return (
                 <div>
