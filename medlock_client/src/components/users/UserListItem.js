@@ -20,14 +20,19 @@ export default class UserListItem extends Component {
         const { user, viewUser, deleteUser } = this.props;
         return (
             <div className="UserListItem">
-                <div>
-                    <h4>{user.personalData.name}</h4>
+                <div className="UserListItem-userInfo">
+                    <div>
+                        <h4>{user.personalData.name}</h4>
+                    </div>
+                    <div>
+                        <h6>id={user._id}</h6>
+                    </div>
                 </div>
-                <div>
+                <div className="UserListItem-options">
                     <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                         <DropdownToggle>...</DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem onClick={() => viewUser(user)}>View</DropdownItem>
+                            <DropdownItem disabled onClick={() => viewUser(user)}>View</DropdownItem>
                             <DropdownItem disabled>Edit</DropdownItem>
                             <DropdownItem onClick={() => deleteUser(user._id)}>Delete</DropdownItem>
                         </DropdownMenu>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UserList from '../../../users/UserList';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import axios from 'axios';
 
 export default class ProviderSection extends Component {
@@ -39,13 +39,13 @@ export default class ProviderSection extends Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Button onClick={() => {
+                        <Button color="danger" onClick={() => {
                             this.setState({
                                 ...this.state,
                                 newProviderFormVisible: false,
                             });
                         }}>Cancel</Button>
-                        <Button onClick={() => {
+                        <Button color="primary" onClick={() => {
                             this.setState({
                                 ...this.state,
                                 newProviderFormVisible: false,
@@ -57,7 +57,7 @@ export default class ProviderSection extends Component {
             );
         } else {
             return (
-                <Button onClick={() => {
+                <Button color="primary" onClick={() => {
                     this.setState({
                         ...this.state,
                         newProviderFormVisible: true
@@ -79,16 +79,24 @@ export default class ProviderSection extends Component {
     render() {
         return (
             <div>
-                <h3>Providers</h3>
-                <div className="providerList-container">
-                    <UserList 
-                        users={this.props.providers}
-                        viewUser={this.viewProvider}
-                        deleteUser={this.props.deleteProvider}
-                    />
+                <div className="ProviderSection-header">
+                    <h3>Providers</h3>
                 </div>
-                <div>{this.createNewProviderForm()}</div>
-                <Button onClick={this.props.deleteAllProviders}>Delete All</Button>
+                <div className="ProviderSection-content">
+                    <div className="providerList-container">
+                        <UserList 
+                            users={this.props.providers}
+                            viewUser={this.viewProvider}
+                            deleteUser={this.props.deleteProvider}
+                        />
+                    </div>
+                    <div>
+                        {this.createNewProviderForm()}
+                    </div>
+                    <div>
+                        <Button align="center" color="danger" onClick={this.props.deleteAllProviders}>Delete All</Button>
+                    </div>
+                </div>
             </div>
         );
     }

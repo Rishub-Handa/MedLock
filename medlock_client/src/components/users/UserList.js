@@ -28,7 +28,11 @@ export default class UserList extends Component {
     onSearchChange = (value, e) => {
         e.preventDefault();
         const searchResults = this.props.users.filter(user => {
-            return user.personalData.name.substring(0, value.length) === value;
+            return (
+                (user.personalData.name.substring(0, value.length) === value) || 
+                (user._id.substring(0, value.length) === value) ||
+                (user.personalData.email.substring(0, value.length) === value)
+            );
         });
         this.setState({ displayedUsers: searchResults });
     }
