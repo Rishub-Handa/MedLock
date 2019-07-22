@@ -113,8 +113,11 @@ class Admin extends Component {
                         ids,
                     }
                 })
-                    .then(alert(`Patient(id=${patientId}) deleted successfully`))
-                    .catch(err => alert(err));
+                    .then((err) => {
+                        if(err) {console.log(err); throw Error(err)};
+                        alert(`Patient ${patientId} deleted successfully`);
+                    })
+                    .catch(err => alert(`Error On Delete: ${err}`));
             });            
     }
 
