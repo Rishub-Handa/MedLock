@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import '../../css/UserListItem.css';
 
 export default class UserListItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dropdownOpen: false,
+        }
+    }
+
+    toggle = () => {
+        this.setState(prevState => ({
+            dropdownOpen: !prevState.dropdownOpen
+        }));
+    }
+
     render() {
         const { user, viewUser, deleteUser } = this.props;
         return (
@@ -10,10 +23,15 @@ export default class UserListItem extends Component {
                 <div>
                     <h4>{user.personalData.name}</h4>
                 </div>
-    
                 <div>
-                    <Button onClick={() => viewUser(user)}>View</Button>
-                    <Button onClick={() => deleteUser(user._id)}>Delete</Button>
+                    <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                        <DropdownToggle>...</DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem onClick={() => viewUser(user)}>View</DropdownItem>
+                            <DropdownItem disabled>Edit</DropdownItem>
+                            <DropdownItem onClick={() => deleteUser(user._id)}>Delete</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
                 </div>
             </div>
         );

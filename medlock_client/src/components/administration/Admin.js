@@ -112,8 +112,27 @@ class Admin extends Component {
                     }
                 })
                     .then(alert(`Patient ${patientId} deleted successfully`))
-                    .catch(err => alert(`Error On Delete: ${err}`));
+                    .catch(err => alert(err));
             });            
+    }
+
+    deleteProvider = (providerId) => {
+        console.log(providerId);
+        var url = `${MEDLOCK_API}/admin/provider`;
+        var ids = [providerId]
+        console.log(ids);
+        fetchAMT()
+            .then(res => {
+                const AMT = res.data.access_token;
+                axios.delete(url, {
+                    data: {
+                        AMT,
+                        ids,
+                    }
+                })
+                    .then(alert(`Provider(id=${providerId}) deleted successfully`))
+                    .catch(err => alert(err));
+            });
     }
 
     deleteAllPatients = () => {
@@ -170,6 +189,7 @@ class Admin extends Component {
                             <ProviderSection 
                                 providers={providers}
                                 createNewProvider={this.createNewProvider}
+                                deleteProvider={this.deleteProvider}
                                 deleteAllProviders={this.deleteAllProviders} 
                             />
                         </div>

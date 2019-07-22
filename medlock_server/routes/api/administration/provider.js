@@ -12,6 +12,7 @@ const chatkit = new Chatkit.default({
     key: '3e67a467-115d-40eb-ad91-a2293080a4ae:wsDhZD7NcvPnu6kVGeKnu/nWjRTsNloQVBCZxeTNBzw='
 }); 
 
+const axios = require('axios');
 const router = express.Router(); 
 
 
@@ -56,16 +57,18 @@ router.delete('/', (req, res) => {
     console.log("Provider DELETE Request");
 
     const ids = req.body.ids;
+    const AMT = req.body.AMT;
+    console.log(ids);
     ids.forEach(id => {
-        deleteUser(id);
+        deleteUser(id, AMT);
         console.log(`deleted provider(id=${id})`);
     });
 });
 
-const deleteUser = (id) => {
+const deleteUser = (id, AMT) => {
     deleteProviderMongo(id);
     deleteProviderChatKit(id);
-    deleteUserFromAuth0(id);
+    deleteUserFromAuth0(id, AMT);
 }
 
 const deleteProviderMongo = (providerId) => {
