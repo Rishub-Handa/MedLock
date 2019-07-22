@@ -6,6 +6,9 @@ import {
     FETCH_ALL_PROVIDERS_BEGIN,
     FETCH_ALL_PROVIDERS_SUCCESS,
     FETCH_ALL_PROVIDERS_FAILURE,
+    DELETE_PROVIDER_BEGIN,
+    DELETE_PROVIDER_SUCCESS,
+    DELETE_PROVIDER_FAILURE,
 
 } from './types';
 
@@ -86,4 +89,26 @@ export function fetchAllProviders() {
         .catch(err => dispatch(fetchAllProvidersFailure(err)));
     }
 }
+
+const deleteProviderBegin = () => ({
+    type: DELETE_PROVIDER_BEGIN
+});
+
+const deleteProviderSuccess = provider => ({
+    type: DELETE_PROVIDER_SUCCESS,
+    payload: {
+        provider
+    }
+});
+
+const deleteProviderFailure = error => ({
+    type: DELETE_PROVIDER_FAILURE,
+    payload: {
+        error
+    }
+});
+
+export function deleteProvider() {
+    // TODO: implement delete 
+}   
 
