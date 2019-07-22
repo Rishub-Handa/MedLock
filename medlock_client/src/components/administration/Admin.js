@@ -85,6 +85,7 @@ class Admin extends Component {
     deleteAllProviders = () => {
         var url = `${MEDLOCK_API}/admin/provider`;
         const ids = this.props.providers.map(provider => provider._id);
+        console.log(ids);
         fetchAMT()
             .then(res => {
                 const AMT = res.data.access_token;
@@ -101,17 +102,18 @@ class Admin extends Component {
 
     deletePatient = (patientId) => {
         console.log(patientId);
-        var url = `${MEDLOCK_API}/admin/patient?_id=${patientId}`;
+        var url = `${MEDLOCK_API}/admin/patient`;
+        var ids = [patientId]
         fetchAMT()
             .then(res => {
                 const AMT = res.data.access_token; 
                 axios.delete(url, {
                     data: {
                         AMT,
-                        deleteAll: false,
+                        ids,
                     }
                 })
-                    .then(alert(`Patient ${patientId} deleted successfully`))
+                    .then(alert(`Patient(id=${patientId}) deleted successfully`))
                     .catch(err => alert(err));
             });            
     }
@@ -136,14 +138,21 @@ class Admin extends Component {
     }
 
     deleteAllPatients = () => {
-        var url = `${MEDLOCK_API}/admin/patient?_id=0`;
-        axios.delete(url, {
-            data: {
-                deleteAll: true,
-            }
-        })
-            .then(alert(`All patients deleted successfully`))
-            .catch(err => alert(`Error On Delete: ${err}`));
+        var url = `${MEDLOCK_API}/admin/patient`;
+        const ids = this.props.patients.map(patient => patient._id);
+        fetchAMT()
+            .then(res => {
+                const AMT = res.data.access_token;
+                axios.delete(url, {
+                    data: {
+                        AMT,
+                        ids,     
+                    }
+                })
+                    .then(alert(`All patients deleted successfully`))
+                    .catch(err => alert(`Error On Delete: ${err}`));
+            });
+            
     }
 
     render() {

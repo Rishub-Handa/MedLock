@@ -34,6 +34,35 @@ router.get('/', (req, res) => {
 // @route   DELETE api/admin/patient
 // @desc    deletes all patients or individual patient
 // @access Public --> Will Change
+router.delete('/', (req, res) => {
+    console.log("Patient DELETE Request");
+
+    const ids = req.body.ids;
+    const AMT = req.body.AMT;
+
+    ids.forEach(id => {
+        deletePatient(id, AMT);
+        console.log(`deleted patient(id=${id})`);
+    });
+
+    // if (patientId && !deleteAll) { // TODO look for deleteAll param too!
+    //     console.log("deleting patient!");
+    //     deletePatientMongo(patientId);
+    //     deletePatientChatKit(patientId);
+    //     deleteUserFromAuth0(patientId, AMT);
+    // } else if (deleteAll) {
+    //     deleteAllPatientsMongo();
+    // } else {
+    //     throw new Error("no delete function specified");
+    // }
+});
+
+const deletePatient = (id, AMT) => {
+    deletePatientMongo(id);
+    deletePatientChatKit(id);
+    deleteUserFromAuth0(id, AMT);
+}
+
 const deletePatientMongo = (patientId) => {
     console.log(`deleting user(id=${patientId}) from MedLock db`);
     Patient.findByIdAndDelete(patientId, (err, deletedPatient) => {
@@ -58,11 +87,11 @@ const deletePatientMongo = (patientId) => {
     });
 }
 
-const deleteAllPatientsMongo = () => {
-    Patient.deleteMany({}, err => console.log(err));
-    //Work on later (maybe) -> delete all patients from providers' patients lists
-    Dispenser.deleteMany({}, err => console.log(err));
-}
+// const deleteAllPatientsMongo = () => {
+//     Patient.deleteMany({}, err => console.log(err));
+//     //Work on later (maybe) -> delete all patients from providers' patients lists
+//     Dispenser.deleteMany({}, err => console.log(err));
+// }
 
 const deletePatientChatKit = (id) => {
     console.log(`deleting user(id=${id}) from ChatKit`);
@@ -80,24 +109,5 @@ const deleteUserFromAuth0 = (patientId, AMT) => {
         .then(() => console.log(`patient(id=${patientId}) deleted from Auth0`))
         .catch(err => console.log(`Auth0: ${err}`));
 }
-
-router.delete('/', (req, res) => {
-    console.log("Patient DELETE Request");
-
-    const patientId = req.query._id;
-    const AMT = req.body.AMT;
-    const deleteAll = req.body.deleteAll;
-
-    if (patientId && !deleteAll) { // TODO look for deleteAll param too!
-        console.log("deleting patient!");
-        deletePatientMongo(patientId);
-        deletePatientChatKit(patientId);
-        deleteUserFromAuth0(patientId, AMT);
-    } else if (deleteAll) {
-        deleteAllPatientsMongo();
-    } else {
-        throw new Error("no delete function specified");
-    }
-});
 
 module.exports = router; 
