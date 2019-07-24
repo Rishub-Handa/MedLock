@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions'; 
 import { createProviderProfile, fetchAllProviders, deleteProvider } from '../../actions/providerActions'; 
-import { fetchAllPatients } from '../../actions/patientActions';
+import { fetchAllPatients, deletePatient } from '../../actions/patientActions';
 import { MEDLOCK_API } from '../../config/servers';
 
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -103,24 +103,25 @@ class Admin extends Component {
     }
 
     deletePatient = (patientId) => {
-        console.log(patientId);
-        var url = `${MEDLOCK_API}/admin/patient`;
-        var ids = [patientId]
-        fetchAMT()
-            .then(res => {
-                const AMT = res.data.access_token; 
-                axios.delete(url, {
-                    data: {
-                        AMT,
-                        ids,
-                    }
-                })
-                    .then((err) => {
-                        if(err) {console.log(err); throw Error(err)};
-                        alert(`Patient ${patientId} deleted successfully`);
-                    })
-                    .catch(err => alert(`Error On Delete: ${err}`));
-            });            
+        this.props.deletePatient([patientId]);
+        // console.log(patientId);
+        // var url = `${MEDLOCK_API}/admin/patient`;
+        // var ids = [patientId]
+        // fetchAMT()
+        //     .then(res => {
+        //         const AMT = res.data.access_token; 
+        //         axios.delete(url, {
+        //             data: {
+        //                 AMT,
+        //                 ids,
+        //             }
+        //         })
+        //             .then((err) => {
+        //                 if(err) {console.log(err); throw Error(err)};
+        //                 alert(`Patient ${patientId} deleted successfully`);
+        //             })
+        //             .catch(err => alert(`Error On Delete: ${err}`));
+        //     });            
     }
 
     deleteProvider = (providerId) => {
@@ -144,20 +145,21 @@ class Admin extends Component {
     }
 
     deleteAllPatients = () => {
-        var url = `${MEDLOCK_API}/admin/patient`;
+        // var url = `${MEDLOCK_API}/admin/patient`;
         const ids = this.props.patients.map(patient => patient._id);
-        fetchAMT()
-            .then(res => {
-                const AMT = res.data.access_token;
-                axios.delete(url, {
-                    data: {
-                        AMT,
-                        ids,     
-                    }
-                })
-                    .then(alert(`All patients deleted successfully`))
-                    .catch(err => alert(`Error On Delete: ${err}`));
-            });
+        this.props.deletePatient(ids);
+        // fetchAMT()
+        //     .then(res => {
+        //         const AMT = res.data.access_token;
+        //         axios.delete(url, {
+        //             data: {
+        //                 AMT,
+        //                 ids,     
+        //             }
+        //         })
+        //             .then(alert(`All patients deleted successfully`))
+        //             .catch(err => alert(`Error On Delete: ${err}`));
+        //     });
             
     }
 
@@ -229,6 +231,10 @@ Admin.propTypes = {
     fetchProvidersError: PropTypes.object,
 
     deleteProvider: PropTypes.func.isRequired,
+    deletedProviders: PropTypes.array.isRequired,
+
+    deletePatient: PropTypes.func.isRequired,
+    deletedPatients: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -242,7 +248,10 @@ const mapStateToProps = state => ({
     providers: state.providerState.providers,
     providersFetching: state.providerState.providersFetching,
     providersFetched: state.providerState.providersFetched,
-    fetchProvidersError: state.providerState.providerError
+    fetchProvidersError: state.providerState.providerError, 
+
+    deletedProviders: state.providerState.deletedProviders,
+    deletedPatients: state.patientState.deletedPatients
 });
 
 export default connect(mapStateToProps, { 
@@ -252,4 +261,5 @@ export default connect(mapStateToProps, {
     fetchAllPatients, 
     fetchAllProviders,
     deleteProvider,
+    deletePatient,
 })(Admin); 

@@ -30,7 +30,7 @@ const initialState = {
     fetchPatientsError: null, 
 
     patientDeleting: false,
-    lastPatientDeleted: null,
+    deletedPatients: null,
     deletePatientError: null,
 
     patientRegistering: false, 
@@ -106,7 +106,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 patientDeleting: false,
-                lastPatientDeleted: action.payload.patient
+                deletedPatients: action.payload.patients
             };
         case DELETE_PATIENT_FAILURE:
             return {
