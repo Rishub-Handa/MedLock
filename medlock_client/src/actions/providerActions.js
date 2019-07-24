@@ -6,6 +6,7 @@ import {
     FETCH_ALL_PROVIDERS_BEGIN,
     FETCH_ALL_PROVIDERS_SUCCESS,
     FETCH_ALL_PROVIDERS_FAILURE,
+
     DELETE_PROVIDER_BEGIN,
     DELETE_PROVIDER_SUCCESS,
     DELETE_PROVIDER_FAILURE,
@@ -15,6 +16,7 @@ import {
 import axios from 'axios';
 import auth0client from '../auth/Auth'; 
 import { MEDLOCK_API } from '../config/servers';
+import { fetchAMT } from '../auth/AuthManagement';
 
 const createProviderProfileBegin = () => ({
     type: CREATE_PROVIDER_PROFILE_BEGIN
@@ -85,8 +87,8 @@ export function fetchAllProviders() {
     return dispatch => {
         dispatch(fetchAllProvidersBegin());
         return axios.get(API_URL)
-        .then(res => dispatch(fetchAllProvidersSuccess(res.data)))
-        .catch(err => dispatch(fetchAllProvidersFailure(err)));
+            .then(res => dispatch(fetchAllProvidersSuccess(res.data)))
+            .catch(err => dispatch(fetchAllProvidersFailure(err)));
     }
 }
 
@@ -108,7 +110,24 @@ const deleteProviderFailure = error => ({
     }
 });
 
-export function deleteProvider() {
-    // TODO: implement delete 
+export function deleteProvider(ids) {
+    var url = `${MEDLOCK_API}/admin/provider`;
+
+    return dispatch => {
+        dispatch(deleteProviderBegin());
+        fetchAMT()
+            .then(res => {
+                const AMT = res.data.access_token;
+                return axios.delete(url, {
+                    data: {
+                        AMT, 
+                        ids,
+                    }
+                })
+                    .then(res => dispatch(deleteProviderSuccess(res.data)))
+                    .catch(err => dispatch(deleteProviderFailure(err)));
+            });
+    }
+
 }   
 

@@ -59,23 +59,27 @@ router.delete('/', (req, res) => {
     const ids = req.body.ids;
     const AMT = req.body.AMT;
     console.log(ids);
+    var deletedProviders = [];
     ids.forEach(id => {
-        deleteUser(id, AMT);
+        deletedProviders.push(deleteUser(id, AMT));
         console.log(`deleted provider(id=${id})`);
     });
+    res.json(deletedProviders);
 });
 
 const deleteUser = (id, AMT) => {
-    deleteProviderMongo(id);
+    var deletedProvider = deleteProviderMongo(id);
     deleteProviderChatKit(id);
     deleteUserFromAuth0(id, AMT);
+    return deletedProvider;
 }
 
 const deleteProviderMongo = (providerId) => {
     console.log(`deleting user(id=${providerId}) from MedLock db`);
+    var provider;
     Provider.findByIdAndDelete(providerId, (err, deletedProvider) => {
         if (err) console.log(`MedLock: ${err}`);
-
+        provider = deletedProvider;
         deletedProvider.medicalData.patients.forEach(patient => {
             Patient.findOne({ _id: patient._id }, (err, patient) => {
                 if (err) console.log(err);
@@ -86,6 +90,7 @@ const deleteProviderMongo = (providerId) => {
             });
         });
     });
+    return provider;
 }
 
 const deleteProviderChatKit = (id) => {
