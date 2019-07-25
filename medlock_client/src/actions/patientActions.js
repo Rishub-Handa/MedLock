@@ -135,24 +135,34 @@ const removePatientFailure = error => ({
   }
 });
 
-export function removePatientFromProviderList(id) {
+export function removePatient(id) {
+  console.log(`remove patient id=${id}`);
+  
   const { getAccessToken } = auth0client;
-  const API_URL = `${MEDLOCK_API}/provider/patients?_id=${id}`;
+  const API_URL = `${MEDLOCK_API}/provider/patients`;
   const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+
 
   return dispatch => {
     dispatch(removePatientBegin());
-    return axios.delete(API_URL, { headers })
+    return axios.delete(API_URL, { 
+      headers, 
+      data: {
+        providerId: auth0client.getProfile().sub.substring(6),
+        patientId: id,
+      }
+    })
       .then(res => {
-        dispatch(removePatientSuccess(res));
+        console.log(res.data);
+        dispatch(removePatientSuccess(res.data));
       })
       .catch(err => {
+        console.log(err);
         dispatch(removePatientFailure(err));
       });
   }
 }
 
-// Helper functions give access to the status of the request 
 const fetchPatientsBegin = () => ({
   type: FETCH_PATIENTS_BEGIN
 });
@@ -171,7 +181,6 @@ const fetchPatientsError = error => ({
   }
 });
 
-// fetches patients for the authenticated provider
 export function fetchPatients() {
   const {
     getAccessToken

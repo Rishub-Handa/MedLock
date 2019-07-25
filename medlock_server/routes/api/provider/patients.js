@@ -133,13 +133,14 @@ const addPatientToProviderList = (providerId, newPatientInfo) => {
 }
 
 // @route   DELETE api/provider/patients 
-// @desc    Delete a patient from provider patientList 
+// @desc    Removes a patient from a provider's list of patients. Response contains removed patient.
 // @access  Private, requires Auth0 Access Token  
-router.delete('/:id', (req, res) => { 
+router.delete('/', (req, res) => { 
     console.log("Patient DELETE Request -- remove patient from provider's list of patients");
+    console.log(req.body);
+    const providerId = req.body.providerId;
+    const patientId = req.body.patientId;
 
-    const providerId = req.body.sub.substring(6);
-    const patientId = req.query._id;
 
     Provider.findById(providerId)
         .then(provider => {
@@ -154,7 +155,10 @@ router.delete('/:id', (req, res) => {
             const newProviderList = patient.medicalData.providers.filter(provider => provider._id != providerId); // use != bc different types
             patient.medicalData.providers = newProviderList;
             patient.save()
-                .then(() => console.log(`provider(id=${providerId}) has been removed from list of providers of patient(id=${patientId})`));
+                .then(() => {
+                    console.log(`provider(id=${providerId}) has been removed from list of providers of patient(id=${patientId})`);
+                    res.json(patient);
+                });
         });
 }); 
 

@@ -3,13 +3,14 @@ import PatientList from './PatientList';
 import AddPatientForm from './AddPatientForm';
 import { fetchAMT, getUserByEmail } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions';
-import { createPatientProfile, addPatientToProviderList, fetchPatients, deletePatient } from '../../actions/patientActions'; 
+import { createPatientProfile, addPatientToProviderList, removePatient, fetchPatients, deletePatient } from '../../actions/patientActions'; 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import auth0client from '../../auth/Auth'; 
 import PatientView from '../patientView/PatientView';
 import SearchField from 'react-search-field';
+import UserList from '../users/UserList';
 import { MEDLOCK_API } from '../../config/servers';
 
 const axios = require('axios'); 
@@ -21,7 +22,6 @@ class MyPatients extends Component {
         this.state = {
             newPatientForm: false,
             onePatientView: false,
-            displayedPatients: this.props.patients,
             viewedPatient: null
         }
     }
@@ -34,17 +34,9 @@ class MyPatients extends Component {
         this.props.history.push("/dashboard/mypatients/viewpatient");
     }
 
-    onDeletePatient = (patientId) => {
-        this.fetchAMT()
-            .then(res => {
-                const AMT = res.data.access_token;
-                this.props.deletePatient(patientId, AMT);
-            })
-            .catch(error => console.log(error));
-
-        this.props.patients = this.props.patients.filter(patient => patient._id != patientId);
-        console.log("PATIENTS:" + this.props.patients);
-        this.setState({displayedPatients: this.props.patients});
+    onRemovePatient = (patientId) => {
+        console.log(`calling remove on patient(id=${patientId}) from mypatients page`);
+        this.props.removePatient(patientId);
     }
 
     addPatient = () => {
@@ -154,32 +146,14 @@ class MyPatients extends Component {
         this.props.assignRoles(patient_id, AMT, "Patient");
 
         this.props.patients.push(newPatientProfile);
-        this.setState({displayedPatients: this.props.patients});
 
         var url = `${MEDLOCK_API}/email`;
         axios.post(url, newPatient); 
     }
 
-    onSearchChange = (value, e) => {
-        e.preventDefault();
-
-        // break if patients aren't fetched
-        if (!this.props.patientsFetched) return;
-
-        // search by name
-        const searchResults = this.props.patients.filter(patient => {
-            return patient.personalData.name.substring(0, value.length) === value
-        });
-
-        this.setState({displayedPatients: searchResults});
-    }
-
     componentDidMount() {
-        this.props.fetchPatients()
-            .then(() => this.setState({ displayedPatients: this.props.patients }));
+        this.props.fetchPatients();
     }
-
-
 
     render() {
         console.log("DISPLAYED PATIENTS:" + this.state.displayedPatients);
@@ -221,16 +195,10 @@ class MyPatients extends Component {
 
         return (
             <div>
-
-                <SearchField 
-                    placeholder='Search Item'
-                    onChange={this.onSearchChange}
-                />
-
-                <PatientList 
-                    patients={this.state.displayedPatients} 
-                    onClickPatient={this.viewPatient}
-                    deletePatient={this.props.deletePatient} 
+                <UserList 
+                    users={this.props.patients}
+                    viewUser={this.viewedPatient}
+                    deleteUser={this.onRemovePatient}
                 />
                 {this.displayNewPatientForm()}
             </div>
@@ -254,10 +222,11 @@ MyPatients.propTypes = {
     patientsFetched: PropTypes.bool.isRequired,
     fetchPatientsError: PropTypes.object.isRequired,
 
-    deletePatient: PropTypes.func.isRequired,
-    patientDeleting: PropTypes.bool.isRequired,
-    lastPatientDeleted: PropTypes.object.isRequired,
-    deletePatientError: PropTypes.object.isRequired,
+    removePatient: PropTypes.func.isRequired,
+    patientRemoving: PropTypes.bool.isRequired,
+    lastRemovedPatient: PropTypes.object.isRequired,
+    patientRemoveError: PropTypes.object
+
 }
 
 const mapStateToProps = state => ({
@@ -277,9 +246,10 @@ const mapStateToProps = state => ({
     userProfileLoading: state.authState.userProfileLoading, 
     userProfileError: state.authState.userProfileError,
 
-    patientDeleting: state.patientState.patientDeleting,
-    lastPatientDeleted: state.patientState.lastPatientDeleted,
-    deletePatientError: state.patientState.deletePatientError,
+    patientRemoving: state.patientState.patientRemoving,
+    lastRemovedPatient: state.patientState.lastRemovedPatient,
+    patientRemoveError: state.patientState.patientRemoveError,
+
 });
 
 export default connect(
@@ -289,5 +259,5 @@ export default connect(
         createPatientProfile, 
         addPatientToProviderList,
         fetchPatients,
-        deletePatient,
+        removePatient,
     })(MyPatients);

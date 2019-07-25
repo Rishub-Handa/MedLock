@@ -18,6 +18,9 @@ import {
     FETCH_ALL_PATIENTS_BEGIN,
     FETCH_ALL_PATIENTS_SUCCESS,
     FETCH_ALL_PATIENTS_FAILURE,
+    REMOVE_PATIENT_BEGIN,
+    REMOVE_PATIENT_FAILURE,
+    REMOVE_PATIENT_SUCCESS,
 
 } from '../actions/types'; 
 
@@ -38,6 +41,10 @@ const initialState = {
     newAddedPatient: null, 
     addPatientLoading: false, 
     addPatientError: null, 
+
+    patientRemoving: false,
+    lastRemovedPatient: null,
+    patientRemoveError: null,
 } 
 
 export default function(state = initialState, action) {
@@ -70,6 +77,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 addPatientLoading: false,
+                // patients: [...action.payload.patient],
                 newAddedPatient: action.payload.patient
             };
         case ADD_PATIENT_FAILURE:
@@ -132,6 +140,23 @@ export default function(state = initialState, action) {
                 patientsFetching: false,
                 patientsFetched: false,
                 patients: action.payload.error
+            };
+        case REMOVE_PATIENT_BEGIN: 
+            return {
+                ...state,
+                patientRemoving: true,
+            };
+        case REMOVE_PATIENT_SUCCESS:
+            return {
+                ...state,
+                patientRemoving: false,
+                lastRemovedPatient: action.payload.patient
+            };
+        case REMOVE_PATIENT_FAILURE: 
+            return {
+                ...state,
+                patientRemoving: false,
+                patientRemoveError: action.payload.error
             };
         default:
             return state;
