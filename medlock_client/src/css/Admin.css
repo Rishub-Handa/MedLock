@@ -1,0 +1,25 @@
+.Admin-header > * {
+    text-align: center
+}
+
+.Admin-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr
+}
+
+.PatientSection-header {
+    text-align: center
+}
+
+.PatientSection-content > * {
+    text-align: center
+}
+
+.ProviderSection-header {
+    text-align: center
+}
+
+.ProviderSection-content > * {
+    text-align: center
+}
+

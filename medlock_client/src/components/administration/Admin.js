@@ -3,26 +3,39 @@ import { connect } from 'react-redux';
 
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions'; 
-import { createProviderProfile } from '../../actions/providerActions'; 
+import { createProviderProfile, fetchAllProviders } from '../../actions/providerActions'; 
+import { fetchAllPatients } from '../../actions/patientActions';
 import { MEDLOCK_API } from '../../config/servers';
 
-const axios = require('axios'); 
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import PatientSection from './sections/patients/PatientSection';
 
+import axios from 'axios';
+import ProviderSection from './sections/providers/ProviderSection';
+import PropTypes from 'prop-types';
+import '../../css/Admin.css';
 
 class Admin extends Component {
- 
-    state = {};
+    
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
+    componentDidMount() {
+        this.props.fetchAllPatients();
+        this.props.fetchAllProviders();
+    }
 
     onChange = (e) => {
         this.setState({
+            ...this.state,
             [e.target.name]: e.target.value 
         });
-        
+        console.log(this.state);
     }
 
-    createNewProvider = (e) => {
-        e.preventDefault(); 
-
+    createNewProvider = (name, email) => {
         fetchAMT() 
             .then(res => {
                 console.log(res); 
@@ -31,8 +44,8 @@ class Admin extends Component {
                 const password = Math.random().toString(36).slice(-12); 
 
                 const newProvider = {
-                    "name": this.state.name, 
-                    "email": this.state.email,
+                    "name": name, 
+                    "email": email,
                     "password": password,
                     "connection": "Username-Password-Authentication"
                 };
@@ -48,8 +61,8 @@ class Admin extends Component {
                         this.props.createProviderProfile({
                             _id: user_id.substring(6), 
                             personalData: {
-                                name: this.state.name, 
-                                email: this.state.email 
+                                name, 
+                                email,
                             }
                         // Eventually create administrator roles and query user roles. 
                         }, "Admin"); 
@@ -71,20 +84,33 @@ class Admin extends Component {
 
     deleteAllProviders = () => {
         var url = `${MEDLOCK_API}/admin/provider`;
-        axios.delete(url)
-            .then(console.log("All Providers Deleted Successfully"))
-            .catch(err => console.log(err));
+        const ids = this.props.providers.map(provider => provider._id);
+        console.log(ids);
+        fetchAMT()
+            .then(res => {
+                const AMT = res.data.access_token;
+                axios.delete(url, {
+                    data: {
+                        AMT,
+                        ids, 
+                    }
+                })
+                .then(console.log("All Providers Deleted Successfully"))
+                .catch(err => console.log(err));
+            });
     }
 
     deletePatient = (patientId) => {
         console.log(patientId);
-        var url = `${MEDLOCK_API}/admin/patient?_id=${patientId}&deleteAll=false`;
+        var url = `${MEDLOCK_API}/admin/patient`;
+        var ids = [patientId]
         fetchAMT()
             .then(res => {
                 const AMT = res.data.access_token; 
                 axios.delete(url, {
                     data: {
-                        AMT
+                        AMT,
+                        ids,
                     }
                 })
                     .then((err) => {
@@ -95,51 +121,133 @@ class Admin extends Component {
             });            
     }
 
+    deleteProvider = (providerId) => {
+        console.log(providerId);
+        var url = `${MEDLOCK_API}/admin/provider`;
+        var ids = [providerId]
+        console.log(ids);
+        fetchAMT()
+            .then(res => {
+                const AMT = res.data.access_token;
+                axios.delete(url, {
+                    data: {
+                        AMT,
+                        ids,
+                    }
+                })
+                    .then(alert(`Provider(id=${providerId}) deleted successfully`))
+                    .catch(err => alert(err));
+            });
+    }
+
     deleteAllPatients = () => {
-        var url = `${MEDLOCK_API}/admin/patient?_id=0&deleteAll=true`;
-        axios.delete(url)
-            .then(alert(`All patients deleted successfully`))
-            .catch(err => alert(`Error On Delete: ${err}`));
+        var url = `${MEDLOCK_API}/admin/patient`;
+        const ids = this.props.patients.map(patient => patient._id);
+        fetchAMT()
+            .then(res => {
+                const AMT = res.data.access_token;
+                axios.delete(url, {
+                    data: {
+                        AMT,
+                        ids,     
+                    }
+                })
+                    .then(alert(`All patients deleted successfully`))
+                    .catch(err => alert(`Error On Delete: ${err}`));
+            });
+            
     }
 
     render() {
-        return (
-            <div>
-                <h1>Administration</h1>
-                <div>
-                    <h1>Create New Provider</h1>
-                    <form onSubmit={this.createNewProvider}>
-                        <p>Name: <input type="text" name="name" onChange={this.onChange} /></p>
-                        <p>Email: <input type="text" name="email" onChange={this.onChange} /></p>
-                        <button type="submit">Create New Provider </button>
-                    </form>
-                </div>
-                <div>
-                    <h1>DANGER ZONE</h1>
-                    <button onClick={this.deleteAllProviders}>DELETE ALL PROVIDERS</button>
-                </div>
-                <div>
-                    <form>
-                        <label>
-                            User ID To Delete:
-                            <input type="text" name="_id" onChange={this.onChange} />
-                        </label>
-                        {/* <button onClick={this.deletePatient}>DELETE PATIENT</button> */}
-                    </form>
-                    <button onClick={() => this.deletePatient(this.state._id)}>DELETE SPECIFIED PATIENT</button>
-                </div>
-                <div>
-                <button onClick={this.deleteAllPatients}>DELETE ALL PATIENTS</button>
-                </div>
-            
+        console.log(this.props);
+        const { patients, 
+                patientsFetching, 
+                patientsFetched, 
+                fetchPatientsError,
+                providers,
+                providersFetching,
+                providersFetched,
+                fetchProvidersError
+            } = this.props;
 
-            </div>
-        )
+        
+        if (fetchProvidersError || fetchPatientsError) {
+            return (
+                <div>
+                    PROVIDER: ${fetchProvidersError}
+                    PATIENT: ${fetchPatientsError}
+                </div>
+            );
+        }
+
+        if (providersFetching || patientsFetching) {
+            return (
+                <div> Loading . . .</div>
+            );
+        } 
+
+            return (
+                <div>
+                    <div className="Admin-header">
+                        <h1>MedLock Admin Page</h1>
+                    </div>
+                    <div className="Admin-content">
+                        <div className="leftPanel">
+                            <PatientSection 
+                                patients={patients}
+                                deletePatient={this.deletePatient}
+                                deleteAllPatients={this.deleteAllPatients}
+                            />
+                        </div>
+                        <div className="rightPanel">
+                            <ProviderSection 
+                                providers={providers}
+                                createNewProvider={this.createNewProvider}
+                                deleteProvider={this.deleteProvider}
+                                deleteAllProviders={this.deleteAllProviders} 
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
+        
     }
 } 
 
+Admin.propTypes = {
+    userProfile: PropTypes.object.isRequired,
+
+    fetchAllPatients: PropTypes.func.isRequired,
+    patients: PropTypes.array.isRequired,
+    patientsFetching: PropTypes.bool.isRequired,
+    patientsFetched: PropTypes.bool.isRequired,
+    fetchPatientsError: PropTypes.object,
+
+    fetchAllProviders: PropTypes.func.isRequired,
+    providers: PropTypes.array.isRequired,
+    providersFetching: PropTypes.bool.isRequired,
+    providersFetched: PropTypes.bool.isRequired,
+    fetchProvidersError: PropTypes.object,
+}
+
 const mapStateToProps = state => ({
-    userProfile: state.authState.userProfile 
+    userProfile: state.authState.userProfile,
+
+    patients: state.patientState.patients,
+    patientsFetching: state.patientState.patientsFetching,
+    patientsFetched: state.patientState.patientsFetched,
+    fetchPatientsError: state.patientState.fetchPatientsError,
+
+    providers: state.providerState.providers,
+    providersFetching: state.providerState.providersFetching,
+    providersFetched: state.providerState.providersFetched,
+    fetchProvidersError: state.providerState.providerError
 });
 
-export default connect(mapStateToProps, { auth0Registration, createProviderProfile, assignRoles })(Admin); 
+export default connect(mapStateToProps, { 
+    auth0Registration, 
+    createProviderProfile, 
+    assignRoles, 
+    fetchAllPatients, 
+    fetchAllProviders
+})(Admin); 

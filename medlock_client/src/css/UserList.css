@@ -1,0 +1,15 @@
+.Users-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.Users-container > * {
+    background: #ddd;
+    border: 1px solid #ccc;
+}
+
+.UserListItem-userInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
