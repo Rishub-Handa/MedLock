@@ -4,7 +4,10 @@ import { withRouter } from 'react-router-dom';
 import auth0client from '../../../auth/Auth';
 import { modules } from '../ModuleInfo'; 
 import '../../../css/SideBar.css';
+import bigLogo from '../../../images/bigLogo.png'; 
+
 import SideBarItem from './SideBarItem';
+import PersonalDataView from '../../patientView/PersonalDataView';
 
 class SideBar extends Component {
 
@@ -22,6 +25,7 @@ class SideBar extends Component {
     }
 
     filterModules = () => {
+        console.log(this.props);
         const { roles } = this.props;
         const role = roles[0].name;
         const newModules = modules.filter(module => {
@@ -41,83 +45,48 @@ class SideBar extends Component {
         this.filterModules();
     }
     
-    sideBarHTML = () => {
+    sideBarItemsHTML = () => {
         return (
-            <div className="SideBar">
                 <div className="SideBarItems-container">
-                    <ButtonGroup className="SideBarButtonGroup" size="lg" vertical>
+                    <h6>Modules</h6>
                         {this.state.modules.map(module => {
                             return (
-                                <Button 
-                                    outline color="primary"
-                                    className="button"
+                                <button 
+                                    className="SideBarButton"
+                                    color="#419bf9"
                                     onClick={() => {
                                         this.props.history.push(module.link)
                                     }}
-                                >{module.name}</Button>
+                                >{module.name}</button>
                             );
                         })}
-                        <Button 
-                            outline color="primary"
-                            onClick={auth0client.logout}>Logout</Button>
-                    </ButtonGroup>
+                        <button
+                            className="SideBarButton"
+                            color="#419bf9"
+                            onClick={auth0client.logout}>Logout</button>
                 </div>
-            </div>
-            // <div>
-            //     <div>
-            //         <Button color="primary" id="toggler">Toggle</Button>
-            //     </div>
-            //     <div>
-            //         <UncontrolledCollapse toggler="#toggler">
-            //             <div className="menu">
-            //                 {this.state.modules.map(module => {
-            //                     return (
-            //                         <div>
-            //                             <Button className="button" 
-            //                                     onClick={() => {
-            //                                         this.props.history.push(module.link)
-            //                                 }}>{module.name}</Button>
-            //                         </div>
-            //                     )
-            //                 })}
-            //                 <div>
-            //                 <Button className="button" 
-            //                         onClick={() => {
-            //                             this.props.history.push("/dashboard/survey");
-            //                     }}>Will Remove - Survey</Button> 
-            //                 </div>
-            //                 <div>
-            //                 <Button className="button" 
-            //                         onClick={() => {
-            //                             this.props.history.push("/dashboard/dispenser");
-            //                     }}>Will Remove - Dispenser</Button> 
-            //                 </div>
-            //                 <div>
-            //                 <Button className="button" 
-            //                         onClick={() => {
-            //                             this.props.history.push("/dashboard/serverendpoints");
-            //                     }}>Will Remove - Server Endpoints</Button> 
-            //                 </div>
-                            // <div>
-                            //     {
-                            //         auth0client.isAuthenticated() ? (
-                            //             <Button className="button" onClick={auth0client.logout}>Logout</Button>
-                            //         ) : (
-                            //             <Button className="button" onClick={auth0client.login}>Login</Button>
-                            //         )
-                            //     }
-                            // </div>
-            //             </div>
-            //         </UncontrolledCollapse>
-            //     </div>
-            // </div>
         );
     }
 
     render() {
         return (
-            // this.state.expanded ? this.expandedHTML() : this.collapsedHTML()
-            this.sideBarHTML()
+            <div className="SideBar">
+                <div className="logo-container">
+                    <img className="dash-logo" src={bigLogo} />
+                </div>
+                <div className="SideBar-welcome">
+                    <h4>Welcome, {this.props.personalData.name}</h4>
+                </div>
+                {this.sideBarItemsHTML()}
+                <div>
+                    <h6>Time until next dispense</h6>
+                    <Button>Click to Reveal</Button>
+                </div>
+                <div>
+                    <h6>Average PDI Survey Result</h6>
+                    <h5>7.3</h5>
+                </div>
+            </div>
         );
     }
 }

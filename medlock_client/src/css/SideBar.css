@@ -1,3 +1,16 @@
+.SideBar {
+    background-color: cornflowerblue;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.SideBar > * {
+    border: 1px solid black;
+    text-align: center;
+    flex: 1 1 auto;
+}
 .menu {
     display: flex;
     flex-direction: column;
@@ -5,8 +18,20 @@
     flex-grow: 1;
 }
 
-.button {
+.SideBarButton {
+    background-color: cornflowerblue;
+    border: 1px solid white;
+    color: white;
     width: 100%;
+}
+
+.SideBarButton:hover {
+    background-color: blue;
+}
+
+.SideBarItems-container {
+    display: flex;
+    flex-direction: column;
 }
 
 .SideBarButtonGroup { 
