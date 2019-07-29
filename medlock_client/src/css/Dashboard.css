@@ -1,4 +1,20 @@
-.icon-container {
+.Dashboard {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 2fr 7fr 1fr;
+}
+
+.DashHeader-container {
+    grid-column: 1/13;
+    grid-row: 1/2;
+}
+
+.SideBar-container {
+    grid-column: 1/4;
+    grid-row: 2/3;
+}
+
+.DashIcon-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1em;
@@ -9,8 +25,7 @@
     border: 1px solid #ccc;
 }
 
-.dashboard-content {
-    display: grid;
-    height: 90vh;
-    grid-template-columns: 1fr 9fr;
+.Dashboard-content {
+    grid-column: 4/13;
+    grid-row: 2/2;
 }

@@ -3,7 +3,6 @@ import DashIcon from './DashIcon';
 import PropTypes from 'prop-types';
 import '../../css/Dashboard.css';
 import auth0client from '../../auth/Auth';
-import { newPassword } from '../../auth/AuthManagement'; 
 import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
@@ -13,7 +12,7 @@ import { fetchRoles } from '../../actions/authActions';
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import SecuredRoute from '../SecuredRoute';
 import DashHeader from './DashHeader';
-import SideBar from '../nav/SideBar';
+import SideBar from '../nav/sidebar/SideBar';
 import PatientData from '../patientData/PatientData';
 import PDISurvey from '../survey/PDISurvey';
 import Dispenser from '../test/Dispenser'; 
@@ -21,24 +20,9 @@ import ServerEndpoints from '../test/ServerEndpoints';
 import { modules } from '../nav/ModuleInfo'; 
 import MyPatients from '../myPatients/MyPatients'; 
 import NewUser from './NewUser'; 
-import PatientView from '../patientView/PatientView';
-
-const makeMainRoutes = (props) => {
-    return (
-        <div>
-            <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
-            <SecuredRoute path="/dashboard/inbox" component={Inbox} />
-            <SecuredRoute path="/dashboard/mydata" profile={props.profile} component={PatientData} />
-            <SecuredRoute path="/dashboard/resources" component={Resources} />
-            <SecuredRoute path="/dashboard/survey" component={PDISurvey} />
-            <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
-            <SecuredRoute path="/dashboard/serverendpoints" component={ServerEndpoints} /> 
-            <SecuredRoute path="/dashboard/mypatients" component={MyPatients} />
-        </div>
-    );   
-}
 
 class Dashboard extends Component {
+    
     constructor(props) {
         super(props);
         
@@ -53,7 +37,6 @@ class Dashboard extends Component {
     componentDidMount() {
 
         const { userProfile } = auth0client;
-        console.log(auth0client);
 
         // Fetch the API Management Token. 
         fetchAMT() 
@@ -122,28 +105,19 @@ class Dashboard extends Component {
             );
         }
 
-        if (this.props.location.pathname === "/dashboard") {
-            return (
-                <div>
-                    <DashHeader name={this.props.profile.personalData.name} />
-                    <div className="dashboard-content">
-                        <SideBar roles={this.props.roles}/>
-                        <div className="icon-container">
-                            {this.iconHTML(this.state.icons, this.props.roles)}
-                        </div>
-                    </div>
-                </div>
-            )
-        }
-
         return (
-            <div>
-                <DashHeader name={this.props.profile.personalData.name} />
-                <div className="dashboard-content" >
-                    <SideBar roles={this.props.roles}/>
-                    {makeMainRoutes(this.props)}
+            <div className="Dashboard">
+                <div className="DashHeader-container">
+                    <DashHeader name={this.props.profile.personalData.name} />
                 </div>
-
+                <div className="SideBar-container">
+                        <SideBar roles={this.props.roles}/>
+                </div>
+                <div className="Dashboard-content">
+                    {
+                        this.props.location.pathname === "/dashboard" ? this.dashboardHTML() : this.makeMainRoutes(this.props)
+                    }
+                </div>
             </div>
         )
     }
@@ -174,8 +148,28 @@ class Dashboard extends Component {
         )
     };
 
+    dashboardHTML = () => {
+        return (
+            <div className="DashIcon-container">
+                {this.iconHTML(this.state.icons, this.props.roles)}
+            </div>
+        );
+    }
 
-    
+    makeMainRoutes = (props) => {
+        return (
+            <div>
+                <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
+                <SecuredRoute path="/dashboard/inbox" component={Inbox} />
+                <SecuredRoute path="/dashboard/mydata" profile={props.profile} component={PatientData} />
+                <SecuredRoute path="/dashboard/resources" component={Resources} />
+                <SecuredRoute path="/dashboard/survey" component={PDISurvey} />
+                <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
+                <SecuredRoute path="/dashboard/serverendpoints" component={ServerEndpoints} /> 
+                <SecuredRoute path="/dashboard/mypatients" component={MyPatients} />
+            </div>
+        );   
+    }  
 }
 
 Dashboard.propTypes = {
