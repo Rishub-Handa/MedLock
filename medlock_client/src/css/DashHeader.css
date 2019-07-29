@@ -2,7 +2,6 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     height: 100%;
-    border: 1px solid black;
     justify-items: center;
     align-items: center;
 }

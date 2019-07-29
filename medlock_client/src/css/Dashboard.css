@@ -28,7 +28,6 @@
 }
 
 .Dashboard-content {
-    border: 1px solid black;
     grid-column: 4/13;
     grid-row-start: 2;
 }

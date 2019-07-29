@@ -1,33 +1,35 @@
 .SideBar {
-    background-color: cornflowerblue;
-    height: 100vh;
+    background-color: #1b74ce;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
+    color: white;
+    border-radius: 25px;
+}
+
+.SideBar-welcome {
+    text-align: center;
+    padding: 20px;
 }
 
 .SideBar > * {
-    border: 1px solid black;
     text-align: center;
-    flex: 1 1 auto;
-}
-
-.menu {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    flex-grow: 1;
+    /* flex: 1 1 auto; */
 }
 
 .SideBarButton {
-    background-color: cornflowerblue;
+    background-color: #1b74ce;
     border: 1px solid white;
     color: white;
-    width: 100%;
+    width: auto;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px;
 }
 
 .SideBarButton:hover {
-    background-color: blue;
+    background-color: #14589C;
 }
 
 .SideBarItems-container {
@@ -37,4 +39,10 @@
 
 .SideBarButtonGroup { 
     width: 100%;
+}
+
+.SideBar-subtitle {
+    background-color: #22394F; 
+    padding: 10px;
+    margin-bottom: 5px;
 }

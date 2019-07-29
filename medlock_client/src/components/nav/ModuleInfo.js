@@ -19,7 +19,7 @@ export const modules = [
             }
         ], 
         content: {
-            image: '', 
+            image: '../../icons/001-mail.svg', 
         },
         link: '/dashboard/inbox'
     },
@@ -32,7 +32,7 @@ export const modules = [
             }
         ], 
         content:  {
-            image: '',
+            image: '../../icons/002-statistics.svg',
         },
         link: '/dashboard/mydata'
     },
