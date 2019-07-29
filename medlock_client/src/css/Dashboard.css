@@ -1,31 +1,33 @@
 .Dashboard {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 2fr 7fr 1fr;
+    grid-template-rows: 1fr 9fr;
 }
 
 .DashHeader-container {
-    grid-column: 4/13;
+    grid-column: 1/13;
     grid-row: 1/2;
+    max-height: 100px;
 }
 
 .SideBar-container {
     grid-column: 1/4;
-    grid-row: 1/4;
+    grid-row: 2/3;
 }
 
-.DashIcon-container {
+.DashIcons-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1em;
 }
 
-.icon {
-    background: #ddd;
-    border: 1px solid #ccc;
+@media (max-width: 600px) {
+    .DashIcons-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 .Dashboard-content {
     grid-column: 4/13;
-    grid-row: 2/2;
+    grid-row-start: 2;
 }

@@ -1,0 +1,1 @@
+export const MEDLOCK_BLUE = "#1b74ce";

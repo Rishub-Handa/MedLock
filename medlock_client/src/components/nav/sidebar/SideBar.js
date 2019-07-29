@@ -4,10 +4,10 @@ import { withRouter } from 'react-router-dom';
 import auth0client from '../../../auth/Auth';
 import { modules } from '../ModuleInfo'; 
 import '../../../css/SideBar.css';
-import bigLogo from '../../../images/bigLogo.png'; 
 
 import SideBarItem from './SideBarItem';
 import PersonalDataView from '../../patientView/PersonalDataView';
+import ModuleLink from './ModuleLink';
 
 
 class SideBar extends Component {
@@ -49,16 +49,11 @@ class SideBar extends Component {
     sideBarItemsHTML = () => {
         return (
                 <div className="SideBarItems-container">
-                    <h6>Modules</h6>
+                    <h6 className="SideBar-subtitle">Modules</h6>
                         {this.state.modules.map(module => {
                             return (
-                                <button 
-                                    className="SideBarButton"
-                                    color="#419bf9"
-                                    onClick={() => {
-                                        this.props.history.push(module.link)
-                                    }}
-                                >{module.name}</button>
+                                <ModuleLink 
+                                    module={module} />
                             );
                         })}
                         <button
@@ -72,13 +67,11 @@ class SideBar extends Component {
     render() {
         return (
             <div className="SideBar">
-                <div className="logo-container">
-                    <img className="dash-logo" src={bigLogo} />
-                </div>
                 <div className="SideBar-welcome">
                     <h4>Welcome, {this.props.personalData.name}</h4>
                 </div>
                 {this.sideBarItemsHTML()}
+                <h6 className="SideBar-subtitle">Data Preview</h6>
                 <div>
                     <h6>Time until next dispense</h6>
                     <Button>Click to Reveal</Button>
