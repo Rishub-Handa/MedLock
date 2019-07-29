@@ -9,6 +9,9 @@ import {
     FETCH_ALL_PROVIDERS_BEGIN,
     FETCH_ALL_PROVIDERS_SUCCESS,
     FETCH_ALL_PROVIDERS_FAILURE,
+    DELETE_PROVIDER_BEGIN,
+    DELETE_PROVIDER_SUCCESS,
+    DELETE_PROVIDER_FAILURE,
 
 } from '../actions/types';
 
@@ -18,6 +21,8 @@ const initialState = {
     providerLoading: false,
     providersFetching: false, 
     providersFetched: false,
+    providerDeleting: false,
+    deletedProviders: [],
     providerError: null
 }
 
@@ -59,6 +64,23 @@ export default function(state = initialState, action) {
                 providersFetching: false,
                 providersFetched: false,
                 providerError: action.payload.error
+            };
+        case DELETE_PROVIDER_BEGIN: 
+            return {
+                ...state,
+                providerDeleting: true
+            };
+        case DELETE_PROVIDER_SUCCESS:
+            return {
+                ...state,
+                providerDeleting: false,
+                deletedProviders: action.payload.providers
+            };
+        case DELETE_PROVIDER_FAILURE:
+            return {
+                ...state, 
+                providerDeleting: false,
+                providerError: action.payload.error,
             };
         default:
             return state;

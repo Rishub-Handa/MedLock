@@ -78,7 +78,7 @@ export default class ProviderSection extends Component {
     
     render() {
         return (
-            <div>
+            <div className="ProviderSection">
                 <div className="ProviderSection-header">
                     <h3>Providers</h3>
                 </div>

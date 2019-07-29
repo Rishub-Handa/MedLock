@@ -15,7 +15,7 @@ export default class PatientSection extends Component {
     
     render() {
         return (
-            <div>
+            <div className="PatientSection">
                 <div className="PatientSection-header">
                     <h3>Patients</h3>
                 </div>

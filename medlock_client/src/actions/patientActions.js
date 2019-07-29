@@ -32,6 +32,7 @@ import {
 import axios from 'axios';
 import auth0client from '../auth/Auth';
 import { MEDLOCK_API, MEDLOCK_AUTH0 } from '../config/servers';
+import { fetchAMT } from '../auth/AuthManagement';
 
 const createPatientProfileBegin = () => ({
   type: CREATE_PATIENT_PROFILE_BEGIN
@@ -134,24 +135,34 @@ const removePatientFailure = error => ({
   }
 });
 
-export function removePatientFromProviderList(id) {
+export function removePatient(id) {
+  console.log(`remove patient id=${id}`);
+  
   const { getAccessToken } = auth0client;
-  const API_URL = `${MEDLOCK_API}/provider/patients?_id=${id}`;
+  const API_URL = `${MEDLOCK_API}/provider/patients`;
   const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+
 
   return dispatch => {
     dispatch(removePatientBegin());
-    return axios.delete(API_URL, { headers })
+    return axios.delete(API_URL, { 
+      headers, 
+      data: {
+        providerId: auth0client.getProfile().sub.substring(6),
+        patientId: id,
+      }
+    })
       .then(res => {
-        dispatch(removePatientSuccess(res));
+        console.log(res.data);
+        dispatch(removePatientSuccess(res.data));
       })
       .catch(err => {
+        console.log(err);
         dispatch(removePatientFailure(err));
       });
   }
 }
 
-// Helper functions give access to the status of the request 
 const fetchPatientsBegin = () => ({
   type: FETCH_PATIENTS_BEGIN
 });
@@ -170,7 +181,6 @@ const fetchPatientsError = error => ({
   }
 });
 
-// fetches patients for the authenticated provider
 export function fetchPatients() {
   const {
     getAccessToken
@@ -197,10 +207,10 @@ const deletePatientBegin = () => ({
   type: DELETE_PATIENT_BEGIN,
 })
 
-const deletePatientSuccess = (patient) => ({
+const deletePatientSuccess = (patients) => ({
   type: DELETE_PATIENT_SUCCESS,
   payload: {
-    patient
+    patients
   }
 })
 
@@ -211,64 +221,65 @@ const deletePatientError = (error) => ({
   }
 })
 
-export function deletePatient(id, AMT) {
-  // TODO: only want a provider to remove patient from their list,
-  // not remove entirely from Auth0
-  const { getAccessToken } = auth0client;
-  const API_URL = `${MEDLOCK_API}/admin/patient?_id=${id}&deleteAll=false`;
-  const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+export function deletePatient(ids) {
+  var url = `${MEDLOCK_API}/admin/patient`;
 
   return dispatch => {
     dispatch(deletePatientBegin());
-    return axios.delete(API_URL, { headers })
+    fetchAMT()
       .then(res => {
-        dispatch(deletePatientSuccess(res));
+        const AMT = res.data.access_token;
+        return axios.delete(url, {
+          data: {
+            AMT, 
+            ids,
+          }
+        })
+          .then(res => dispatch(deletePatientSuccess(res.data)))
+          .catch(err => dispatch(deletePatientError(err)));
       })
-      .catch(err => {
-        dispatch(deletePatientError(err));
-      });
   }
 }
 
-const deleteAllPatientsBegin = () => ({
-  type: DELETE_ALL_PATIENTS_BEGIN
-});
+// const deleteAllPatientsBegin = () => ({
+//   type: DELETE_ALL_PATIENTS_BEGIN
+// });
 
-const deleteAllPatientsSuccess = (patients) => ({
-  type: DELETE_ALL_PATIENTS_SUCCESS,
-  payload: {
-    patients
-  }
-});
+// const deleteAllPatientsSuccess = (patients) => ({
+//   type: DELETE_ALL_PATIENTS_SUCCESS,
+//   payload: {
+//     patients
+//   }
+// });
 
-const deleteAllPatientsError = (error) => ({
-  type: DELETE_ALL_PATIENTS_FAILURE,
-  payload: {
-    error
-  }
-});
+// const deleteAllPatientsError = (error) => ({
+//   type: DELETE_ALL_PATIENTS_FAILURE,
+//   payload: {
+//     error
+//   }
+// });
 
-export function deleteAllPatients() {
-  const {
-    getAccessToken
-  } = auth0client;
-  const API_URL = `${MEDLOCK_API}/admin/patient?_id=$0&deleteAll=true`;
-  const headers = {
-    'Authorization': `Bearer ${getAccessToken()}`
-  };
+// export function deleteAllPatients() {
+//   const {
+//     getAccessToken
+//   } = auth0client;
+//   const API_URL = `${MEDLOCK_API}/admin/patient?_id=$0&deleteAll=true`;
+//   const headers = {
+//     'Authorization': `Bearer ${getAccessToken()}`
+//   };
 
-  return dispatch => {
-    dispatch(deleteAllPatientsBegin());
-    return axios.delete(API_URL, { headers })
-      .then(res => {
-        console.log(res);
-        dispatch(deleteAllPatientsSuccess(res));
-      })
-      .catch(err => {
-        dispatch(deleteAllPatientsError(err));
-      });
-  }
-}
+//   return dispatch => {
+//     dispatch(deleteAllPatientsBegin());
+//     return axios.delete(API_URL, { headers })
+//       .then(res => {
+//         console.log(res);
+//         dispatch(deleteAllPatientsSuccess(res));
+//       })
+//       .catch(err => {
+//         dispatch(deleteAllPatientsError(err));
+//       });
+//   }
+// }
 
 const fetchAllPatientsBegin = () => ({
   type: FETCH_ALL_PATIENTS_BEGIN

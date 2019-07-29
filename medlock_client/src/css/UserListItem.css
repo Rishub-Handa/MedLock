@@ -3,3 +3,9 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+.UserListItem-userInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

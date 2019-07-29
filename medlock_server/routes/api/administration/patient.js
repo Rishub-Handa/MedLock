@@ -40,33 +40,28 @@ router.delete('/', (req, res) => {
     const ids = req.body.ids;
     const AMT = req.body.AMT;
 
+    var deletedPatients = [];
     ids.forEach(id => {
-        deletePatient(id, AMT);
+        deletedPatients.push(deletePatient(id, AMT));
         console.log(`deleted patient(id=${id})`);
     });
-
-    // if (patientId && !deleteAll) { // TODO look for deleteAll param too!
-    //     console.log("deleting patient!");
-    //     deletePatientMongo(patientId);
-    //     deletePatientChatKit(patientId);
-    //     deleteUserFromAuth0(patientId, AMT);
-    // } else if (deleteAll) {
-    //     deleteAllPatientsMongo();
-    // } else {
-    //     throw new Error("no delete function specified");
-    // }
+    
+    res.json(deletedPatients);
 });
 
 const deletePatient = (id, AMT) => {
-    deletePatientMongo(id);
+    var deletedPatient = deletePatientMongo(id);
     deletePatientChatKit(id);
     deleteUserFromAuth0(id, AMT);
+    return deletedPatient;
 }
 
 const deletePatientMongo = (patientId) => {
     console.log(`deleting user(id=${patientId}) from MedLock db`);
+    var patient;
     Patient.findByIdAndDelete(patientId, (err, deletedPatient) => {
         if (err) console.log(`MedLock: ${err}`);
+        patient = deletedPatient;
 
         // Deletes Dispenser From MongoDB Database
         Dispenser.findByIdAndDelete(deletedPatient.medicalData.dispenser_id, (err, dispenser) => {
@@ -85,6 +80,7 @@ const deletePatientMongo = (patientId) => {
                 });
         });
     });
+    return patient;
 }
 
 // const deleteAllPatientsMongo = () => {

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions'; 
-import { createProviderProfile, fetchAllProviders } from '../../actions/providerActions'; 
-import { fetchAllPatients } from '../../actions/patientActions';
+import { createProviderProfile, fetchAllProviders, deleteProvider } from '../../actions/providerActions'; 
+import { fetchAllPatients, deletePatient } from '../../actions/patientActions';
 import { MEDLOCK_API } from '../../config/servers';
 
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -83,78 +83,83 @@ class Admin extends Component {
     }
 
     deleteAllProviders = () => {
-        var url = `${MEDLOCK_API}/admin/provider`;
+
+        // var url = `${MEDLOCK_API}/admin/provider`;
         const ids = this.props.providers.map(provider => provider._id);
-        console.log(ids);
-        fetchAMT()
-            .then(res => {
-                const AMT = res.data.access_token;
-                axios.delete(url, {
-                    data: {
-                        AMT,
-                        ids, 
-                    }
-                })
-                .then(console.log("All Providers Deleted Successfully"))
-                .catch(err => console.log(err));
-            });
+        this.props.deleteProvider(ids);
+        // console.log(ids);
+        // fetchAMT()
+        //     .then(res => {
+        //         const AMT = res.data.access_token;
+        //         axios.delete(url, {
+        //             data: {
+        //                 AMT,
+        //                 ids, 
+        //             }
+        //         })
+        //         .then(console.log("All Providers Deleted Successfully"))
+        //         .catch(err => console.log(err));
+        //     });
     }
 
     deletePatient = (patientId) => {
-        console.log(patientId);
-        var url = `${MEDLOCK_API}/admin/patient`;
-        var ids = [patientId]
-        fetchAMT()
-            .then(res => {
-                const AMT = res.data.access_token; 
-                axios.delete(url, {
-                    data: {
-                        AMT,
-                        ids,
-                    }
-                })
-                    .then((err) => {
-                        if(err) {console.log(err); throw Error(err)};
-                        alert(`Patient ${patientId} deleted successfully`);
-                    })
-                    .catch(err => alert(`Error On Delete: ${err}`));
-            });            
+        this.props.deletePatient([patientId]);
+        // console.log(patientId);
+        // var url = `${MEDLOCK_API}/admin/patient`;
+        // var ids = [patientId]
+        // fetchAMT()
+        //     .then(res => {
+        //         const AMT = res.data.access_token; 
+        //         axios.delete(url, {
+        //             data: {
+        //                 AMT,
+        //                 ids,
+        //             }
+        //         })
+        //             .then((err) => {
+        //                 if(err) {console.log(err); throw Error(err)};
+        //                 alert(`Patient ${patientId} deleted successfully`);
+        //             })
+        //             .catch(err => alert(`Error On Delete: ${err}`));
+        //     });            
     }
 
     deleteProvider = (providerId) => {
-        console.log(providerId);
-        var url = `${MEDLOCK_API}/admin/provider`;
-        var ids = [providerId]
-        console.log(ids);
-        fetchAMT()
-            .then(res => {
-                const AMT = res.data.access_token;
-                axios.delete(url, {
-                    data: {
-                        AMT,
-                        ids,
-                    }
-                })
-                    .then(alert(`Provider(id=${providerId}) deleted successfully`))
-                    .catch(err => alert(err));
-            });
+        this.props.deleteProvider([providerId]);
+        // console.log(providerId);
+        // var url = `${MEDLOCK_API}/admin/provider`;
+        // var ids = [providerId]
+        // console.log(ids);
+        // fetchAMT()
+        //     .then(res => {
+        //         const AMT = res.data.access_token;
+        //         axios.delete(url, {
+        //             data: {
+        //                 AMT,
+        //                 ids,
+        //             }
+        //         })
+        //             .then(alert(`Provider(id=${providerId}) deleted successfully`))
+        //             .catch(err => alert(err));
+        //     });
     }
 
     deleteAllPatients = () => {
-        var url = `${MEDLOCK_API}/admin/patient`;
+        // var url = `${MEDLOCK_API}/admin/patient`;
         const ids = this.props.patients.map(patient => patient._id);
-        fetchAMT()
-            .then(res => {
-                const AMT = res.data.access_token;
-                axios.delete(url, {
-                    data: {
-                        AMT,
-                        ids,     
-                    }
-                })
-                    .then(alert(`All patients deleted successfully`))
-                    .catch(err => alert(`Error On Delete: ${err}`));
-            });
+        this.props.deletePatient(ids);
+        // fetchAMT()
+        //     .then(res => {
+        //         const AMT = res.data.access_token;
+        //         axios.delete(url, {
+        //             data: {
+        //                 AMT,
+        //                 ids,     
+        //             }
+        //         })
+        //             .then(alert(`All patients deleted successfully`))
+        //             .catch(err => alert(`Error On Delete: ${err}`));
+        //     });
             
     }
 
@@ -189,24 +194,20 @@ class Admin extends Component {
             return (
                 <div>
                     <div className="Admin-header">
-                        <h1>MedLock Admin Page</h1>
+                        <h1>MedLock Admin</h1>
                     </div>
                     <div className="Admin-content">
-                        <div className="leftPanel">
                             <PatientSection 
                                 patients={patients}
                                 deletePatient={this.deletePatient}
                                 deleteAllPatients={this.deleteAllPatients}
                             />
-                        </div>
-                        <div className="rightPanel">
                             <ProviderSection 
                                 providers={providers}
                                 createNewProvider={this.createNewProvider}
                                 deleteProvider={this.deleteProvider}
                                 deleteAllProviders={this.deleteAllProviders} 
                             />
-                        </div>
                     </div>
                 </div>
             );
@@ -228,6 +229,12 @@ Admin.propTypes = {
     providersFetching: PropTypes.bool.isRequired,
     providersFetched: PropTypes.bool.isRequired,
     fetchProvidersError: PropTypes.object,
+
+    deleteProvider: PropTypes.func.isRequired,
+    deletedProviders: PropTypes.array.isRequired,
+
+    deletePatient: PropTypes.func.isRequired,
+    deletedPatients: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -241,7 +248,10 @@ const mapStateToProps = state => ({
     providers: state.providerState.providers,
     providersFetching: state.providerState.providersFetching,
     providersFetched: state.providerState.providersFetched,
-    fetchProvidersError: state.providerState.providerError
+    fetchProvidersError: state.providerState.providerError, 
+
+    deletedProviders: state.providerState.deletedProviders,
+    deletedPatients: state.patientState.deletedPatients
 });
 
 export default connect(mapStateToProps, { 
@@ -249,5 +259,7 @@ export default connect(mapStateToProps, {
     createProviderProfile, 
     assignRoles, 
     fetchAllPatients, 
-    fetchAllProviders
+    fetchAllProviders,
+    deleteProvider,
+    deletePatient,
 })(Admin); 
