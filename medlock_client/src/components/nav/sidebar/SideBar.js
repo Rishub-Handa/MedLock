@@ -9,6 +9,7 @@ import bigLogo from '../../../images/bigLogo.png';
 import SideBarItem from './SideBarItem';
 import PersonalDataView from '../../patientView/PersonalDataView';
 
+
 class SideBar extends Component {
 
     state = {
@@ -25,7 +26,7 @@ class SideBar extends Component {
     }
 
     filterModules = () => {
-        console.log(this.props);
+
         const { roles } = this.props;
         const role = roles[0].name;
         const newModules = modules.filter(module => {

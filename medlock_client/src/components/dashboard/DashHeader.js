@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../css/DashHeader.css'; 
 import UserInfo from './UserInfo';
 
+
 class DashHeader extends Component {
     
     constructor(props) {
