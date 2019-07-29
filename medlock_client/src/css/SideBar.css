@@ -11,6 +11,7 @@
     text-align: center;
     flex: 1 1 auto;
 }
+
 .menu {
     display: flex;
     flex-direction: column;

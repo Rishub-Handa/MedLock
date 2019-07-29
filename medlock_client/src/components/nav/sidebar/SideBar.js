@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 import auth0client from '../../../auth/Auth';
 import { modules } from '../ModuleInfo'; 
 import '../../../css/SideBar.css';
-import bigLogo from '../../../images/bigLogo.png'; 
 
 import SideBarItem from './SideBarItem';
 import PersonalDataView from '../../patientView/PersonalDataView';
@@ -72,9 +71,6 @@ class SideBar extends Component {
     render() {
         return (
             <div className="SideBar">
-                <div className="logo-container">
-                    <img className="dash-logo" src={bigLogo} />
-                </div>
                 <div className="SideBar-welcome">
                     <h4>Welcome, {this.props.personalData.name}</h4>
                 </div>

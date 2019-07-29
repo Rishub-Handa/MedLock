@@ -134,7 +134,7 @@ class Dashboard extends Component {
                     return false; 
                 }). 
                 map(icon => (
-                    <div className="icon">
+                    <div className="DashIcon-container">
                         <DashIcon name={icon.name} 
                                 roles={icon.roles} 
                                 content={icon.content} 
@@ -150,7 +150,7 @@ class Dashboard extends Component {
 
     dashboardHTML = () => {
         return (
-            <div className="DashIcon-container">
+            <div className="DashIcons-container">
                 {this.iconHTML(this.state.icons, this.props.roles)}
             </div>
         );

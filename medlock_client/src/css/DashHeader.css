@@ -1,14 +1,24 @@
 .DashHeader {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
+    grid-template-columns: repeat(12, 1fr);
+    height: 100%;
+    border: 1px solid black;
+    justify-items: center;
+    align-items: center;
+}
+
+.logo-container {
+    grid-column: 1/4;
 }
 
 .quote {
-    grid-column: 4/6;
+    grid-column: 6/8;
     text-align: center;
     vertical-align: center;
 }
 
 .UserInfo-container {
-    grid-column: 8/10;
+    grid-column: 11/13;
 }
+
+

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'; 
 import '../../css/DashHeader.css'; 
 import UserInfo from './UserInfo';
+import bigLogo from '../../images/bigLogo.png'; 
+
 
 
 class DashHeader extends Component {
@@ -12,6 +14,9 @@ class DashHeader extends Component {
     render() {
         return (
             <div className="DashHeader">
+                <div className="logo-container">
+                    <img className="dash-logo" src={bigLogo} />
+                </div>
                 <div className="quote">
                     <p>"You never know how strong you are until being strong is your only choice."</p>
                 </div>

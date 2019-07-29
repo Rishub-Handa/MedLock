@@ -1,3 +1,13 @@
-.icon {
-    border: '1px solid #ccc';
+.DashIcon {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    background: #ddd;
+    border: 1px solid #ccc;
+    width: 100%;
+
+    border-radius: 15px;
+    padding: 25px;
 }
