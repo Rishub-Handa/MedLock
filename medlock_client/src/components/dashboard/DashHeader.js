@@ -1,6 +1,7 @@
 import React, { Component } from 'react'; 
 import '../../css/DashHeader.css'; 
-import auth0client from '../../auth/Auth';
+import UserInfo from './UserInfo';
+
 
 class DashHeader extends Component {
     
@@ -9,15 +10,13 @@ class DashHeader extends Component {
     }
 
     render() {
-        const { userProfile } = auth0client;
         return (
             <div className="DashHeader">
                 <div className="quote">
                     <p>Some motivational quote</p>
                 </div>
-                <div className="DashHeader-UserInfo">
-                    <h2>{this.props.name}</h2>
-                    <img className="profile-picture" src='' alt="Face"/>
+                <div className="UserInfo-container">
+                    <UserInfo name={this.props.name} />
                 </div>
             </div>
         )

@@ -26,6 +26,7 @@ class SideBar extends Component {
     }
 
     filterModules = () => {
+
         const { roles } = this.props;
         const role = roles[0].name;
         const newModules = modules.filter(module => {
@@ -87,7 +88,6 @@ class SideBar extends Component {
                     <h5>7.3</h5>
                 </div>
             </div>
-
         );
     }
 }
