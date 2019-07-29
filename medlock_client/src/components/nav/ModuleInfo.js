@@ -1,10 +1,15 @@
 // Include Profiles Section 
+import InboxIcon from '../../icons/001-mail.svg';
+import MyDataIcon from '../../icons/002-statistics.svg';
 
 export const modules = [
     {
         name: 'Dashboard', 
         roles: null,
-        link: '/dashboard' 
+        content: {
+            icon: '',
+        },
+        link: '/dashboard',
     }, 
     {
         name: 'Inbox', 
@@ -19,7 +24,7 @@ export const modules = [
             }
         ], 
         content: {
-            image: '../../icons/001-mail.svg', 
+            icon: InboxIcon, 
         },
         link: '/dashboard/inbox'
     },
@@ -32,7 +37,7 @@ export const modules = [
             }
         ], 
         content:  {
-            image: '../../icons/002-statistics.svg',
+            icon: MyDataIcon,
         },
         link: '/dashboard/mydata'
     },
@@ -49,7 +54,7 @@ export const modules = [
             }
         ],  
         content: {
-            image: '',
+            icon: '',
         },
         link: '/dashboard/resources'
     }, 
@@ -62,7 +67,7 @@ export const modules = [
             }
         ], 
         content: {
-            image: '', 
+            icon: '', 
         }, 
         link: '/dashboard/mypatients' 
     },
@@ -79,7 +84,7 @@ export const modules = [
             }
         ],
         content: {
-            image: '',
+            icon: '',
         },
         link: '/dashboard/profile'
     }

@@ -51,15 +51,12 @@ class SideBar extends Component {
                 <div className="SideBarItems-container">
                     <h6 className="SideBar-subtitle">Modules</h6>
                         {this.state.modules.map(module => {
+                            console.log(module);
                             return (
                                 <ModuleLink 
                                     module={module} />
                             );
                         })}
-                        <button
-                            className="SideBarButton"
-                            color="#419bf9"
-                            onClick={auth0client.logout}>Logout</button>
                 </div>
         );
     }
@@ -72,13 +69,19 @@ class SideBar extends Component {
                 </div>
                 {this.sideBarItemsHTML()}
                 <h6 className="SideBar-subtitle">Data Preview</h6>
-                <div>
+                <div className="SideBar-section">
                     <h6>Time until next dispense</h6>
                     <Button>Click to Reveal</Button>
                 </div>
-                <div>
+                <div className="SideBar-section">
                     <h6>Average PDI Survey Result</h6>
                     <h5>7.3</h5>
+                </div>
+                <div className="logoutButton-container">
+                    <button
+                        className="logoutButton"
+                        onClick={auth0client.logout}
+                    >Logout</button>
                 </div>
             </div>
         );
