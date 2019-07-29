@@ -45,9 +45,18 @@
     padding: 10px;
 }
 
+.ModuleLink > h6 {
+    margin: 0px;
+}
+
 .ModuleLink-icon {
     width: 25px;
     height: auto;
+}
+
+.ModuleLink-name > p {
+    margin: 0px;
+    padding: 0px;
 }
 
 .ModuleLink:hover {

@@ -48,7 +48,7 @@ class SideBar extends Component {
     
     sideBarItemsHTML = () => {
         return (
-                <div className="SideBarItems-container">
+                <div className="ModuleLinks-container">
                     <h6 className="SideBar-subtitle">Modules</h6>
                         {this.state.modules.map(module => {
                             console.log(module);

@@ -1,13 +1,17 @@
 // Include Profiles Section 
-import InboxIcon from '../../icons/001-mail.svg';
-import MyDataIcon from '../../icons/002-statistics.svg';
+import InboxIcon from '../../icons/round-email-24px.svg';
+import MyDataIcon from '../../icons/round-timeline-24px.svg';
+import ResourcesIcon from '../../icons/round-folder-24px.svg';
+import DashboardIcon from '../../icons/round-home-24px.svg';
+import ProfileIcon from '../../icons/round-person-24px.svg';
+import MyPatientsIcon from '../../icons/round-people-24px.svg';
 
 export const modules = [
     {
         name: 'Dashboard', 
         roles: null,
         content: {
-            icon: '',
+            icon: DashboardIcon,
         },
         link: '/dashboard',
     }, 
@@ -54,7 +58,7 @@ export const modules = [
             }
         ],  
         content: {
-            icon: '',
+            icon: ResourcesIcon,
         },
         link: '/dashboard/resources'
     }, 
@@ -67,7 +71,7 @@ export const modules = [
             }
         ], 
         content: {
-            icon: '', 
+            icon: MyPatientsIcon, 
         }, 
         link: '/dashboard/mypatients' 
     },
@@ -84,7 +88,7 @@ export const modules = [
             }
         ],
         content: {
-            icon: '',
+            icon: ProfileIcon,
         },
         link: '/dashboard/profile'
     }

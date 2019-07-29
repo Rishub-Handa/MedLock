@@ -15,8 +15,8 @@ export default class ModuleLink extends Component {
                 <div>
                     <img className="ModuleLink-icon" src={this.props.module.content.icon} />
                 </div>
-                <div>
-                    <h6>{this.props.module.name}</h6>
+                <div className="ModuleLink-name">
+                    <p>{this.props.module.name}</p>
                     {/* <button className="SideBarButton"
                         onClick={() => {
                             this.props.history.push(this.props.module.link)
