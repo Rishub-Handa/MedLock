@@ -1,11 +1,13 @@
 .DashHeader {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
 }
 
 .quote {
+    
 }
 
-.DashHeader-UserInfo {
+.UserInfo-container {
+    margin-left: auto;
 }
 
