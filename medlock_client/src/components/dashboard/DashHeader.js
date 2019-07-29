@@ -1,7 +1,7 @@
 import React, { Component } from 'react'; 
 import '../../css/DashHeader.css'; 
 import UserInfo from './UserInfo';
-import bigLogo from '../../images/bigLogo.png'; 
+import bigLogo from '../../icons/white-logo.png'; 
 
 
 

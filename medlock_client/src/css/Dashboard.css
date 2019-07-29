@@ -30,4 +30,5 @@
 .Dashboard-content {
     grid-column: 3/13;
     grid-row-start: 2;
+    padding: 10px;
 }

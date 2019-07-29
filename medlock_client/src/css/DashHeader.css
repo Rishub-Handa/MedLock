@@ -4,11 +4,18 @@
     height: 100%;
     justify-items: center;
     align-items: center;
+    background-color: #ebebf2;
 }
 
 .logo-container {
     grid-column: 1/3;
+    background-color: #14589C;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    margin: 0px;
 }
+
 
 .quote {
     grid-column: 6/8;
