@@ -13,7 +13,7 @@ class DashHeader extends Component {
         return (
             <div className="DashHeader">
                 <div className="quote">
-                    <p>Some motivational quote</p>
+                    <p>"You never know how strong you are until being strong is your only choice."</p>
                 </div>
                 <div className="UserInfo-container">
                     <UserInfo name={this.props.name} />

@@ -7,10 +7,7 @@ export default class UserInfo extends Component {
         return (
             <div className="UserInfo">
                 <div className="dropdown">
-                    <span>{this.props.name}</span>
-                    <div className="dropdown-content">
-                        <p>user info dropdown!</p>
-                    </div>
+                    {this.props.name}
                 </div>
                 <div>
                     <img className="profile-picture" src={profilePic} alt="Profile Picture"/>
