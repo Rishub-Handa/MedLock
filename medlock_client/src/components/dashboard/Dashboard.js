@@ -111,8 +111,9 @@ class Dashboard extends Component {
                     <DashHeader name={this.props.profile.personalData.name} />
                 </div>
                 <div className="SideBar-container">
-                        <SideBar roles={this.props.roles}/>
+                        <SideBar roles={this.props.roles} personalData={this.props.profile.personalData}/>
                 </div>
+
                 <div className="Dashboard-content">
                     {
                         this.props.location.pathname === "/dashboard" ? this.dashboardHTML() : this.makeMainRoutes(this.props)

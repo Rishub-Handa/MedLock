@@ -5,13 +5,13 @@
 }
 
 .DashHeader-container {
-    grid-column: 1/13;
+    grid-column: 4/13;
     grid-row: 1/2;
 }
 
 .SideBar-container {
     grid-column: 1/4;
-    grid-row: 2/3;
+    grid-row: 1/4;
 }
 
 .DashIcon-container {
