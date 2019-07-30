@@ -30,11 +30,30 @@ class Dashboard extends Component {
             profile: {},
             role: null, 
             icons: modules, 
-            newUser: false 
+            newUser: false,
+            collapsed: false,
+        }
+
+    }
+
+    collapseSideBar = (query) => {
+        if (query.matches) {
+            console.log("Collapse SideBar!");
+            this.setState({ collapsed: true });
+        } else {
+            this.setState({ collapsed: false });
         }
     }
 
+    expandSideBar = () => {
+        this.setState({ collapsed: false });
+    }
+
     componentDidMount() {
+
+        var x = window.matchMedia("(max-width: 1200px), (max-height: 800px)");
+        this.collapseSideBar(x);
+        x.addListener(this.collapseSideBar);
 
         const { userProfile } = auth0client;
 
@@ -67,6 +86,20 @@ class Dashboard extends Component {
                 newUser: !prevState.newUser 
             }
         })
+    }
+
+    dashboardContentStyle = () => {
+        var style;
+        if (this.state.collapsed) {
+            style = {
+                'grid-column': '1/13',
+            }
+        } else {
+            style = {
+                'grid-column': '3/13',
+            }
+        }
+        return style;
     }
 
     render() {
@@ -105,15 +138,22 @@ class Dashboard extends Component {
             );
         }
 
+
+
         return (
             <div className="Dashboard">
-                <div className="DashHeader-container">
-                    <DashHeader name={this.props.profile.personalData.name} />
-                </div>
+                <DashHeader 
+                    name={this.props.profile.personalData.name} 
+                    collapsed={this.state.collapsed} 
+                    expandSideBar={this.expandSideBar}
+                />
                 <div className="SideBar-container">
-                        <SideBar roles={this.props.roles} personalData={this.props.profile.personalData}/>
+                        <SideBar 
+                            roles={this.props.roles} 
+                            personalData={this.props.profile.personalData}
+                            collapsed={this.state.collapsed} />
                 </div>
-                <div className="Dashboard-content">
+                <div className="Dashboard-content" style={this.dashboardContentStyle()}>
                     {
                         this.props.location.pathname === "/dashboard" ? this.dashboardHTML() : this.makeMainRoutes(this.props)
                     }

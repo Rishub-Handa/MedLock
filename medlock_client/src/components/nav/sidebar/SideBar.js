@@ -12,8 +12,11 @@ import ModuleLink from './ModuleLink';
 
 class SideBar extends Component {
 
-    state = {
-        modules, 
+    constructor(props) {
+        super(props);
+        this.state = {
+            modules,
+        }
     }
 
     containsRole = (roles, requiredRole) => {
@@ -43,28 +46,33 @@ class SideBar extends Component {
     }
 
     componentDidMount() {
+        
         this.filterModules();
     }
     
     sideBarItemsHTML = () => {
         return (
-                <div className="SideBarItems-container">
+                <div className="ModuleLinks-container">
                     <h6 className="SideBar-subtitle">Modules</h6>
                         {this.state.modules.map(module => {
+                            console.log(module);
                             return (
                                 <ModuleLink 
                                     module={module} />
                             );
                         })}
-                        <button
-                            className="SideBarButton"
-                            color="#419bf9"
-                            onClick={auth0client.logout}>Logout</button>
                 </div>
         );
     }
 
-    render() {
+    // collapseSidebar = (x) => {
+    //     if (x.matches) {
+    //         console.log("Collapse SideBar!");
+    //         this.setState({ collapsed: true});
+    //     } 
+    // }
+
+    expandedSideBar = () => {
         return (
             <div className="SideBar">
                 <div className="SideBar-welcome">
@@ -72,16 +80,38 @@ class SideBar extends Component {
                 </div>
                 {this.sideBarItemsHTML()}
                 <h6 className="SideBar-subtitle">Data Preview</h6>
-                <div>
+                <div className="SideBar-section">
                     <h6>Time until next dispense</h6>
                     <Button>Click to Reveal</Button>
                 </div>
-                <div>
+                <div className="SideBar-section">
                     <h6>Average PDI Survey Result</h6>
                     <h5>7.3</h5>
                 </div>
+                <div className="logoutButton-container">
+                    <button
+                        className="logoutButton"
+                        onClick={auth0client.logout}
+                    >Logout</button>
+                </div>
             </div>
         );
+    }
+
+    collapsedSideBar = () => {
+        return (
+            <div className="Collapsed">
+
+            </div>
+        );
+    }
+
+    render() {
+        if (this.props.collapsed) {
+            return this.collapsedSideBar();
+        } else {
+            return this.expandedSideBar();
+        }
     }
 }
 

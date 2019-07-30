@@ -1,7 +1,8 @@
 import React, { Component } from 'react'; 
 import '../../css/DashHeader.css'; 
 import UserInfo from './UserInfo';
-import bigLogo from '../../images/bigLogo.png'; 
+import bigLogo from '../../icons/white-logo.png'; 
+import menuIcon from '../../icons/round-menu-24px.svg';
 
 
 
@@ -11,12 +12,28 @@ class DashHeader extends Component {
         super(props);
     }
 
+    collapsedSideBar = () => {
+        return (
+            <div className="SideBarToggle" onClick={this.props.expandSideBar}>
+                <img className="menuIcon" src={menuIcon} />
+            </div>
+        )
+    }
+
+    logo = () => {
+        return (
+            <div className="logo-container">
+                <img className="dash-logo" src={bigLogo} />
+            </div>
+        )
+    }
+
     render() {
         return (
             <div className="DashHeader">
-                <div className="logo-container">
-                    <img className="dash-logo" src={bigLogo} />
-                </div>
+                {
+                    this.props.collapsed ? this.collapsedSideBar() : this.logo()
+                }
                 <div className="quote">
                     <p>"You never know how strong you are until being strong is your only choice."</p>
                 </div>

@@ -1,3 +1,8 @@
+.App {
+    width: 100vw;
+    height: 100vh;
+}
+
 html {
     box-sizing: border-box;
 }
@@ -10,9 +15,13 @@ img {
     max-width: 100%;
 }
 
-.centerText {
-    text-align: center;
-    vertical-align: center;
+:root {
+    --medlock-dark-blue: #14589c;
+    --medlock-blue: #1b74ce;
+    --medlock-dark-gray: #414756;
+    --medlock-gray: #a5abbd;
+    --medlock-light-gray: #ebebf2;
+    --medlock-deep-blue: #22394f;
 }
 
 /* .App {

@@ -1,11 +1,11 @@
 .SideBar {
-    background-color: #1b74ce;
+    background-color: var(--medlock-blue);
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     color: white;
-    border-radius: 25px;
+    /* border-radius: 25px; */
 }
 
 .SideBar-welcome {
@@ -18,21 +18,7 @@
     /* flex: 1 1 auto; */
 }
 
-.SideBarButton {
-    background-color: #1b74ce;
-    border: 1px solid white;
-    color: white;
-    width: auto;
-    border-radius: 15px;
-    padding: 10px;
-    margin: 5px;
-}
-
-.SideBarButton:hover {
-    background-color: #14589C;
-}
-
-.SideBarItems-container {
+.ModuleLinks-container {
     display: flex;
     flex-direction: column;
 }
@@ -42,7 +28,58 @@
 }
 
 .SideBar-subtitle {
-    background-color: #22394F; 
+    background-color: var(--medlock-deep-blue);
     padding: 10px;
-    margin-bottom: 5px;
+    margin: 0px;
+}
+
+.ModuleLink {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid var(--medlock-dark-blue);
+}
+
+.ModuleLink > * {
+    padding: 10px;
+}
+
+.ModuleLink > h6 {
+    margin: 0px;
+}
+
+.ModuleLink-icon {
+    width: 25px;
+    height: auto;
+}
+
+.ModuleLink-name > p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.ModuleLink:hover {
+    background-color: var(--medlock-dark-blue);
+}
+
+.logoutButton-container {
+    margin-top: auto;
+}
+
+.logoutButton {
+    background-color: var(--medlock-blue);
+    color: white;
+    width: 50%;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.logoutButton:hover {
+    background-color: var(--medlock-dark-blue);
+}
+
+.SideBar-section {
+    padding: 20px
 }
