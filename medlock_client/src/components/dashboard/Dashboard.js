@@ -30,7 +30,21 @@ class Dashboard extends Component {
             profile: {},
             role: null, 
             icons: modules, 
-            newUser: false 
+            newUser: false,
+            collapsed: false,
+        }
+
+        var x = window.matchMedia("(max-width: 1200px)");
+        this.collapseSideBar(x);
+        x.addListener(this.collapseSideBar);
+    }
+
+    collapseSideBar = (x) => {
+        if (x.matches) {
+            console.log("Collapse SideBar!");
+            this.setState({ collapsed: true });
+        } else {
+            this.setState({ collapsed: false });
         }
     }
 
@@ -108,10 +122,13 @@ class Dashboard extends Component {
         return (
             <div className="Dashboard">
                 <div className="DashHeader-container">
-                    <DashHeader name={this.props.profile.personalData.name} />
+                    <DashHeader name={this.props.profile.personalData.name} collapsed={this.state.collapsed} />
                 </div>
                 <div className="SideBar-container">
-                        <SideBar roles={this.props.roles} personalData={this.props.profile.personalData}/>
+                        <SideBar 
+                            roles={this.props.roles} 
+                            personalData={this.props.profile.personalData}
+                            collapsed={this.state.collapsed} />
                 </div>
                 <div className="Dashboard-content">
                     {

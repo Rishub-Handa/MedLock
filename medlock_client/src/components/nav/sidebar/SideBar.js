@@ -12,8 +12,11 @@ import ModuleLink from './ModuleLink';
 
 class SideBar extends Component {
 
-    state = {
-        modules, 
+    constructor(props) {
+        super(props);
+        this.state = {
+            modules,
+        }
     }
 
     containsRole = (roles, requiredRole) => {
@@ -43,6 +46,7 @@ class SideBar extends Component {
     }
 
     componentDidMount() {
+        
         this.filterModules();
     }
     
@@ -61,7 +65,14 @@ class SideBar extends Component {
         );
     }
 
-    render() {
+    // collapseSidebar = (x) => {
+    //     if (x.matches) {
+    //         console.log("Collapse SideBar!");
+    //         this.setState({ collapsed: true});
+    //     } 
+    // }
+
+    expandedSideBar = () => {
         return (
             <div className="SideBar">
                 <div className="SideBar-welcome">
@@ -85,6 +96,22 @@ class SideBar extends Component {
                 </div>
             </div>
         );
+    }
+
+    collapsedSideBar = () => {
+        return (
+            <div className="Collapsed">
+
+            </div>
+        );
+    }
+
+    render() {
+        if (this.props.collapsed) {
+            return this.collapsedSideBar();
+        } else {
+            return this.expandedSideBar();
+        }
     }
 }
 
