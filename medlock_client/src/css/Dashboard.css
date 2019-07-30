@@ -2,12 +2,14 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: 1fr 9fr;
+    width: 100vw;
+    height: 100vh;
 }
 
-.DashHeader-container {
+.DashHeader {
     grid-column: 1/13;
     grid-row: 1/2;
-    max-height: 80px;
+    height: 10vh;
 }
 
 .SideBar-container {
@@ -21,7 +23,7 @@
     grid-gap: 1em;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .DashIcons-container {
         grid-template-columns: 1fr;
     }
@@ -32,3 +34,11 @@
     grid-row-start: 2;
     padding: 10px;
 }
+
+/* @media (max-width: 1200px), (max-height: 800px) {
+    .Dashboard-content {
+        grid-column: 1/13;
+        grid-row-start: 2;
+        padding: 10px;
+    }
+} */

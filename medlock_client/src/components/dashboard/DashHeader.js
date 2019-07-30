@@ -14,7 +14,7 @@ class DashHeader extends Component {
 
     collapsedSideBar = () => {
         return (
-            <div className="SideBarToggle">
+            <div className="SideBarToggle" onClick={this.props.expandSideBar}>
                 <img className="menuIcon" src={menuIcon} />
             </div>
         )
