@@ -19,7 +19,8 @@ import Dispenser from '../test/Dispenser';
 import ServerEndpoints from '../test/ServerEndpoints'; 
 import { modules } from '../nav/ModuleInfo'; 
 import MyPatients from '../myPatients/MyPatients'; 
-import NewUser from './NewUser'; 
+import NewUser from './NewUser';
+import { collapseSideBar, expandSideBar, setSideBarToggle } from '../../actions/sideBarActions'; 
 
 class Dashboard extends Component {
     
@@ -31,29 +32,30 @@ class Dashboard extends Component {
             role: null, 
             icons: modules, 
             newUser: false,
-            collapsed: false,
         }
 
     }
 
-    collapseSideBar = (query) => {
+    autoCollapseSideBar = (query) => {
+        this.props.setSideBarToggle();
         if (query.matches) {
-            console.log("Collapse SideBar!");
-            this.setState({ collapsed: true });
+            this.props.collapseSideBar();
         } else {
-            this.setState({ collapsed: false });
+            this.props.expandSideBar();
         }
     }
 
-    expandSideBar = () => {
-        this.setState({ collapsed: false });
+    toggleSideBar = () => {
+        if (this.props.sideBarCollapsed) this.props.expandSideBar();
+        else this.props.collapseSideBar();
     }
 
     componentDidMount() {
 
+        // media queries
         var x = window.matchMedia("(max-width: 1200px), (max-height: 800px)");
-        this.collapseSideBar(x);
-        x.addListener(this.collapseSideBar);
+        this.autoCollapseSideBar(x);
+        x.addListener(this.autoCollapseSideBar);
 
         const { userProfile } = auth0client;
 
@@ -90,20 +92,20 @@ class Dashboard extends Component {
 
     dashboardContentStyle = () => {
         var style;
-        if (this.state.collapsed) {
+        if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
             style = {
-                'grid-column': '1/13',
+                'grid-column': '3/13',
             }
         } else {
             style = {
-                'grid-column': '3/13',
+                'grid-column': '1/13',
             }
         }
         return style;
     }
 
     render() {
-        console.log(this.props);
+        console.log(this.state.sideBar);
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
 
@@ -143,15 +145,17 @@ class Dashboard extends Component {
         return (
             <div className="Dashboard">
                 <DashHeader 
-                    name={this.props.profile.personalData.name} 
-                    collapsed={this.state.collapsed} 
-                    expandSideBar={this.expandSideBar}
+                    name={this.props.profile.personalData.name}  
+                    toggleSideBar={this.toggleSideBar}
+                    sideBarCollapsed={this.props.sideBarCollapsed}
+                    sideBarToggle={this.props.sideBarToggle}
                 />
                 <div className="SideBar-container">
                         <SideBar 
                             roles={this.props.roles} 
                             personalData={this.props.profile.personalData}
-                            collapsed={this.state.collapsed} />
+                            collapsed={this.props.sideBarCollapsed} 
+                />
                 </div>
                 <div className="Dashboard-content" style={this.dashboardContentStyle()}>
                     {
@@ -218,20 +222,37 @@ Dashboard.propTypes = {
     profileLoading: PropTypes.bool.isRequired,
     profileLoaded: PropTypes.bool.isRequired, 
     profileError: PropTypes.string, 
+
     roles: PropTypes.object.isRequired, 
     fetchRoles: PropTypes.func.isRequired, 
     rolesLoading: PropTypes.bool.isRequired, 
     rolesError: PropTypes.string, 
+
+    collapseSideBar: PropTypes.func.isRequired,
+    expandSideBar: PropTypes.func.isRequired,
+    setSideBarToggle: PropTypes.func.isRequired,
+    sideBarCollapsed: PropTypes.bool.isRequired,
+    sideBarToggle: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = state => ({
     profile: state.profileState.profile,
     profileLoading: state.profileState.profileLoading,
     profileLoaded: state.profileState.profileLoaded,
-    profileError: state.profileState.profileError, 
+    profileError: state.profileState.profileError,
+
     roles: state.authState.roles, 
     rolesLoading: state.authState.rolesLoading, 
     rolesError: state.authState.rolesError, 
+
+    sideBarCollapsed: state.sideBarState.collapsed,
+    sideBarToggle: state.sideBarState.toggle,
 });
 
-export default connect(mapStateToProps, { loadProfile, fetchRoles })(Dashboard); 
+export default connect(mapStateToProps, { 
+    loadProfile, 
+    fetchRoles, 
+    collapseSideBar, 
+    expandSideBar, 
+    setSideBarToggle 
+})(Dashboard); 
