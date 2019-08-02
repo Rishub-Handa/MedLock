@@ -51,29 +51,49 @@ class PatientData extends Component {
                 <div>Loading . . . </div>
             )
         }
-
-        return (
-            <div className="pd-container">
-                <div className="pd-body">
-                    <h1>My Data</h1>
-                    <div>
-                        <AveragePDISurveyBar data={allPDISurveys} />
-                    </div>
-                    <div>
-                        <PDISurveyLine data={allPDISurveys} />
-                    </div>
-                    <div>
-                        <PDISurveyStack data={allPDISurveys} />
-                    </div>
-                    <div>
-                        <PDISurveyPie data={allPDISurveys} />
-                    </div>
-                    <div>
-                        <DispenseScatter data={dispenser.dispenses} />
+        if(dispenser != null){
+            return (
+                <div className="pd-container">
+                    <div className="pd-body">
+                        <h1>My Data</h1>
+                        <div>
+                            <AveragePDISurveyBar data={allPDISurveys} />
+                        </div>
+                        <div>
+                            <PDISurveyLine data={allPDISurveys} />
+                        </div>
+                        <div>
+                            <PDISurveyStack data={allPDISurveys} />
+                        </div>
+                        <div>
+                            <PDISurveyPie data={allPDISurveys} />
+                        </div>
+                        <div>
+                            <DispenseScatter data={dispenser.dispenses} />
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
+        return (
+            <div className="pd-container">
+                    <div className="pd-body">
+                        <h1>My Data</h1>
+                        <div>
+                            <AveragePDISurveyBar data={allPDISurveys} />
+                        </div>
+                        <div>
+                            <PDISurveyLine data={allPDISurveys} />
+                        </div>
+                        <div>
+                            <PDISurveyStack data={allPDISurveys} />
+                        </div>
+                        <div>
+                            <PDISurveyPie data={allPDISurveys} />
+                        </div>
+                    </div>
+                </div>
+        )
     }
 }
 
