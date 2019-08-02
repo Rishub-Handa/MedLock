@@ -6,7 +6,6 @@ import { editProfile, saveProfile } from '../../actions/profileActions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../../css/Profile.css';
-
 class Profile extends Component {
 
     constructor(props) {
@@ -67,8 +66,8 @@ class Profile extends Component {
         }
 
         return (
-            <div className="profile-container">
-                <div className="main">
+            <div className="profile-container" align="center">
+                <div className="main" align="center">
                     <div className="personalInfo-container">
                         <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} role={this.state.role} />
                     </div>
