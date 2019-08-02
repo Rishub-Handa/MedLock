@@ -109,7 +109,7 @@ class PersonalInfo extends Component {
                     <div align="right">
                         <Button class="editButton" onClick={this.props.onProfileEdit}>Edit</Button>
                     </div>
-                    <img class="profile-picture" src={profilePic}/>
+                    <img class="profile-picture-onPage" src={profilePic}/>
                     <h2>{personalData.name}</h2>
                 </div>
                 <div>

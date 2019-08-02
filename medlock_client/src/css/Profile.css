@@ -1,10 +1,11 @@
-.profile-picture {
+.profile-picture-onPage {
     margin-left: auto;
     margin-right: auto;
     border: 2px solid var(--medlock-blue);
     height: 200px;
     width: auto;
     display: block;
+    border-radius: 50%;
 }
 
 .editButton {
@@ -41,9 +42,15 @@
 }
 
 .userInfo {
-    padding-top: 20px;
+    margin-top: 20px;
     display: block;
     text-align: center;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 5px;
+    display:flexbox;
+    max-width: 50%;
+    text-align: left;
 }
 .biographyHeader {
     background: var(--medlock-blue);
