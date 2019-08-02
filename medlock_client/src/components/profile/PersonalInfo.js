@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-
+import '../../css/Profile.css';
+import profilePic from './profile_pic.jpg';
 /**
  * Component to display personal info on the profile page.
  */
@@ -104,14 +105,27 @@ class PersonalInfo extends Component {
     patientProfileInfo = (personalData) => {
         return (
             <div>
-                <h2>Name: {personalData.name}</h2>
-                <h4>Biography: {personalData.bio}</h4>
-                <h6>Sex: {personalData.sex}</h6>
-                <h6>Birthday: {personalData.birthday}</h6>
-                <h6>Address: {personalData.address.street} {personalData.address.city}, {personalData.address.state} {personalData.address.zip}</h6>
-                <h6>Email: {personalData.email}</h6>
-                <h6>Phone: {personalData.phone}</h6>
-                <h6>Chat Name: {personalData.chatname}</h6>
+                <div align="center">
+                    <div align="right">
+                        <Button class="editButton" onClick={this.props.onProfileEdit}>Edit</Button>
+                    </div>
+                    <img class="profile-picture" src={profilePic}/>
+                    <h2>{personalData.name}</h2>
+                </div>
+                <div>
+                    <div class="biography" align="center">
+                        <div class="biographyHeader">
+                        <h4>About Me: </h4>
+                        </div>
+                        <p>{personalData.bio} </p>
+                    </div>
+                    <h6>Sex: {personalData.sex}</h6>
+                    <h6>Birthday: {personalData.birthday}</h6>
+                    <h6>Address: {personalData.address.street} {personalData.address.city}, {personalData.address.state} {personalData.address.zip}</h6>
+                    <h6>Email: {personalData.email}</h6>
+                    <h6>Phone: {personalData.phone}</h6>
+                    <h6>Chat Name: {personalData.chatname}</h6>
+                </div>
             </div>
         );  
     }
@@ -129,11 +143,8 @@ class PersonalInfo extends Component {
         const { personalData, role } = this.props;
         if (role === "Patient") {
             return (
-                <div className="personalInfo-static">
+                <div className="personalInfo-static" align="center">
                 {this.patientProfileInfo(personalData)}
-                <div>
-                    <Button onClick={this.props.onProfileEdit}>Edit</Button>
-                </div>
             </div>
             )
         }
