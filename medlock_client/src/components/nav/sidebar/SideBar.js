@@ -53,7 +53,7 @@ class SideBar extends Component {
     sideBarItemsHTML = () => {
         return (
                 <div className="ModuleLinks-container">
-                    <h6 className="SideBar-subtitle">Modules</h6>
+                    <h6 className="SideBar-subtitle">NAVIGATE</h6>
                         {this.state.modules.map(module => {
                             console.log(module);
                             return (
@@ -76,10 +76,10 @@ class SideBar extends Component {
         return (
             <div className="SideBar">
                 <div className="SideBar-welcome">
-                    <h4>Welcome, {this.props.personalData.name}</h4>
+                    <h4>Welcome <strong>{this.props.personalData.name}</strong></h4>
                 </div>
                 {this.sideBarItemsHTML()}
-                <h6 className="SideBar-subtitle">Data Preview</h6>
+                {/* <h6 className="SideBar-subtitle">Data Preview</h6>
                 <div className="SideBar-section">
                     <h6>Time until next dispense</h6>
                     <Button>Click to Reveal</Button>
@@ -87,7 +87,7 @@ class SideBar extends Component {
                 <div className="SideBar-section">
                     <h6>Average PDI Survey Result</h6>
                     <h5>7.3</h5>
-                </div>
+                </div> */}
                 <div className="logoutButton-container">
                     <button
                         className="logoutButton"
