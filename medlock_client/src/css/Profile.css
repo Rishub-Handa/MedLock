@@ -1,3 +1,21 @@
+.profile-picture {
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid var(--medlock-blue);
+    height: 200px;
+    width: auto;
+    display: block;
+}
+
+.editButton {
+    background-color: white;
+    color: black;
+}
+
+.profile-page {
+    font: "s"
+}
+
 .profile-container {
     display: grid;
 }
@@ -13,22 +31,27 @@
 
 .biography {
     box-sizing: border-box;
-    box-shadow:3px 3px gray;
+    box-shadow:3px 3px 3px gray;
     width: flex;
-    max-width: 70%;
+    max-width: 50%;
     border: 1px solid black;
     background: var(gray);
     border-radius: 5px;
     display: flexbox;
-    padding: 0px;
 }
 
+.userInfo {
+    padding-top: 20px;
+    display: block;
+    text-align: center;
+}
 .biographyHeader {
     background: var(--medlock-blue);
-    display: flexbox;
+    display: block;
     box-sizing: border-box;
-    border-radius: 5px 5px;
-
+    color: white;
+    text-align: left;
+    text-indent: 10px;
 }
 
 .profileModules-container {
@@ -59,23 +82,10 @@
     display: block
 }
 
-.editButton {
-    background-color: white;
-    color: black;
-}
-
 .personalInfo-container > * {
     border: 1px solid #ccc;
 }
 
-.profile-picture {
-    margin-left: auto;
-    margin-right: auto;
-    border: 2px solid var(--medlock-blue);
-    height: 200px;
-    width: auto;
-    display: block;
-}
 
 
 
