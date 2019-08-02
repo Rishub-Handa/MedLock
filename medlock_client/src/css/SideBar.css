@@ -5,6 +5,8 @@
     flex-direction: column;
     justify-content: flex-start;
     color: white;
+    z-index: 2;
+    box-shadow: 2px 2px 5px black;
     /* border-radius: 25px; */
 }
 
