@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import '../../css/Profile.css';
 import profilePic from './profile_pic.jpg';
+import editPic from './edit-profile.png';
 /**
  * Component to display personal info on the profile page.
  */
@@ -107,7 +108,7 @@ class PersonalInfo extends Component {
             <div class="profile-page">
                 <div align="center">
                     <div align="right">
-                        <Button class="editButton" onClick={this.props.onProfileEdit}>Edit</Button>
+                        <Button variant="light" onClick={this.props.onProfileEdit}>Edit Profile<img src ={editPic} width="35" height="35"/></Button>
                     </div>
                     <img class="profile-picture-onPage" src={profilePic}/>
                     <h2>{personalData.name}</h2>
