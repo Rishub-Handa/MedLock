@@ -31,11 +31,15 @@ class Auth {
     }
 
     login() {
+        console.log('Login');
         this.auth0.authorize();
     }
 
     handleAuthentication() {
+        console.log('Handle Authentication');
+        console.log(this.auth0);
         this.auth0.parseHash((err, authResult) => {
+            console.log(authResult);
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
             } else if (err) {
