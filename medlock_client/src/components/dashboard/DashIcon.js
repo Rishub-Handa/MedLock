@@ -20,7 +20,7 @@ class DashIcon extends Component {
     
     render() {
         return (
-            <div className="DashIcon" onClick={this.route}>
+            <div className={`${this.props.id}-dashIcon`} onClick={this.route}>
                 <div>
                     <h1>{this.props.name}</h1>
                 </div>
@@ -35,6 +35,7 @@ class DashIcon extends Component {
 
 DashIcon.propTypes = {
     name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     content: PropTypes.object.isRequired, 
     roles: PropTypes.array.isRequired, 
     link: PropTypes.string.isRequired

@@ -19,3 +19,24 @@ describe('login', () => {
             })
     });
 });
+
+describe('Dashboard', () => {
+    it('Clicks Inbox', () => {
+        cy.get('.inbox-dashIcon').click()
+        cy.url()
+            .should('include', '/inbox')
+    });
+    it('Clicks Resources', () => {
+        cy.get('resources-dashIcon').click()
+    });
+    it('Clicks My Patients', () => {
+        cy.get('mypatients-dashIcon').click()
+    });
+    it('Clicks Profile', () => {
+        cy.get('profile-dashIcon').click()
+    });
+
+    beforeEach(() => {
+        cy.visit('http://localhost:3000/dashboard')
+    })
+})

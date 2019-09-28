@@ -140,8 +140,6 @@ class Dashboard extends Component {
             );
         }
 
-
-
         return (
             <div className="Dashboard">
                 <DashHeader 
@@ -179,10 +177,13 @@ class Dashboard extends Component {
                 }). 
                 map(icon => (
                     <div className="DashIcon-container">
-                        <DashIcon name={icon.name} 
-                                roles={icon.roles} 
-                                content={icon.content} 
-                                link={icon.link} />
+                        <DashIcon 
+                            name={icon.name} 
+                            id={icon.id}
+                            roles={icon.roles} 
+                            content={icon.content} 
+                            link={icon.link} 
+                        />
                     </div>
                 ))
         } catch(error) { console.log(error); } 

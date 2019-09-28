@@ -65,12 +65,12 @@ class SideBar extends Component {
         );
     }
 
-    // collapseSidebar = (x) => {
-    //     if (x.matches) {
-    //         console.log("Collapse SideBar!");
-    //         this.setState({ collapsed: true});
-    //     } 
-    // }
+    collapseSidebar = (x) => {
+        if (x.matches) {
+            console.log("Collapse SideBar!");
+            this.setState({ collapsed: true});
+        } 
+    }
 
     expandedSideBar = () => {
         return (

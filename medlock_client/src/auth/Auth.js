@@ -111,9 +111,12 @@ class Auth {
     }
 
     isAuthenticated() {
+        console.log("isAuthenticated");
         // Check whether the current time is past 
         // the access token's expxiry time
         let expiresAt = this.expiresAt;
+        console.log(expiresAt);
+        console.log(new Date().getTime());
         return new Date().getTime() < expiresAt;
     }
 
