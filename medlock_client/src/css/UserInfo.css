@@ -3,14 +3,15 @@
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    color: var(--medlock-dark-gray);
 }
 
 .profile-picture {
     border-radius: 50%;
-    border: 3px solid black;
-    height: 65px;
+    border: 3px solid var(--medlock-blue);
+    height: 55px;
     width: auto;
-    margin-left: 10px;
+    margin-left: 14px;
 }
 
 .dropdown {

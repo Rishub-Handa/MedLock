@@ -9,7 +9,6 @@ import SideBarItem from './SideBarItem';
 import PersonalDataView from '../../patientView/PersonalDataView';
 import ModuleLink from './ModuleLink';
 
-
 class SideBar extends Component {
 
     constructor(props) {
