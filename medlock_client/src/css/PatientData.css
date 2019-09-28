@@ -18,35 +18,35 @@
 }
 
 .avg-pdi-bar {
-    width: 50%; 
+    width: 20%; 
     padding: 0;
     margin-left: 50px; 
     border: 1px solid #ccc; 
 }
 
 .pdi-lines {
-    width: 50%; 
+    width: 20%; 
     padding: 0; 
     margin-left: 50px; 
     border: 1px solid #ccc; 
 }
 
 .pdi-stacked {
-    width: 50%; 
+    width: 20%; 
     padding: 0; 
     margin-left: 50px; 
     border: 1px solid #ccc; 
 }
 
 .dispense-bar {
-    width: 50%; 
+    width: 20%; 
     padding: 0; 
     margin-left: 50px; 
     border: 1px solid #ccc; 
 } 
 
 .dispense-scatter {
-    width: 50%; 
+    width: 20%; 
     padding: 0; 
     margin-left: 50px; 
     border: 1px solid #ccc; 
