@@ -31,11 +31,15 @@ class Auth {
     }
 
     login() {
+        console.log('Login');
         this.auth0.authorize();
     }
 
     handleAuthentication() {
+        console.log('Handle Authentication');
+        console.log(this.auth0);
         this.auth0.parseHash((err, authResult) => {
+            console.log(authResult);
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);
             } else if (err) {
@@ -107,9 +111,12 @@ class Auth {
     }
 
     isAuthenticated() {
+        console.log("isAuthenticated");
         // Check whether the current time is past 
         // the access token's expxiry time
         let expiresAt = this.expiresAt;
+        console.log(expiresAt);
+        console.log(new Date().getTime());
         return new Date().getTime() < expiresAt;
     }
 

@@ -37,8 +37,11 @@ class Dashboard extends Component {
     }
 
     autoCollapseSideBar = (query) => {
+        console.log("checking query")
+        //not getting called at the right times
         this.props.setSideBarToggle();
         if (query.matches) {
+            console.log("Collapsing SideBar");
             this.props.collapseSideBar();
         } else {
             this.props.expandSideBar();
@@ -51,9 +54,8 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-
         // media queries
-        var x = window.matchMedia("(max-width: 1200px), (max-height: 800px)");
+        var x = window.matchMedia("(max-width: 800px)");
         this.autoCollapseSideBar(x);
         x.addListener(this.autoCollapseSideBar);
 
@@ -105,7 +107,7 @@ class Dashboard extends Component {
     }
 
     render() {
-        console.log(this.state.sideBar);
+        console.log("render")
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
 
@@ -139,8 +141,6 @@ class Dashboard extends Component {
                 <NewUser toggle={this.toggleNewUser} profile={this.props.profile} role={roles[0].name}/> 
             );
         }
-
-
 
         return (
             <div className="Dashboard">
@@ -179,10 +179,13 @@ class Dashboard extends Component {
                 }). 
                 map(icon => (
                     <div className="DashIcon-container">
-                        <DashIcon name={icon.name} 
-                                roles={icon.roles} 
-                                content={icon.content} 
-                                link={icon.link} />
+                        <DashIcon 
+                            name={icon.name} 
+                            id={icon.id}
+                            roles={icon.roles} 
+                            content={icon.content} 
+                            link={icon.link} 
+                        />
                     </div>
                 ))
         } catch(error) { console.log(error); } 

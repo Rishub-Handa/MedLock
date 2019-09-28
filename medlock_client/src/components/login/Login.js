@@ -8,7 +8,7 @@ class Login extends Component {
         return (
             <div>
                 <h1>You need to login.</h1>
-                <Button onClick={auth0client.login}>Login</Button>
+                <button className='login-btn' onClick={auth0client.login}>Login</button>
             </div>
         );
     }

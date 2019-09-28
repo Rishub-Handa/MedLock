@@ -13,6 +13,9 @@ import Graphs from './components/graphs/Graphs';
 
 const handleAuthentication = (nextState, replace) => {
     if (/access_token|id_token|error/.test(nextState.location.hash)) {
+        console.log(nextState)
+        console.log(nextState.location.hash)
+        console.log(/access_token|id_token|error/.test(nextState.location.hash))
         auth0client.handleAuthentication();
     }
 }

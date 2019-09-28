@@ -44,8 +44,7 @@ class SideBar extends Component {
         this.setState({modules: newModules});
     }
 
-    componentDidMount() {
-        
+    componentDidMount() {    
         this.filterModules();
     }
     
@@ -63,13 +62,6 @@ class SideBar extends Component {
                 </div>
         );
     }
-
-    // collapseSidebar = (x) => {
-    //     if (x.matches) {
-    //         console.log("Collapse SideBar!");
-    //         this.setState({ collapsed: true});
-    //     } 
-    // }
 
     expandedSideBar = () => {
         return (

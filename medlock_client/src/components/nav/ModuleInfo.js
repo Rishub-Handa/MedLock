@@ -8,7 +8,8 @@ import MyPatientsIcon from '../../icons/round-people-24px.svg';
 
 export const modules = [
     {
-        name: 'Dashboard', 
+        name: 'Dashboard',
+        id: 'dashboard', 
         roles: null,
         content: {
             icon: DashboardIcon,
@@ -17,6 +18,7 @@ export const modules = [
     }, 
     {
         name: 'Inbox', 
+        id: 'inbox',
         roles: [
             {
                 name: 'Provider', 
@@ -34,6 +36,7 @@ export const modules = [
     },
     {
         name: 'My Data',
+        id: 'mydata',
         roles: [
             {
                 name: 'Patient', 
@@ -47,6 +50,7 @@ export const modules = [
     },
     {
         name: 'Resources',
+        id: 'resources',
         roles: [
             {
                 name: 'Provider', 
@@ -64,6 +68,7 @@ export const modules = [
     }, 
     {
         name: 'My Patients', 
+        id: 'mypatients',
         roles: [
             {
                 name: 'Provider', 
@@ -77,6 +82,7 @@ export const modules = [
     },
     {
         name: 'Profile',
+        id: 'profile',
         roles: [
             {
                 name: 'Patient',
