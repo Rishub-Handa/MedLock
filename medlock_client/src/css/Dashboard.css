@@ -1,11 +1,14 @@
 .Dashboard {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: 1fr 9fr;
     width: 100vw;
     height: 100vh;
 }
-
+.main{
+    margin-top: 30px; /* Add a top margin to avoid content overlay */
+}
 .DashHeader {
     grid-column: 1/13;
     grid-row: 1/2;

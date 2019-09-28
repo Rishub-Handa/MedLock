@@ -1,3 +1,9 @@
+@media (max-width: 600px) {
+    .SideBar {
+        display: none;
+    }
+  }
+
 .SideBar {
     background-color: var(--medlock-blue);
     position: relative;
@@ -48,7 +54,7 @@
     justify-content: flex-start;
     align-items: center;
     font-size: .9em;
-    border-bottom: .5px solid var(--medlock-dark-blue);
+    /* border-bottom: .5px solid var(--medlock-dark-blue); */
 }
 
 .ModuleLink > * {

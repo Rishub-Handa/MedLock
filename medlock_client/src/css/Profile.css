@@ -1,10 +1,9 @@
 .profile-picture-onPage {
     margin-left: auto;
     margin-right: auto;
-    border: 2px solid var(--medlock-blue);
-    height: 200px;
+    border: 5px solid var(--medlock-blue);
+    height: 120px;
     width: auto;
-    display: block;
     border-radius: 50%;
 }
 
@@ -13,31 +12,23 @@
     color: black;
 }
 
-.profile-page {
-    font: "s"
-}
 
 .profile-container {
     display: grid;
 }
 
-.profile-container > * {
-    border: 1px solid #ccc;
-}
 
 .main > * {
-    border: 1px solid #ccc;
     align-items: center;
 }
 
 .biography {
+    box-shadow: 0 8px 17px 0 rgba(139, 139, 139, 0.4);
+    background-color: var(--medlock-light-gray);
     box-sizing: border-box;
-    box-shadow:3px 3px 3px gray;
     width: flex;
     max-width: 50%;
-    border: 1px solid black;
-    background: var(gray);
-    border-radius: 5px;
+    border-radius: 15px;
     display: flexbox;
 }
 
@@ -47,14 +38,16 @@
     text-align: center;
     box-sizing: border-box;
     border: 1px solid black;
-    border-radius: 5px;
+    border-radius: 15px;
     display:flexbox;
     max-width: 50%;
     text-align: left;
 }
 .biographyHeader {
+    box-shadow: 0 3px 17px 0 rgba(139, 139, 139, 0.4);
     background: var(--medlock-blue);
     display: block;
+    border-radius: 15px 15px 0 0;
     box-sizing: border-box;
     color: white;
     text-align: left;
@@ -71,26 +64,17 @@
     border: 1px solid #ccc;
 }
 
-.profileModules-container > div:nth-child(odd) {
+/* .profileModules-container > div:nth-child(odd) {
     background: #ddd;
 }
 
 .profileModules-container > div:nth-child(even) {
     background: #eee;
-}
+} */
 
 .personalInfo-container {
     display: grid;
-    grid-template-columns: 5fr;
-    
-}
-
-.personalInfo-static {
-    display: block
-}
-
-.personalInfo-container > * {
-    border: 1px solid #ccc;
+    grid-template-columns: 5fr;    
 }
 
 
