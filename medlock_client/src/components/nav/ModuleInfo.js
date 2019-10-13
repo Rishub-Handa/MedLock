@@ -97,6 +97,34 @@ export const modules = [
             icon: ProfileIcon,
         },
         link: '/dashboard/profile'
-    }
+    },
+    {
+        name: 'Surveys',
+        id: 'surveys',
+        roles: [
+            {
+                name: 'Patient', 
+                description: 'Take surveys'
+            }
+        ], 
+        content:  {
+            icon: MyDataIcon,
+        },
+        link: '/dashboard/survey'
+    },
+    {
+        name: 'Dispenser',
+        id: 'dispenser',
+        roles: [
+            {
+                name: 'Patient', 
+                description: 'Simulate dispenses'
+            }
+        ], 
+        content:  {
+            icon: MyDataIcon,
+        },
+        link: '/dashboard/dispenser'
+    },
 
 ]
