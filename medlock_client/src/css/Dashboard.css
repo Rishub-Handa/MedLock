@@ -6,9 +6,7 @@
     width: 100vw;
     height: 100vh;
 }
-.main{
-    margin-top: 30px; /* Add a top margin to avoid content overlay */
-}
+
 .DashHeader {
     grid-column: 1/13;
     grid-row: 1/2;
@@ -19,10 +17,10 @@
     grid-column: 1/3;
     grid-row: 2/3;
     z-index: 1;
+    margin-top: 2vh; /* Add a top margin to avoid content overlay */
 }
 
 .DashIcons-container {
-    margin-left: 20%;
     width: 70%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -39,6 +37,8 @@
     grid-column: 3/13;
     grid-row-start: 2;
     padding: 20px;
+    margin-top: 2vh; /* Add a top margin to avoid content overlay */
+    margin-left: 16.67vw; /* Add a left margin to avoid sidebar overlay */
 }
 
 /* @media (max-width: 1200px), (max-height: 800px) {
