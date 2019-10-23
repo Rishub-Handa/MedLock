@@ -129,6 +129,7 @@ export default class PDISurveyBar extends Component {
             .attr('y', (d, i) => yScale(d))
             .attr('height', (d, i) => canvasHeight - yScale(d))
             .attr('width', xScale.bandwidth())
+            .attr('fill', 'var(--medlock-blue)')
 
         this.setState({
             svg,
