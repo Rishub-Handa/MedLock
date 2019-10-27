@@ -13,6 +13,8 @@ export default class DispenseScatter extends Component {
         }
     }
 
+    canvasRef = React.createRef();
+
     addZero(val) {
         if (val < 10)
             return "0" + val;
@@ -20,6 +22,7 @@ export default class DispenseScatter extends Component {
             return "" + val;
     }
     parseData(data) {
+
         return data.map(timestamp => {
             const date = new Date(timestamp)
             const x = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`
@@ -40,29 +43,28 @@ export default class DispenseScatter extends Component {
         const canvasHeight = this.props.height - 2*margin;
         const canvasWidth = this.props.width - 2*margin;
 
-        const svg = d3.select(this.refs.canvas)
-            .append("svg")
-            .attr("height", this.props.height)
-            .attr("width", this.props.width)
+        const canvas = d3.select(this.canvasRef.current);
+        const svg = canvas.select("svg");
         
         const chart = svg.append('g')
             .attr('transform', `translate(${margin}, ${margin})`)
 
-        const yScale = d3.scaleLinear()
+        const yScale = d3.scaleTime()
+            .domain([0, 84000])
             .range([canvasHeight, 0])
-            .domain([0, 86400])
 
         const yAxis = d3.axisLeft()
             .scale(yScale)
+            .ticks(8)
             .tickSize(-canvasWidth, 0, 0)
             .tickFormat((d, i) => {
                 const hours = Math.floor(d / 3600);
-                const min = Math.floor((d % 3600) / 60);
-                return `${this.addZero(hours)}:${this.addZero(min)}`
+                return `${this.addZero(hours)}:00`
             });
+            
 
-        chart.append('g')
-            .call(d3.axisLeft(yScale))
+        // chart.append('g')
+        //     .call(d3.axisLeft(yScale))
 
         const xScale = d3.scaleBand()
             .range([0, canvasWidth])
@@ -102,18 +104,51 @@ export default class DispenseScatter extends Component {
             .attr('text-anchor', 'middle')
             .text('Dispenses')
             
+        var tooltip = d3.select(this.canvasRef.current)
+            .append("div")
+            .style("opacity", "0")
+            .style("display", "none")
+
         chart.selectAll()
             .data(data).enter()
             .append("circle")
             .attr('cx', (d, i) => xScale(d[0]) + xScale.bandwidth()/2)
             .attr('cy', (d, i) => yScale(d[1]))
             .attr('r', 5)
+            .attr('id', (d, i) => i)
             .attr('fill', 'var(--medlock-blue)')
+            .on("mouseover", (d, i) => {
+                this.setState({
+                    config: {
+                        mouseover: i
+                    }
+                })
+            });
+        
+        console.log(chart)
 
+        const config = {
+            tooltip,
+        }
+
+        this.setState({ 
+            svg, 
+            chart,
+            config,
+        });
     }
 
     updateChart() {
-
+        console.log("updating chart!");
+        const { chart, config } = this.state;
+        console.log(chart);
+        chart.selectAll("circle")
+            .on("mouseover", (d, i) => {
+                d3.select(this)
+                    .transition()
+                    .duration(500)
+                    .attr("r", 10);
+            });
     }
     
     componentDidMount() {
@@ -121,13 +156,13 @@ export default class DispenseScatter extends Component {
     }
 
     componentDidUpdate() {
-
+        this.updateChart();
     }
 
     render() {
         return (
-            <div>
-                <div ref="canvas"></div>
+            <div ref={this.canvasRef}>
+                <svg height={this.props.height} width={this.props.width}></svg>
             </div>
         )
     }

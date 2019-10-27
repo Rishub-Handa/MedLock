@@ -55,9 +55,14 @@ class PatientData extends Component {
         }
         if(dispenser != null){
             return (
-                <div>
-                    <PDISurveyBar data={allPDISurveys} width={800} height={400} />
-                    <DispenseScatter data={dispenser.dispenses} width={800} height={400} />
+                <div className="pd-container">
+                        <h1 className="pd-title">
+                            My Data
+                        </h1>
+                    <div className="pd-body">
+                        <PDISurveyBar className="graph" data={allPDISurveys} width={800} height={400}/>
+                        <DispenseScatter data={dispenser.dispenses} width={800} height={400} />
+                    </div>
                 </div>
                 // <div className="pd-container">
                 //     <div className="pd-body">
