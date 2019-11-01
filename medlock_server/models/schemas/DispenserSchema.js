@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Dispenser Schema
 const DispenserSchema = new Schema({
-    _id: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
+    // _id: {
+    //     type: Schema.Types.ObjectId,
+    //     // required: true
+    // },
     pharmacy: {
         name: {
             type: String
@@ -24,11 +24,29 @@ const DispenserSchema = new Schema({
     schedule: {
         type: Object
     },
-    dispenses: [
-        {
-            type: Number,
-        }
-    ]
+    events: {
+        dispenses: [{
+            type: Date 
+        }], 
+        btn1: [{
+            type: Date
+        }], 
+        btn2: [{
+            type: Date
+        }], 
+        btn3: [{
+            type: Date 
+        }], 
+        collarOff: [{
+            type: Date 
+        }], 
+        capTurn: [{
+            type: Date 
+        }] 
+    }, 
+    lastUpdated: {
+        type: Date 
+    }
 });
 
 module.exports = DispenserSchema;
