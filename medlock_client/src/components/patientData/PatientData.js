@@ -25,7 +25,6 @@ class PatientData extends Component {
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
-        console.log(this.props);
         this.props.fetchDispenser(this.props.profile.medicalData.dispenser_id); 
     }
 
@@ -38,6 +37,8 @@ class PatientData extends Component {
                 dispenserLoading, 
                 dispenserLoaded,
                 dispenserError } = this.props; 
+
+        console.log(dispenser);
 
         if(surveyError || dispenserError) {
             return (
