@@ -13,9 +13,9 @@ const router = express.Router();
 router.get('/', (req, res) => {
     console.log("Get Dispenses Data"); 
     Dispenser.findOne({ _id: req.query.id })
-        .then(dispenseData => {
-            console.log(dispenseData);
-            res.json(dispenseData);
+        .then(dispenserData => {
+            console.log(dispenserData);
+            res.json(dispenserData);
         })
         .catch(err => console.log(err)); 
 });
@@ -78,10 +78,6 @@ router.post('/', (req, res) => {
                 
             }); 
         }
-
-        
-        // res.send("Saved. "); 
-
         return dispenser.save()
             .then(dispenser => {
                 res.send("Dispenser ID: " + dispenser._id + "\nCurrent Date: " + Date.now()); 
@@ -91,18 +87,6 @@ router.post('/', (req, res) => {
                 console.log(dispenser);
             })
             .catch(err => console.log(err)); 
-
-        // dispenser.save((err, dispenser) => {
-        //     if(err) console.log(err); 
-        //     res.send("Dispenser ID: " + dispenser._id + "\nCurrent Date: " + Date.now()); 
-        //     console.log(dispenser); 
-        //     console.log(Date.now()); 
-        //     console.log("Dispense Logged.");
-        //     console.log(dispenser); 
-        // }); 
-
-
-
     }); 
 }); 
 

@@ -9,6 +9,7 @@ export default class DispenseScatter extends Component {
             chart: null,
             config: null,
         }
+        console.log(props);
     }
 
     canvasRef = React.createRef();
@@ -22,9 +23,8 @@ export default class DispenseScatter extends Component {
     parseData(data) {
 
         return data.map(timestamp => {
-            const date = new Date(timestamp)
-            const x = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`
-       
+            const date = new Date(timestamp);
+            const x = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`       
             const hours = date.getHours();
             const min = date.getMinutes();
             const sec = date.getSeconds();
