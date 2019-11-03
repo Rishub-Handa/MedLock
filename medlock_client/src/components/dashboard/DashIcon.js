@@ -22,7 +22,7 @@ class DashIcon extends Component {
         return (
             <div className="DashIcon" onClick={this.route}>
                 <div>
-                    <h1>{this.props.name}</h1>
+                    <p>{this.props.name}</p>
                 </div>
                 <div>
                     <img src={this.props.content.image} />

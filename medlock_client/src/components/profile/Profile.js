@@ -67,6 +67,7 @@ class Profile extends Component {
 
         return (
             <div className="profile-container" align="center">
+                <h1 class="header">Profile</h1>
                 <div className="main" align="center">
                     <div className="personalInfo-container">
                         <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} role={this.state.role} />

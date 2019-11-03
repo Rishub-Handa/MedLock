@@ -2,3 +2,15 @@
     display: flex;
     flex-direction: row;
 }
+
+h1.header {
+    font-family: Montserrat;
+    font-size: 30px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d4f5c;
+  }
