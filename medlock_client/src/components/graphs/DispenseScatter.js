@@ -162,10 +162,12 @@ export default class DispenseScatter extends Component {
         chart.selectAll("circle")
             .on("mouseover", (d, i) => {
                 // increase the size of the point
-                chart.select(`#p${i}`)
+                var s = chart.select(`#p${i}`)
                     .transition()
                     .duration(500)
                     .attr("r", 10);
+                console.log("Selection:")
+                console.log(s)
                 
                 // show tooltip
                 this.tooltipMouseover(d[1], config.tooltip);

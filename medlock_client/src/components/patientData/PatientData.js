@@ -10,6 +10,7 @@ import PDISurveyStack from '../graphs/PDISurveyStack';
 import DispenseScatter from '../graphs/DispenseScatter';
 import PDISurveyPie from '../graphs/PDISurveyPie';
 import PDISurveyBar from '../graphs/PDISurveyBar';
+import DateTimeScatter from '../graphs/DateTimeScatter';
 
 /** 
  * Component for displaying individual patient data
@@ -62,32 +63,24 @@ class PatientData extends Component {
                         </h1>
                     <div className="pd-body">
                         <PDISurveyBar className="graph" data={allPDISurveys} width={800} height={400}/>
-                        <DispenseScatter data={dispenser.events.dispenses} width={800} height={400} />
+                        <DateTimeScatter 
+                            className="graph"
+                            title="Dispenses"
+                            data={[dispenser.events.dispenses]}
+                            colors={["var(--medlock-blue)"]}
+                            width={800}
+                            height={400} 
+                        />
+                        <DateTimeScatter 
+                            className="graph" 
+                            title="Button Presses" 
+                            data={[dispenser.events.btn1, dispenser.events.btn2, dispenser.events.btn3]} 
+                            colors={["red", "blue", "green"]}
+                            width={800} 
+                            height={400} 
+                        />
                     </div>
                 </div>
-                // <div className="pd-container">
-                //     <div className="pd-body">
-                //         <h1>My Data</h1>
-                //         <div>
-                //             <PDISurveyBar data={allPDISurveys[0]} />
-                //         </div>
-                //         <div>
-                //             <AveragePDISurveyBar data={allPDISurveys} />
-                //         </div>
-                //         <div>
-                //             <PDISurveyLine data={allPDISurveys} />
-                //         </div>
-                //         <div>
-                //             <PDISurveyStack data={allPDISurveys} />
-                //         </div>
-                //         <div>
-                //             <PDISurveyPie data={allPDISurveys} />
-                //         </div>
-                //         <div>
-                //             <DispenseScatter data={dispenser.dispenses} />
-                //         </div>
-                //     </div>
-                // </div>
             );
         }
         return (
