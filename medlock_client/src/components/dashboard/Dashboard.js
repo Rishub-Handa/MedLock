@@ -144,12 +144,14 @@ class Dashboard extends Component {
 
         return (
             <div className="Dashboard">
-                <DashHeader 
-                    name={this.props.profile.personalData.name}  
-                    toggleSideBar={this.toggleSideBar}
-                    sideBarCollapsed={this.props.sideBarCollapsed}
-                    sideBarToggle={this.props.sideBarToggle}
-                />
+                <div className="DashHeader-container">
+                    <DashHeader
+                        name={this.props.profile.personalData.name}  
+                        toggleSideBar={this.toggleSideBar}
+                        sideBarCollapsed={this.props.sideBarCollapsed}
+                        sideBarToggle={this.props.sideBarToggle}
+                    />
+                </div>
                 <div className="SideBar-container">
                         <SideBar 
                             roles={this.props.roles} 

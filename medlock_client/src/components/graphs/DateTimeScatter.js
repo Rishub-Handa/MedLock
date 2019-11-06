@@ -75,11 +75,18 @@ export default class DateTimeScatter extends Component {
         const canvasHeight = this.props.height - 2*margin;
         const canvasWidth = this.props.width - 2*margin;
 
+        const width = this.props.width;
+        const height = this.props.height;
+
         const canvas = d3.select(this.canvasRef.current);
-        const svg = canvas.select("svg");
+        const svg = canvas.select("svg")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("viewBox", "0 0 " + Math.min(width, height)+" "+Math.min(width, height))
+            .attr("preserveAspectRatio", "xMinYMin")
         
         const chart = svg.append('g')
-            .attr('transform', `translate(${margin}, ${margin})`)
+            .attr('transform', `translate(${Math.min(width,height)/2},${Math.min(width,height)/2})`);
 
         const yScale = d3.scaleTime()
             .domain([0, 86400])
@@ -197,8 +204,8 @@ export default class DateTimeScatter extends Component {
 
     render() {
         return (
-            <div ref={this.canvasRef}>
-                <svg height={this.props.height} width={this.props.width}></svg>
+            <div className="canvas" ref={this.canvasRef}>
+                <svg />
             </div>
         )
     }
