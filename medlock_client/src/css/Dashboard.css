@@ -17,7 +17,7 @@
     width: 100%;
     height: inherit;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     position: fixed; /* Set the navbar to fixed position */
     top: 0; /* Position the navbar at the top of the page */
     z-index: 1;
@@ -26,6 +26,7 @@
     overflow: hidden;
     box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
     border: 1px solid #ccc; 
+    background-color: var(--medlock-light-gray);
 }
 
 .SideBar-container {
@@ -49,13 +50,15 @@
 
 .Dashboard-content {
     grid-column: 3/13;
-    grid-row: 2/13;
-    padding: 20px;
+    grid-row: 2/4;
+    width: 100%;
+    padding: 10px;
+    overflow: hidden;
    /* margin-top: 2vh; /* Add a top margin to avoid content overlay */
    /* margin-left: 16.67vw; /* Add a left margin to avoid sidebar overlay */
 }
-
-/* @media (max-width: 1200px), (max-height: 800px) {
+/* 
+@media (max-width: 1200px), (max-height: 800px) {
     .Dashboard-content {
         grid-column: 1/13;
         grid-row-start: 2;

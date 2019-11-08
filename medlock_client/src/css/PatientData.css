@@ -1,21 +1,23 @@
 .pd-container {
-    display: grid; 
-    grid-template-columns: repeat(12, 1fr); 
-    grid-template-rows: repeat(12, 1fr)
+    height: inherit;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.pd-body {
+    display: flex;
+    flex-flow: row wrap;
 }
 
 .pd-container > * { 
-    border: 1px solid #ccc; 
 }
 
 .pd-title {
-    grid-column: 1/13;
-    grid-row: 1/2;
+
 }
 
 
 .pd-body {
-    grid-column: 1/13; 
 }
 
 .avg-pdi-bar {
@@ -62,6 +64,12 @@
     background-color: white;
     padding: 5px;
     border: 1px solid #ccc;
+}
+
+.graph-container {
+    border: 1px solid #ccc;
+    height: 300px;
+    flex: 1 1 400px;
 }
 
 

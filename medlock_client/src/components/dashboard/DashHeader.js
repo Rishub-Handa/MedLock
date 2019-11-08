@@ -34,11 +34,6 @@ class DashHeader extends Component {
                 <div className="menuIcon-container expanded" onClick={this.props.toggleSideBar}>
                     <img className="menuIcon" src={menuIcon} />
                 </div>
-                <div className="quote">
-                    <body>
-                        <p>"You never know how strong you are until being strong is your only choice."</p>
-                    </body>
-                </div>
                 <div className="UserInfo-container">
                     <UserInfo name={this.props.name} />
                 </div>
@@ -63,7 +58,13 @@ class DashHeader extends Component {
     }
 
     render() {
-        return this.expandedSideBarNoToggleJSX();
+        return (
+            <div className="DashHeader">
+                <div className="UserInfo-container">
+                    <UserInfo name={this.props.name} />
+                </div>
+            </div>
+        )
         // if (this.props.sideBarCollapsed) {
         //     return this.collapsedSideBarJSX();
 

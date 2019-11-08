@@ -93,21 +93,20 @@ class Dashboard extends Component {
     }
 
     dashboardContentStyle = () => {
-        var style;
-        if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
-            style = {
-                'grid-column': '3/13',
-            }
-        } else {
-            style = {
-                'grid-column': '1/13',
-            }
-        }
-        return style;
+        // var style;
+        // if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
+        //     style = {
+        //         'grid-column': '3/13',
+        //     }
+        // } else {
+        //     style = {
+        //         'grid-column': '1/13',
+        //     }
+        // }
+        // return style;
     }
 
     render() {
-        console.log("render")
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
 
