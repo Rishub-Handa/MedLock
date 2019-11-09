@@ -38,7 +38,7 @@ export default class PDISurveyBar extends Component {
     }
 
     getHeight() {
-        return this.refs.canvas.parentElement.offHeight;
+        return this.refs.canvas.parentElement.offsetHeight;
     }
 
     onSelectChange = (e) => {
@@ -192,7 +192,7 @@ export default class PDISurveyBar extends Component {
 
     render() {
         return (
-            <div>
+            <div className="graph-container" >
                 <div ref="canvas"></div>
                 {/* <div>{this.surveySelect(this.props.data.map(survey => survey.date))}</div> */}
             </div>

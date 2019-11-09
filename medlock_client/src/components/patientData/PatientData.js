@@ -63,7 +63,10 @@ class PatientData extends Component {
                         </h1>
                     <div className="pd-body">
                         <div className="graph-container">
-                            <PDISurveyBar className="graph" data={allPDISurveys}/>
+
+                        </div>
+                        {/* <PDISurveyBar className="graph" data={allPDISurveys}/> */}
+                        <div className="graph-container">
                         </div>
                         <div className="graph-container">
                         </div>
