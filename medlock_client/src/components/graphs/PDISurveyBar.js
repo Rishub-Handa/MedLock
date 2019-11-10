@@ -33,7 +33,6 @@ export default class PDISurveyBar extends Component {
     }
 
     getWidth() {
-        console.log(this.refs.canvas);
         return this.refs.canvas.parentElement.offsetWidth;
     }
 
@@ -192,7 +191,7 @@ export default class PDISurveyBar extends Component {
 
     render() {
         return (
-            <div className="graph-container" >
+            <div class="graph-container" id={this.props.id}>
                 <div ref="canvas"></div>
                 {/* <div>{this.surveySelect(this.props.data.map(survey => survey.date))}</div> */}
             </div>

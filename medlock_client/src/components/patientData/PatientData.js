@@ -62,16 +62,13 @@ class PatientData extends Component {
                             My Data
                         </h1>
                     <div className="pd-body">
-                        <div className="graph-container">
+                        <PDISurveyBar id="g0" data={allPDISurveys} />
+                        <PDISurveyBar id="g1" data={allPDISurveys} />
+                        <PDISurveyBar id="g2" data={allPDISurveys} />
+                        <PDISurveyBar id="g3" data={allPDISurveys} />
 
-                        </div>
-                        {/* <PDISurveyBar className="graph" data={allPDISurveys}/> */}
-                        <div className="graph-container">
-                        </div>
-                        <div className="graph-container">
-                        </div>
-                        <div className="graph-container">
-                        </div>
+
+                     
                         {/* <PDISurveyBar className="graph" data={allPDISurveys} width={800} height={400}/>
                         <DateTimeScatter 
                             className="graph"

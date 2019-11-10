@@ -206,7 +206,7 @@ class Dashboard extends Component {
 
     makeMainRoutes = (props) => {
         return (
-            <div>
+            <div className="container">
                 <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
                 <SecuredRoute path="/dashboard/inbox" component={Inbox} />
                 <SecuredRoute path="/dashboard/mydata" profile={props.profile} component={PatientData} />
