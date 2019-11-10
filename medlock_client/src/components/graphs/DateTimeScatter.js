@@ -8,10 +8,35 @@ export default class DateTimeScatter extends Component {
             svg: null,
             chart: null,
             config: null,
+            width: 0,
+            height: 0,
         }
     }
 
-    canvasRef = React.createRef();
+    componentDidMount() {
+        let width = this.getWidth();
+        let height = this.getHeight();
+        this.setState({width: width, height: height}, () => {
+            this.drawChart();
+        });
+
+        let resizedFn;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizedFn);
+            resizedFn = setTimeout(() => {
+                this.redrawChart();
+            }, 200)
+        });
+    }
+
+
+    getWidth() {
+        return this.refs.canvas.parentElement.offsetWidth;
+    }
+
+    getHeight() {
+        return this.refs.canvas.parentElement.offsetHeight;
+    }
 
     addZero(val) {
         if (val < 10)
@@ -69,24 +94,21 @@ export default class DateTimeScatter extends Component {
     }
 
     drawChart() {
+        console.log("called drawChart");
         var data = this.parseData(this.props.data); // replace dispenses with this.props.data
         data = this.flattenData(data);
         const margin = 60;
-        const canvasHeight = this.props.height - 2*margin;
-        const canvasWidth = this.props.width - 2*margin;
+        const canvasHeight = this.state.height - 2*margin;
+        const canvasWidth = this.state.width - 2*margin;
 
-        const width = this.props.width;
-        const height = this.props.height;
-
-        const canvas = d3.select(this.canvasRef.current);
-        const svg = canvas.select("svg")
-            .attr("width", "100%")
-            .attr("height", "100%")
-            .attr("viewBox", "0 0 " + Math.min(width, height)+" "+Math.min(width, height))
-            .attr("preserveAspectRatio", "xMinYMin")
+        const svg = d3.select(this.refs.canvas)
+            .append("svg")
+            .attr("id", this.props.id)
+            .attr("height", this.state.height)
+            .attr("width", this.state.width);
         
         const chart = svg.append('g')
-            .attr('transform', `translate(${Math.min(width,height)/2},${Math.min(width,height)/2})`);
+            .attr('transform', `translate(${margin}, ${margin})`);
 
         const yScale = d3.scaleTime()
             .domain([0, 86400])
@@ -107,12 +129,12 @@ export default class DateTimeScatter extends Component {
 
         chart.append('g')
             .attr('transform', `translate(0, ${canvasHeight})`)
-            .call(d3.axisBottom(xScale))
+            .call(d3.axisBottom(xScale));
 
          // create grid lines
          chart.append('g')
             .attr('class', 'grid')
-            .call(yAxis)
+            .call(yAxis);
 
         // y-axis label        
         svg.append('text')
@@ -138,11 +160,12 @@ export default class DateTimeScatter extends Component {
             .attr('text-anchor', 'middle')
             .text(this.props.title)
             
-        var tooltip = d3.select(this.canvasRef.current).append("div")
+        var tooltip = d3.select(this.refs.canvas).append("div")
             .attr("class", "tooltip")
             .style("opacity", "0")
 
-        const ids = []
+        const ids = [];
+
         chart.selectAll()
             .data(data).enter()
             .append("circle")
@@ -169,9 +192,23 @@ export default class DateTimeScatter extends Component {
         });
     }
 
+    redrawChart = () => {
+        console.log("called redrawChart");
+        let width = this.getWidth();
+        let height = this.getHeight();
+        this.setState({width: width, height: height});
+        d3.select(`#${this.props.id}`).remove();
+        this.drawChart();
+    }
+
     updateChart() {
         const { chart, config } = this.state;
-        chart.selectAll("circle")
+        /**
+         * since componentDidUpdate can be called before drawChart is called,
+         * make sure that chart is defined before proceeding
+         */
+        if (chart) { 
+            chart.selectAll("circle")
             .on("mouseover", (d, i) => {
                 // increase the size of the point
                 chart.select(`#p${i}`)
@@ -192,21 +229,19 @@ export default class DateTimeScatter extends Component {
                 // hide tooltip
                 this.tooltipMouseout(d[1], config.tooltip);
             });
+        }
     }
     
-    componentDidMount() {
-        this.drawChart();
-    }
-
     componentDidUpdate() {
+        console.log("called componentDidUpdate");
         this.updateChart();
     }
 
     render() {
         return (
-            <div className="canvas" ref={this.canvasRef}>
-                <svg />
-            </div>
+            <div className="graph-container" id={this.props.id}>
+                <div ref="canvas"></div>
+            </div> 
         )
     }
 }

@@ -63,29 +63,18 @@ class PatientData extends Component {
                         </h1>
                     <div className="pd-body">
                         <PDISurveyBar id="g0" data={allPDISurveys} />
-                        <PDISurveyBar id="g1" data={allPDISurveys} />
-                        <PDISurveyBar id="g2" data={allPDISurveys} />
-                        <PDISurveyBar id="g3" data={allPDISurveys} />
-
-
-                     
-                        {/* <PDISurveyBar className="graph" data={allPDISurveys} width={800} height={400}/>
                         <DateTimeScatter 
-                            className="graph"
-                            title="Dispenses"
-                            data={[dispenser.events.dispenses]}
-                            colors={["var(--medlock-blue)"]}
-                            width={800}
-                            height={400} 
-                        />
-                        <DateTimeScatter 
-                            className="graph" 
+                            id="g1"
                             title="Button Presses" 
                             data={[dispenser.events.btn1, dispenser.events.btn2, dispenser.events.btn3]} 
                             colors={["red", "blue", "green"]}
-                            width={800} 
-                            height={400} 
-                        /> */}
+                        />
+                        <DateTimeScatter 
+                            id="g2"
+                            title="Dispenses"
+                            data={[dispenser.events.dispenses]}
+                            colors={["var(--medlock-blue)"]}
+                        />
                     </div>
                 </div>
             );

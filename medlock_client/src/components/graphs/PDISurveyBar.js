@@ -33,6 +33,7 @@ export default class PDISurveyBar extends Component {
     }
 
     getWidth() {
+        console.log(this.refs.canvas);
         return this.refs.canvas.parentElement.offsetWidth;
     }
 
@@ -82,12 +83,12 @@ export default class PDISurveyBar extends Component {
 
         const svg = d3.select(this.refs.canvas)
             .append("svg")
-            .attr("id", "pdibar")
+            .attr("id", this.props.id)
             .attr("height", this.state.height)
             .attr("width", this.state.width)
         
         const chart = svg.append('g')
-            .attr('transform', `translate(${margin}, ${margin})`)
+            .attr('transform', `translate(${margin}, ${margin})`);
 
         const yScale = d3.scaleLinear()
             .range([canvasHeight, 0])
@@ -163,12 +164,9 @@ export default class PDISurveyBar extends Component {
     redrawChart = () => {
         let width = this.getWidth();
         let height = this.getHeight();
-        this.setState({width: width});
-        d3.select("#pdibar").remove();
+        this.setState({width: width, height: height});
+        d3.select(`#${this.props.id}`).remove();
         this.drawChart();
-        console.log("RESIZED...");
-        console.log("width: " + width);
-        console.log("height: " + height);
     }
 
     updateChart = () => {
@@ -191,7 +189,7 @@ export default class PDISurveyBar extends Component {
 
     render() {
         return (
-            <div class="graph-container" id={this.props.id}>
+            <div className="graph-container" id={this.props.id} >
                 <div ref="canvas"></div>
                 {/* <div>{this.surveySelect(this.props.data.map(survey => survey.date))}</div> */}
             </div>
