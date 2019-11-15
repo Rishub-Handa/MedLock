@@ -94,7 +94,6 @@ export default class DateTimeScatter extends Component {
     }
 
     drawChart() {
-        console.log("called drawChart");
         var data = this.parseData(this.props.data); // replace dispenses with this.props.data
         data = this.flattenData(data);
         const margin = 60;
@@ -102,7 +101,6 @@ export default class DateTimeScatter extends Component {
         const canvasWidth = this.state.width - 2*margin;
 
         const canvas = d3.select(this.refs.canvas);
-        console.log(canvas);
         const svg = canvas.append("svg")
             .attr("id", this.props.id)
             .attr("height", this.state.height)
@@ -196,7 +194,6 @@ export default class DateTimeScatter extends Component {
     }
 
     redrawChart = () => {
-        console.log("called redrawChart");
         let width = this.getWidth();
         let height = this.getHeight();
         this.setState({width: width, height: height});
@@ -236,7 +233,6 @@ export default class DateTimeScatter extends Component {
     }
     
     componentDidUpdate() {
-        console.log("called componentDidUpdate");
         this.updateChart();
     }
 
