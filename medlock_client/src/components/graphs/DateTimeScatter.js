@@ -101,11 +101,14 @@ export default class DateTimeScatter extends Component {
         const canvasHeight = this.state.height - 2*margin;
         const canvasWidth = this.state.width - 2*margin;
 
-        const svg = d3.select(this.refs.canvas)
-            .append("svg")
+        const canvas = d3.select(this.refs.canvas);
+        console.log(canvas);
+        const svg = canvas.append("svg")
             .attr("id", this.props.id)
             .attr("height", this.state.height)
             .attr("width", this.state.width);
+
+
         
         const chart = svg.append('g')
             .attr('transform', `translate(${margin}, ${margin})`);
@@ -239,7 +242,7 @@ export default class DateTimeScatter extends Component {
 
     render() {
         return (
-            <div className="graph-container" id={this.props.id}>
+            <div className={`graph-container ${this.props.id}`}>
                 <div ref="canvas"></div>
             </div> 
         )

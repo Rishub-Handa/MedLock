@@ -19,6 +19,7 @@
 
 .pd-title {
     text-align: center;
+    margin: 0%;
 }
 
 .avg-pdi-bar {
@@ -73,17 +74,17 @@
     border-radius: 15px;
 }
 
-#g0 {
+.g0 {
     grid-row: 1/3;
     grid-column: 1/3;
 }
 
-#g1 {
+.g1 {
     grid-row: 1/3;
     grid-column: 3/5;
 }
 
-#g2 {
+.g2 {
     grid-row: 3/5;
     grid-column: 2/4;
 }

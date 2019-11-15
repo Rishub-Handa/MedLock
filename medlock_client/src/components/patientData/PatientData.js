@@ -69,12 +69,12 @@ class PatientData extends Component {
                             data={[dispenser.events.btn1, dispenser.events.btn2, dispenser.events.btn3]} 
                             colors={["red", "blue", "green"]}
                         />
-                        <DateTimeScatter 
+                        {/* <DateTimeScatter 
                             id="g2"
                             title="Dispenses"
                             data={[dispenser.events.dispenses]}
                             colors={["var(--medlock-blue)"]}
-                        />
+                        /> */}
                     </div>
                 </div>
             );
