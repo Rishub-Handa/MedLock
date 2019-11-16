@@ -209,7 +209,7 @@ class Dashboard extends Component {
             <div className="SecuredRoutes-container">
                 <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
                 <SecuredRoute path="/dashboard/inbox" component={Inbox} />
-                <SecuredRoute path="/dashboard/mydata" profile={props.profile} component={PatientData} />
+                <SecuredRoute path="/dashboard/mydata" patient={props.profile} component={PatientData} />
                 <SecuredRoute path="/dashboard/resources" component={Resources} />
                 <SecuredRoute path="/dashboard/survey" component={PDISurvey} />
                 <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 

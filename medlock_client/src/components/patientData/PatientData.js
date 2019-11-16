@@ -3,14 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPDISurveys } from '../../actions/surveyActions'; 
 import { fetchDispenser } from '../../actions/dispenserActions';  
-import AveragePDISurveyBar from '../graphs/AveragePDISurveyBar';
 import '../../css/PatientData.css'; 
-import PDISurveyLine from '../graphs/PDISurveyLine';
-import PDISurveyStack from '../graphs/PDISurveyStack';
-import DispenseScatter from '../graphs/DispenseScatter';
-import PDISurveyPie from '../graphs/PDISurveyPie';
 import PDISurveyBar from '../graphs/PDISurveyBar';
 import DateTimeScatter from '../graphs/DateTimeScatter';
+import DataView from './DataView';
 
 /** 
  * Component for displaying individual patient data
@@ -20,13 +16,13 @@ import DateTimeScatter from '../graphs/DateTimeScatter';
 class PatientData extends Component {
 
     state = {
-        retrievedData: false 
+        retrievedData: false
     }
 
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
-        this.props.fetchDispenser(this.props.profile.medicalData.dispenser_id); 
+        this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
     }
 
     render() {        
@@ -56,47 +52,26 @@ class PatientData extends Component {
             )
         }
         if(dispenser != null){
+            const data = {
+                pdisurveys: allPDISurveys,
+                dispenses: dispenser.events.dispenses,
+                btn1: dispenser.events.btn1,
+                btn2: dispenser.events.btn2,
+                btn3: dispenser.events.btn3,
+            }
             return (
                 <div className="pd-container">
                         <h1 className="pd-title">
                             My Data
                         </h1>
-                    <div className="pd-body">
-                        <PDISurveyBar id="g0" data={allPDISurveys} />
-                        <DateTimeScatter 
-                            id="g1"
-                            title="Button Presses" 
-                            data={[dispenser.events.btn1, dispenser.events.btn2, dispenser.events.btn3]} 
-                            colors={["red", "blue", "green"]}
-                        />
-                        <DateTimeScatter 
-                            id="g2"
-                            title="Dispenses"
-                            data={[dispenser.events.dispenses]}
-                            colors={["var(--medlock-blue)"]}
-                        />
-                    </div>
+                    <DataView data={data} />
                 </div>
             );
         }
         return (
             <div className="pd-container">
-                    <div className="pd-body">
-                        <h1>My Data</h1>
-                        <div>
-                            <AveragePDISurveyBar data={allPDISurveys} />
-                        </div>
-                        <div>
-                            <PDISurveyLine data={allPDISurveys} />
-                        </div>
-                        <div>
-                            <PDISurveyStack data={allPDISurveys} />
-                        </div>
-                        <div>
-                            <PDISurveyPie data={allPDISurveys} />
-                        </div>
-                    </div>
-                </div>
+                        No data at the moment.
+            </div>
         )
     }
 }

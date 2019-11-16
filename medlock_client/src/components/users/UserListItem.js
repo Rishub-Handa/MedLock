@@ -32,7 +32,7 @@ export default class UserListItem extends Component {
                     <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                         <DropdownToggle>...</DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem disabled onClick={() => viewUser(user)}>View</DropdownItem>
+                            <DropdownItem onClick={() => viewUser(user)}>View</DropdownItem>
                             <DropdownItem disabled>Edit</DropdownItem>
                             <DropdownItem onClick={() => deleteUser(user._id)}>Delete</DropdownItem>
                         </DropdownMenu>

@@ -35,7 +35,6 @@ class MyPatients extends Component {
     }
 
     onRemovePatient = (patientId) => {
-        console.log(`calling remove on patient(id=${patientId}) from mypatients page`);
         this.props.removePatient(patientId);
     }
 
@@ -197,7 +196,7 @@ class MyPatients extends Component {
             <div>
                 <UserList 
                     users={this.props.patients}
-                    viewUser={this.viewedPatient}
+                    viewUser={this.viewPatient}
                     deleteUser={this.onRemovePatient}
                 />
                 {this.displayNewPatientForm()}

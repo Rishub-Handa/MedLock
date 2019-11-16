@@ -4,6 +4,7 @@ import MedicalDataView from './MedicalDataView';
 import ConsumptionDataView from './ConsumptionDataView';
 import { connect } from 'react-redux';
 import { fetchDispenser } from '../../actions/dispenserActions';  
+import PatientData from '../patientData/PatientData';
 import PropTypes from 'prop-types';
 import '../../css/PatientView.css';
 
@@ -45,13 +46,15 @@ class PatientView extends Component {
 
         return (
             <div className="patientView-container">
-                <div className="leftPanel">
+                <PersonalDataView personalData={patient.personalData} />
+                <PatientData patient={patient} />
+                {/* <div className="leftPanel">
                     <PersonalDataView personalData={patient.personalData} />
                     <ConsumptionDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}}/>
                 </div>
                 <div className="rightPanel">
                     <MedicalDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}} />
-                </div>
+                </div> */}
             </div>
         )
     }
