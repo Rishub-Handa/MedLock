@@ -10,6 +10,7 @@ import PDISurveyStack from '../graphs/PDISurveyStack';
 import DispenseScatter from '../graphs/DispenseScatter';
 import PDISurveyPie from '../graphs/PDISurveyPie';
 import PDISurveyBar from '../graphs/PDISurveyBar';
+import DateTimeScatter from '../graphs/DateTimeScatter';
 
 /** 
  * Component for displaying individual patient data
@@ -25,7 +26,6 @@ class PatientData extends Component {
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
-        console.log(this.props);
         this.props.fetchDispenser(this.props.profile.medicalData.dispenser_id); 
     }
 
@@ -38,6 +38,8 @@ class PatientData extends Component {
                 dispenserLoading, 
                 dispenserLoaded,
                 dispenserError } = this.props; 
+
+        console.log(dispenser);
 
         if(surveyError || dispenserError) {
             return (
@@ -55,33 +57,26 @@ class PatientData extends Component {
         }
         if(dispenser != null){
             return (
-                <div>
-                    <PDISurveyBar data={allPDISurveys} width={800} height={400} />
-                    <DispenseScatter data={dispenser.dispenses} width={800} height={400} />
+                <div className="pd-container">
+                        <h1 className="pd-title">
+                            My Data
+                        </h1>
+                    <div className="pd-body">
+                        <PDISurveyBar id="g0" data={allPDISurveys} />
+                        <DateTimeScatter 
+                            id="g1"
+                            title="Button Presses" 
+                            data={[dispenser.events.btn1, dispenser.events.btn2, dispenser.events.btn3]} 
+                            colors={["red", "blue", "green"]}
+                        />
+                        <DateTimeScatter 
+                            id="g2"
+                            title="Dispenses"
+                            data={[dispenser.events.dispenses]}
+                            colors={["var(--medlock-blue)"]}
+                        />
+                    </div>
                 </div>
-                // <div className="pd-container">
-                //     <div className="pd-body">
-                //         <h1>My Data</h1>
-                //         <div>
-                //             <PDISurveyBar data={allPDISurveys[0]} />
-                //         </div>
-                //         <div>
-                //             <AveragePDISurveyBar data={allPDISurveys} />
-                //         </div>
-                //         <div>
-                //             <PDISurveyLine data={allPDISurveys} />
-                //         </div>
-                //         <div>
-                //             <PDISurveyStack data={allPDISurveys} />
-                //         </div>
-                //         <div>
-                //             <PDISurveyPie data={allPDISurveys} />
-                //         </div>
-                //         <div>
-                //             <DispenseScatter data={dispenser.dispenses} />
-                //         </div>
-                //     </div>
-                // </div>
             );
         }
         return (

@@ -29,7 +29,7 @@ body {
     font-size: 100%;
 }
 
-/* .App {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-} */
+.SecuredRoutes-container {
+    width: 100%;
+    height: 100%;
+}

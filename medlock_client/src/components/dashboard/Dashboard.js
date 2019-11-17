@@ -93,21 +93,20 @@ class Dashboard extends Component {
     }
 
     dashboardContentStyle = () => {
-        var style;
-        if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
-            style = {
-                'grid-column': '3/13',
-            }
-        } else {
-            style = {
-                'grid-column': '1/13',
-            }
-        }
-        return style;
+        // var style;
+        // if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
+        //     style = {
+        //         'grid-column': '3/13',
+        //     }
+        // } else {
+        //     style = {
+        //         'grid-column': '1/13',
+        //     }
+        // }
+        // return style;
     }
 
     render() {
-        console.log("render")
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
 
@@ -144,12 +143,14 @@ class Dashboard extends Component {
 
         return (
             <div className="Dashboard">
-                <DashHeader 
-                    name={this.props.profile.personalData.name}  
-                    toggleSideBar={this.toggleSideBar}
-                    sideBarCollapsed={this.props.sideBarCollapsed}
-                    sideBarToggle={this.props.sideBarToggle}
-                />
+                <div className="DashHeader-container">
+                    <DashHeader
+                        name={this.props.profile.personalData.name}  
+                        toggleSideBar={this.toggleSideBar}
+                        sideBarCollapsed={this.props.sideBarCollapsed}
+                        sideBarToggle={this.props.sideBarToggle}
+                    />
+                </div>
                 <div className="SideBar-container">
                         <SideBar 
                             roles={this.props.roles} 
@@ -205,7 +206,7 @@ class Dashboard extends Component {
 
     makeMainRoutes = (props) => {
         return (
-            <div>
+            <div className="SecuredRoutes-container">
                 <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
                 <SecuredRoute path="/dashboard/inbox" component={Inbox} />
                 <SecuredRoute path="/dashboard/mydata" profile={props.profile} component={PatientData} />

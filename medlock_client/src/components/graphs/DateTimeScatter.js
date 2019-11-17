@@ -1,18 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import * as d3 from "d3";
 
-export default class DispenseScatter extends Component {
+export default class DateTimeScatter extends Component {
     constructor(props) {
         super(props);
         this.state = {
             svg: null,
             chart: null,
             config: null,
+            width: 0,
+            height: 0,
         }
-        console.log(props);
     }
 
-    canvasRef = React.createRef();
+    componentDidMount() {
+        let width = this.getWidth();
+        let height = this.getHeight();
+        this.setState({width: width, height: height}, () => {
+            this.drawChart();
+        });
+
+        let resizedFn;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizedFn);
+            resizedFn = setTimeout(() => {
+                this.redrawChart();
+            }, 200)
+        });
+    }
+
+
+    getWidth() {
+        return this.refs.canvas.parentElement.offsetWidth;
+    }
+
+    getHeight() {
+        return this.refs.canvas.parentElement.offsetHeight;
+    }
 
     addZero(val) {
         if (val < 10)
@@ -20,18 +44,30 @@ export default class DispenseScatter extends Component {
         else
             return "" + val;
     }
+
     parseData(data) {
-
-        return data.map(timestamp => {
-            const date = new Date(timestamp);
-            const x = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`       
-            const hours = date.getHours();
-            const min = date.getMinutes();
-            const sec = date.getSeconds();
-            const y = hours*3600 + min*60 + sec;
-
-            return [x,y]
+        return data.map(set => {
+            return set.map(timestamp => {
+                const date = new Date(timestamp);
+                const x = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`       
+                const hours = date.getHours();
+                const min = date.getMinutes();
+                const sec = date.getSeconds();
+                const y = hours*3600 + min*60 + sec;
+                return [x,y]
+            });
         });
+    }
+
+    flattenData(data) {
+        // should be called after parseData, add some check for that!
+        var flatData = []
+        data.forEach((set, i) => {
+            set.forEach(xy => {
+                flatData.push([xy[0],xy[1],i])
+            });
+        });
+        return flatData;
     }
 
     tooltipMouseover = (d, tooltip) => {
@@ -58,17 +94,22 @@ export default class DispenseScatter extends Component {
     }
 
     drawChart() {
-        const data = this.parseData(this.props.data); // replace dispenses with this.props.data
-        console.log(data);
+        var data = this.parseData(this.props.data); // replace dispenses with this.props.data
+        data = this.flattenData(data);
         const margin = 60;
-        const canvasHeight = this.props.height - 2*margin;
-        const canvasWidth = this.props.width - 2*margin;
+        const canvasHeight = this.state.height - 2*margin;
+        const canvasWidth = this.state.width - 2*margin;
 
-        const canvas = d3.select(this.canvasRef.current);
-        const svg = canvas.select("svg");
+        const canvas = d3.select(this.refs.canvas);
+        const svg = canvas.append("svg")
+            .attr("id", this.props.id)
+            .attr("height", this.state.height)
+            .attr("width", this.state.width);
+
+
         
         const chart = svg.append('g')
-            .attr('transform', `translate(${margin}, ${margin})`)
+            .attr('transform', `translate(${margin}, ${margin})`);
 
         const yScale = d3.scaleTime()
             .domain([0, 86400])
@@ -80,24 +121,21 @@ export default class DispenseScatter extends Component {
             .tickSize(-canvasWidth, 0, 0)
             .tickValues([0, 10800, 21600, 32400, 43200, 54000, 64800, 75600, 86400])
             .tickFormat((d, i) => this.formatTime(d));
-            
 
-        // chart.append('g')
-        //     .call(d3.axisLeft(yScale))
-
+        var xDomain = data.map(d => d[0]).sort();
         const xScale = d3.scaleBand()
             .range([0, canvasWidth])
-            .domain(data.map(xy => xy[0]))
-            .padding(0.2)
+            .domain(xDomain)
+            .padding(0.2);
 
         chart.append('g')
             .attr('transform', `translate(0, ${canvasHeight})`)
-            .call(d3.axisBottom(xScale))
+            .call(d3.axisBottom(xScale));
 
          // create grid lines
          chart.append('g')
             .attr('class', 'grid')
-            .call(yAxis)
+            .call(yAxis);
 
         // y-axis label        
         svg.append('text')
@@ -121,11 +159,13 @@ export default class DispenseScatter extends Component {
             .attr('x', canvasWidth / 2 + margin)
             .attr('y', 40)
             .attr('text-anchor', 'middle')
-            .text('Dispenses')
+            .text(this.props.title)
             
-        var tooltip = d3.select(this.canvasRef.current).append("div")
+        var tooltip = d3.select(this.refs.canvas).append("div")
             .attr("class", "tooltip")
             .style("opacity", "0")
+
+        const ids = [];
 
         chart.selectAll()
             .data(data).enter()
@@ -134,7 +174,8 @@ export default class DispenseScatter extends Component {
             .attr('cy', (d, i) => yScale(d[1]))
             .attr('r', 5)
             .attr('id', (d, i) => `p${i}`)
-            .attr('fill', 'var(--medlock-blue)')
+            .attr('fill', (d, i) => this.props.colors[d[2]])
+            .attr('opacity', 0.8)
             .on("mouseover", (d, i) => {
                 this.setState({
                     config: {
@@ -143,10 +184,7 @@ export default class DispenseScatter extends Component {
                 })
             });
         
-        console.log("SELECT: " + chart.select("#p1"))
-        const config = {
-            tooltip,
-        }
+        const config = { tooltip };
 
         this.setState({ 
             svg, 
@@ -155,19 +193,28 @@ export default class DispenseScatter extends Component {
         });
     }
 
+    redrawChart = () => {
+        let width = this.getWidth();
+        let height = this.getHeight();
+        this.setState({width: width, height: height});
+        d3.select(`#${this.props.id}`).remove();
+        this.drawChart();
+    }
+
     updateChart() {
-        console.log("updating chart!");
         const { chart, config } = this.state;
-        console.log(chart);
-        chart.selectAll("circle")
+        /**
+         * since componentDidUpdate can be called before drawChart is called,
+         * make sure that chart is defined before proceeding
+         */
+        if (chart) { 
+            chart.selectAll("circle")
             .on("mouseover", (d, i) => {
                 // increase the size of the point
-                var s = chart.select(`#p${i}`)
+                chart.select(`#p${i}`)
                     .transition()
                     .duration(500)
                     .attr("r", 10);
-                console.log("Selection:")
-                console.log(s)
                 
                 // show tooltip
                 this.tooltipMouseover(d[1], config.tooltip);
@@ -180,24 +227,21 @@ export default class DispenseScatter extends Component {
                     .attr("r", 5);
                 
                 // hide tooltip
-                this.tooltipMouseout(d[1], config.tooltip)
-                
+                this.tooltipMouseout(d[1], config.tooltip);
             });
+        }
     }
     
-    componentDidMount() {
-        this.drawChart();
-    }
-
     componentDidUpdate() {
         this.updateChart();
     }
 
     render() {
         return (
-            <div ref={this.canvasRef}>
-                <svg height={this.props.height} width={this.props.width}></svg>
-            </div>
+            <div className={`graph-container ${this.props.id}`}>
+                <div ref="canvas"></div>
+            </div> 
         )
     }
 }
+
