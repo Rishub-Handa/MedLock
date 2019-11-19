@@ -6,6 +6,7 @@ import auth0client from '../../auth/Auth';
 import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
+import Faq from '../faq/Faq';
 import Inbox from '../inbox/Inbox';
 import { loadProfile } from '../../actions/profileActions'; 
 import { fetchRoles } from '../../actions/authActions';
@@ -211,6 +212,7 @@ class Dashboard extends Component {
                 <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
                 <SecuredRoute path="/dashboard/serverendpoints" component={ServerEndpoints} /> 
                 <SecuredRoute path="/dashboard/mypatients" component={MyPatients} />
+                <SecuredRoute path="/dashboard/faq" component={Faq} />
             </div>
         );   
     }  
