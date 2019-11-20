@@ -31,15 +31,16 @@ router.post('/', (req, res) => {
     console.log(req.body); 
 
     var dispenser_id; 
+    var lastUpdated; 
+    var events; 
     
-    if(req.body.id == "1") {
+    if(req.body.code) {
         dispenser_id = ObjectId("000000000000000000000000"); 
     } else {
         dispenser_id = ObjectId(req.body.id); 
+        lastUpdated = req.body.current_time; 
+        events = req.body.events; 
     }
-
-    var lastUpdated = req.body.current_time;
-    var events = req.body.events; 
 
     Dispenser.findById(dispenser_id, (err, dispenser) => {
         
@@ -49,6 +50,8 @@ router.post('/', (req, res) => {
         console.log("Searched Dispenser. "); 
 
         if (!dispenser) {
+            // Create new Dispenser and assign to Patient with corresponding code 
+            // Only create Dispenser if there is a Patient with corresponding code 
             dispenser = new Dispenser();
             console.log("Creating Dispenser. "); 
         } else {
@@ -81,6 +84,15 @@ router.post('/', (req, res) => {
 
         
         // res.send("Saved. "); 
+
+        /* 
+            if(!dispenser) {
+                res.send("Error: Try entering the code again. "); 
+            } else {
+
+            } 
+
+        */
 
         return dispenser.save()
             .then(dispenser => {
