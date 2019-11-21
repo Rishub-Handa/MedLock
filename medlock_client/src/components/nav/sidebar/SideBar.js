@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Nav, NavItem, UncontrolledCollapse } from 'reactstrap';
+import bigLogo from '../../../icons/white-logo.png'; 
 import { withRouter } from 'react-router-dom';
 import auth0client from '../../../auth/Auth';
 import { modules } from '../ModuleInfo'; 
@@ -44,8 +44,7 @@ class SideBar extends Component {
         this.setState({modules: newModules});
     }
 
-    componentDidMount() {
-        
+    componentDidMount() {    
         this.filterModules();
     }
     
@@ -54,7 +53,6 @@ class SideBar extends Component {
                 <div className="ModuleLinks-container">
                     <h6 className="SideBar-subtitle">NAVIGATE</h6>
                         {this.state.modules.map(module => {
-                            console.log(module);
                             return (
                                 <ModuleLink 
                                     module={module} />
@@ -64,16 +62,12 @@ class SideBar extends Component {
         );
     }
 
-    // collapseSidebar = (x) => {
-    //     if (x.matches) {
-    //         console.log("Collapse SideBar!");
-    //         this.setState({ collapsed: true});
-    //     } 
-    // }
-
     expandedSideBar = () => {
         return (
             <div className="SideBar">
+                <div className="logo-container">
+                    <img className="dash-logo" src={bigLogo} />
+                </div>
                 <div className="SideBar-welcome">
                     <h4>Welcome <strong>{this.props.personalData.name}</strong></h4>
                 </div>

@@ -9,6 +9,8 @@ import PDISurveyLine from '../graphs/PDISurveyLine';
 import PDISurveyStack from '../graphs/PDISurveyStack';
 import DispenseScatter from '../graphs/DispenseScatter';
 import PDISurveyPie from '../graphs/PDISurveyPie';
+import PDISurveyBar from '../graphs/PDISurveyBar';
+import DateTimeScatter from '../graphs/DateTimeScatter';
 
 /** 
  * Component for displaying individual patient data
@@ -37,6 +39,8 @@ class PatientData extends Component {
                 dispenserLoaded,
                 dispenserError } = this.props; 
 
+        console.log(dispenser);
+
         if(surveyError || dispenserError) {
             return (
                 <div>
@@ -54,23 +58,23 @@ class PatientData extends Component {
         if(dispenser != null){
             return (
                 <div className="pd-container">
+                        <h1 className="pd-title">
+                            My Data
+                        </h1>
                     <div className="pd-body">
-                        <h1>My Data</h1>
-                        <div>
-                            <AveragePDISurveyBar data={allPDISurveys} />
-                        </div>
-                        <div>
-                            <PDISurveyLine data={allPDISurveys} />
-                        </div>
-                        <div>
-                            <PDISurveyStack data={allPDISurveys} />
-                        </div>
-                        <div>
-                            <PDISurveyPie data={allPDISurveys} />
-                        </div>
-                        <div>
-                            <DispenseScatter data={dispenser.dispenses} />
-                        </div>
+                        <PDISurveyBar id="g0" data={allPDISurveys} />
+                        <DateTimeScatter 
+                            id="g1"
+                            title="Button Presses" 
+                            data={[dispenser.events.btn1, dispenser.events.btn2, dispenser.events.btn3]} 
+                            colors={["red", "blue", "green"]}
+                        />
+                        <DateTimeScatter 
+                            id="g2"
+                            title="Dispenses"
+                            data={[dispenser.events.dispenses]}
+                            colors={["var(--medlock-blue)"]}
+                        />
                     </div>
                 </div>
             );
