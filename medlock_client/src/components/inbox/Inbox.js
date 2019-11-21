@@ -117,6 +117,7 @@ class Inbox extends React.Component {
   render() {
     return (
       <div className="container">
+        <h1 class="header">Inbox</h1>
         <div className="inbox">
           <RoomList rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}
                     subscribeToRoom={this.subscribeToRoom}

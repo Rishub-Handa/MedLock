@@ -54,6 +54,8 @@
     width: 100%;
     padding: 10px;
     overflow: hidden;
+   /* grid-row-start: 2; */
+   /* padding: 20px; */
    /* margin-top: 2vh; /* Add a top margin to avoid content overlay */
    /* margin-left: 16.67vw; /* Add a left margin to avoid sidebar overlay */
 }
