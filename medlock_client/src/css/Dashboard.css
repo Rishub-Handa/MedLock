@@ -36,9 +36,10 @@
 }
 
 .DashIcons-container {
-    width: 70%;
+    padding: 1em;
+    width: 90%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1em;
 }
 
@@ -56,7 +57,7 @@
     overflow: hidden;
    /* grid-row-start: 2; */
    /* padding: 20px; */
-   /* margin-top: 2vh; /* Add a top margin to avoid content overlay */
+    margin-top: 1.5vw; /* Add a top margin to avoid content overlay
    /* margin-left: 16.67vw; /* Add a left margin to avoid sidebar overlay */
 }
 /* 
