@@ -6,6 +6,7 @@ import auth0client from '../../auth/Auth';
 import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
+import Faq from '../faq/Faq';
 import Inbox from '../inbox/Inbox';
 import { loadProfile } from '../../actions/profileActions'; 
 import { fetchRoles } from '../../actions/authActions';
@@ -93,21 +94,20 @@ class Dashboard extends Component {
     }
 
     dashboardContentStyle = () => {
-        var style;
-        if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
-            style = {
-                'grid-column': '3/13',
-            }
-        } else {
-            style = {
-                'grid-column': '1/13',
-            }
-        }
-        return style;
+        // var style;
+        // if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
+        //     style = {
+        //         'grid-column': '3/13',
+        //     }
+        // } else {
+        //     style = {
+        //         'grid-column': '1/13',
+        //     }
+        // }
+        // return style;
     }
 
     render() {
-        console.log("render")
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
 
@@ -144,12 +144,14 @@ class Dashboard extends Component {
 
         return (
             <div className="Dashboard">
-                <DashHeader 
-                    name={this.props.profile.personalData.name}  
-                    toggleSideBar={this.toggleSideBar}
-                    sideBarCollapsed={this.props.sideBarCollapsed}
-                    sideBarToggle={this.props.sideBarToggle}
-                />
+                <div className="DashHeader-container">
+                    <DashHeader
+                        name={this.props.profile.personalData.name}  
+                        toggleSideBar={this.toggleSideBar}
+                        sideBarCollapsed={this.props.sideBarCollapsed}
+                        sideBarToggle={this.props.sideBarToggle}
+                    />
+                </div>
                 <div className="SideBar-container">
                         <SideBar 
                             roles={this.props.roles} 
@@ -205,7 +207,7 @@ class Dashboard extends Component {
 
     makeMainRoutes = (props) => {
         return (
-            <div>
+            <div className="SecuredRoutes-container">
                 <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
                 <SecuredRoute path="/dashboard/inbox" component={Inbox} />
                 <SecuredRoute path="/dashboard/mydata" profile={props.profile} component={PatientData} />
@@ -214,6 +216,7 @@ class Dashboard extends Component {
                 <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
                 <SecuredRoute path="/dashboard/serverendpoints" component={ServerEndpoints} /> 
                 <SecuredRoute path="/dashboard/mypatients" component={MyPatients} />
+                <SecuredRoute path="/dashboard/faq" component={Faq} />
             </div>
         );   
     }  

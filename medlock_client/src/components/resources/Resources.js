@@ -5,7 +5,7 @@ class Resources extends Component {
     render() {
         return (
             <div className="Resources-container">
-                <h1>This is the Resource Page!</h1>
+                <h1 class="header">Resources</h1>
             </div>
         );
     }

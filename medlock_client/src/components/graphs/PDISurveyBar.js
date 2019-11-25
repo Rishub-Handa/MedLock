@@ -10,13 +10,34 @@ export default class PDISurveyBar extends Component {
             chart: null,
             config: null,
             surveyIndex: props.data.length - 1,
+            width: 0,
+            height: 0,
         }
     }
     componentDidMount() {
         // important in React to ensure that the chart displays
         // only when the component has been mounted on the DOM
-        this.drawChart();
+        let width = this.getWidth();
+        let height = this.getHeight();
+        this.setState({width: width, height: height}, () => {
+            this.drawChart();
+        });
+        
+        let resizedFn;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizedFn);
+            resizedFn = setTimeout(() => {
+                this.redrawChart();
+            }, 200)
+        });
+    }
 
+    getWidth() {
+        return this.refs.canvas.parentElement.offsetWidth;
+    }
+
+    getHeight() {
+        return this.refs.canvas.parentElement.offsetHeight;
     }
 
     onSelectChange = (e) => {
@@ -56,16 +77,17 @@ export default class PDISurveyBar extends Component {
         const data = this.parseData();
 
         const margin = 60;
-        const canvasHeight = this.props.height - 2*margin;
-        const canvasWidth = this.props.width - 2*margin;
+        const canvasHeight = this.state.height - 2*margin;
+        const canvasWidth = this.state.width - 2*margin;
 
         const svg = d3.select(this.refs.canvas)
             .append("svg")
-            .attr("height", this.props.height)
-            .attr("width", this.props.width)
+            .attr("id", this.props.id)
+            .attr("height", this.state.height)
+            .attr("width", this.state.width)
         
         const chart = svg.append('g')
-            .attr('transform', `translate(${margin}, ${margin})`)
+            .attr('transform', `translate(${margin}, ${margin})`);
 
         const yScale = d3.scaleLinear()
             .range([canvasHeight, 0])
@@ -138,6 +160,14 @@ export default class PDISurveyBar extends Component {
         });
     }
 
+    redrawChart = () => {
+        let width = this.getWidth();
+        let height = this.getHeight();
+        this.setState({width: width, height: height});
+        d3.select(`#${this.props.id}`).remove();
+        this.drawChart();
+    }
+
     updateChart = () => {
         const {svg, chart, config} = this.state;
         const data = this.parseData();
@@ -158,7 +188,7 @@ export default class PDISurveyBar extends Component {
 
     render() {
         return (
-            <div>
+            <div className={`graph-container ${this.props.id}`} >
                 <div ref="canvas"></div>
                 <div>{this.surveySelect(this.props.data.map(survey => survey.date))}</div>
             </div>

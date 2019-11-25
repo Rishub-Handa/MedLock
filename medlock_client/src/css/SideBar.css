@@ -7,7 +7,7 @@
 .SideBar {
     background-color: var(--medlock-blue);
     position: relative;
-    z-index: 1;
+    z-index: 2;
     height: 100%;
     /* width: 16.67%; */
     display: flex;
@@ -16,6 +16,15 @@
     color: white;
     /* box-shadow: 2px 2px 5px black; */
     /* border-radius: 25px; */
+}
+
+.logo-container {
+    background-color: var(--medlock-blue);
+    height: 6vw;
+    width: inherit;
+    padding: 20px;
+    margin: 0px;
+    box-shadow: 0 3px 17px 0 rgba(0, 0, 0, 0.16);
 }
 
 .SideBar-welcome {
