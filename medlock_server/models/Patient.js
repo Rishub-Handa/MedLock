@@ -46,6 +46,9 @@ const PatientSchema = new Schema({
             }
         },
         dispenser_id: Schema.Types.ObjectId,
+        dispenserCode: {
+            type: Array 
+        }, 
         prescription: PrescriptionSchema,
         providers: []
     },

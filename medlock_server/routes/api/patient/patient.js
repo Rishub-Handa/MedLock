@@ -80,4 +80,27 @@ router.put('/', (req, res) => {
     //     });
 });
 
+router.post('/code', (req, res) => {
+    console.log("Dispenser Code POST Request");
+
+    console.log(req.body);
+
+    // Use different logic to identify patient if the provider is registering the patient dispenser 
+
+    var patientId = req.user.sub.substring(6);
+    Patient.findById(patientId, (err, patient) => {
+        if (err) return res.status(500).send(err); 
+
+        patient.medicalData.dispenserCode = req.body; 
+
+        return patient.save()
+            .then(patient => {
+                console.log("Patient Updated.");
+                console.log(patient.medicalData.dispenserCode);
+                res.send(patient.medicalData.dispenserCode);
+            })
+    }); 
+
+});
+
 module.exports = router;

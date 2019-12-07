@@ -1,5 +1,6 @@
 const express = require('express'); 
 const Dispenser = require('../../../models/Dispenser'); 
+const Patient = require('../../../models/Patient'); 
 const mongoose = require('mongoose'); 
 const { ObjectId } = require('mongodb'); 
 
@@ -52,8 +53,45 @@ router.post('/', (req, res) => {
         if (!dispenser) {
             // Create new Dispenser and assign to Patient with corresponding code 
             // Only create Dispenser if there is a Patient with corresponding code 
-            dispenser = new Dispenser();
-            console.log("Creating Dispenser. "); 
+
+            Patient.findOne({ 'medicalData.dispenserCode': req.body.code }, (err, patient) => {
+                
+                if(err) console.log(err); 
+
+                if(patient) {
+                    dispenser = new Dispenser(); 
+                    console.log("Creating Dispenser. "); 
+
+                    return dispenser.save()
+                        .then(dispenser => {
+
+                            console.log("Medical Data: " + patient.medicalData); 
+                            console.log(patient); 
+
+                            patient.medicalData.dispenser_id = dispenser._id; 
+                            res.send("Dispenser ID: " + dispenser._id + "\nCurrent Date: " + Date.now()); 
+                            console.log(dispenser); 
+                            console.log(Date.now()); 
+                            console.log("Dispense Logged.");
+
+                            return patient.save() 
+                                .then(patient => {
+                                    console.log("Patient Dispenser ID: " + patient.medicalData.dispenser_id); 
+                                }); 
+                        })
+                        .catch(err => console.log(err)); 
+
+                } else {
+                    res.send("Wrong Code. "); 
+                }
+
+
+            }); 
+
+            // Wrong Code 
+            // Develop Dispenser Check for Wrong Code 
+            // res.send("Wrong Code"); 
+
         } else {
             events.forEach(event => {
                 switch(event.name) {
@@ -80,6 +118,17 @@ router.post('/', (req, res) => {
                 }
                 
             }); 
+
+            return dispenser.save()
+            .then(dispenser => {
+                res.send("Dispenser ID: " + dispenser._id + "\nCurrent Date: " + Date.now()); 
+                console.log(dispenser); 
+                console.log(Date.now()); 
+                console.log("Dispense Logged.");
+                console.log(dispenser);
+            })
+            .catch(err => console.log(err)); 
+
         }
 
         
@@ -93,16 +142,6 @@ router.post('/', (req, res) => {
             } 
 
         */
-
-        return dispenser.save()
-            .then(dispenser => {
-                res.send("Dispenser ID: " + dispenser._id + "\nCurrent Date: " + Date.now()); 
-                console.log(dispenser); 
-                console.log(Date.now()); 
-                console.log("Dispense Logged.");
-                console.log(dispenser);
-            })
-            .catch(err => console.log(err)); 
     }); 
 }); 
 
