@@ -1,0 +1,47 @@
+#login-body {
+    background-color: var(--medlock-blue);
+}
+
+#login-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1vw;
+    border-radius: 2vw;
+    border-color: var(--medlock-blue);
+    border-style: solid;
+    justify-content: center;
+    align-content: center;
+    padding: 2vw;
+    margin: 10vw;
+    margin-left: 40vw;
+    margin-right: 40vw;
+    background-color: white;
+} 
+
+#login-header {
+    position: relative;
+    font-family: Montserrat;
+    font-size: 2vw;
+    font-weight: 500;
+    line-height: 1.3;
+    text-align: center;
+    color: #4d4f5c;
+}
+
+#login-button {
+    position: relative;
+    display: flex;
+    width: 7vw;
+    height: 3vw;
+    border: none;
+    border-radius: 1vw;
+    background: var(--medlock-blue);
+    font-weight: bold;
+    font-size: 1.3vw;
+    text-align: center;    
+    margin: auto;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}

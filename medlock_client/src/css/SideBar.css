@@ -20,7 +20,7 @@
 
 .logo-container {
     background-color: var(--medlock-blue);
-    height: auto;
+    height: 6vw;
     width: inherit;
     padding: 20px;
     margin: 0px;

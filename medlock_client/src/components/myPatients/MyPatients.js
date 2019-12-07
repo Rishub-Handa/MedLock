@@ -12,6 +12,8 @@ import PatientView from '../patientView/PatientView';
 import SearchField from 'react-search-field';
 import UserList from '../users/UserList';
 import { MEDLOCK_API } from '../../config/servers';
+import '../../css/MyPatients.css';
+
 
 const axios = require('axios'); 
 
@@ -194,6 +196,7 @@ class MyPatients extends Component {
 
         return (
             <div>
+                <h1 class="header">My Patients</h1>
                 <UserList 
                     users={this.props.patients}
                     viewUser={this.viewPatient}

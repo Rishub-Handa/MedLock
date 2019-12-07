@@ -1,10 +1,5 @@
-.logo-container {
-    background-color: var(--medlock-blue);
-    height: inherit;
-    width: 10%;
-    padding: 20px;
-    margin: 0px;
-    box-shadow: 0 3px 17px 0 rgba(0, 0, 0, 0.16);
+.DashHeader {
+    height: 6vw;
 }
 
 .quote {

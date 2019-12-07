@@ -1,17 +1,23 @@
 .DashIcon {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
 
     background-color: var(--medlock-blue);
-    border: 1px solid #ccc;
     width: 100%;
+    height: 20vh;
 
     border-radius: 15px;
-    padding: 35px;
+    padding-top: 10px;
+    padding-left: 20px;
     color: white;
+    font-family: SourceSansPro;
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1.67;
 }
+
 
 .DashIcon:hover {
     background-color: var(--medlock-dark-blue);

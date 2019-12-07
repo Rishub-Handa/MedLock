@@ -20,9 +20,10 @@ class DashIcon extends Component {
     
     render() {
         return (
-            <div className={`${this.props.id}-dashIcon`} onClick={this.route}>
+            /* <div className={`${this.props.id}-dashIcon`} onClick={this.route}> */
+            <div className="DashIcon" onClick={this.route}>
                 <div>
-                    <h1>{this.props.name}</h1>
+                    <p>{this.props.name}</p>
                 </div>
                 <div>
                     <img src={this.props.content.image} />
