@@ -9,6 +9,9 @@ import {
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
     ADD_PROFILE_MODULE_FAILURE,
+    ADD_DISPENSER_CODE_BEGIN, 
+    ADD_DISPENSER_CODE_SUCCESS, 
+    ADD_DISPENSER_CODE_FAILURE 
 } from './types';
 
 import axios from 'axios';
@@ -135,4 +138,37 @@ export function addProfileModule(newProfileModule) {
             .then(res => dispatch(addProfileModuleSuccess(res.data)))
             .catch(error => dispatch(addProfileModuleFailure(error)));
     }
-}
+} 
+
+
+const addDispenserCodeBegin = () => ({
+    type: ADD_DISPENSER_CODE_BEGIN
+});
+
+const addDispenserCodeSuccess = code => ({
+    type: ADD_DISPENSER_CODE_SUCCESS,
+    payload: {
+        code
+    }
+});
+
+const addDispenserCodeFailure = error => ({
+    type: ADD_DISPENSER_CODE_FAILURE,
+    payload: {
+        error
+    }
+}); 
+
+export function addDispenserCode(code) {
+    const { getAccessToken } = auth0client;
+    const API_URL = 'http://localhost:5000/api/patient';
+    const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+    console.log("Code: " + code); 
+    return dispatch => {
+        dispatch(addDispenserCodeBegin());
+        // Make this endpoint
+        return axios.post(`${API_URL}/patient/code`, code, { headers })
+            .then(res => dispatch(addDispenserCodeSuccess(res.data)))
+            .catch(error => dispatch(addDispenserCodeFailure(error)));
+    } 
+} 

@@ -58,5 +58,21 @@
     align-self: center;
 }
 
+#add-dispenser-btn {
+    position: relative;
+    display: flex;
+    width: 7vw;
+    height: 3vw;
+    border: none;
+    border-radius: 1vw;
+    background: var(--medlock-blue);
+    font-weight: bold;
+    font-size: 1.3vw;
+    text-align: center;    
+    margin: auto;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
 
 
