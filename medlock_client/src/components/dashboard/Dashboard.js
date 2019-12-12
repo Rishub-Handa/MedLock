@@ -1,5 +1,6 @@
 import React, { Component } from 'react'; 
-import DashIcon from './DashIcon';
+import DashIcon from './DashIcon'; 
+import DispenserCode from './DispenserCode'; 
 import PropTypes from 'prop-types';
 import '../../css/Dashboard.css';
 import auth0client from '../../auth/Auth';
@@ -32,9 +33,24 @@ class Dashboard extends Component {
             profile: {},
             role: null, 
             icons: modules, 
-            newUser: false,
+            newUser: false, 
+            toggleCodeDisplay: false
         }
 
+    }
+
+    displayDispenserCode = () => {
+        console.log("Display Dispenser Code. "); 
+        this.setState({
+            toggleCodeDisplay: true 
+        }); 
+    }
+
+    hideDispenserCode = () => {
+        console.log("Hide Dispenser Code. "); 
+        this.setState({
+            toggleCodeDisplay: false 
+        }); 
     }
 
     autoCollapseSideBar = (query) => {
@@ -144,12 +160,23 @@ class Dashboard extends Component {
 
         return (
             <div className="Dashboard">
+                {this.state.toggleCodeDisplay ? 
+                    <div className="Grey-Layer"></div> : null}
+                {this.state.toggleCodeDisplay ? 
+                    <div className="DispenserCode-container">
+                        <DispenserCode hideDispenserCode={this.hideDispenserCode}
+                                        userProfile={this.props.profile}/> 
+                    </div> 
+                    : null 
+                }
+                
                 <div className="DashHeader-container">
                     <DashHeader
                         name={this.props.profile.personalData.name}  
                         toggleSideBar={this.toggleSideBar}
                         sideBarCollapsed={this.props.sideBarCollapsed}
                         sideBarToggle={this.props.sideBarToggle}
+                        displayDispenserCode={this.displayDispenserCode}
                     />
                 </div>
                 <div className="SideBar-container">

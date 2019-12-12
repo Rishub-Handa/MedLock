@@ -9,6 +9,9 @@ import {
     ADD_PROFILE_MODULE_BEGIN,
     ADD_PROFILE_MODULE_SUCCESS,
     ADD_PROFILE_MODULE_FAILURE,
+    ADD_DISPENSER_CODE_BEGIN, 
+    ADD_DISPENSER_CODE_SUCCESS, 
+    ADD_DISPENSER_CODE_FAILURE
 } from '../actions/types';
 
 const initialState = {
@@ -22,7 +25,10 @@ const initialState = {
     profileSaving: false, 
     addingNewProfileModule: false,
     profileError: null,
-    profileModules: [] 
+    profileModules: [], 
+    code: null, 
+    codeAdding: false, 
+    codeAddedError: null 
 }
 
 export default function(state = initialState, action) {
@@ -89,6 +95,26 @@ export default function(state = initialState, action) {
                 ...state,
                 addingNewProfileModule: false,
                 profileError: action.payload.error
+            };
+        case ADD_DISPENSER_CODE_BEGIN:
+            console.log("Begin adding code. "); 
+            return {
+                ...state,
+                codeAdding: true,
+            };
+        case ADD_DISPENSER_CODE_SUCCESS: 
+            console.log("Success adding code. "); 
+            return {
+                ...state,
+                codeAdding: false,
+                code: action.payload.code
+            };
+        case ADD_DISPENSER_CODE_FAILURE: 
+            console.log("Failure adding code. "); 
+            return {
+                ...state,
+                codeAdding: false,
+                codeAddedError: action.payload.error
             };
         default:
             return state;
