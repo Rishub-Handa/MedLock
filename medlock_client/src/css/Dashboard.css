@@ -4,7 +4,7 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     grid-template-rows: minmax(0, 1fr) minmax(0, 8fr) minmax(0, 1fr);
     width: 100vw;
-    height: 100vh;
+    height: 100%;
 }
 
 .DispenserCode-container {

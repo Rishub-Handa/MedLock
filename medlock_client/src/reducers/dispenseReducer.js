@@ -29,6 +29,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 dispenserLoading: false,
+                dispenserLoaded: true,
                 error: action.payload.error,
             }; 
         default:

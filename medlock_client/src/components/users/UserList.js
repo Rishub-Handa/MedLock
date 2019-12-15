@@ -7,7 +7,7 @@ export default class UserList extends Component {
     
     constructor(props) {
         super(props);
-        console.log("UserList Props: ");
+        console.log("User List:")
         console.log(props);
         this.state = {
             displayedUsers: this.props.users,

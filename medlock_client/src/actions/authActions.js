@@ -78,7 +78,7 @@ export function auth0Registration(newUser, API_MANAGEMENT_TOKEN) {
                 dispatch(auth0RegistrationSuccess(res.data));
             })
             .catch(error => {
-                console.log(error);
+                console.log(`auth0registration: ${error}`);
                 dispatch(auth0RegistrationFailure(error));
                 throw error;
             });

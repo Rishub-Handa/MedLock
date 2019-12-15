@@ -36,7 +36,6 @@ class Dashboard extends Component {
             newUser: false, 
             toggleCodeDisplay: false
         }
-
     }
 
     displayDispenserCode = () => {
@@ -77,6 +76,7 @@ class Dashboard extends Component {
         x.addListener(this.autoCollapseSideBar);
 
         const { userProfile } = auth0client;
+        console.log(this.props);
 
         // Fetch the API Management Token. 
         fetchAMT() 
@@ -84,8 +84,10 @@ class Dashboard extends Component {
                 const AMT = res.data.access_token; 
                 this.props.fetchRoles(AMT) 
                     .then(() => {
+                        console.log(this.props);
                         this.props.loadProfile(this.props.roles[0].name) 
                             .then(() => {
+                                console.log(this.props);
                                 // Need better method of verifying that this is a new patient. 
                                 if(this.props.roles[0].name === 'Patient' && 
                                     !this.props.profile.personalData.bio) { 

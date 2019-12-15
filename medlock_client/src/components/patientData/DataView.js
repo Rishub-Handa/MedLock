@@ -35,25 +35,54 @@ export default class DataView extends Component {
             </select>
         )
     }
-    render() {
+
+    displayGraphs() {
         const { pdisurveys, dispenses, btn1, btn2, btn3 } = this.props.data;
-        return (
-            <div className="pd-body">
-                {this.graphSelect()}
-                <PDISurveyBar id="g0" data={pdisurveys} />
-                <DateTimeScatter 
-                    id="g1"
-                    title="Button Presses" 
-                    data={[btn1, btn2, btn3]} 
-                    colors={["red", "blue", "green"]}
-                />
-                <DateTimeScatter 
-                    id="g2"
-                    title="Dispenses"
-                    data={[dispenses]}
-                    colors={["var(--medlock-blue)"]}
-                />
-            </div>
-        );
+        if (pdisurveys && dispenses) {
+            return (
+                <div className="pd-body">
+                    <PDISurveyBar id="g0" data={pdisurveys} />
+                    <DateTimeScatter 
+                        id="g1"
+                        title="Button Presses" 
+                        data={[btn1, btn2, btn3]} 
+                        colors={["red", "blue", "green"]}
+                    />
+                    <DateTimeScatter 
+                        id="g2"
+                        title="Dispenses"
+                        data={[dispenses]}
+                        colors={["var(--medlock-blue)"]}
+                    />
+                </div>
+            )
+        } else if (pdisurveys) {
+            return (
+                <div className="pd-body">
+                    <PDISurveyBar id="g0" data={pdisurveys} />
+                </div>
+            )
+        } else if (dispenses) {
+            return (
+                <div className="pd-body">
+                    <DateTimeScatter 
+                        id="g1"
+                        title="Button Presses" 
+                        data={[btn1, btn2, btn3]} 
+                        colors={["red", "blue", "green"]}
+                    />
+                    <DateTimeScatter 
+                        id="g2"
+                        title="Dispenses"
+                        data={[dispenses]}
+                        colors={["var(--medlock-blue)"]}
+                    />
+                </div>
+            )
+        } else return ( <h2>There are no data at the moment.</h2> )
+    }
+
+    render() {
+        return this.displayGraphs();
     }
 }

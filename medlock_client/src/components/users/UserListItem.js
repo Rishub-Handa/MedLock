@@ -18,6 +18,8 @@ export default class UserListItem extends Component {
 
     render() {
         const { user, viewUser, deleteUser } = this.props;
+        console.log("USER:");
+        console.log(user);
         return (
             <div className="UserListItem">
                 <div className="UserListItem-userInfo">

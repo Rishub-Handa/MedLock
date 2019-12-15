@@ -51,28 +51,34 @@ class PatientData extends Component {
                 <div>Loading . . . </div>
             )
         }
-        if(dispenser != null){
-            const data = {
+
+        var data = {}
+        if (allPDISurveys) {
+            data = {
+                ...data,
                 pdisurveys: allPDISurveys,
+            }
+        }
+
+        if (dispenser) {
+            data = {
+                ...data,
                 dispenses: dispenser.events.dispenses,
                 btn1: dispenser.events.btn1,
                 btn2: dispenser.events.btn2,
                 btn3: dispenser.events.btn3,
             }
-            return (
-                <div className="pd-container">
-                        <h1 className="pd-title">
-                            My Data
-                        </h1>
-                    <DataView data={data} />
-                </div>
-            );
         }
+         
         return (
             <div className="pd-container">
-                        No data at the moment.
+                    <h1 className="pd-title">
+                        My Data
+                    </h1>
+                <DataView data={data} />
             </div>
-        )
+        );
+        
     }
 }
 

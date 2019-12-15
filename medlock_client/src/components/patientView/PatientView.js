@@ -44,6 +44,12 @@ class PatientView extends Component {
             )
         }
 
+        if (!dispenserLoading && dispenserLoaded) {
+            return (
+                <div>This patient doesn't yet have a dispenser.</div>
+            )
+        }
+
         return (
             <div className="patientView-container">
                 <PersonalDataView personalData={patient.personalData} />
