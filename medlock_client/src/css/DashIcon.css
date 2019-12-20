@@ -21,4 +21,5 @@
 
 .DashIcon:hover {
     background-color: var(--medlock-dark-blue);
+    border: white solid 2px;
 }

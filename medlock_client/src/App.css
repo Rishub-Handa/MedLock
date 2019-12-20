@@ -7,6 +7,10 @@ html {
     box-sizing: border-box;
 }
 
+button {
+    cursor: pointer;
+}
+
 *, *:before, *:after {
     box-sizing: inherit;
 }

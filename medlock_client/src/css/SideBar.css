@@ -27,6 +27,10 @@
     box-shadow: 0 3px 17px 0 rgba(0, 0, 0, 0.16);
 }
 
+.logo-container:hover {
+    cursor: pointer;
+}
+
 .SideBar-welcome {
     padding: 7%;
 }
@@ -64,6 +68,7 @@
     justify-content: flex-start;
     align-items: center;
     font-size: .9em;
+    margin-bottom: 1px;
     /* border-bottom: .5px solid var(--medlock-dark-blue); */
 }
 
@@ -88,6 +93,7 @@
 
 .ModuleLink:hover {
     background-color: var(--medlock-dark-blue);
+    cursor: pointer;
 }
 
 .logoutButton-container {
