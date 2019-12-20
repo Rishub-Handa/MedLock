@@ -12,7 +12,7 @@ class Login extends Component {
         return (
                 <div>
                     <Helmet>
-                        <style>{'body { background-color: var(--medlock-blue); }'}</style>
+                        <style>{'body { background-color: var(--medlock-blue); overflow: hidden }'}</style>
                     </Helmet>
                     <div id="login-logo">
                         <img className="dash-logo" src={bigLogo} />

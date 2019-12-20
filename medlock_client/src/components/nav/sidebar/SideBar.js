@@ -66,7 +66,7 @@ class SideBar extends Component {
         return (
             <div className="SideBar">
                 <div className="logo-container">
-                    <a href="https://www.computerhope.com/"><img className="dash-logo" src={bigLogo} /></a>
+                    <img className="dash-logo" src={bigLogo} />
                 </div>
                 <div className="SideBar-welcome">
                     <h4>Welcome <strong>{this.props.personalData.name}</strong></h4>
