@@ -42,12 +42,12 @@ export default class DataView extends Component {
             return (
                 <div className="pd-body">
                     <PDISurveyBar id="g0" data={pdisurveys} />
-                    <DateTimeScatter 
+                    {/* <DateTimeScatter 
                         id="g1"
                         title="Button Presses" 
                         data={[btn1, btn2, btn3]} 
                         colors={["red", "blue", "green"]}
-                    />
+                    /> */}
                     <DateTimeScatter 
                         id="g2"
                         title="Dispenses"
@@ -65,12 +65,12 @@ export default class DataView extends Component {
         } else if (dispenses) {
             return (
                 <div className="pd-body">
-                    <DateTimeScatter 
+                    {/* <DateTimeScatter 
                         id="g1"
                         title="Button Presses" 
                         data={[btn1, btn2, btn3]} 
                         colors={["red", "blue", "green"]}
-                    />
+                    /> */}
                     <DateTimeScatter 
                         id="g2"
                         title="Dispenses"

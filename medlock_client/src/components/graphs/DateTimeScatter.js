@@ -45,11 +45,33 @@ export default class DateTimeScatter extends Component {
             return "" + val;
     }
 
+    /**
+     * @param {array} dates 
+     */
+    getDateRange(dates) {
+        var dateRange = [];
+
+        /**
+         * attempting to get date range, off by one day rn
+         */
+        var first = new Date(dates[0]);
+        var last = new Date(dates[dates.length - 1]);
+        console.log(`FIRST: ${first}`);
+        console.log(`LAST: ${last}`);
+        var cur = first;
+        while (cur <= last) {
+            console.log(`${cur} is <= ${last}`);
+            dateRange.push(this.formatDate(cur));
+            cur.setDate(cur.getDate() + 1);
+        }
+        console.log(dateRange);
+    }
+
     parseData(data) {
         return data.map(set => {
             return set.map(timestamp => {
                 const date = new Date(timestamp);
-                const x = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`       
+                const x = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`       
                 const hours = date.getHours();
                 const min = date.getMinutes();
                 const sec = date.getSeconds();
@@ -87,6 +109,10 @@ export default class DateTimeScatter extends Component {
             .style("opacity", 0)
     }
 
+    formatDate = (date) => {
+        return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;     
+    }
+
     formatTime = (d) => {
         const hours = Math.floor(d / 3600);
         const minutes = Math.floor((d % 3600) / 60);
@@ -122,7 +148,10 @@ export default class DateTimeScatter extends Component {
             .tickValues([0, 10800, 21600, 32400, 43200, 54000, 64800, 75600, 86400])
             .tickFormat((d, i) => this.formatTime(d));
 
-        var xDomain = data.map(d => d[0]).sort();
+        var dates = data.map(d => d[0]).sort();
+        this.getDateRange(dates);
+        var xDomain = dates;
+        console.log(xDomain);
         const xScale = d3.scaleBand()
             .range([0, canvasWidth])
             .domain(xDomain)
