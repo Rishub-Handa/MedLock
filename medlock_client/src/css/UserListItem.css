@@ -7,5 +7,23 @@
 .UserListItem-userInfo {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    font-weight: bolder !important;
+    font-size: 10px;
+    border-radius: 15px;
 }
+
+#userid {
+    font-size: x-small;
+    padding-top: 12px;
+    padding-left: 0px;
+    margin-left: 5px;
+    color: var(--medlock-gray)
+}
+
+.form-heading {
+    font-family: "Montserrat";
+}
+
+.UserListItem:hover {
+    box-shadow: 0px 0px 5px var(--medlock-gray);
+    }
