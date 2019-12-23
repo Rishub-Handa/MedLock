@@ -17,7 +17,7 @@ export default class PatientSection extends Component {
         return (
             <div className="PatientSection">
                 <div className="PatientSection-header">
-                    <h3>Patients</h3>
+                    <h3 className="header">Patients</h3>
                 </div>
                 <div className="ProviderSection-content">
                     <div className="patientList-container">
@@ -28,7 +28,7 @@ export default class PatientSection extends Component {
                         />
                     </div>
                     <div>
-                        <Button color="danger" onClick={this.props.deleteAllPatients}>Delete All</Button>
+                        <Button className="red-button" onClick={this.props.deleteAllPatients}>Delete All</Button>
                     </div>
                 </div>
             </div>

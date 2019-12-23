@@ -7,13 +7,31 @@
 
 .DispenserCode-container {
     background-color: #fff; 
-    border: 1px solid var(--medlock-blue); 
-
-    height: 80vh;
-    grid-column: 5/9;
+    border: none; 
+    border-radius: 15px;
+    height: 5vw;
+    width: 40vw;
+    text-align: center;
+    padding-top: 1.5vw;
+    font-family: "Montserrat" !important;
+    font-size: 1.3vw;
+    font-weight: bolder;
+    grid-column: 5/6;
     grid-row: 2/3;
     z-index: 3;
-    
+    box-shadow: 0px 0px 10px #f3f3f3;
+    color: var(--medlock-dark-gray);
+}
+
+.DispenserCode > button {
+    background-color: var(--medlock-blue);
+    border-radius: 10px;
+    border: none;
+    border-color: var(--medlock-gray);
+    float: right;
+    margin-right: 10px;
+    color: white;
+    font-weight: bold;
 }
 
 .Grey-Layer {

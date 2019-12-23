@@ -25,7 +25,7 @@ export default class UserListItem extends Component {
                         <h4>{user.personalData.name}</h4>
                     </div>
                     <div>
-                        <h6>id={user._id}</h6>
+                        <h6 id="userid">id={user._id}</h6>
                     </div>
                 </div>
                 <div className="UserListItem-options">

@@ -58,7 +58,7 @@ class MyPatients extends Component {
         else {
             return (
                 <div>
-                    <Button onClick={this.addPatient}>Register Patient</Button>
+                    <Button onClick={this.addPatient} id = "register-patient">Register Patient</Button>
                 </div>
             )
         }
