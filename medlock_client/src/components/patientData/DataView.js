@@ -10,7 +10,6 @@ export default class DataView extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             graph_id: 0,
         }
@@ -43,19 +42,19 @@ export default class DataView extends Component {
         if (pdisurveys && dispenses) {
             return (
                 <div className="DataView">
-                    <PDISurveyBar id="g0" data={pdisurveys} />
+                     <DateTimeScatter 
+                        id="g0"
+                        title="Dispenses"
+                        data={[dispenses]}
+                        colors={["var(--medlock-blue)"]}
+                    />
                     <DateTimeScatter 
                         id="g1"
                         title="Button Presses" 
                         data={[btn1, btn2, btn3]} 
                         colors={["red", "blue", "green"]}
                     />
-                    <DateTimeScatter 
-                        id="g2"
-                        title="Dispenses"
-                        data={[dispenses]}
-                        colors={["var(--medlock-blue)"]}
-                    />
+                    <PDISurveyBar id="g2" data={pdisurveys} />
                 </div>
             )
         } else if (pdisurveys) {
@@ -67,18 +66,19 @@ export default class DataView extends Component {
         } else if (dispenses) {
             return (
                 <div className="DataView">
+                     <DateTimeScatter 
+                        id="g0"
+                        title="Dispenses"
+                        data={[dispenses]}
+                        colors={["var(--medlock-blue)"]}
+                    />
                     <DateTimeScatter 
                         id="g1"
                         title="Button Presses" 
                         data={[btn1, btn2, btn3]} 
                         colors={["red", "blue", "green"]}
                     />
-                    <DateTimeScatter 
-                        id="g2"
-                        title="Dispenses"
-                        data={[dispenses]}
-                        colors={["var(--medlock-blue)"]}
-                    />
+                   
                 </div>
             )
         } else return ( <h2>There are no data at the moment.</h2> )

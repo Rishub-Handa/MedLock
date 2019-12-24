@@ -38,25 +38,21 @@ class Dashboard extends Component {
     }
 
     displayDispenserCode = () => {
-        console.log("Display Dispenser Code. "); 
         this.setState({
             toggleCodeDisplay: true 
         }); 
     }
 
     hideDispenserCode = () => {
-        console.log("Hide Dispenser Code. "); 
         this.setState({
             toggleCodeDisplay: false 
         }); 
     }
 
     autoCollapseSideBar = (query) => {
-        console.log("checking query")
         //not getting called at the right times
         this.props.setSideBarToggle();
         if (query.matches) {
-            console.log("Collapsing SideBar");
             this.props.collapseSideBar();
         } else {
             this.props.expandSideBar();
@@ -70,12 +66,11 @@ class Dashboard extends Component {
 
     componentDidMount() {
         // media queries
-        var x = window.matchMedia("(max-width: 800px)");
+        var x = window.matchMedia("(max-width: 1024px)");
         this.autoCollapseSideBar(x);
         x.addListener(this.autoCollapseSideBar);
 
         const { userProfile } = auth0client;
-        console.log(this.props);
 
         // Fetch the API Management Token. 
         fetchAMT() 
@@ -111,17 +106,17 @@ class Dashboard extends Component {
     }
 
     dashboardContentStyle = () => {
-        // var style;
-        // if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
-        //     style = {
-        //         'grid-column': '3/13',
-        //     }
-        // } else {
-        //     style = {
-        //         'grid-column': '1/13',
-        //     }
-        // }
-        // return style;
+        var style;
+        if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
+            style = {
+                'grid-column': '3/13',
+            }
+        } else {
+            style = {
+                'grid-column': '1/13',
+            }
+        }
+        return style;
     }
 
     render() {
