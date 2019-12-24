@@ -17,17 +17,12 @@ class PatientView extends Component {
     }
 
     render() {
-        console.log("Patient View");
-        console.log(this.props);
 
         const { patient,
                 dispenser, 
                 dispenserLoading, 
                 dispenserLoaded,
                 dispenserError } = this.props; 
-        console.log(patient);
-        console.log(patient.medicalData);
-        console.log(patient.medicalData.surveys);
 
         const { pdiSurveys } = patient.medicalData.surveys;
 
