@@ -1,5 +1,26 @@
-.MyPatients {
+
+#register-patient {
+    margin-top: 15px;
+    border-radius: .5vw;
+    background-color: var(--medlock-blue);
+    border: none;
+    font-weight: bold;
 }
 
-.Button {
+#register-patient:hover {
+    background-color: var(--medlock-dark-blue);
+}
+
+.react-search-field {
+}
+
+#register {
+    border-radius: .5vw;
+    background-color: var(--medlock-blue);
+    border: none;
+    font-weight: bold;
+}
+
+#register:hover {
+    background-color: var(--medlock-dark-blue);
 }

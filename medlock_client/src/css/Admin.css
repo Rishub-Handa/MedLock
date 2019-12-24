@@ -1,5 +1,10 @@
 .Admin-header > * {
-    text-align: center;
+    margin-top: 50px;
+    text-align: center !important;
+    /*
+    border-bottom: 3px solid var(--medlock-blue);
+    border-bottom: 1vw; 
+    */
 }
 
 .Admin-content {
@@ -11,32 +16,49 @@
     width: 45vw;
     margin-left: auto;
     margin-right: auto;
+    padding: 15px;
+    margin-top: 10px;
+    background-color: white;
 }
 
-.PatientSection-header {
-    text-align: center
+.PatientSection-header > * {
+    text-align: center !important;
 }
 
 .PatientSection-content > * {
-    text-align: center
+    text-align: center;
 }
 
 .ProviderSection {
     width: 45vw;
     margin-left: auto;
     margin-right: auto;
+    padding: 15px;
+    margin-top: 10px;
+    background-color: white;
 }
 
-.ProviderSection-header {
-    text-align: center
+.ProviderSection-header > * {
+    text-align: center !important;
 }
 
 .ProviderSection-content > * {
     text-align: center
 }
 
+.red-button {
+    background-color: var(--medlock-red) !important;
+    border: none !important;
+    margin-top: 10px;
+    float: right;
+    margin-right: 5px;
+}
 
-
-
-
-
+.blue-button {
+    background-color: var(--medlock-blue) !important;
+    border: none !important;
+    margin-top: 10px;
+    font-weight: bolder !important;
+    float: left;
+    margin-left: 5px;
+}
