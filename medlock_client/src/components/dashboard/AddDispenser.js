@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 class AddDispenser extends Component {
     render() {
         return (
-            <div id="add-dispenser-btn" onClick={this.props.displayCodeCallback}>
-                Add Dispenser
+            <div id="add-dispenser-btn" onClick={this.props.displayCodeCallback} style={{cursor:'pointer'}}>
+                + Add Dispenser
             </div>
         )
     }

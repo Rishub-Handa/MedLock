@@ -12,6 +12,15 @@
 }
 
 .Users-container > * {
-    background: #ddd;
-    border: 1px solid #ccc;
+    background: var(--medlock-light-gray);
+    margin-top: 10px;
+    margin-bottom: 0px;
+    border-radius: 1vw;
+    font-weight: 1000;
+    color: var(--medlock-dark-gray);
+    padding-top: 5px;
+    padding-bottom: 0px;
+    padding-left: 15px;
+    text-align: center;
+    width: inherit;
 }

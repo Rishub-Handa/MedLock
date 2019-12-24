@@ -76,7 +76,7 @@ class DispenserCode extends Component {
             return (
                 <div className="DispenserCode">
                     Loading . . . 
-                    <button onClick={this.props.hideDispenserCode}>X</button>
+                    <button onClick={this.props.hideDispenserCode}>Done</button>
 
                 </div>
             ); 
@@ -86,7 +86,7 @@ class DispenserCode extends Component {
             return (
                 <div className="DispenserCode">
                     Error: {String(this.props.codeAddedError)}
-                    <button onClick={this.props.hideDispenserCode}>X</button>
+                    <button onClick={this.props.hideDispenserCode}>Done</button>
 
                 </div>
             ); 
@@ -94,8 +94,8 @@ class DispenserCode extends Component {
 
         return (
             <div className="DispenserCode">
-                Dispenser Code: {this.state.codeString}
-                <button onClick={this.props.hideDispenserCode}>X</button>
+                Dispenser Code: <i>{this.state.codeString} </i>
+                <button onClick={this.props.hideDispenserCode}>Done</button>
             </div>
         ); 
         

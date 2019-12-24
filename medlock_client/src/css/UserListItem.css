@@ -9,6 +9,7 @@
 .UserListItem-userInfo {
     display: flex;
     flex-direction: row;
+/* <<<<<<< HEAD */
     justify-content: space-around;
     align-items: center;
 }
@@ -22,4 +23,25 @@
 .UserListItem-options > button {
     padding: 5px;
     border-radius: 5px;
+/* ======= */
+    font-weight: bolder !important;
+    font-size: 10px;
+    border-radius: 15px;
 }
+
+#userid {
+    font-size: x-small;
+    padding-top: 12px;
+    padding-left: 0px;
+    margin-left: 5px;
+    color: var(--medlock-gray)
+}
+
+.form-heading {
+    font-family: "Montserrat";
+}
+
+.UserListItem:hover {
+    box-shadow: 0px 0px 5px var(--medlock-gray);
+    }
+/* >>>>>>> master */

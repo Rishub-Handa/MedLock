@@ -21,9 +21,14 @@ export default class UserListItem extends Component {
         console.log("USER:");
         console.log(user);
         return (
-            <div className="UserListItem">
+            <div className="UserListItem" onClick={() => viewUser(user)}>
                 <div className="UserListItem-userInfo">
-                    <p>{user.personalData.name}</p>
+                    <div>
+                        <h4>{user.personalData.name}</h4>
+                    </div>
+                    <div>
+                        <h6 id="userid">id={user._id}</h6>
+                    </div>
                 </div>
                 <div className="UserListItem-options">
                     <button onClick={() => viewUser(user)}>View</button>

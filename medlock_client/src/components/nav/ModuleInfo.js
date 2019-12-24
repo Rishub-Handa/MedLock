@@ -5,7 +5,6 @@ import ResourcesIcon from '../../icons/round-folder-24px.svg';
 import DashboardIcon from '../../icons/round-home-24px.svg';
 import ProfileIcon from '../../icons/round-person-24px.svg';
 import MyPatientsIcon from '../../icons/round-people-24px.svg';
-import FaqIcon from '../../icons/question_answer-24px.svg';
 
 export const modules = [
     {
@@ -99,23 +98,6 @@ export const modules = [
         },
         link: '/dashboard/profile'
     },
-    {
-        name: 'FAQ',
-        roles: [
-            {
-                name: 'Provider', 
-                description: 'View commonly asked questions about the MedLock platform. '
-            }, 
-            {
-                name: 'Patient', 
-                description: 'View commonly asked questions about the MedLock platform. '
-            }
-        ],  
-        content: {
-            icon: FaqIcon,
-        },
-        link: '/dashboard/faq'
-    }, 
     {
         name: 'Surveys',
         id: 'surveys',

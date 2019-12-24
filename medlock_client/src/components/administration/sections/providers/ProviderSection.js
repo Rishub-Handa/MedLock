@@ -21,7 +21,7 @@ export default class ProviderSection extends Component {
             return (
                 <Form>
                     <FormGroup>
-                        <Label for="newProviderName">Name</Label>
+                        <Label for="newProviderName" className="form-heading">Name</Label>
                         <Input 
                             type="text" 
                             name="newProviderName" 
@@ -30,7 +30,7 @@ export default class ProviderSection extends Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="newProviderEmail">Email</Label>
+                        <Label for="newProviderEmail" className="form-heading">Email</Label>
                         <Input 
                             type="text" 
                             name="newProviderEmail" 
@@ -39,13 +39,13 @@ export default class ProviderSection extends Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Button color="danger" onClick={() => {
+                        <Button className="red-button" onClick={() => {
                             this.setState({
                                 ...this.state,
                                 newProviderFormVisible: false,
                             });
                         }}>Cancel</Button>
-                        <Button color="primary" onClick={() => {
+                        <Button className="blue-button" onClick={() => {
                             this.setState({
                                 ...this.state,
                                 newProviderFormVisible: false,
@@ -57,7 +57,7 @@ export default class ProviderSection extends Component {
             );
         } else {
             return (
-                <Button color="primary" onClick={() => {
+                <Button className="blue-button" onClick={() => {
                     this.setState({
                         ...this.state,
                         newProviderFormVisible: true
@@ -80,7 +80,7 @@ export default class ProviderSection extends Component {
         return (
             <div className="ProviderSection">
                 <div className="ProviderSection-header">
-                    <h3>Providers</h3>
+                    <h3 className="header">Providers</h3>
                 </div>
                 <div className="ProviderSection-content">
                     <div className="providerList-container">
@@ -94,7 +94,7 @@ export default class ProviderSection extends Component {
                         {this.createNewProviderForm()}
                     </div>
                     <div>
-                        <Button align="center" color="danger" onClick={this.props.deleteAllProviders}>Delete All</Button>
+                        <Button align="center" className="red-button" onClick={this.props.deleteAllProviders}>Delete All</Button>
                     </div>
                 </div>
             </div>

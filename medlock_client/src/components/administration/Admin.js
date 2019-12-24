@@ -193,7 +193,7 @@ class Admin extends Component {
             return (
                 <div>
                     <div className="Admin-header">
-                        <h1>MedLock Admin</h1>
+                        <h1 className="header">MedLock Admin</h1>
                     </div>
                     <div className="Admin-content">
                             <PatientSection 
