@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PersonalDataView from './PersonalDataView';
-import MedicalDataView from './MedicalDataView';
-import ConsumptionDataView from './ConsumptionDataView';
 import { connect } from 'react-redux';
 import { fetchDispenser } from '../../actions/dispenserActions';  
-import PatientData from '../patientData/PatientData';
+import DataView from '../patientData/DataView';
 import PropTypes from 'prop-types';
 import '../../css/PatientView.css';
 
@@ -19,15 +17,18 @@ class PatientView extends Component {
     }
 
     render() {
+        console.log("Patient View");
+        console.log(this.props);
+
         const { patient,
                 dispenser, 
                 dispenserLoading, 
                 dispenserLoaded,
                 dispenserError } = this.props; 
-        
-        let dispenses = null;
-        if(!dispenser) dispenses = [];
-        else dispenses = dispenser.dispenses;
+        console.log(patient);
+        console.log(patient.medicalData);
+        console.log(patient.medicalData.surveys);
+
         const { pdiSurveys } = patient.medicalData.surveys;
 
         if(dispenserError) {
@@ -44,16 +45,35 @@ class PatientView extends Component {
             )
         }
 
-        if (!dispenserLoading && dispenserLoaded) {
+        if (!dispenserLoading && dispenserLoaded && !dispenser) {
             return (
                 <div>This patient doesn't yet have a dispenser.</div>
             )
         }
 
+        var data = {}
+        if (pdiSurveys) {
+            data = {
+                ...data,
+                pdisurveys: pdiSurveys,
+            }
+        }
+
+        if (dispenser) {
+            data = {
+                ...data,
+                dispenses: dispenser.events.dispenses,
+                btn1: dispenser.events.btn1,
+                btn2: dispenser.events.btn2,
+                btn3: dispenser.events.btn3,
+            }
+        }
+
         return (
             <div className="patientView-container">
                 <PersonalDataView personalData={patient.personalData} />
-                <PatientData patient={patient} />
+                <DataView data={data}
+                />
                 {/* <div className="leftPanel">
                     <PersonalDataView personalData={patient.personalData} />
                     <ConsumptionDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}}/>
@@ -68,7 +88,7 @@ class PatientView extends Component {
 
 PatientView.propTypes = {
     fetchDispenser: PropTypes.func.isRequired, 
-    dispenser: PropTypes.array.isRequired,
+    dispenser: PropTypes.object.isRequired,
     dispenserLoading: PropTypes.bool.isRequired,
     dispenserLoaded: PropTypes.bool.isRequired,
     dispenserError: PropTypes.object

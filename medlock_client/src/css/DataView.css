@@ -1,12 +1,14 @@
-.pd-container {
-    height: inherit;
+/* .DataView {
+    width: 100%;
+    height: 100vh;
+    padding: 20px;
     display: flex;
-    flex-flow: column nowrap;
-}
+    flex-direction: column;
+} */
 
 .DataView {
     width: 100%;
-    height: 80vh;
+    height: 100%;
     padding: 20px;
     display: grid;
     grid-gap: 1em;

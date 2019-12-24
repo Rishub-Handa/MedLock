@@ -8,15 +8,15 @@ export default class DateTimeScatter extends Component {
             svg: null,
             chart: null,
             config: null,
-            width: 0,
-            height: 0,
+            width: 800,
+            height: 300,
         }
     }
 
     componentDidMount() {
-        let width = this.getWidth();
-        let height = this.getHeight();
-        this.setState({width: width, height: height}, () => {
+        var size = this.getSize();
+
+        this.setState({width: size.width, height: size.height}, () => {
             this.drawChart();
         });
 
@@ -38,6 +38,38 @@ export default class DateTimeScatter extends Component {
         return this.refs.canvas.parentElement.offsetHeight;
     }
 
+    getSize() {
+        const minWidth = 500;
+        const maxWidth = 1000;
+        const minHeight = 200;
+        const maxHeight = 400;
+        var curWidth = this.state.width;
+        var curHeight = this.state.height;
+        let newWidth = this.getWidth();
+        let newHeight = this.getHeight();
+        var width;
+        var height;
+
+        if (newWidth > minWidth && newWidth < maxWidth) {
+            width = newWidth;
+        } else {
+            width = curWidth;
+        }
+
+        if (newHeight > minHeight && newHeight < maxHeight) {
+            height = newHeight;
+        } else {
+            height = curHeight;
+        }
+
+        var size = {
+            width,
+            height
+        };
+
+        return size;
+    }
+
     addZero(val) {
         if (val < 10)
             return "0" + val;
@@ -56,15 +88,11 @@ export default class DateTimeScatter extends Component {
          */
         var first = new Date(dates[0]);
         var last = new Date(dates[dates.length - 1]);
-        console.log(`FIRST: ${first}`);
-        console.log(`LAST: ${last}`);
         var cur = first;
         while (cur <= last) {
-            console.log(`${cur} is <= ${last}`);
             dateRange.push(this.formatDate(cur));
             cur.setDate(cur.getDate() + 1);
         }
-        console.log(dateRange);
     }
 
     parseData(data) {
@@ -151,7 +179,6 @@ export default class DateTimeScatter extends Component {
         var dates = data.map(d => d[0]).sort();
         this.getDateRange(dates);
         var xDomain = dates;
-        console.log(xDomain);
         const xScale = d3.scaleBand()
             .range([0, canvasWidth])
             .domain(xDomain)
@@ -223,9 +250,8 @@ export default class DateTimeScatter extends Component {
     }
 
     redrawChart = () => {
-        let width = this.getWidth();
-        let height = this.getHeight();
-        this.setState({width: width, height: height});
+        var size = this.getSize();
+        this.setState({width: size.width, height: size.height});
         d3.select(`#${this.props.id}`).remove();
         this.drawChart();
     }

@@ -89,7 +89,6 @@ PatientData.propTypes = {
     surveysLoaded: PropTypes.bool.isRequired,
     surveyError: PropTypes.object,
 
-    
     fetchDispenser: PropTypes.func.isRequired, 
     dispenser: PropTypes.array.isRequired,
     dispenserLoading: PropTypes.bool.isRequired,

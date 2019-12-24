@@ -23,22 +23,20 @@ export default class UserListItem extends Component {
         return (
             <div className="UserListItem">
                 <div className="UserListItem-userInfo">
-                    <div>
-                        <h4>{user.personalData.name}</h4>
-                    </div>
-                    <div>
-                        <h6>id={user._id}</h6>
-                    </div>
+                    <p>{user.personalData.name}</p>
                 </div>
                 <div className="UserListItem-options">
-                    <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                    <button onClick={() => viewUser(user)}>View</button>
+                    <button>Edit</button>
+                    <button onClick={() => deleteUser(user._id)}>Delete</button>
+                    {/* <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                         <DropdownToggle>...</DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem onClick={() => viewUser(user)}>View</DropdownItem>
                             <DropdownItem disabled>Edit</DropdownItem>
                             <DropdownItem onClick={() => deleteUser(user._id)}>Delete</DropdownItem>
                         </DropdownMenu>
-                    </Dropdown>
+                    </Dropdown> */}
                 </div>
             </div>
         );

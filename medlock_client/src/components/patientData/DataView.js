@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PDISurveyBar from '../graphs/PDISurveyBar';
 import DateTimeScatter from '../graphs/DateTimeScatter';
+import '../../css/DataView.css';
 
 export default class DataView extends Component {
     /**
@@ -9,6 +10,7 @@ export default class DataView extends Component {
 
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             graph_id: 0,
         }
@@ -40,14 +42,14 @@ export default class DataView extends Component {
         const { pdisurveys, dispenses, btn1, btn2, btn3 } = this.props.data;
         if (pdisurveys && dispenses) {
             return (
-                <div className="pd-body">
+                <div className="DataView">
                     <PDISurveyBar id="g0" data={pdisurveys} />
-                    {/* <DateTimeScatter 
+                    <DateTimeScatter 
                         id="g1"
                         title="Button Presses" 
                         data={[btn1, btn2, btn3]} 
                         colors={["red", "blue", "green"]}
-                    /> */}
+                    />
                     <DateTimeScatter 
                         id="g2"
                         title="Dispenses"
@@ -58,19 +60,19 @@ export default class DataView extends Component {
             )
         } else if (pdisurveys) {
             return (
-                <div className="pd-body">
+                <div className="DataView">
                     <PDISurveyBar id="g0" data={pdisurveys} />
                 </div>
             )
         } else if (dispenses) {
             return (
-                <div className="pd-body">
-                    {/* <DateTimeScatter 
+                <div className="DataView">
+                    <DateTimeScatter 
                         id="g1"
                         title="Button Presses" 
                         data={[btn1, btn2, btn3]} 
                         colors={["red", "blue", "green"]}
-                    /> */}
+                    />
                     <DateTimeScatter 
                         id="g2"
                         title="Dispenses"

@@ -7,8 +7,6 @@ export default class UserList extends Component {
     
     constructor(props) {
         super(props);
-        console.log("User List:")
-        console.log(props);
         this.state = {
             displayedUsers: this.props.users,
         }
@@ -39,11 +37,13 @@ export default class UserList extends Component {
     
     render() {
         return (
-            <div>
-                <h3>{this.props.title}</h3>
-                <SearchField
-                    onChange={this.onSearchChange}
-                />
+            <div className="UserList">
+                <div className="UserList-header">
+                    <h3>{this.props.title}</h3>
+                    <SearchField
+                        onChange={this.onSearchChange}
+                    />
+                </div>
                 <div className="Users-container">{this.userHTML(this.props.users)}</div>
             </div>
         )

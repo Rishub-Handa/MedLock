@@ -2,10 +2,24 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .UserListItem-userInfo {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center;
+}
+
+.UserListItem-userInfo > p {
+    font-size: 1.25em;
+    margin: 0px;
+    text-align: center;
+}
+
+.UserListItem-options > button {
+    padding: 5px;
+    border-radius: 5px;
 }
