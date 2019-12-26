@@ -1,3 +1,9 @@
+/* <<<<<<< HEAD */
+.MyPatients {
+    width: 100%;
+    margin: 0 auto;
+}
+/* ======= */
 
 #register-patient {
     margin-top: 15px;
@@ -24,3 +30,14 @@
 #register:hover {
     background-color: var(--medlock-dark-blue);
 }
+
+.PersonalDataView {
+    border-radius: 15px;
+    padding: 10px;
+    width: auto;
+}
+
+.PersonalDataView > .content > * {
+    margin: 0px;
+}
+/* >>>>>>> master */

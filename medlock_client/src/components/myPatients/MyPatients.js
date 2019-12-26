@@ -29,6 +29,7 @@ class MyPatients extends Component {
     }
 
     viewPatient = (patient) => {
+        console.log(patient);
         this.setState({
             onePatientView: true,
             viewedPatient: patient
@@ -37,7 +38,6 @@ class MyPatients extends Component {
     }
 
     onRemovePatient = (patientId) => {
-        console.log(`calling remove on patient(id=${patientId}) from mypatients page`);
         this.props.removePatient(patientId);
     }
 
@@ -196,11 +196,11 @@ class MyPatients extends Component {
         }
 
         return (
-            <div>
-                <h1 class="header">My Patients</h1>
+            <div className="MyPatients">
                 <UserList 
+                    title="My Patients"
                     users={this.props.patients}
-                    viewUser={this.viewedPatient}
+                    viewUser={this.viewPatient}
                     deleteUser={this.onRemovePatient}
                 />
                 {this.displayNewPatientForm()}

@@ -1,6 +1,14 @@
+.UserList-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .Users-container {
     display: flex;
     flex-direction: column;
+    width: 75%;
+    margin: 0 auto;
 }
 
 .Users-container > * {

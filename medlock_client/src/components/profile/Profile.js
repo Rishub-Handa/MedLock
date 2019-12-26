@@ -10,14 +10,12 @@ class Profile extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             role: props.roles[0].name,
         }
     }
 
     onProfileSave = (updatedPersonalData) => {
-        console.log(this.state.role);
         this.props.saveProfile(updatedPersonalData, this.state.role);
     }
 
@@ -47,7 +45,6 @@ class Profile extends Component {
 
     render() {
         const { personalData, profileSaving, error, editable } = this.props;
-        console.log(this.props);
         
         if (error) {
             return (

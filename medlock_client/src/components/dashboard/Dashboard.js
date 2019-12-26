@@ -35,29 +35,24 @@ class Dashboard extends Component {
             newUser: false, 
             toggleCodeDisplay: false
         }
-
     }
 
     displayDispenserCode = () => {
-        console.log("Display Dispenser Code. "); 
         this.setState({
             toggleCodeDisplay: true 
         }); 
     }
 
     hideDispenserCode = () => {
-        console.log("Hide Dispenser Code. "); 
         this.setState({
             toggleCodeDisplay: false 
         }); 
     }
 
     autoCollapseSideBar = (query) => {
-        console.log("checking query")
         //not getting called at the right times
         this.props.setSideBarToggle();
         if (query.matches) {
-            console.log("Collapsing SideBar");
             this.props.collapseSideBar();
         } else {
             this.props.expandSideBar();
@@ -71,7 +66,7 @@ class Dashboard extends Component {
 
     componentDidMount() {
         // media queries
-        var x = window.matchMedia("(max-width: 800px)");
+        var x = window.matchMedia("(max-width: 1024px)");
         this.autoCollapseSideBar(x);
         x.addListener(this.autoCollapseSideBar);
 
@@ -83,8 +78,10 @@ class Dashboard extends Component {
                 const AMT = res.data.access_token; 
                 this.props.fetchRoles(AMT) 
                     .then(() => {
+                        console.log(this.props);
                         this.props.loadProfile(this.props.roles[0].name) 
                             .then(() => {
+                                console.log(this.props);
                                 // Need better method of verifying that this is a new patient. 
                                 if(this.props.roles[0].name === 'Patient' && 
                                     !this.props.profile.personalData.bio) { 
@@ -109,17 +106,17 @@ class Dashboard extends Component {
     }
 
     dashboardContentStyle = () => {
-        // var style;
-        // if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
-        //     style = {
-        //         'grid-column': '3/13',
-        //     }
-        // } else {
-        //     style = {
-        //         'grid-column': '1/13',
-        //     }
-        // }
-        // return style;
+        var style;
+        if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
+            style = {
+                'grid-column': '3/13',
+            }
+        } else {
+            style = {
+                'grid-column': '1/13',
+            }
+        }
+        return style;
     }
 
     render() {
@@ -236,7 +233,7 @@ class Dashboard extends Component {
             <div className="SecuredRoutes-container">
                 <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
                 <SecuredRoute path="/dashboard/inbox" component={Inbox} />
-                <SecuredRoute path="/dashboard/mydata" profile={props.profile} component={PatientData} />
+                <SecuredRoute path="/dashboard/mydata" patient={props.profile} component={PatientData} />
                 <SecuredRoute path="/dashboard/resources" component={Resources} />
                 <SecuredRoute path="/dashboard/survey" component={PDISurvey} />
                 <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 

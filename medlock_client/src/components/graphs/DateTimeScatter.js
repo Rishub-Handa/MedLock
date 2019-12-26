@@ -2,21 +2,22 @@ import React, { Component } from 'react'
 import * as d3 from "d3";
 
 export default class DateTimeScatter extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
             svg: null,
             chart: null,
             config: null,
-            width: 0,
-            height: 0,
+            width: 800,
+            height: 300,
         }
     }
 
     componentDidMount() {
-        let width = this.getWidth();
-        let height = this.getHeight();
-        this.setState({width: width, height: height}, () => {
+        var size = this.getSize();
+
+        this.setState({width: size.width, height: size.height}, () => {
             this.drawChart();
         });
 
@@ -38,6 +39,38 @@ export default class DateTimeScatter extends Component {
         return this.refs.canvas.parentElement.offsetHeight;
     }
 
+    getSize() {
+        const minWidth = 500;
+        const maxWidth = 1000;
+        const minHeight = 200;
+        const maxHeight = 400;
+        var curWidth = this.state.width;
+        var curHeight = this.state.height;
+        let newWidth = this.getWidth();
+        let newHeight = this.getHeight();
+        var width;
+        var height;
+
+        if (newWidth > minWidth && newWidth < maxWidth) {
+            width = newWidth;
+        } else {
+            width = curWidth;
+        }
+
+        if (newHeight > minHeight && newHeight < maxHeight) {
+            height = newHeight;
+        } else {
+            height = curHeight;
+        }
+
+        var size = {
+            width,
+            height
+        };
+
+        return size;
+    }
+
     addZero(val) {
         if (val < 10)
             return "0" + val;
@@ -45,11 +78,29 @@ export default class DateTimeScatter extends Component {
             return "" + val;
     }
 
+    /**
+     * @param {array} dates 
+     */
+    getDateRange(dates) {
+        var dateRange = [];
+
+        /**
+         * attempting to get date range, off by one day rn
+         */
+        var first = new Date(dates[0]);
+        var last = new Date(dates[dates.length - 1]);
+        var cur = first;
+        while (cur <= last) {
+            dateRange.push(this.formatDate(cur));
+            cur.setDate(cur.getDate() + 1);
+        }
+    }
+
     parseData(data) {
         return data.map(set => {
             return set.map(timestamp => {
                 const date = new Date(timestamp);
-                const x = `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`       
+                const x = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`       
                 const hours = date.getHours();
                 const min = date.getMinutes();
                 const sec = date.getSeconds();
@@ -87,6 +138,10 @@ export default class DateTimeScatter extends Component {
             .style("opacity", 0)
     }
 
+    formatDate = (date) => {
+        return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;     
+    }
+
     formatTime = (d) => {
         const hours = Math.floor(d / 3600);
         const minutes = Math.floor((d % 3600) / 60);
@@ -122,7 +177,9 @@ export default class DateTimeScatter extends Component {
             .tickValues([0, 10800, 21600, 32400, 43200, 54000, 64800, 75600, 86400])
             .tickFormat((d, i) => this.formatTime(d));
 
-        var xDomain = data.map(d => d[0]).sort();
+        var dates = data.map(d => d[0]).sort();
+        this.getDateRange(dates);
+        var xDomain = dates;
         const xScale = d3.scaleBand()
             .range([0, canvasWidth])
             .domain(xDomain)
@@ -194,9 +251,8 @@ export default class DateTimeScatter extends Component {
     }
 
     redrawChart = () => {
-        let width = this.getWidth();
-        let height = this.getHeight();
-        this.setState({width: width, height: height});
+        var size = this.getSize();
+        this.setState({width: size.width, height: size.height});
         d3.select(`#${this.props.id}`).remove();
         this.drawChart();
     }

@@ -10,16 +10,16 @@ export default class PDISurveyBar extends Component {
             chart: null,
             config: null,
             surveyIndex: props.data.length - 1,
-            width: 0,
-            height: 0,
+            width: 800,
+            height: 300,
         }
     }
     componentDidMount() {
         // important in React to ensure that the chart displays
         // only when the component has been mounted on the DOM
-        let width = this.getWidth();
-        let height = this.getHeight();
-        this.setState({width: width, height: height}, () => {
+        var size = this.getSize();
+
+        this.setState({width: size.width, height: size.height}, () => {
             this.drawChart();
         });
         
@@ -38,6 +38,38 @@ export default class PDISurveyBar extends Component {
 
     getHeight() {
         return this.refs.canvas.parentElement.offsetHeight;
+    }
+
+    getSize() {
+        const minWidth = 500;
+        const maxWidth = 1000;
+        const minHeight = 200;
+        const maxHeight = 400;
+        var curWidth = this.state.width;
+        var curHeight = this.state.height;
+        let newWidth = this.getWidth();
+        let newHeight = this.getHeight();
+        var width;
+        var height;
+
+        if (newWidth > minWidth && newWidth < maxWidth) {
+            width = newWidth;
+        } else {
+            width = curWidth;
+        }
+
+        if (newHeight > minHeight && newHeight < maxHeight) {
+            height = newHeight;
+        } else {
+            height = curHeight;
+        }
+
+        var size = {
+            width,
+            height
+        };
+
+        return size;
     }
 
     onSelectChange = (e) => {
@@ -161,9 +193,8 @@ export default class PDISurveyBar extends Component {
     }
 
     redrawChart = () => {
-        let width = this.getWidth();
-        let height = this.getHeight();
-        this.setState({width: width, height: height});
+        var size = this.getSize();
+        this.setState({width: size.width, height: size.height});
         d3.select(`#${this.props.id}`).remove();
         this.drawChart();
     }

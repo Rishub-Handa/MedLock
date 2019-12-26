@@ -7,7 +7,6 @@ import { createProviderProfile, fetchAllProviders, deleteProvider } from '../../
 import { fetchAllPatients, deletePatient } from '../../actions/patientActions';
 import { MEDLOCK_API } from '../../config/servers';
 
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import PatientSection from './sections/patients/PatientSection';
 
 import axios from 'axios';
