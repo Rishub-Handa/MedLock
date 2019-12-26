@@ -60,8 +60,12 @@ class Dashboard extends Component {
     }
 
     toggleSideBar = () => {
-        if (this.props.sideBarCollapsed) this.props.expandSideBar();
-        else this.props.collapseSideBar();
+        if (this.props.sideBarCollapsed) {
+            this.props.expandSideBar();
+        } 
+        else {
+            this.props.collapseSideBar(); 
+        }
     }
 
     componentDidMount() {
@@ -179,7 +183,9 @@ class Dashboard extends Component {
                         <SideBar 
                             roles={this.props.roles} 
                             personalData={this.props.profile.personalData}
-                            collapsed={this.props.sideBarCollapsed} 
+                            toggle={this.toggleSideBar}
+                            collapsed={this.props.sideBarCollapsed}
+
                 />
                 </div>
                 <div className="Dashboard-content" style={this.dashboardContentStyle()}>

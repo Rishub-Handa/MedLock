@@ -95,7 +95,7 @@ class SideBar extends Component {
     collapsedSideBar = () => {
         return (
             <div className="Collapsed">
-                <img id="collapsedMenuItem" src={collapsedMenuIcon}></img>
+                <img id="collapsedMenuItem" src={collapsedMenuIcon} onClick={this.props.toggle}></img>
             </div>
         );
     }
