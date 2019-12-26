@@ -63,7 +63,7 @@
     display: flex;
     width: 12vw;
     height: 3vw;
-    border: 5.5px solid;
+    border: .5vw solid;
     border-radius: 1vw;
     border-color: var(--medlock-blue);
     font-weight: bold;
