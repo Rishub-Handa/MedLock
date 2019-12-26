@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import bigLogo from '../../../icons/white-logo.png'; 
+import collapsedMenuIcon from '../../../icons/round-menu-24px.svg';
 import { withRouter } from 'react-router-dom';
 import auth0client from '../../../auth/Auth';
 import { modules } from '../ModuleInfo'; 
@@ -94,7 +95,7 @@ class SideBar extends Component {
     collapsedSideBar = () => {
         return (
             <div className="Collapsed">
-
+                <img id="collapsedMenuItem" src={collapsedMenuIcon}></img>
             </div>
         );
     }

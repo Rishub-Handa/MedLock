@@ -119,3 +119,8 @@
 .SideBar-section {
     padding: 20px
 }
+
+#collapsedMenuItem {
+    height: 6vw;
+    background-color: var(--medlock-blue);
+}
