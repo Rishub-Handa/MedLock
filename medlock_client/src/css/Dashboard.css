@@ -87,7 +87,7 @@
 }
 
 .Dashboard-content {
-    grid-column: 3/13 !important;
+    grid-column: 3/13;
     grid-row: 2/4;
     width: 100%;
     padding: 10px;
