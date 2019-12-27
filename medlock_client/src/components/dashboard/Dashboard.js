@@ -184,6 +184,7 @@ class Dashboard extends Component {
                             roles={this.props.roles} 
                             personalData={this.props.profile.personalData}
                             toggle={this.toggleSideBar}
+                            togglable={this.sideBarToggle}
                             collapsed={this.props.sideBarCollapsed}
 
                 />

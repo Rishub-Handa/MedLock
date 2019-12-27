@@ -64,32 +64,46 @@ class SideBar extends Component {
     }
 
     expandedSideBar = () => {
-        return (
-            <div className="SideBar">
-                <div className="logo-container">
-                    <img className="dash-logo" src={bigLogo} />
+        if (this.props.togglable) {
+            return (
+                <div className="SideBar">
+                    <div className="logo-container">
+                        <img className="dash-logo" src={bigLogo} />
+                        <img id="collapsedMenuItem" src={collapsedMenuIcon} onClick={this.props.toggle}></img>
+                    </div>
+                    <div className="SideBar-welcome">
+                        <h4>Welcome <strong>{this.props.personalData.name}</strong></h4>
+                    </div>
+                    {this.sideBarItemsHTML()}
+                    <div className="logoutButton-container">
+                        <button
+                            className="logoutButton"
+                            onClick={auth0client.logout}
+                        >Logout</button>
+                    </div>
                 </div>
-                <div className="SideBar-welcome">
-                    <h4>Welcome <strong>{this.props.personalData.name}</strong></h4>
+            );
+
+        } else {
+            return (
+                <div className="SideBar">
+                    <div className="logo-container">
+                        <img className="dash-logo" src={bigLogo} />
+                        <img id="collapsedMenuItem" src={collapsedMenuIcon} onClick={this.props.toggle}></img>
+                    </div>
+                    <div className="SideBar-welcome">
+                        <h4>Welcome <strong>{this.props.personalData.name}</strong></h4>
+                    </div>
+                    {this.sideBarItemsHTML()}
+                    <div className="logoutButton-container">
+                        <button
+                            className="logoutButton"
+                            onClick={auth0client.logout}
+                        >Logout</button>
+                    </div>
                 </div>
-                {this.sideBarItemsHTML()}
-                {/* <h6 className="SideBar-subtitle">Data Preview</h6>
-                <div className="SideBar-section">
-                    <h6>Time until next dispense</h6>
-                    <Button>Click to Reveal</Button>
-                </div>
-                <div className="SideBar-section">
-                    <h6>Average PDI Survey Result</h6>
-                    <h5>7.3</h5>
-                </div> */}
-                <div className="logoutButton-container">
-                    <button
-                        className="logoutButton"
-                        onClick={auth0client.logout}
-                    >Logout</button>
-                </div>
-            </div>
-        );
+            );
+        }
     }
 
     collapsedSideBar = () => {

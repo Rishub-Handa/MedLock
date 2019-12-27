@@ -19,12 +19,22 @@
 }
 
 .logo-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     background-color: var(--medlock-blue);
-    height: 6vw;
-    width: inherit;
-    padding: 20px;
     margin: 0px;
+    padding: 10px 7.5px 10px 7.5px;
     box-shadow: 0 3px 17px 0 rgba(0, 0, 0, 0.16);
+}
+
+.dash-logo {
+    height: 2vw;
+}
+
+#collapsedMenuItem {
+    height: 2vw;
+    background-color: var(--medlock-blue);
 }
 
 .logo-container:hover {
@@ -120,7 +130,3 @@
     padding: 20px
 }
 
-#collapsedMenuItem {
-    height: 6vw;
-    background-color: var(--medlock-blue);
-}
