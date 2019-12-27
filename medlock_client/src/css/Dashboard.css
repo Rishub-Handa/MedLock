@@ -2,7 +2,7 @@
     position: relative;
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-rows: 65px 8fr 1fr;
+    grid-template-rows: 65px calc(90% - 65px) 1fr;
     width: 100vw;
     height: 100%;
 }
@@ -87,7 +87,7 @@
 }
 
 .Dashboard-content {
-    grid-column: 3/13;
+    grid-column: 3/13 !important;
     grid-row: 2/4;
     width: 100%;
     padding: 10px;
