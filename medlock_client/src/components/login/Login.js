@@ -15,7 +15,7 @@ class Login extends Component {
                         <style>{'body { background-color: var(--medlock-blue); overflow: hidden }'}</style>
                     </Helmet>
                     <div id="login-logo">
-                        <img className="dash-logo" src={bigLogo} />
+                        <img className="login-logo" src={bigLogo} />
                     </div>
                     <Button onClick={auth0client.login} id="login-button">Login</Button>
                 </div>
