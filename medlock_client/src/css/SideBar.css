@@ -29,11 +29,11 @@
 }
 
 .dash-logo {
-    height: 2vw;
+    height: 30px;
 }
 
 #collapsedMenuItem {
-    height: 2vw;
+    height: 30px;
     background-color: var(--medlock-blue);
 }
 

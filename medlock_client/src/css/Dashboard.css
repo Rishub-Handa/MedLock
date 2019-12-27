@@ -2,7 +2,7 @@
     position: relative;
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-rows: minmax(0, 1fr) minmax(0, 8fr) minmax(0, 1fr);
+    grid-template-rows: 65px calc(9fr - 65px) 1fr;
     width: 100vw;
     height: 100%;
 }
@@ -74,7 +74,7 @@
 
 .DashIcons-container {
     padding: 1em;
-    width: 90%;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1em;

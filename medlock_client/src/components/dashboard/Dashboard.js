@@ -111,13 +111,13 @@ class Dashboard extends Component {
 
     dashboardContentStyle = () => {
         var style;
-        if (!this.props.sideBarCollapsed && !this.props.sideBarToggle) {
+        if (this.props.sideBarCollapsed) {
             style = {
-                'grid-column': '3/13',
+                'grid-column': '1/13',
             }
         } else {
             style = {
-                'grid-column': '1/13',
+                'grid-column': '3/13',
             }
         }
         return style;
