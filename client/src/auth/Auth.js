@@ -13,7 +13,7 @@ class Auth {
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
         clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
-        redirectUri: 'http://localhost:3000/callback',
+        redirectUri: 'http://localhost:5000/callback',
         responseType: 'token id_token',
         audience: 'http://localhost:5000',
         scope: this.requestedScopes
