@@ -84,6 +84,8 @@ app.use('/api/admin/patient', adminPatient);
 // Cannot use checkJwt because the ChatKit server will also make a request to this endpoint without Auth0. 
 app.use('/api/chatAuth', chatAuth); 
 app.use('/api/email', email); 
+app.use(express.static('client/build'));
+
 
 // Run the Server on a Port 
 const PORT = process.env.PORT || 5000; 
@@ -91,3 +93,9 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Process start on port: ${PORT}`); 
 }); 
+
+const router = express.Router();
+
+router.use(function(req, res) {
+	res.sendFile(path.join(__dirname, './client/build/index.html'));
+});
