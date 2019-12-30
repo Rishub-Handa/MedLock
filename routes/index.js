@@ -54,9 +54,10 @@ router.use('/api/chatAuth', chatAuth);
 router.use('/api/email', email); 
 
 // If no API routes are hit, send the React app
-router.use(function(req, res) {
-    const file_path = path.join(__dirname, '../client/build/index.html');
-	res.sendFile(file_path);
-});
+// router.use(function(req, res) {
+// 	res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// });
+
+router.use('/', "<div>Hello, World!</div>");
 
 module.exports = router;
