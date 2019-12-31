@@ -65,7 +65,6 @@ mongoose.connect(db, {
             console.log(err); 
         }); 
 
-
 app.use(express.static('client/build'));
 
 
