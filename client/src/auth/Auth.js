@@ -16,7 +16,7 @@ class Auth {
         clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
         redirectUri: 'https://aqueous-falls-74814.herokuapp.com/callback',
         responseType: 'token id_token',
-        audience: 'https://aqueous-falls-74814.herokuapp.com',
+        // audience: 'https://aqueous-falls-74814.herokuapp.com',
         scope: this.requestedScopes
     });
 
