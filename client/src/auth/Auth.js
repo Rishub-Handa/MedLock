@@ -32,6 +32,7 @@ class Auth {
     }
 
     login() {
+        console.log(auth0);
         console.log('Login');
         this.auth0.authorize();
     }
