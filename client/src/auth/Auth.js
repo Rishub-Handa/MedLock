@@ -10,7 +10,7 @@ class Auth {
 
     requestedScopes = 'openid profile read:patients';
 
-    // change these values when in production
+    // change these values when in dev/production
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
         clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
