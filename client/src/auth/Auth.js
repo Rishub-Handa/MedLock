@@ -14,7 +14,7 @@ class Auth {
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
         clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
-        redirectUri: 'https://aqueous-falls-74814.herokuapp.com//callback',
+        redirectUri: 'https://aqueous-falls-74814.herokuapp.com/callback',
         responseType: 'token id_token',
         audience: 'https://aqueous-falls-74814.herokuapp.com',
         scope: this.requestedScopes
