@@ -300,7 +300,7 @@ const fetchAllPatientsFailure = error => ({
 });
 
 export function fetchAllPatients() {
-  console.log("FETCHING ALL PATIENTS");
+  console.log("FETCHING ALL PATIENTS!!!");
   const API_URL = `${MEDLOCK_API}/admin/patient`;
   console.log(API_URL);
   
