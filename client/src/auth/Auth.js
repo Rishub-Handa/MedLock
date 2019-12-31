@@ -10,12 +10,13 @@ class Auth {
 
     requestedScopes = 'openid profile read:patients';
 
+    // change these values when in production
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
         clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
-        redirectUri: 'http://localhost:5000/callback',
+        redirectUri: 'https://aqueous-falls-74814.herokuapp.com//callback',
         responseType: 'token id_token',
-        audience: 'http://localhost:5000',
+        audience: 'https://aqueous-falls-74814.herokuapp.com',
         scope: this.requestedScopes
     });
 
