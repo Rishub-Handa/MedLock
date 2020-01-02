@@ -35,7 +35,6 @@ export const fetchRolesFailure =error => ({
 export function fetchRoles(API_MANAGEMENT_TOKEN) {
     console.log("action initiated: fetchRoles");
     const user_id = auth0client.userProfile.sub; 
-    console.log(user_id);
 
     const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}/roles`;
     const headers = { 

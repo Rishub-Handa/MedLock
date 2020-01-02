@@ -14,6 +14,7 @@ export function getUserByEmail(email, AMT) {
 
 
 export function fetchAMT() {
+    console.log("called function: fetchAMT");
     const AMTHeader = { 
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': MEDLOCK_URL,
