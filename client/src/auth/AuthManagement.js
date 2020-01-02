@@ -1,5 +1,5 @@
 import axios from 'axios'; 
-import { MEDLOCK_URL } from '../../../config/servers';
+import { MEDLOCK_URL } from '../config/servers';
 
 
 export function getUserByEmail(email, AMT) {

@@ -80,6 +80,7 @@ class Dashboard extends Component {
         fetchAMT() 
             .then(res => { 
                 const AMT = res.data.access_token; 
+                console.log(AMT);
                 this.props.fetchRoles(AMT) 
                     .then(() => {
                         console.log(this.props);
