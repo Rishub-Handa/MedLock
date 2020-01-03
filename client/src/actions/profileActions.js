@@ -16,6 +16,7 @@ import {
 
 import axios from 'axios';
 import auth0client from '../auth/Auth';
+import { MEDLOCK_API } from '../config/servers';
 
 const loadProfileBegin = () => ({
     type: LOAD_PROFILE_BEGIN
@@ -37,7 +38,7 @@ const loadProfileFailure = error => ({
 
 export function loadProfile(role) {
     const { getAccessToken } = auth0client;
-    let API_URL = 'http://localhost:5000/api';
+    let API_URL = MEDLOCK_API;
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
     switch (role) {
@@ -79,7 +80,7 @@ const saveProfileFailure = error => ({
 
 export function saveProfile(updatedPersonalData, role) {
     const { getAccessToken } = auth0client;
-    let API_URL = 'http://localhost:5000/api';
+    let API_URL = MEDLOCK_API;
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
     switch (role) {
@@ -129,7 +130,7 @@ const addProfileModuleFailure = error => ({
 
 export function addProfileModule(newProfileModule) {
     const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api/patient';
+    const API_URL = `${MEDLOCK_API}/patient`;
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
     return dispatch => {
@@ -161,7 +162,7 @@ const addDispenserCodeFailure = error => ({
 
 export function addDispenserCode(code) {
     const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api/patient';
+    const API_URL = `${MEDLOCK_API}/patient`;
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
     console.log("Code: " + code); 
     return dispatch => {

@@ -25,7 +25,7 @@ export const fetchRolesSuccess = roles => ({
     }
 });
 
-export const fetchRolesFailure =error => ({
+export const fetchRolesFailure = error => ({
     type: FETCH_ROLES_FAILURE,
     payload: {
         error
@@ -49,7 +49,7 @@ export function fetchRoles(API_MANAGEMENT_TOKEN) {
           dispatch(fetchRolesSuccess(res.data));
         })
         .catch(error => {
-            dispatch(fetchRolesFailure(error))
+            dispatch(fetchRolesFailure(error));
         });
     };
 } 
