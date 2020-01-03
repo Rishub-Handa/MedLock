@@ -10,7 +10,8 @@ class Auth {
 
     requestedScopes = 'openid profile read:patients';
 
-    // change these values when in dev/production
+    // Note: the audience key represents the default key used to request API access.
+    // it should match the API identifier in auth0 and the audience in checkJWT
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
         clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',

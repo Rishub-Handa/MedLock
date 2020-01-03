@@ -5,6 +5,8 @@ import {
 } from './types'; 
 
 import auth0client from '../auth/Auth';
+import { MEDLOCK_API } from '../config/servers';
+
 
 const axios = require('axios'); 
 
@@ -27,7 +29,7 @@ const fetchDispenserFailure = error => ({
 export function fetchDispenser(id) {
     console.log("fetching dispenser with id: " + id);
     const { getAccessToken } = auth0client;
-    const API_URL = 'http://localhost:5000/api';
+    const API_URL = MEDLOCK_API;
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
 
     return dispatch => {

@@ -7,6 +7,7 @@ import {
   FETCH_PDISURVEYS_FAILURE
 } from './types';
 import auth0client from '../auth/Auth';
+import { MEDLOCK_API } from '../config/servers';
 
 const axios = require('axios');
 
@@ -32,7 +33,7 @@ export const submitSurveyFailure = error => ({
 // Submit a survey to the server 
 export function submitSurvey(survey) {
   const { getAccessToken } = auth0client;
-  const API_URL = 'http://localhost:5000/api';
+  const API_URL = MEDLOCK_API;
   const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
   
   return dispatch => {
@@ -66,7 +67,7 @@ export const fetchPDISurveysFailure = error => ({
 // Fetch surveys for a particular user with Access Token 
 export function fetchPDISurveys() {
   const { getAccessToken } = auth0client;
-  const API_URL = 'http://localhost:5000/api';
+  const API_URL = MEDLOCK_API;
   const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
   
   return dispatch => {

@@ -44,13 +44,13 @@ export function createProviderProfile(newProfile, creatorScope) {
     
     switch(creatorScope) {
         case "Admin": 
-            API_URL = 'http://localhost:5000/api/admin/provider'; 
+            API_URL = `${MEDLOCK_API}/admin/provider`; 
             break; 
         case "Provider": 
-            API_URL = 'http://localhost:5000/api/provider'; 
+            API_URL = `${MEDLOCK_API}/provider`; 
             break; 
         default: 
-            API_URL = 'http://localhost:5000/api/provider'; 
+            API_URL = `${MEDLOCK_API}/provider`; 
     }
 
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
