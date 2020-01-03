@@ -23,6 +23,7 @@ import { modules } from '../nav/ModuleInfo';
 import MyPatients from '../myPatients/MyPatients'; 
 import NewUser from './NewUser';
 import { collapseSideBar, expandSideBar, setSideBarToggle } from '../../actions/sideBarActions'; 
+import ReactGA from 'react-ga'; 
 
 class Dashboard extends Component {
     
@@ -41,6 +42,11 @@ class Dashboard extends Component {
 
     displayDispenserCode = () => {
         console.log("Display Dispenser Code. "); 
+        ReactGA.event({
+            category: 'Pop Up Modal', 
+            action: 'Generated dispenser code from Dashboard', 
+            label: 'Add Dispenser from Dashboard' 
+        })
         this.setState({
             toggleCodeDisplay: true 
         }); 
