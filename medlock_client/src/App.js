@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import './App.css';
 import Dashboard from './components/dashboard/Dashboard'; 
 import { Route } from 'react-router-dom'; 
@@ -10,6 +10,10 @@ import Login from './components/login/Login';
 import Admin from './components/administration/Admin'; 
 import { withRouter } from 'react-router-dom';
 import Graphs from './components/graphs/Graphs';
+import ReactGA from 'react-ga'; 
+import history from './components/nav/history'; 
+
+
 
 const handleAuthentication = (nextState, replace) => {
     if (/access_token|id_token|error/.test(nextState.location.hash)) {
@@ -38,7 +42,16 @@ const makeMainRoutes = () => {
 
 export class App extends Component {
 
+
   render() {
+    ReactGA.initialize('UA-155183323-1');
+
+    history.listen((location, action) => {
+      console.log(location); 
+      ReactGA.set({ page: location.pathname }); 
+      ReactGA.pageview(location.pathname); 
+    }); 
+
     return ( 
       <div className="App">
           { makeMainRoutes() } 
