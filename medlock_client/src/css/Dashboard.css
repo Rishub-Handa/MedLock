@@ -2,20 +2,38 @@
     position: relative;
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-rows: minmax(0, 1fr) minmax(0, 8fr) minmax(0, 1fr);
+    grid-template-rows: 65px calc(90% - 65px) 1fr;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
 }
 
 .DispenserCode-container {
     background-color: #fff; 
-    border: 1px solid var(--medlock-blue); 
-
-    height: 80vh;
-    grid-column: 5/9;
+    border: none; 
+    border-radius: 15px;
+    height: 5vw;
+    width: 40vw;
+    text-align: center;
+    padding-top: 1.5vw;
+    font-family: "Montserrat" !important;
+    font-size: 1.3vw;
+    font-weight: bolder;
+    grid-column: 5/6;
     grid-row: 2/3;
     z-index: 3;
-    
+    box-shadow: 0px 0px 10px #f3f3f3;
+    color: var(--medlock-dark-gray);
+}
+
+.DispenserCode > button {
+    background-color: var(--medlock-blue);
+    border-radius: 10px;
+    border: none;
+    border-color: var(--medlock-gray);
+    float: right;
+    margin-right: 10px;
+    color: white;
+    font-weight: bold;
 }
 
 .Grey-Layer {
@@ -56,7 +74,7 @@
 
 .DashIcons-container {
     padding: 1em;
-    width: 90%;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1em;
@@ -76,7 +94,7 @@
     overflow: hidden;
    /* grid-row-start: 2; */
    /* padding: 20px; */
-    margin-top: 1.5vw; /* Add a top margin to avoid content overlay
+    /* margin-top: 1.5vw; /* Add a top margin to avoid content overlay */
    /* margin-left: 16.67vw; /* Add a left margin to avoid sidebar overlay */
 }
 /* 

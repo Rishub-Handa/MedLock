@@ -7,7 +7,6 @@ import { createProviderProfile, fetchAllProviders, deleteProvider } from '../../
 import { fetchAllPatients, deletePatient } from '../../actions/patientActions';
 import { MEDLOCK_API } from '../../config/servers';
 
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import PatientSection from './sections/patients/PatientSection';
 
 import axios from 'axios';
@@ -194,7 +193,7 @@ class Admin extends Component {
             return (
                 <div>
                     <div className="Admin-header">
-                        <h1>MedLock Admin</h1>
+                        <h1 className="header">MedLock Admin</h1>
                     </div>
                     <div className="Admin-content">
                             <PatientSection 

@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Dispenser Schema
 const DispenserSchema = new Schema({
-    // _id: {
-    //     type: Schema.Types.ObjectId,
-    //     // required: true
-    // },
+    _id: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
     pharmacy: {
         name: {
             type: String

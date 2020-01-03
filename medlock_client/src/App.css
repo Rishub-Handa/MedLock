@@ -1,10 +1,14 @@
 .App {
     width: 100vw;
-    height: 100vh;
+    height: minmax(100%, 100vh);
 }
 
 html {
     box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
 }
 
 *, *:before, *:after {
@@ -22,7 +26,7 @@ img {
     --medlock-gray: #a5abbd;
     --medlock-light-gray: #ebebf2;
     --medlock-deep-blue: #22394f;
-    --medlock-red: #C34929;
+    --medlock-red: #c32e29;
 }
 
 body { 
@@ -32,4 +36,5 @@ body {
 .SecuredRoutes-container {
     width: 100%;
     height: 100%;
+    padding: 1vw;
 }

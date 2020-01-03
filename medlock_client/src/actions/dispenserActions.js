@@ -25,6 +25,7 @@ const fetchDispenserFailure = error => ({
 
 // Fetch Dispenses Data from Server 
 export function fetchDispenser(id) {
+    console.log("fetching dispenser with id: " + id);
     const { getAccessToken } = auth0client;
     const API_URL = 'http://localhost:5000/api';
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
@@ -33,6 +34,7 @@ export function fetchDispenser(id) {
         dispatch(fetchDispenserBegin());
         return axios.get(`${API_URL}/dispense?id=` + id, { headers })
         .then(res => { 
+            console.log(res.data);
             dispatch(fetchDispenserSuccess(res.data));
         })
         .catch(error => dispatch(fetchDispenserFailure(error)));

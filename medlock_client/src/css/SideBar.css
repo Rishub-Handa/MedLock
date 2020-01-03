@@ -6,10 +6,10 @@
 
 .SideBar {
     background-color: var(--medlock-blue);
-    position: relative;
+    position: fixed;
     z-index: 2;
-    height: 100%;
-    /* width: 16.67%; */
+    height: 100vh;
+    width: 16.7%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -19,12 +19,26 @@
 }
 
 .logo-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     background-color: var(--medlock-blue);
-    height: 6vw;
-    width: inherit;
-    padding: 20px;
     margin: 0px;
+    padding: 10px 7.5px 10px 7.5px;
     box-shadow: 0 3px 17px 0 rgba(0, 0, 0, 0.16);
+}
+
+.dash-logo {
+    height: 30px;
+}
+
+#collapsedMenuItem {
+    height: 30px;
+    background-color: var(--medlock-blue);
+}
+
+.logo-container:hover {
+    cursor: pointer;
 }
 
 .SideBar-welcome {
@@ -64,6 +78,7 @@
     justify-content: flex-start;
     align-items: center;
     font-size: .9em;
+    margin-bottom: 1px;
     /* border-bottom: .5px solid var(--medlock-dark-blue); */
 }
 
@@ -88,6 +103,7 @@
 
 .ModuleLink:hover {
     background-color: var(--medlock-dark-blue);
+    cursor: pointer;
 }
 
 .logoutButton-container {
@@ -113,3 +129,4 @@
 .SideBar-section {
     padding: 20px
 }
+
