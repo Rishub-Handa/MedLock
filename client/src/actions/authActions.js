@@ -39,7 +39,6 @@ export function fetchRoles(API_MANAGEMENT_TOKEN) {
     const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}/roles`;
     const headers = { 
         authorization: `Bearer ${API_MANAGEMENT_TOKEN}`,
-        'Access-Control-Allow-Origin': MEDLOCK_URL,
     };
     
     return dispatch => {
