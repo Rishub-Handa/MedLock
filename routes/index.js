@@ -39,7 +39,7 @@ const checkJwt = jwt({
 
 // Define Patient Scope 
 router.use('/api/pdisurvey', checkJwt, pdisurvey); 
-router.use('/api/patient/patient', checkJwt, patient); 
+router.use('/api/patient/patient', patient); 
 router.use('/api/dispense', dispense); 
 
 // Define Provider Scope 
