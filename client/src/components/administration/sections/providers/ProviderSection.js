@@ -88,14 +88,16 @@ export default class ProviderSection extends Component {
                             users={this.props.providers}
                             viewUser={this.viewProvider}
                             deleteUser={this.props.deleteProvider}
+                            deleteAll={this.props.deleteAllProviders}
+                            createNew={this.props.createNewProvider}
                         />
                     </div>
                     <div>
                         {this.createNewProviderForm()}
                     </div>
-                    <div>
+                    {/* <div>
                         <Button align="center" className="red-button" onClick={this.props.deleteAllProviders}>Delete All</Button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );

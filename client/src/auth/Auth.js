@@ -1,5 +1,6 @@
 import auth0 from 'auth0-js';
 import history from '../components/nav/history';
+import { MEDLOCK_API, MEDLOCK_URL, MEDLOCK_AUDIENCE } from '../config/servers';
 
 class Auth {
     accessToken;
@@ -15,9 +16,9 @@ class Auth {
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
         clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
-        redirectUri: 'https://aqueous-falls-74814.herokuapp.com/callback',
+        redirectUri: `${MEDLOCK_URL}/callback`,
         responseType: 'token id_token',
-        audience: 'https://aqueous-falls-74814.herokuapp.com/api',
+        audience: MEDLOCK_AUDIENCE,
         scope: this.requestedScopes
     });
 

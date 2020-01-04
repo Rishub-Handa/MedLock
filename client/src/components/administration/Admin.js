@@ -34,6 +34,10 @@ class Admin extends Component {
         console.log(this.state);
     }
 
+    createNewPatient = (name, email) => {
+        console.log("Mock: creating new patient.");
+    }
+
     createNewProvider = (name, email) => {
         fetchAMT() 
             .then(res => {
@@ -198,6 +202,7 @@ class Admin extends Component {
                     <div className="Admin-content">
                             <PatientSection 
                                 patients={patients}
+                                createNewPatient={this.createNewPatient}
                                 deletePatient={this.deletePatient}
                                 deleteAllPatients={this.deleteAllPatients}
                             />

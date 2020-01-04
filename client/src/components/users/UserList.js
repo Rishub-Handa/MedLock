@@ -40,9 +40,17 @@ export default class UserList extends Component {
             <div className="UserList">
                 <div className="UserList-header">
                     <h3>{this.props.title}</h3>
-                    <SearchField
-                        onChange={this.onSearchChange}
-                    />
+                    <div className="UserList-ControlPanel">
+                        <div className="left">
+                            <button onClick={() => this.props.createNew()}>Create New</button>
+                            <button onClick={() => this.props.deleteAll()}>Delete All</button>
+                        </div>
+                        <div className="right">
+                            <SearchField
+                                onChange={this.onSearchChange}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className="Users-container">{this.userHTML(this.props.users)}</div>
             </div>
