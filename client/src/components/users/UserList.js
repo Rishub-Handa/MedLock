@@ -97,7 +97,7 @@ export default class UserList extends Component {
                     <div className="UserList-ControlPanel">
                         <div className="left">
                             <button className="create-new-btn" onClick={() => this.setState({ createNewUserForm: true })}>Create New</button>
-                            <button className="delete" onClick={() => this.props.deleteAllUsers()}>Delete All</button>
+                            <button className="delete-btn" onClick={() => this.props.deleteAllUsers()}>Delete All</button>
                         </div>
                         <div className="right">
                             <SearchField
