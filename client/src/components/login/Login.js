@@ -17,7 +17,10 @@ class Login extends Component {
                     <div id="login-logo">
                         <img className="login-logo" src={bigLogo} />
                     </div>
-                    <Button onClick={auth0client.login} id="login-button">Login</Button>
+                    <div className="btn-container">
+                        <Button onClick={auth0client.login} id="login-button">Login</Button>
+                        <Button onClick={() => console.log("Register Button Clicked!")} id="register-btn">Register</Button>
+                    </div>
                 </div>
         );
     }

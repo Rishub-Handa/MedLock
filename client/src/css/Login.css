@@ -30,7 +30,30 @@
     background-color: white;/*var(--medlock-blue);*/
 } 
 
+.btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 #login-button {
+    position: relative;
+    display: flex;
+    border-width: 5px;
+    border-radius: 1vw;
+    border-color: white;
+    font: var(--medlock-blue);
+    background: var(--medlock-blue);
+    font-weight: bold;
+    font-size: 1.3vw;
+    text-align: center;    
+    margin: auto;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#register-btn {
     position: relative;
     display: flex;
     border-width: 5px;
