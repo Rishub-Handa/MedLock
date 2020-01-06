@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import history from '../nav/history';
-import '../../css/DashIcon.css';
+import '../../css/DashIcon.css'; 
+import ReactGA from 'react-ga'; 
 
 /**
  * Class Component for displaying info about the 
@@ -15,6 +16,13 @@ class DashIcon extends Component {
      * when the DashIcon is clicked.
      */
     route = (e) => {
+        
+        console.log("Dash Icon Route. "); 
+        ReactGA.event({
+            category: 'Dash Icon Click', 
+            action: 'Navigated to ' + this.props.name + ' from Dash', 
+            label: 'Click ' + this.props.name + ' from Dash'
+        }); 
         history.replace(this.props.link);
     };
     

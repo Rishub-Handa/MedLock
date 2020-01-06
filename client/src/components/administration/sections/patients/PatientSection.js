@@ -25,11 +25,13 @@ export default class PatientSection extends Component {
                             users={this.props.patients}
                             viewUser={this.viewUser}
                             deleteUser={this.props.deletePatient}
+                            deleteAllUsers={this.props.deleteAllPatients}
+                            createNewUser={this.props.createNewPatient}
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <Button className="red-button" onClick={this.props.deleteAllPatients}>Delete All</Button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );

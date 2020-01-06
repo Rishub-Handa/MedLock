@@ -13,7 +13,7 @@ const jwksRsa = require('jwks-rsa');
 const path = require('path');
 const config_servers = require('../config/servers');
 
-const MEDLOCK_API = config_servers.MEDLOCK_API;
+const MEDLOCK_AUDIENCE = config_servers.MEDLOCK_AUDIENCE;
 
 const router = express.Router();
 
@@ -32,7 +32,7 @@ const checkJwt = jwt({
     }),
 
     // Validate the audience and the issuer.
-    audience: MEDLOCK_API,
+    audience: MEDLOCK_AUDIENCE,
     issuer: `https://medlock-dev.auth0.com/`,
     algorithms: ['RS256']
 });
