@@ -81,7 +81,11 @@ class Dashboard extends Component {
         this.autoCollapseSideBar(x);
         x.addListener(this.autoCollapseSideBar);
 
-        const { userProfile } = auth0client;
+        const { userProfile } = auth0client; 
+
+        console.log(userProfile); 
+        // ReactGA.set({ userId: userProfile.sub.substring(6) }); 
+        // ReactGA.set({ userId: "123456" }); 
 
         // Fetch the API Management Token. 
         fetchAMT() 
@@ -131,7 +135,12 @@ class Dashboard extends Component {
         return style;
     }
 
-    render() {
+    render() { 
+
+        // ReactGA.ga('create', 'UA-155183323-1', { 'userId': '1234' }); 
+        ReactGA.ga('set', 'dimension1', '1234'); 
+        ReactGA.ga('set', 'userId', 'abc123'); 
+
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
 
