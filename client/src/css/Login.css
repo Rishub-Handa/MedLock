@@ -33,7 +33,7 @@
 .btn-container {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 #login-button {
@@ -47,10 +47,14 @@
     font-weight: bold;
     font-size: 1.3vw;
     text-align: center;    
-    margin: auto;
+    margin: 0 5px 0 0;
     align-content: center;
     justify-content: center;
     text-align: center;
+}
+
+#login-button:hover {
+    background: var(--medlock-dark-blue);
 }
 
 #register-btn {
@@ -64,8 +68,12 @@
     font-weight: bold;
     font-size: 1.3vw;
     text-align: center;    
-    margin: auto;
+    margin: 0 0 0 5px;
     align-content: center;
     justify-content: center;
     text-align: center;
+}
+
+#register-btn:hover {
+    background: var(--medlock-dark-blue);
 }
