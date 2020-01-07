@@ -109,7 +109,6 @@ const assignRolesFailure = error => ({
     }
 });
 
-
 export function assignRoles(user_id, API_MANAGEMENT_TOKEN, role) {
     const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}/roles`;
     const headers = { authorization: `Bearer ${API_MANAGEMENT_TOKEN}`, 
@@ -147,4 +146,6 @@ export function assignRoles(user_id, API_MANAGEMENT_TOKEN, role) {
             });
     }
 }
+
+
 
