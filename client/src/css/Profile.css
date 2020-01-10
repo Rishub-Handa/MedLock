@@ -23,6 +23,7 @@
 }
 
 .biography {
+    /*
     box-shadow: 0 8px 17px 0 rgba(139, 139, 139, 0.4);
     background-color: var(--medlock-light-gray);
     box-sizing: border-box;
@@ -30,6 +31,27 @@
     max-width: 50%;
     border-radius: 15px;
     display: flexbox;
+    */
+    box-shadow: 2px 5px 10px 0
+    hsla(0,0%,74.5%,.4);
+    border-left: 5px solid var(--medlock-dark-blue);
+    border-radius: 5px;
+    text-align: left;
+    background-color: var(--medlock-blue);
+    padding-top: 5px;
+    line-height: 1.3em;
+    padding-bottom: .1em;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-left: 10px;
+    
+}
+.biographyHeader {
+    background: none;
+    display: block;
+    border-radius: 0px;
+    box-sizing: border-box;
+    text-align: left;
 }
 
 .userInfo {
@@ -42,16 +64,6 @@
     display:flexbox;
     max-width: 50%;
     text-align: left;
-}
-.biographyHeader {
-    box-shadow: 0 3px 17px 0 rgba(139, 139, 139, 0.4);
-    background: var(--medlock-blue);
-    display: block;
-    border-radius: 15px 15px 0 0;
-    box-sizing: border-box;
-    color: white;
-    text-align: left;
-    text-indent: 10px;
 }
 
 .profileModules-container {
@@ -74,9 +86,39 @@
 
 .personalInfo-container {
     display: grid;
-    grid-template-columns: 5fr;    
+    grid-template-columns: 5fr;
+    padding: 50px;
+    line-height: 2em;
+    width: 400px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px var(--medlock-light-gray);
+    padding: 15px;
 }
 
+.personalInfo-container:hover {
+    box-shadow: 0px 0px 10px var(--medlock-gray);
+}
 
+.profilePic{
+    height: 110px;
+}
 
+.editProfile{
+    background: none;
+    position: absolute; 
+    color: black;
+    padding: 0;
+    top: 210px;
+    right: 340px;
+    border: none;
+    border: none;
+    float: right;
+    font-weight: 600;
+
+}
+
+.editProfile:hover, .editProfile:active{
+    background: none;
+    color: black;
+}
 
