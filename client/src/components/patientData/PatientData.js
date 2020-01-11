@@ -72,7 +72,7 @@ class PatientData extends Component {
          
         return (
             <div className="pd-container">
-                    <h1 className="pd-title">
+                    <h1 className="header">
                         My Data
                     </h1>
                 <DataView data={data} />
