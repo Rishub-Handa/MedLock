@@ -9,6 +9,12 @@ const ClinicSchema = new Schema({
     name: {
         type: String,
         required: true
+    },
+    providers: { 
+        type: Schema.Types.ObjectId,
+    },
+    patients: {
+        type: Schema.Types.ObjectId,
     }
 });
 
