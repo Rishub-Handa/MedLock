@@ -53,7 +53,9 @@ const PatientSchema = new Schema({
         clinic: {
             type: Schema.Types.ObjectId,
         },
-        providers: []
+        providers: [{
+            type: Schema.Types.ObjectId,
+        }]
     },
     todos: {
         appointments: [],

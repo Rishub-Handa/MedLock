@@ -10,12 +10,12 @@ const ClinicSchema = new Schema({
         type: String,
         required: true
     },
-    providers: { 
+    providers: [{ 
         type: Schema.Types.ObjectId,
-    },
-    patients: {
+    }],
+    patients: [{
         type: Schema.Types.ObjectId,
-    }
+    }]
 });
 
 module.exports = ClinicSchema;

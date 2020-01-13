@@ -7,17 +7,21 @@ console.log('Reached /api/clinic/clinic endpoint');
 
 router.get('/', (req, res) => {
     // get all clinics
-    const clinics = [
-        {
-            _id: "12345",
-            name: "Ashburn MAT",
-        },
-        {
-            _id: "54321",
-            name: "Charlottesville MAT"
-        }
-    ];
-    res.json(clinics);
+    Clinic.find()
+        .then(clinics => {
+            res.json(clinics);
+        });
+    // const clinics = [
+    //     {
+    //         _id: "12345",
+    //         name: "Ashburn MAT",
+    //     },
+    //     {
+    //         _id: "54321",
+    //         name: "Charlottesville MAT"
+    //     }
+    // ];
+    // res.json(clinics);
 
 });
 
