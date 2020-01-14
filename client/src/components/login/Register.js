@@ -6,6 +6,7 @@ import auth0client from '../../auth/Auth';
 import { auth0Registration, assignRoles } from '../../actions/authActions';
 import { MEDLOCK_API } from '../../config/servers';
 import { createPatientProfile } from '../../actions/patientActions';
+import '../../css/Register.css';
 
 const axios = require('axios');
 
@@ -93,7 +94,7 @@ class Register extends Component {
 
     render() {
         return (
-            <div>
+            <div className="Register">
                 <Form>
                     <FormGroup required>
                         <Label for="pi-name">Full Name</Label>

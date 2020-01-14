@@ -59,7 +59,7 @@ router.use('/api/chatAuth', chatAuth);
 router.use('/api/email', email); 
 
 router.use('/api/patient/register', patientRegister);
-router.use('/api/clinic/clinic', clinic);
+router.use('/api/clinic', clinic);
 
 // If no API routes are hit, send the React app
 router.use(function(req, res) {

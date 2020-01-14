@@ -1,10 +1,11 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux'; 
 import { saveProfile } from '../../actions/profileActions'; 
-import { fetchAllClinics } from '../../actions/clinicActions';
+import { fetchAllClinics, fetchAllProvidersAtClinic } from '../../actions/clinicActions';
 import { resetPassword } from '../../auth/AuthManagement'; 
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import auth0client from '../../auth/Auth';
+import '../../css/NewUser.css';
 
 class NewUser extends Component {
 
@@ -22,8 +23,8 @@ class NewUser extends Component {
                 }
             },
             medicalData: {
-                clinic: "",
-                provider: "",
+                clinic: null,
+                provider: null,
             }
         };
     }
@@ -48,7 +49,12 @@ class NewUser extends Component {
                     ...this.state.medicalData,
                     [e.target.name]: e.target.value
                 }
-            })
+            });
+            // when the selected clinic is changed, fetch the associated providers
+            if (e.target.name === "clinic") {
+                const clinicId = e.target.value;
+                this.props.fetchAllProvidersAtClinic(clinicId);
+            }
         } else if (e.target.name === "street" || e.target.name === "city"   ||
             e.target.name === "state"  || e.target.name === "zip") {
             this.setState({
@@ -73,17 +79,40 @@ class NewUser extends Component {
     clinicsToOptions = () => {
         return this.props.clinics.map(clinic => { 
             return (
-                <option>{clinic.name}</option>
+                <option value={clinic._id}>{clinic.name}</option>
             )
-        })
+        });
+    }
+
+    providersToOptions = () => {
+        return this.props.providers.map(provider => {
+            return (
+                <option>{provider.personalData.name}</option>
+            )
+        });
+    }
+
+    showSelectProvidersAtClinic = () => {
+        if (this.state.medicalData.clinic == null) {
+            return (
+                <Input type="select" name="provider" id="pi-provider" placeholder="select provider" value={this.state.medicalData.provider} onChange={this.onChange} disabled>
+                </Input>
+            );
+        } else {
+            return (
+                <Input type="select" name="clinic" id="pi-provider" placeholder="select provider" value={this.state.medicalData.provider} onChange={this.onChange}>
+                    {this.providersToOptions()}
+                </Input>
+            );
+        }
     }
 
     render() {
-        if (!this.props.clinicsFetched || this.props.clinicsFetching) {
+        if (!this.props.clinicsFetched || this.props.clinicsFetching || this.props.providersFetching) {
             return <div>Loading...</div>
         } else {
             return (
-                <div>
+                <div className="NewUser">
                     <Form>
                         <FormGroup required>
                             <Label for="pi-name">Full Name</Label>
@@ -98,6 +127,10 @@ class NewUser extends Component {
                             <Input type="select" name="clinic" id="pi-clinic" value={this.state.medicalData.clinic} onChange={this.onChange}>
                                 {this.clinicsToOptions()}
                             </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="pi-provider">Providers</Label>
+                            {this.showSelectProvidersAtClinic()}
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-sex">Sex</Label>
@@ -155,7 +188,11 @@ const mapStateToProps = state => ({
     clinics: state.clinicState.clinics,
     clinicsFetching: state.clinicState.clinicsFetching,
     clinicsFetched: state.clinicState.clinicsFetched,
-    clinicsError: state.clinicState.clinicsError
+    clinicsError: state.clinicState.clinicsError,
+
+    providers: state.clinicState.providers,
+    providersFetching: state.clinicState.providersFetching,
+    providersFetched: state.clinicState.providersFetched,
 });
 
-export default connect(mapStateToProps, { saveProfile, fetchAllClinics })(NewUser); 
+export default connect(mapStateToProps, { saveProfile, fetchAllClinics, fetchAllProvidersAtClinic })(NewUser); 

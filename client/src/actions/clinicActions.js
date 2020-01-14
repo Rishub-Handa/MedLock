@@ -2,6 +2,9 @@ import {
     FETCH_ALL_CLINICS_BEGIN,
     FETCH_ALL_CLINICS_SUCCESS,
     FETCH_ALL_CLINICS_FAILURE,
+    FETCH_ALL_PROVIDERS_AT_CLINIC_BEGIN,
+    FETCH_ALL_PROVIDERS_AT_CLINIC_SUCCESS,
+    FETCH_ALL_PROVIDERS_AT_CLINIC_FAILURE
 } from './types';
 
 import axios from 'axios';
@@ -30,7 +33,7 @@ export function fetchAllClinics() {
     const {
         getAccessToken
     } = auth0client;
-    let API_URL = `${MEDLOCK_API}/clinic/clinic`;
+    let API_URL = `${MEDLOCK_API}/clinic`;
     const headers = {
         'Authorization': `Bearer ${getAccessToken()}`
     }
@@ -47,6 +50,48 @@ export function fetchAllClinics() {
                 console.log(error);
                 dispatch(fetchAllClinicsFailure(error));
             });
-        
+    }
+}
+
+const fetchAllProvidersAtClinicBegin = () => ({
+    type: FETCH_ALL_PROVIDERS_AT_CLINIC_BEGIN
+});
+
+const fetchAllProvidersAtClinicSuccess = (providers) => ({
+    type: FETCH_ALL_PROVIDERS_AT_CLINIC_SUCCESS,
+    payload: {
+        providers
+    }
+
+});
+
+const fetchAllProvidersAtClinicFailure = (error) => ({
+    type: FETCH_ALL_PROVIDERS_AT_CLINIC_FAILURE,
+    payload: {
+        error
+    }
+});
+
+export function fetchAllProvidersAtClinic(clinicId) {
+    const {
+        getAccessToken
+    } = auth0client;
+    let API_URL = `${MEDLOCK_API}/clinic/providers`;
+    const headers = {
+        'Authorization': `Bearer ${getAccessToken()}`
+    }
+
+    return dispatch => {
+        dispatch(fetchAllClinicsBegin());
+        return axios.post(API_URL, {'_id': clinicId}, { headers })
+            .then(res => {
+                var providers = res.data;
+                console.log(providers);
+                dispatch(fetchAllClinicsSuccess(providers));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(fetchAllClinicsFailure(error));
+            });
     }
 }
