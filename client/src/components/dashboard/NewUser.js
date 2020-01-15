@@ -43,18 +43,17 @@ class NewUser extends Component {
     }
 
     onChange = e => {
-        if (e.target.name === "clinic" || e.target.name === "provider") {
+        if (e.target.name === "clinic") {
+            const clinicId = e.target.value;
             this.setState({
                 medicalData: {
                     ...this.state.medicalData,
-                    [e.target.name]: e.target.value
+                    [e.target.name]: clinicId
                 }
-            });
-            // when the selected clinic is changed, fetch the associated providers
-            if (e.target.name === "clinic") {
-                const clinicId = e.target.value;
+            }, () => {
+                // when the selected clinic is changed, fetch the associated providers
                 this.props.fetchAllProvidersAtClinic(clinicId);
-            }
+            });
         } else if (e.target.name === "street" || e.target.name === "city"   ||
             e.target.name === "state"  || e.target.name === "zip") {
             this.setState({
@@ -93,14 +92,18 @@ class NewUser extends Component {
     }
 
     showSelectProvidersAtClinic = () => {
-        if (this.state.medicalData.clinic == null) {
+        console.log("showSelectProvidersAtClinic");
+        console.log(this.state);
+        console.log(this.props);
+        // not seeing providers or clinics on new user form
+        if (this.state.medicalData.clinic == null || this.props.providersFetching) {
             return (
                 <Input type="select" name="provider" id="pi-provider" placeholder="select provider" value={this.state.medicalData.provider} onChange={this.onChange} disabled>
                 </Input>
             );
         } else {
             return (
-                <Input type="select" name="clinic" id="pi-provider" placeholder="select provider" value={this.state.medicalData.provider} onChange={this.onChange}>
+                <Input type="select" name="provider" id="pi-provider" placeholder="select provider" value={this.state.medicalData.provider} onChange={this.onChange}>
                     {this.providersToOptions()}
                 </Input>
             );

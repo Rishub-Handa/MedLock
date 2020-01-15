@@ -82,16 +82,16 @@ export function fetchAllProvidersAtClinic(clinicId) {
     }
 
     return dispatch => {
-        dispatch(fetchAllClinicsBegin());
+        dispatch(fetchAllProvidersAtClinicBegin());
         return axios.post(API_URL, {'_id': clinicId}, { headers })
             .then(res => {
                 var providers = res.data;
                 console.log(providers);
-                dispatch(fetchAllClinicsSuccess(providers));
+                dispatch(fetchAllProvidersAtClinicSuccess(providers));
             })
             .catch(error => {
                 console.log(error);
-                dispatch(fetchAllClinicsFailure(error));
+                dispatch(fetchAllProvidersAtClinicFailure(error));
             });
     }
 }
