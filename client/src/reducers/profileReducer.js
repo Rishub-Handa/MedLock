@@ -68,7 +68,9 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 profileSaving: false,
-                profile: action.payload.updatedProfile  
+                profile: {
+                    personalData: action.payload.updatedPersonalData
+                }
             };
         case SAVE_PROFILE_FAILURE:
             return {

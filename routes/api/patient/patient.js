@@ -55,33 +55,19 @@ router.get('/modules', (req, res) => {
 // @desc    update existing patient
 // @access  Private, requires Auth0 Access Token 
 router.put('/', (req, res) => {
-    console.log(req.body);
     var patientId = req.user.sub.substring(6);
     Patient.findById(patientId, (err, patient) => {
         if (err) return res.status(500).send(err); 
 
-        // update personalData
-        for(var property in req.body.medicalData) {
-            if (property == "provider") {
-                var provider = req.body.medicalData.provider;
-                patient.medicalData.providers.push(provider);
-            } else {
-                patient.medicalData[property] = req.body.medicalData[property];
-            }
-        } 
-
-        for(var property in req.body.personalData) {
-            patient.personalData[property] = req.body.personalData[property];
+        for(var property in req.body) {
+            patient.personalData[property] = req.body[property]; 
         }
-
-        console.log("presaved...");
-        console.log(patient);
 
         return patient.save()
             .then(patient => {
                 console.log("Patient Updated.");
-                console.log(patient);
-                res.send(patient);
+                console.log(patient.personalData);
+                res.send(patient.personalData);
             });
     });
     // Patient.findByIdAndUpdate(

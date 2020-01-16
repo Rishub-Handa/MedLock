@@ -64,10 +64,10 @@ const saveProfileBegin = () => ({
     type: SAVE_PROFILE_BEGIN
 });
 
-const saveProfileSuccess = updatedProfile => ({
+const saveProfileSuccess = updatedPersonalData => ({
     type: SAVE_PROFILE_SUCCESS,
     payload: {
-        updatedProfile
+        updatedPersonalData
     }
 });
 
@@ -78,7 +78,7 @@ const saveProfileFailure = error => ({
     }
 });
 
-export function saveProfile(updatedProfile, role) {
+export function saveProfile(updatedPersonalData, role) {
     const { getAccessToken } = auth0client;
     let API_URL = MEDLOCK_API;
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
@@ -94,8 +94,9 @@ export function saveProfile(updatedProfile, role) {
 
     return dispatch => {
         dispatch(saveProfileBegin());
-        return axios.put(`${API_URL}`, updatedProfile, { headers })
+        return axios.put(`${API_URL}`, updatedPersonalData, { headers })
             .then(res => {
+                console.log(res.data);
                 dispatch(saveProfileSuccess(res.data));
             })
             .catch(error => dispatch(saveProfileFailure(error)));
