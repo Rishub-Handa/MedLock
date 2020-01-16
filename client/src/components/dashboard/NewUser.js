@@ -12,19 +12,21 @@ class NewUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            personalData: {
-                ...props.profile.personalData,
-                sex: "Other",
-                address: {
-                    street: "",
-                    city: "",
-                    state: "",
-                    zip: ""
+            profile: {
+                personalData: {
+                    ...props.profile.personalData,
+                    sex: "Other",
+                    address: {
+                        street: "",
+                        city: "",
+                        state: "",
+                        zip: ""
+                    }
+                },
+                medicalData: {
+                    clinic: null,
+                    provider: null,
                 }
-            },
-            medicalData: {
-                clinic: null,
-                provider: null,
             }
         };
     }
@@ -35,7 +37,7 @@ class NewUser extends Component {
 
     onSubmit = e => {
         e.preventDefault(); 
-        this.props.saveProfile(this.state.personalData, this.props.role); 
+        this.props.saveProfile(this.state.profile, this.props.role); 
         
         // Send Password Reset Email and Test Temporary Password Email 
         resetPassword(this.props.profile.personalData.email); 
@@ -46,30 +48,49 @@ class NewUser extends Component {
         if (e.target.name === "clinic") {
             const clinicId = e.target.value;
             this.setState({
-                medicalData: {
-                    ...this.state.medicalData,
-                    [e.target.name]: clinicId
+                profile: {
+                    ...this.state.profile,
+                    medicalData: {
+                        ...this.state.profile.medicalData,
+                        [e.target.name]: clinicId
+                    }
                 }
             }, () => {
                 // when the selected clinic is changed, fetch the associated providers
                 this.props.fetchAllProvidersAtClinic(clinicId);
             });
+        } else if (e.target.name === "provider") {
+            this.setState({
+                profile: {
+                    ...this.state.profile,
+                    medicalData: {
+                        ...this.state.profile.medicalData,
+                        [e.target.name]: e.target.value
+                    }
+                }
+            });
         } else if (e.target.name === "street" || e.target.name === "city"   ||
             e.target.name === "state"  || e.target.name === "zip") {
             this.setState({
-                personalData: {
-                    ...this.state.personalData,
-                    address: {
-                        ...this.state.personalData.address,
-                        [e.target.name]: e.target.value
+                profile: {
+                    ...this.state.profile,
+                    personalData: {
+                        ...this.state.profile.personalData,
+                        address: {
+                            ...this.state.profile.personalData.address,
+                            [e.target.name]: e.target.value
+                        }
                     }
                 }
             });
         } else {
             this.setState({ 
-                personalData: {
-                    ...this.state.personalData,
-                    [e.target.name]: e.target.value 
+                profile: {
+                    ...this.state.profile,
+                    personalData: {
+                        ...this.state.profile.personalData,
+                        [e.target.name]: e.target.value 
+                    }
                 }
             });
         }
@@ -86,24 +107,21 @@ class NewUser extends Component {
     providersToOptions = () => {
         return this.props.providers.map(provider => {
             return (
-                <option>{provider.personalData.name}</option>
+                <option value={provider._id}>{provider.personalData.name}</option>
             )
         });
     }
 
     showSelectProvidersAtClinic = () => {
-        console.log("showSelectProvidersAtClinic");
-        console.log(this.state);
-        console.log(this.props);
         // not seeing providers or clinics on new user form
-        if (this.state.medicalData.clinic == null || this.props.providersFetching) {
+        if (this.state.profile.medicalData.clinic == null || this.props.providersFetching) {
             return (
-                <Input type="select" name="provider" id="pi-provider" placeholder="select provider" value={this.state.medicalData.provider} onChange={this.onChange} disabled>
+                <Input type="select" name="provider" id="pi-provider" placeholder="select provider" value={this.state.profile.medicalData.provider} onChange={this.onChange} disabled>
                 </Input>
             );
         } else {
             return (
-                <Input type="select" name="provider" id="pi-provider" placeholder="select provider" value={this.state.medicalData.provider} onChange={this.onChange}>
+                <Input type="select" name="provider" id="pi-provider" placeholder="select provider" value={this.state.profile.medicalData.provider} onChange={this.onChange}>
                     {this.providersToOptions()}
                 </Input>
             );
@@ -119,15 +137,15 @@ class NewUser extends Component {
                     <Form>
                         <FormGroup required>
                             <Label for="pi-name">Full Name</Label>
-                            <Input type="text" name="name" id="pi-name" placeholder="Jon Snow" value={this.state.personalData.name} onChange={this.onChange} />
+                            <Input type="text" name="name" id="pi-name" placeholder="Jon Snow" value={this.state.profile.personalData.name} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup required>
                             <Label for="pi-email">Email</Label>
-                            <Input type="email" name="email" id="pi-email" placeholder="jon.snow@nightswatch.org" value={this.state.personalData.email} onChange={this.onChange} />
+                            <Input type="email" name="email" id="pi-email" placeholder="jon.snow@nightswatch.org" value={this.state.profile.personalData.email} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-clinic">Clinic</Label>
-                            <Input type="select" name="clinic" id="pi-clinic" value={this.state.medicalData.clinic} onChange={this.onChange}>
+                            <Input type="select" name="clinic" id="pi-clinic" value={this.state.profile.medicalData.clinic} onChange={this.onChange}>
                                 {this.clinicsToOptions()}
                             </Input>
                         </FormGroup>
@@ -137,7 +155,7 @@ class NewUser extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-sex">Sex</Label>
-                            <Input type="select" name="sex" id="pi-sex" value={this.state.personalData.sex} onChange={this.onChange}>
+                            <Input type="select" name="sex" id="pi-sex" value={this.state.profile.personalData.sex} onChange={this.onChange}>
                                 <option>Male</option>
                                 <option>Female</option>
                                 <option>Other</option>
@@ -145,35 +163,35 @@ class NewUser extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-dob">Birthday</Label>
-                            <Input type="date" name="birthday" id="pi-dob" value={this.state.personalData.birthday} onChange={this.onChange} />
+                            <Input type="date" name="birthday" id="pi-dob" value={this.state.profile.personalData.birthday} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-addr">Address</Label>
-                            <Input type="text" name="street" id="pi-addr" placeholder="123 Direwolf Ave" value={this.state.personalData.address.street} onChange={this.onChange} />
+                            <Input type="text" name="street" id="pi-addr" placeholder="123 Direwolf Ave" value={this.state.profile.personalData.address.street} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-city">City</Label>
-                            <Input type="text" name="city" id="pi-city" placeholder="Winterfell" value={this.state.personalData.address.city} onChange={this.onChange} />
+                            <Input type="text" name="city" id="pi-city" placeholder="Winterfell" value={this.state.profile.personalData.address.city} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-state">State</Label>
-                            <Input type="text" name="state" id="pi-state" placeholder="The North" value={this.state.personalData.address.state} onChange={this.onChange} />
+                            <Input type="text" name="state" id="pi-state" placeholder="The North" value={this.state.profile.personalData.address.state} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-zip">Zip</Label>
-                            <Input type="text" name="zip" id="pi-zip" placeholder="12345" value={this.state.personalData.address.zip} onChange={this.onChange} />
+                            <Input type="text" name="zip" id="pi-zip" placeholder="12345" value={this.state.profile.personalData.address.zip} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-phone">Phone</Label>
-                            <Input type="text" name="phone" id="pi-phone" placeholder="(555) 555-5555" value={this.state.personalData.phone} onChange={this.onChange}  />
+                            <Input type="text" name="phone" id="pi-phone" placeholder="(555) 555-5555" value={this.state.profile.personalData.phone} onChange={this.onChange}  />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-chatname">Chat Name</Label>
-                            <Input type="text" name="chatname" id="pi-chatname" placeholder="jsnow" value={this.state.personalData.chatname} onChange={this.onChange} />
+                            <Input type="text" name="chatname" id="pi-chatname" placeholder="jsnow" value={this.state.profile.personalData.chatname} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup required>
                             <Label for="pi-bio">Biography</Label>
-                            <Input type="textarea" name="bio" id="pi-bio" placeholder="I lived one hell of a life (and death and life). Heir to the Iron Throne but raised as a bastard. I rode a dragon a couple times. Also, I had sex with my aunt, then killed her." value={this.state.personalData.bio} onChange={this.onChange} />
+                            <Input type="textarea" name="bio" id="pi-bio" placeholder="I lived one hell of a life (and death and life). Heir to the Iron Throne but raised as a bastard. I rode a dragon a couple times. Also, I had sex with my aunt, then killed her." value={this.state.profile.personalData.bio} onChange={this.onChange} />
                         </FormGroup>
                         <Button onClick={this.onSubmit}>Save</Button>
                     </Form>
