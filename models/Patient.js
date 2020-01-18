@@ -52,7 +52,12 @@ const PatientSchema = new Schema({
             type: Array 
         }, 
         prescription: PrescriptionSchema,
-        providers: []
+        clinic: {
+            type: Schema.Types.ObjectId,
+        },
+        providers: [{
+            type: Schema.Types.ObjectId,
+        }]
     },
     todos: {
         appointments: [],

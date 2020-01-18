@@ -12,6 +12,7 @@ import { withRouter } from 'react-router-dom';
 // import Graphs from './components/graphs/Graphs';
 import ReactGA from 'react-ga'; 
 import history from './components/nav/history'; 
+import Register from './components/login/Register';
 
 const trackingId = "UA-155183323-1"; 
 ReactGA.initialize(trackingId, {
@@ -37,6 +38,7 @@ const makeMainRoutes = () => {
     <div>
       <Route exact path="/" component={Login} />
       <Route exact path="/admin" component={Admin} />
+      <Route exact path="/register" component={Register} />
       <SecuredRoute path="/home" component={Home} />
       <SecuredRoute path="/dashboard" component={Dashboard} />
       <Route path="/callback" render={(props) =>{
