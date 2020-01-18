@@ -39,6 +39,9 @@ const ProviderSchema = new Schema({
         }
     },
     medicalData: {
+        clinic: {
+            type: Schema.Types.ObjectId,
+        },
         patients: [PatientInfoSchema],
         providers: [ProviderInfoSchema]
     }
