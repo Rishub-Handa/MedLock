@@ -97,10 +97,10 @@ PatientData.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    allPDISurveys: state.surveyState.responses, 
-    surveysLoading: state.surveyState.surveysLoading,
-    surveysLoaded: state.surveyState.surveysLoaded,
-    surveyError: state.surveyState.error,  
+    allPDISurveys: state.surveyState.PDIResponses, 
+    surveysLoading: state.surveyState.PDISurveysLoading,
+    surveysLoaded: state.surveyState.PDISurveysLoaded,
+    surveyError: state.surveyState.PDIError,  
     dispenser: state.dispenseState.dispenser, 
     dispenserLoading: state.dispenseState.dispenserLoading,
     dispenserLoaded: state.dispenseState.dispenserLoaded,

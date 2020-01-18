@@ -13,7 +13,14 @@ import { withRouter } from 'react-router-dom';
 import ReactGA from 'react-ga'; 
 import history from './components/nav/history'; 
 
-// ReactGA.ga('set', 'userId', '1234'); 
+const trackingId = "UA-155183323-1"; 
+ReactGA.initialize(trackingId, {
+  debug: true, // Turn Off Deployment 
+  titleCase: false 
+  // gaOptions: {
+  //   userId: 123
+  // }
+});
 
 
 const handleAuthentication = (nextState, replace) => {
@@ -43,16 +50,7 @@ const makeMainRoutes = () => {
 export class App extends Component {
 
 
-  render() {
-    // ReactGA.initialize('UA-155183323-1'); 
-    // var USER_ID = "1234"; 
-    // ReactGA.ga('set', 'userId', USER_ID); 
-    // ReactGA.set({ userId: USER_ID }); 
-
-    ReactGA.ga('create', 'UA-155183323-1', 'auto', {'userId': 'as8eknlll'});
-
-    // ReactGA.ga('create', 'UA-155183323-1', { 'userId': '1234' }); 
-    // ReactGA.ga('set', 'dimension1', '1234'); 
+  render() { 
 
     history.listen((location, action) => {
       console.log(location); 
