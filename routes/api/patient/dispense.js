@@ -59,7 +59,7 @@ router.post('/', (req, res) => {
                 if(err) console.log(err); 
 
                 if(patient) {
-                    dispenser = new Dispenser(); 
+                    dispenser = new Dispenser({ _id: mongoose.Types.ObjectId() }); 
                     console.log("Creating Dispenser. "); 
 
                     return dispenser.save()

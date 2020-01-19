@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux'; 
-import { submitSurvey } from '../../actions/surveyActions'; 
+import { submitPDISurvey } from '../../actions/surveyActions'; 
 import PropTypes from 'prop-types';
 
 class PDISurvey extends Component { 
@@ -32,7 +32,7 @@ class PDISurvey extends Component {
         ]
 
         console.log(responses);
-        this.props.submitSurvey(responses); 
+        this.props.submitPDISurvey(responses); 
     }
 
     render() {
@@ -132,9 +132,9 @@ PDISurvey.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    surveyResponse: state.surveyState.surveyResponse,
-    loading: state.surveyState.loading, 
-    error: state.surveyState.error 
+    surveyResponse: state.surveyState.PDISurveyResponse,
+    loading: state.surveyState.PDILoading, 
+    error: state.surveyState.PDIError 
 });
 
-export default connect(mapStateToProps, { submitSurvey })(PDISurvey); 
+export default connect(mapStateToProps, { submitPDISurvey })(PDISurvey); 
