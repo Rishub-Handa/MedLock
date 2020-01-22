@@ -7,6 +7,8 @@ import '../../css/PatientData.css';
 import PDISurveyBar from '../graphs/PDISurveyBar';
 import DateTimeScatter from '../graphs/DateTimeScatter';
 import DataView from './DataView';
+import CheckIn from './CheckIn'; 
+import { addCheckIn } from '../../actions/patientActions'; 
 
 /** 
  * Component for displaying individual patient data
@@ -16,14 +18,23 @@ import DataView from './DataView';
 class PatientData extends Component {
 
     state = {
-        retrievedData: false
+        retrievedData: false, 
+        showCheckIn: false 
+    } 
+
+    submitCheckIn = (checkInResponses) => {
+        console.log(checkInResponses); 
+        this.setState({ showCheckIn: false }); 
+        this.props.addCheckIn(checkInResponses); 
+        
+        // Show submitted CheckIn 
     }
 
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
         this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
-    }
+    } 
 
     render() {        
         const { allPDISurveys, 
@@ -33,7 +44,10 @@ class PatientData extends Component {
                 dispenser, 
                 dispenserLoading, 
                 dispenserLoaded,
-                dispenserError } = this.props; 
+                dispenserError, 
+                checkInData, 
+                checkInLoading, 
+                checkInError } = this.props; 
 
         console.log(dispenser);
 
@@ -72,9 +86,16 @@ class PatientData extends Component {
          
         return (
             <div className="pd-container">
-                    <h1 className="pd-title">
-                        My Data
-                    </h1>
+                <h1 className="pd-title">
+                    My Data
+                </h1>
+                {!checkInData && !checkInLoading && !checkInError && !this.state.showCheckIn && 
+                    <button onClick={() => { this.setState({ showCheckIn: true }); }}>Add Check In</button>} 
+                {!checkInData && !checkInLoading && !checkInError && this.state.showCheckIn && 
+                    <CheckIn submitData={this.submitCheckIn}/>}
+                {checkInLoading && <p>Loading . . .</p>}
+                {checkInError && <p>There was an error in sending the data. </p>}
+                {checkInData && <p>Thank you, the data has been saved. </p>}
                 <DataView data={data} />
             </div>
         );
@@ -104,9 +125,11 @@ const mapStateToProps = state => ({
     dispenser: state.dispenseState.dispenser, 
     dispenserLoading: state.dispenseState.dispenserLoading,
     dispenserLoaded: state.dispenseState.dispenserLoaded,
-    dispenserError: state.dispenseState.error 
+    dispenserError: state.dispenseState.error, 
+    checkInData: state.patientState.checkInData,
+    checkInLoading: state.patientState.checkInLoading, 
+    checkInError: state.patientState.checkInError 
 
 });
 
-export default connect(mapStateToProps, { fetchPDISurveys, fetchDispenser })(PatientData);
-
+export default connect(mapStateToProps, { fetchPDISurveys, fetchDispenser, addCheckIn })(PatientData); 
