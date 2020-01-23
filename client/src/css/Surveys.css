@@ -1,0 +1,12 @@
+.survey-container {
+    margin: 40px;
+}
+
+.description{
+    
+}
+
+.question-description{
+    color: var(--medlock-dark-gray);
+    font-size: small;
+}

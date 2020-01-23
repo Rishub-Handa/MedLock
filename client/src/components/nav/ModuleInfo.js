@@ -1,5 +1,5 @@
 // Include Profiles Section 
-import InboxIcon from '../../icons/round-email-24px.svg';
+// import InboxIcon from '../../icons/round-email-24px.svg';
 import MyDataIcon from '../../icons/round-timeline-24px.svg';
 import ResourcesIcon from '../../icons/round-folder-24px.svg';
 import DashboardIcon from '../../icons/round-home-24px.svg';
@@ -16,24 +16,24 @@ export const modules = [
         },
         link: '/dashboard',
     }, 
-    {
-        name: 'Inbox', 
-        id: 'inbox',
-        roles: [
-            {
-                name: 'Provider', 
-                description: 'Access messages from patients and other providers'
-            }, 
-            {
-                name: 'Patient', 
-                description: 'Access messages from my providers '
-            }
-        ], 
-        content: {
-            icon: InboxIcon, 
-        },
-        link: '/dashboard/inbox'
-    },
+    // {
+    //     name: 'Inbox', 
+    //     id: 'inbox',
+    //     roles: [
+    //         {
+    //             name: 'Provider', 
+    //             description: 'Access messages from patients and other providers'
+    //         }, 
+    //         {
+    //             name: 'Patient', 
+    //             description: 'Access messages from my providers '
+    //         }
+    //     ], 
+    //     content: {
+    //         icon: InboxIcon, 
+    //     },
+    //     link: '/dashboard/inbox'
+    // },
     {
         name: 'My Data',
         id: 'mydata',

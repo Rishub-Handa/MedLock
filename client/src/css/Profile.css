@@ -106,13 +106,9 @@
 .editProfile{
     background: none;
     position: absolute; 
+    margin-top: 75px;
     color: black;
-    padding: 0;
-    top: 210px;
-    right: 340px;
     border: none;
-    border: none;
-    float: right;
     font-weight: 600;
 
 }
