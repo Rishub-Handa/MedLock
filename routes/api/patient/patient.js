@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose'); 
 const Patient = require('../../../models/Patient');
 const Dispenser = require('../../../models/Dispenser');
+const CheckIn = require('../../../models/CheckIn'); 
 
 const router = express.Router();
 
@@ -102,6 +103,43 @@ router.post('/code', (req, res) => {
             })
     }); 
 
+}); 
+
+router.post('/checkIn', (req, res) => {
+    console.log("CheckIn POST Request");
+    // Patient.updateOne(
+    //     { "_id": req.user.sub.substring(6) },
+    //     { "$push":
+    //         { "modules":
+    //             {
+    //                 "name": req.body.name,
+    //                 "content": req.body.content
+    //             }    
+    //         }
+    //     }
+    // )
+    //     .then(profileModule => res.json(profileModule))
+    //     .catch(err => res.json(err)); 
+
+    console.log(req.body); 
+
+    var id = req.user.sub.substring(6);
+
+    Patient.findById(id)
+        .then(patient => {
+            const newCheckIn = new CheckIn({
+                data: req.body, 
+            }); 
+
+            patient.medicalData.checkIns.push(newCheckIn); 
+
+            patient.save() 
+                .then(patient => {
+                    res.json(patient.medicalData.checkIns); 
+                }) 
+                .catch(error => console.log(error));
+        })
+        .catch(error => res.status(404).json(error));
 });
 
 module.exports = router;
