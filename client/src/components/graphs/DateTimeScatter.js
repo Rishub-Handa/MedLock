@@ -224,6 +224,10 @@ export default class DateTimeScatter extends Component {
 
         const ids = [];
 
+        // var combinedPoints = this.combineClosePoints(data);
+        // console.log("post");
+        // var newData = combinedPoints[0];
+        // var rScale = combinedPoints[1];
         chart.selectAll()
             .data(data).enter()
             .append("circle")
@@ -248,6 +252,52 @@ export default class DateTimeScatter extends Component {
             chart,
             config,
         });
+    }
+
+    combineClosePoints = (data) => {
+        data = JSON.parse(JSON.stringify(data));
+        console.log('combining on data:');
+        console.log(data);
+        // assume they all have the same date for now and are sorted in ascending order according to seconds
+        // loop over each data point
+        var i = 0; 
+        var newData = [];
+        var rScale = [];
+        while (i < data.length) {
+            console.log(i);
+            var r = 1;
+            var j = i+1;
+            var newPoint = data[i];
+            if (i == data.length - 1) {
+                newData.push(newPoint);
+                rScale.push(1);
+                return [newData, rScale];
+            }
+            while (j < data.length) {
+                var day_i = newPoint[0];
+                var day_j = data[j][0];
+                var time_i = newPoint[1];
+                var time_j = data[j][1];
+                if (day_i == day_j) {
+                    console.log("true");
+                } else {
+                    console.log("false");
+                }
+    
+                if (day_i == day_j && (time_j - time_i <= 60)) {
+                    var avgTime = (time_i + time_j) / 2;
+                    newPoint[1] = avgTime;
+                    j += 1;
+                    r += 1;
+                } else {
+                    newData.push(newPoint);
+                    rScale.push(r);
+                    i = j; // skip over the points that were included in the superpoint
+                    j = data.length; //break inner loop;
+                }
+            }
+            console.log(newData);
+        }
     }
 
     redrawChart = () => {

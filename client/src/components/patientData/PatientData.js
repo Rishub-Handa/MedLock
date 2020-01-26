@@ -7,6 +7,7 @@ import '../../css/PatientData.css';
 import PDISurveyBar from '../graphs/PDISurveyBar';
 import DateTimeScatter from '../graphs/DateTimeScatter';
 import DataView from './DataView';
+import SummaryStats from './SummaryStats';
 import CheckIn from './CheckIn'; 
 import { addCheckIn } from '../../actions/patientActions'; 
 
@@ -96,6 +97,7 @@ class PatientData extends Component {
                 {checkInLoading && <p>Loading . . .</p>}
                 {checkInError && <p>There was an error in sending the data. </p>}
                 {checkInData && <p>Thank you, the data has been saved. </p>}
+                <SummaryStats data={data}/>
                 <DataView data={data} />
             </div>
         );
