@@ -58,7 +58,7 @@ export default function(state = initialState, action) {
         case FETCH_PDISURVEYS_FAILURE:
             return {
                 ...state,
-                PDILoading: false,
+                PDISurveysLoading: false,
                 PDIError: action.payload.error,
                 PDIResponses: []
             }; 
