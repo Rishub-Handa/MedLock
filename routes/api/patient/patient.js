@@ -123,12 +123,13 @@ router.post('/checkIn', (req, res) => {
 
     console.log(req.body); 
 
-    var id = req.user.sub.substring(6);
+    var id = req.body.patientId;
 
+    
     Patient.findById(id)
         .then(patient => {
             const newCheckIn = new CheckIn({
-                data: req.body, 
+                data: req.body.responses, 
             }); 
 
             patient.medicalData.checkIns.push(newCheckIn); 
@@ -140,6 +141,7 @@ router.post('/checkIn', (req, res) => {
                 .catch(error => console.log(error));
         })
         .catch(error => res.status(404).json(error));
+    
 });
 
 module.exports = router;
