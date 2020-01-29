@@ -7,7 +7,7 @@ import auth0client from '../../auth/Auth';
 import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
-import Inbox from '../inbox/Inbox';
+ //import Inbox from '../inbox/Inbox';
 import { loadProfile } from '../../actions/profileActions'; 
 import { fetchRoles } from '../../actions/authActions';
 import { fetchAMT } from '../../auth/AuthManagement'; 
@@ -270,7 +270,7 @@ class Dashboard extends Component {
         return (
             <div className="SecuredRoutes-container">
                 <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
-                <SecuredRoute path="/dashboard/inbox" component={Inbox} />
+                {/* <SecuredRoute path="/dashboard/inbox" component={Inbox} /> */}
                 <SecuredRoute path="/dashboard/mydata" patient={props.profile} component={PatientData} />
                 <SecuredRoute path="/dashboard/resources" component={Resources} />
                 <SecuredRoute path="/dashboard/survey" component={Surveys} />

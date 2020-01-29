@@ -54,7 +54,7 @@ class MyPatients extends Component {
                 </div>
             );
         }
-        
+        /*
         else {
             return (
                 <div>
@@ -62,6 +62,7 @@ class MyPatients extends Component {
                 </div>
             )
         }
+        */
     }
 
     submitForm = (name, email) => {
