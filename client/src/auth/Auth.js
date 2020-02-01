@@ -1,6 +1,6 @@
 import auth0 from 'auth0-js';
 import history from '../components/nav/history';
-import { MEDLOCK_API, MEDLOCK_URL, MEDLOCK_AUDIENCE } from '../config/servers';
+import { MEDLOCK_URL, MEDLOCK_AUDIENCE } from '../config/servers';
 
 class Auth {
     accessToken;

@@ -22,6 +22,7 @@ import { modules } from '../nav/ModuleInfo';
 import MyPatients from '../myPatients/MyPatients'; 
 import NewUser from './NewUser';
 import { collapseSideBar, expandSideBar, setSideBarToggle } from '../../actions/sideBarActions'; 
+import ReactGA from 'react-ga'; 
 
 class Dashboard extends Component {
     
@@ -38,6 +39,12 @@ class Dashboard extends Component {
     }
 
     displayDispenserCode = () => {
+        console.log("Display Dispenser Code. "); 
+        ReactGA.event({
+            category: 'Pop Up Modal', 
+            action: 'Generated dispenser code from Dashboard', 
+            label: 'Add Dispenser from Dashboard' 
+        })
         this.setState({
             toggleCodeDisplay: true 
         }); 
@@ -74,7 +81,11 @@ class Dashboard extends Component {
         this.autoCollapseSideBar(x);
         x.addListener(this.autoCollapseSideBar);
 
-        const { userProfile } = auth0client;
+        const { userProfile } = auth0client; 
+
+        console.log(userProfile); 
+        // ReactGA.set({ userId: userProfile.sub.substring(6) }); 
+        // ReactGA.set({ userId: "123456" }); 
 
         // Fetch the API Management Token. 
         fetchAMT() 
@@ -124,7 +135,12 @@ class Dashboard extends Component {
         return style;
     }
 
-    render() {
+    render() { 
+
+        // ReactGA.ga('create', 'UA-155183323-1', { 'userId': '1234' }); 
+        ReactGA.ga('set', 'dimension1', '1234'); 
+        ReactGA.ga('set', 'userId', 'abc123'); 
+
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
 

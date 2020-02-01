@@ -25,8 +25,8 @@ export default class PatientSection extends Component {
                             users={this.props.patients}
                             viewUser={this.viewUser}
                             deleteUser={this.props.deletePatient}
-                            deleteAll={this.props.deleteAllPatients}
-                            createNew={this.props.createNewPatient}
+                            deleteAllUsers={this.props.deleteAllPatients}
+                            createNewUser={this.props.createNewPatient}
                         />
                     </div>
                     {/* <div>

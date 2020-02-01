@@ -3,6 +3,9 @@
     flex-direction: column;
     justify-content: flex-start;
 } */
+.UserList {
+    text-align: center;
+}
 
 .UserList-ControlPanel {
     display: flex;
@@ -30,4 +33,39 @@
     padding-left: 15px;
     text-align: center;
     width: 100%;
+}
+
+.createNewUserForm {
+    width: 100%;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.input-form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.form-heading {
+    margin: auto;
+    text-align: center;
+}
+
+.create-new-btn {
+    color: white;
+    background-color: var(--medlock-blue);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.delete-btn {
+    color: white;
+    background-color: red;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
