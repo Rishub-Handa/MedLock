@@ -9,7 +9,7 @@
 /coverage
 
 # production
-/build
+# /build
 
 # misc
 .DS_Store
@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 cypress.env.json
 node_modules/
-build/static/
+# build/static/
