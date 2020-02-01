@@ -17,7 +17,6 @@ class DashIcon extends Component {
      */
     route = (e) => {
         
-        console.log("Dash Icon Route. "); 
         ReactGA.event({
             category: 'Dash Icon Click', 
             action: 'Navigated to ' + this.props.name + ' from Dash', 

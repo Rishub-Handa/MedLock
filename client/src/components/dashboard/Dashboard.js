@@ -7,7 +7,7 @@ import auth0client from '../../auth/Auth';
 import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
-import Inbox from '../inbox/Inbox';
+ //import Inbox from '../inbox/Inbox';
 import { loadProfile } from '../../actions/profileActions'; 
 import { fetchRoles } from '../../actions/authActions';
 import { fetchAMT } from '../../auth/AuthManagement'; 
@@ -16,6 +16,7 @@ import DashHeader from './DashHeader';
 import SideBar from '../nav/sidebar/SideBar';
 import PatientData from '../patientData/PatientData';
 import PDISurvey from '../survey/PDISurvey';
+import Surveys from '../survey/Surveys'; 
 import Dispenser from '../test/Dispenser'; 
 import ServerEndpoints from '../test/ServerEndpoints'; 
 import { modules } from '../nav/ModuleInfo'; 
@@ -23,6 +24,8 @@ import MyPatients from '../myPatients/MyPatients';
 import NewUser from './NewUser';
 import { collapseSideBar, expandSideBar, setSideBarToggle } from '../../actions/sideBarActions'; 
 import ReactGA from 'react-ga'; 
+
+console.log(auth0client.getProfile()); 
 
 class Dashboard extends Component {
     
@@ -83,9 +86,13 @@ class Dashboard extends Component {
 
         const { userProfile } = auth0client; 
 
-        console.log(userProfile); 
-        // ReactGA.set({ userId: userProfile.sub.substring(6) }); 
-        // ReactGA.set({ userId: "123456" }); 
+        console.log(userProfile.sub.substring(6)); 
+        ReactGA.set({
+            userId: userProfile.sub.substring(6),
+          }); 
+        
+        var ga = ReactGA.ga(); 
+        ReactGA.timing(); 
 
         // Fetch the API Management Token. 
         fetchAMT() 
@@ -138,8 +145,15 @@ class Dashboard extends Component {
     render() { 
 
         // ReactGA.ga('create', 'UA-155183323-1', { 'userId': '1234' }); 
-        ReactGA.ga('set', 'dimension1', '1234'); 
-        ReactGA.ga('set', 'userId', 'abc123'); 
+        // ReactGA.ga('set', 'dimension1', '1234'); 
+        var USER_ID = 'myUserId'; 
+        // At a later time, once the `userId` value is known,
+        // sets the value on the tracker.
+        // ReactGA.ga('set', 'userId', USER_ID);
+
+        // Setting the userId doesn't send data to Google Analytics.
+        // You must also use a pageview or event to send the data.
+        // ReactGA.ga('send', 'event', 'authentication', 'user-id available');
 
         const { profile, profileLoading, profileError, 
                 roles, rolesLoading, rolesError } = this.props;
@@ -256,10 +270,10 @@ class Dashboard extends Component {
         return (
             <div className="SecuredRoutes-container">
                 <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
-                <SecuredRoute path="/dashboard/inbox" component={Inbox} />
+                {/* <SecuredRoute path="/dashboard/inbox" component={Inbox} /> */}
                 <SecuredRoute path="/dashboard/mydata" patient={props.profile} component={PatientData} />
                 <SecuredRoute path="/dashboard/resources" component={Resources} />
-                <SecuredRoute path="/dashboard/survey" component={PDISurvey} />
+                <SecuredRoute path="/dashboard/survey" component={Surveys} />
                 <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
                 <SecuredRoute path="/dashboard/serverendpoints" component={ServerEndpoints} /> 
                 <SecuredRoute path="/dashboard/mypatients" component={MyPatients} />

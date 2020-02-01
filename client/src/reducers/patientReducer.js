@@ -18,9 +18,14 @@ import {
     FETCH_ALL_PATIENTS_BEGIN,
     FETCH_ALL_PATIENTS_SUCCESS,
     FETCH_ALL_PATIENTS_FAILURE,
+
     REMOVE_PATIENT_BEGIN,
+    REMOVE_PATIENT_SUCCESS, 
     REMOVE_PATIENT_FAILURE,
-    REMOVE_PATIENT_SUCCESS,
+
+    ADD_CHECKIN_BEGIN, 
+    ADD_CHECKIN_SUCCESS, 
+    ADD_CHECKIN_FAILURE 
 
 } from '../actions/types'; 
 
@@ -44,7 +49,11 @@ const initialState = {
 
     patientRemoving: false,
     lastRemovedPatient: null,
-    patientRemoveError: null,
+    patientRemoveError: null, 
+
+    checkInData: null, 
+    checkInLoading: false, 
+    checkInError: null 
 } 
 
 export default function(state = initialState, action) {
@@ -158,6 +167,24 @@ export default function(state = initialState, action) {
                 patientRemoving: false,
                 patientRemoveError: action.payload.error
             };
+        case ADD_CHECKIN_BEGIN: 
+            return {
+                ...state,
+                checkInLoading: true,
+                checkInError: null
+            };
+        case ADD_CHECKIN_SUCCESS:
+            return {
+                ...state,
+                checkInLoading: false,
+                checkInData: action.payload.checkIn
+            };
+        case ADD_CHECKIN_FAILURE:
+            return {
+                ...state,
+                checkInLoading: false,
+                checkInError: action.payload.error
+            }
         default:
             return state;
     }

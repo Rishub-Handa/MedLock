@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import profilePic from './profile_pic.jpg';
+import profilePic from './profile_pic.png';
 import '../../css/UserInfo.css';
 
 export default class UserInfo extends Component {

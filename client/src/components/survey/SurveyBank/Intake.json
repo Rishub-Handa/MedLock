@@ -1,0 +1,500 @@
+[
+    {
+        "id": 0, 
+        "type": "MS", 
+        "question": "What condition(s) are you currently being treated for?", 
+        "responses": ["Alcoholism", "Depression", "Opioid addiction", "Anxiety", "ADHD"], 
+        "other": true 
+    }, 
+    {
+        "id": 1, 
+        "type": "MC", 
+        "question": "What is the longest you experienced any of the above conditions before entering treatment?", 
+        "responses": ["0 - 3 months", "3 - 6 months", "6 months - 2 years", "2 - 5 years", "5+ years"], 
+        "other": false 
+    }, 
+    {
+        "id": 2, 
+        "type": "MC", 
+        "question": "How long have you been in treatment?", 
+        "responses": ["0 - 1 months", "1 - 3 months", "3 - 12 months", "1 - 3 years", "3+ years"], 
+        "other": false 
+    }, 
+    {
+        "id": 3, 
+        "type": "MS", 
+        "question": "Have any of your blood relatives been diagnosed with the following conditions? If so, please answer the next two questions. ", 
+        "responses": ["N/A", "Alcoholism", "Depression", "Opioid addiction", "Anxiety", "ADHD"], 
+        "other": true 
+    }, 
+    {
+        "id": 4, 
+        "type": "NI", 
+        "question": "At what age were they diagnosed? If you answered N/A to previous question, enter -1. ", 
+        "min": 0, 
+        "max": 100 
+    }, 
+    {
+        "id": 5, 
+        "type": "MC", 
+        "question": "Were they treated for their condition? If you answered N/A to the previous two questions, select N/A. ", 
+        "responses": ["N/A", "They were diagnosed with a condition, but did not receieve treatment. ", "They were prescribed medications. ", "They recevied counseling. ", "They received both prescription medication and counseling. "], 
+        "other": true 
+    }, 
+    {
+        "id": 6, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My treatment is easy to access. This includes access to the medication, if applicable. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 7, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My treatment is affordable. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 8, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: The clinic location is easy to access. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 9, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: The clinic’s counseling is affordable. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 10, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: The amount of counseling I receive in the clinic is sufficient.", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 11, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My medication is affordable.", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 12, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: The amount of medication which I am prescribed is sufficient. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 13, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: Overall, my treatment is effective. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 14, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My counseling is an effective form of treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 15, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I enjoy attending my counseling sessions. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 16, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: Counseling is a necessary part of treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 17, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I have had issues with counseling in the past. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 18, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My medication is an effective form of treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 19, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I enjoy taking my medication. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 20, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: Medication is a necessary part of treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 21, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I need help taking my medication as prescribed. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 22, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I feel my counseling is individualized. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 23, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I feel my medication plan is individualized. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 24, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I receive high quality treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 25, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I have control over the effectiveness of my treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 26, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My healthcare providers are knowledgeable about my treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 27, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: Other healthcare providers are knowledgeable about my treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 28, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My family members are knowledgeable about my treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 29, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My friends are knowledgeable about my treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 30, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: The general public is knowledgeable about how treatment for my condition works. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 31, 
+        "type": "TI", 
+        "question": "Please expand on any of the above answers that you feel needs more explanation. If not, write N/A. " 
+    },
+    {
+        "id": 32, 
+        "type": "MC", 
+        "question": "How often does the following activity occur?: Family members take an active involvement in my treatment. ", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 33, 
+        "type": "MC", 
+        "question": "How often does the following activity occur?: Friends take an active involvement in my treatment. ", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 34, 
+        "type": "MC", 
+        "question": "How often does the following activity occur?: I think about ways to improve my treatment. ", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 35, 
+        "type": "MC", 
+        "question": "How often does the following activity occur?: I adjust my daily habits to try to improve my treatment. ", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 36, 
+        "type": "MC", 
+        "question": "How often does the following activity occur?: I adjust my pill consumption habits to improve my treatment. ", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 37, 
+        "type": "TI", 
+        "question": "Please expand on any of the above answers that you feel needs more explanation. If not, write N/A. " 
+    }, 
+    {
+        "id": 38, 
+        "type": "MC", 
+        "question": "When you take your medication, how consistent is the timing of your medication intake? ", 
+        "responses": ["No set schedule", "I take it as needed", "I take each does at a consistent time of day, e.g. morning, evening, night", "I take each dose within the same three hour block every day, e.g. I always take it from 7 AM - 10 AM", "I take each dose within the same one hour block every day", "I take each dose at the exact same time every day"], 
+        "other": true 
+    }, 
+    {
+        "id": 39, 
+        "type": "NI", 
+        "question": "On average, how many days a week do you believe you miss a dose of medication?", 
+        "min": 0, 
+        "max": 7 
+    }, 
+    {
+        "id": 40, 
+        "type": "MC", 
+        "question": "I am certain that the above answer is correct. ",
+        "responses":  ["Yes", "Maybe", "No"],
+        "other": false
+    }, 
+    {
+        "id": 41, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement: I believe I adhere to my prescribed regimen in an effective manner. ",
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false
+    }, 
+    {
+        "id": 42, 
+        "type": "MC", 
+        "question":  "How often do you experience the following?: Pain", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 43, 
+        "type": "MC", 
+        "question":  "How often do you experience the following?: Anxiousness", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 44, 
+        "type": "MC", 
+        "question":  "How often do you experience the following?: Sadness", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 45, 
+        "type": "MC", 
+        "question":  "How often do you experience the following?: Loneliness", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 46, 
+        "type": "MC", 
+        "question":  "How often do you experience the following?: Anger", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 47, 
+        "type": "MC", 
+        "question":  "How often do you experience the following?: Frustration", 
+        "responses": ["Every day", "Several times a week", "Once a week", "Once a month", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 48, 
+        "type": "TI", 
+        "question": "Are there any other symptoms, physical or mental, that you have experienced due to your condition or throughout your treatment? If so, how often you experience these symptoms. If not, please write N/A. "
+    }, 
+    {
+        "id": 49, 
+        "type": "TI", 
+        "question": "What do you believe causes or triggers your symptoms? " 
+    }, 
+    {
+        "id": 50, 
+        "type": "TI", 
+        "question": "What do you do to alleviate these symptoms? " 
+    }, 
+    {
+        "id": 51, 
+        "type": "TI", 
+        "question": "While speaking to a physician, how well can you recall major symptoms (ex: pain, mood swings, etc.)? " 
+    }, 
+    {
+        "id": 52, 
+        "type": "MC", 
+        "question":  "While speaking to a physician, I can remember exactly when I took my medication up to: ", 
+        "responses": ["the last time I saw my physician", "the last week", "the last few days", "yesterday", "Not at all"], 
+        "other": false 
+    }, 
+    {
+        "id": 53, 
+        "type": "MC", 
+        "question":  "How long do the effects (motivation, mindfulness, etc.) of a counseling session last? ", 
+        "responses": ["They don't have an effect", "A few hours", "A day", "Several days", "A week", "Until the next counseling session"], 
+        "other": false 
+    }, 
+    {
+        "id": 54, 
+        "type": "MC", 
+        "question": "If you have been diagnosed with a substance use disorder, how many times have you relapsed? ", 
+        "responses": ["I have never been diagnosed with a substance use disorder", "Never ", "1 - 3 times", "4 - 10 times", "10+ times"], 
+        "other": false 
+    }, 
+    {
+        "id": 55, 
+        "type": "MC", 
+        "question":  "If you have been diagnosed with a substance use disorder and relapsed previously, on average, how long have you maintained your treatment plan without relapsing? ", 
+        "responses": ["N/A", "1 - 7 days", "1 - 3 weeks", "1 - 3 months", "4 - 12 months", "12+ months"], 
+        "other": false 
+    }, 
+    {
+        "id": 56, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: TeleHealth is an effective form of treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 57, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: Remote counseling is an effective form of treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 58, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I can benefit from TeleHealth. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    },
+    {
+        "id": 59, 
+        "type": "MC", 
+        "question": "During the course of the trial, how often do you expect the following to occur?: I will review my medication consumption data. ", 
+        "responses": ["Not at all", "Once", "Once a week", "Multiple times a week", "Every day"]
+    }, 
+    {
+        "id": 60, 
+        "type": "MC", 
+        "question": "During the course of the trial, how often do you expect the following to occur?: I will reflect on the symptoms I have experienced with the symptom data. ", 
+        "responses": ["Not at all", "Once", "Once a week", "Multiple times a week", "Every day"]
+    }, 
+    {
+        "id": 61, 
+        "type": "MC", 
+        "question": "During the course of the trial, how often do you expect the following to occur?: My family and/or caregiver will review my medication consumption data. ", 
+        "responses": ["Not at all", "Once", "Once a week", "Multiple times a week", "Every day", "My family and/or caregiver will not be given access to this data. "]
+    }, 
+    {
+        "id": 62, 
+        "type": "MC", 
+        "question": "During the course of the trial, how often do you expect the following to occur?: My family and/or caregiver will review my symptom data. ", 
+        "responses": ["Not at all", "Once", "Once a week", "Multiple times a week", "Every day", "My family and/or caregiver will not be given access to this data. "]
+    }, 
+    {
+        "id": 63, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I will effectively use data on my medication-consumption habits to improve my treatment results. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 64, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My family and/or caregiver will effectively use data on my medication-consumption habits to improve my treatment results. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 65, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My provider will effectively use data on my medication-consumption habits to improve my treatment results. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 66, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I will effectively use data on my symptoms to improve my treatment results. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 67, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My family and/or caregiver will effectively use data on my symptoms to improve my treatment results. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 68, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My provider will effectively use data on my symptoms to improve my treatment results. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 69, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I am looking forward to participating in this study. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 70, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I believe this study will have an effect on my treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 71, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: I believe this study will improve my treatment. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 72, 
+        "type": "TI", 
+        "question": "Why did you decide to participate in this study? No need to use proper sentence structure in your response. "
+    }, 
+    {
+        "id": 73, 
+        "type": "TI", 
+        "question": "Is there any way you believe the technology in the study will help you which was not already mentioned? If so, what are they? No need to use proper sentence structure in your response. "
+    } 
+]

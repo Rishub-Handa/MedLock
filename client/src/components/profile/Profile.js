@@ -5,6 +5,8 @@ import { Button } from 'reactstrap';
 import { editProfile, saveProfile } from '../../actions/profileActions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import profilePic from './profile_pic.png';
+import editPic from './edit-profile.png';
 import '../../css/Profile.css';
 class Profile extends Component {
 
@@ -30,7 +32,7 @@ class Profile extends Component {
             <ProfileModule name={profileModule.name} content={profileModule.content} editable={this.props.editable} />
         ));
     };
-    
+
     // addProfileModule = () => { 
     //     this.setState(prevState => ({
     //         profileModules: [...prevState.profileModules, 
@@ -45,7 +47,7 @@ class Profile extends Component {
 
     render() {
         const { personalData, profileSaving, error, editable } = this.props;
-        
+
         if (error) {
             return (
                 <div>
@@ -66,6 +68,8 @@ class Profile extends Component {
             <div className="profile-container" align="center">
                 <h1 class="header">Profile</h1>
                 <div className="main" align="center">
+                    <img className="profilePic" src={profilePic} />
+                    <Button variant="light" onClick={this.onProfileEdit} className="editProfile">Edit Profile<img src={editPic} width="30" height="30" /></Button>
                     <div className="personalInfo-container">
                         <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} role={this.state.role} />
                     </div>
