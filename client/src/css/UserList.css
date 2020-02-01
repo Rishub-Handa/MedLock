@@ -37,11 +37,13 @@
 
 .createNewUserForm {
     width: 100%;
-    padding: 10px;
+    padding: 20px;
     display: inline-block;
     border-radius: 15px;
     border: 1px solid #ccc;
-    margin-top: 10px;
+    margin-top: 20px;
+    float: left;
+    box-shadow: 0px 0px 5px var(--medlock-gray);
 }
 
 .input-form-group {
@@ -53,19 +55,36 @@
 .form-heading {
     margin: auto;
     text-align: center;
+    padding-right: 10px;
 }
 
 .create-new-btn {
     color: white;
     background-color: var(--medlock-blue);
-    border: 1px solid #ccc;
     border-radius: 5px;
+    border: none;
     margin-right: 10px;
+    height: 30px;
+    font-weight: 600;
+    box-shadow: 0px 2px 2px var(--medlock-gray);
 }
 
+.cancel-button{
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-right: 5px;
+    height: 30px;
+    font-weight: 600;
+    color: var(--medlock-dark-gray);
+    margin-right: 0px;
+    margin-top: 0px;
+}
 .delete-btn {
     color: white;
     background-color: red;
-    border: 1px solid #ccc;
     border-radius: 5px;
+    border: none;
+    height: 30px;
+    font-weight: 600;
+    box-shadow: 0px 2px 2px var(--medlock-gray);
 }

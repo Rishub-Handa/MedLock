@@ -7,11 +7,12 @@
 }
 
 .profile-picture {
-    border-radius: 50%;
-    border: 3px solid var(--medlock-blue);
-    height: 55px;
+    /*border-radius: 50%;
+    border: 3px solid var(--medlock-blue); */
+    height: 50px;
     width: auto;
     margin-left: 14px;
+    margin-right: 14px;
 }
 
 .dropdown {

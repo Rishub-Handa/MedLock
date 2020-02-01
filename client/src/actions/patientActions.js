@@ -27,6 +27,10 @@ import {
   FETCH_ALL_PATIENTS_SUCCESS,
   FETCH_ALL_PATIENTS_FAILURE,
 
+  ADD_CHECKIN_BEGIN, 
+  ADD_CHECKIN_SUCCESS, 
+  ADD_CHECKIN_FAILURE 
+
 } from './types';
 
 import axios from 'axios';
@@ -313,3 +317,39 @@ export function fetchAllPatients() {
 
 }
 
+export const addCheckInBegin = () => ({
+  type: ADD_CHECKIN_BEGIN 
+});
+
+export const addCheckInSuccess = checkIn => ({
+  type: ADD_CHECKIN_SUCCESS,
+  payload: {
+    checkIn
+  }
+});
+
+export const addCheckInFailure = error => ({
+  type: ADD_CHECKIN_FAILURE,
+  payload: {
+    error
+  }
+});
+
+// Submit a survey to the server 
+export function addCheckIn(checkIn) {
+
+  console.log("Add Check In"); 
+  console.log(checkIn); 
+
+  const { getAccessToken } = auth0client;
+  const API_URL = MEDLOCK_API;
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+  
+  return dispatch => {
+    dispatch(addCheckInBegin());
+    return axios.post(`${API_URL}/patient/patient/checkIn`, checkIn, { headers })
+      .then(res => dispatch(addCheckInSuccess(res.data)))
+      .catch(error => dispatch(addCheckInFailure(error)));
+  };
+  
+}

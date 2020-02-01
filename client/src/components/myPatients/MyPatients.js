@@ -54,7 +54,7 @@ class MyPatients extends Component {
                 </div>
             );
         }
-        
+        /*
         else {
             return (
                 <div>
@@ -62,6 +62,7 @@ class MyPatients extends Component {
                 </div>
             )
         }
+        */
     }
 
     submitForm = (name, email) => {
@@ -121,7 +122,7 @@ class MyPatients extends Component {
                 this.props.fetchPatients();
                 if(err) console.log(err);
             })
-            .catch(error => {alert(`Failed To Create Provider. Error Code: ${error}`); console.log(error);});
+            .catch(error => {alert(`Failed To Create Patient. Error Code: ${error}`); console.log(error);});
 
         this.setState({ newPatientForm: false });
     }

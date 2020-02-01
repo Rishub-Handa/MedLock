@@ -6,7 +6,7 @@ import { fetchDispenser } from '../../actions/dispenserActions';
 import '../../css/PatientData.css'; 
 import PDISurveyBar from '../graphs/PDISurveyBar';
 import DateTimeScatter from '../graphs/DateTimeScatter';
-import DataView from './DataView';
+import DataView from './DataView'; 
 
 /** 
  * Component for displaying individual patient data
@@ -16,14 +16,14 @@ import DataView from './DataView';
 class PatientData extends Component {
 
     state = {
-        retrievedData: false
-    }
-
+        retrievedData: false, 
+    } 
+    
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
         this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
-    }
+    } 
 
     render() {        
         const { allPDISurveys, 
@@ -33,7 +33,7 @@ class PatientData extends Component {
                 dispenser, 
                 dispenserLoading, 
                 dispenserLoaded,
-                dispenserError } = this.props; 
+                dispenserError, } = this.props; 
 
         console.log(dispenser);
 
@@ -72,9 +72,9 @@ class PatientData extends Component {
          
         return (
             <div className="pd-container">
-                    <h1 className="pd-title">
-                        My Data
-                    </h1>
+                <h1 className="header">
+                    My Data
+                </h1>
                 <DataView data={data} />
             </div>
         );
@@ -97,16 +97,15 @@ PatientData.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    allPDISurveys: state.surveyState.responses, 
-    surveysLoading: state.surveyState.surveysLoading,
-    surveysLoaded: state.surveyState.surveysLoaded,
-    surveyError: state.surveyState.error,  
+    allPDISurveys: state.surveyState.PDIResponses, 
+    surveysLoading: state.surveyState.PDISurveysLoading,
+    surveysLoaded: state.surveyState.PDISurveysLoaded,
+    surveyError: state.surveyState.PDIError,  
     dispenser: state.dispenseState.dispenser, 
     dispenserLoading: state.dispenseState.dispenserLoading,
     dispenserLoaded: state.dispenseState.dispenserLoaded,
-    dispenserError: state.dispenseState.error 
+    dispenserError: state.dispenseState.error, 
 
 });
 
-export default connect(mapStateToProps, { fetchPDISurveys, fetchDispenser })(PatientData);
-
+export default connect(mapStateToProps, { fetchPDISurveys, fetchDispenser })(PatientData); 

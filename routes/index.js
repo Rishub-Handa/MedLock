@@ -1,6 +1,7 @@
 const express = require('express'); 
 const patient = require('./api/patient/patient'); 
-const pdisurvey = require('./api/patient/pdisurvey'); 
+const pdisurvey = require('./api/patient/surveys/pdisurvey'); 
+const intake = require('./api/patient/surveys/intake'); 
 const dispense = require('./api/patient/dispense'); 
 const chatAuth = require('./api/chatAuth'); 
 const email = require('./api/email'); 
@@ -8,6 +9,8 @@ const provider = require('./api/provider/provider');
 const providerPatients = require('./api/provider/patients'); 
 const adminProvider = require('./api/administration/provider'); 
 const adminPatient = require('./api/administration/patient');
+const patientRegister = require('./api/patient/register');
+const clinic = require('./api/clinic/clinic');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const path = require('path');
@@ -38,7 +41,8 @@ const checkJwt = jwt({
 });
 
 // Define Patient Scope 
-router.use('/api/pdisurvey', checkJwt, pdisurvey); 
+router.use('/api/survey/pdisurvey', checkJwt, pdisurvey); 
+router.use('/api/survey/intake', checkJwt, intake); 
 router.use('/api/patient/patient', checkJwt, patient); 
 router.use('/api/dispense', dispense); 
 
@@ -55,6 +59,9 @@ router.use('/api/admin/patient', adminPatient);
 // Cannot use checkJwt because the ChatKit server will also make a request to this endpoint without Auth0. 
 router.use('/api/chatAuth', chatAuth); 
 router.use('/api/email', email); 
+
+router.use('/api/patient/register', patientRegister);
+router.use('/api/clinic', clinic);
 
 // If no API routes are hit, send the React app
 router.use(function(req, res) {
