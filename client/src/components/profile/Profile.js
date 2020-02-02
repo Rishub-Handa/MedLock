@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import profilePic from './profile_pic.png';
 import editPic from './edit-profile.png';
 import '../../css/Profile.css';
+import ReactGA from 'react-ga'; 
+
 class Profile extends Component {
 
     constructor(props) {
@@ -18,10 +20,21 @@ class Profile extends Component {
     }
 
     onProfileSave = (updatedPersonalData) => {
+        //
+        ReactGA.event({
+            category: 'Profile Interaction', 
+            action: 'Updated Profile Data', 
+            label: 'Click Save after Edit Profile'
+        }); 
         this.props.saveProfile(updatedPersonalData, this.state.role);
     }
 
     onProfileEdit = () => {
+        ReactGA.event({
+            category: 'Profile Interaction', 
+            action: 'Opened Edit Profile Form', 
+            label: 'Click Edit Profile'
+        }); 
         this.props.editProfile();
     }
 

@@ -66,12 +66,12 @@ class MultSelect extends Component {
 
 
     questionHTML = () => (
-        <h1>{this.props.question}</h1>
+        <h3 class="header">{this.props.question}</h3>
     )
 
     responsesHTML = (other) => {
         return (
-            <form onChange={this.onChange}>
+            <form style={{marginBottom: "10px"}} onChange={this.onChange}>
                 {this.props.responses.map(response => (
                     <div>
                         <p><input name={this.props.question} type="checkbox" value={response} id={this.props.id}/>{response}</p>
