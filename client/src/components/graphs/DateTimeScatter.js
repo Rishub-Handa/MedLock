@@ -11,13 +11,27 @@ export default class DateTimeScatter extends Component {
             config: null,
             width: 800,
             height: 300,
+            // index of the start date
+            startDate: 0,
+            // index of the end date
+            endDate: this.props.data.length - 1,
+            data: null,
+        }
+        this.global = {
+            pointRadius: 3,
+            expandedPointRadius: 6,
         }
     }
-
+    
     componentDidMount() {
+        console.log(this.props);
+
+        var data = this.parseData(this.props.data); // replace dispenses with this.props.data
+        data = this.flattenData(data);
+        console.log(data);
         var size = this.getSize();
 
-        this.setState({width: size.width, height: size.height}, () => {
+        this.setState({data: data, width: size.width, height: size.height}, () => {
             this.drawChart();
         });
 
@@ -94,6 +108,7 @@ export default class DateTimeScatter extends Component {
             dateRange.push(this.formatDate(cur));
             cur.setDate(cur.getDate() + 1);
         }
+        console.log(dateRange);
     }
 
     parseData(data) {
@@ -149,8 +164,7 @@ export default class DateTimeScatter extends Component {
     }
 
     drawChart() {
-        var data = this.parseData(this.props.data); // replace dispenses with this.props.data
-        data = this.flattenData(data);
+        var data = this.state.data; 
         const margin = 60;
         const canvasHeight = this.state.height - 2*margin;
         const canvasWidth = this.state.width - 2*margin;
@@ -161,8 +175,6 @@ export default class DateTimeScatter extends Component {
             .attr("height", this.state.height)
             .attr("width", this.state.width);
 
-
-        
         const chart = svg.append('g')
             .attr('transform', `translate(${margin}, ${margin})`);
 
@@ -233,10 +245,10 @@ export default class DateTimeScatter extends Component {
             .append("circle")
             .attr('cx', (d, i) => xScale(d[0]) + xScale.bandwidth()/2)
             .attr('cy', (d, i) => yScale(d[1]))
-            .attr('r', 5)
+            .attr('r', this.global.pointRadius)
             .attr('id', (d, i) => `p${i}`)
             .attr('fill', (d, i) => this.props.colors[d[2]])
-            .attr('opacity', 0.8)
+            .attr('opacity', 0.5)
             .on("mouseover", (d, i) => {
                 this.setState({
                     config: {
@@ -254,51 +266,55 @@ export default class DateTimeScatter extends Component {
         });
     }
 
-    combineClosePoints = (data) => {
-        data = JSON.parse(JSON.stringify(data));
-        console.log('combining on data:');
-        console.log(data);
-        // assume they all have the same date for now and are sorted in ascending order according to seconds
-        // loop over each data point
-        var i = 0; 
-        var newData = [];
-        var rScale = [];
-        while (i < data.length) {
-            console.log(i);
-            var r = 1;
-            var j = i+1;
-            var newPoint = data[i];
-            if (i == data.length - 1) {
-                newData.push(newPoint);
-                rScale.push(1);
-                return [newData, rScale];
-            }
-            while (j < data.length) {
-                var day_i = newPoint[0];
-                var day_j = data[j][0];
-                var time_i = newPoint[1];
-                var time_j = data[j][1];
-                if (day_i == day_j) {
-                    console.log("true");
-                } else {
-                    console.log("false");
-                }
+    /**
+     * method to combine points and increase radius if they're within a certain
+     * distance of one another, not working atm
+     */
+    // combineClosePoints = (data) => {
+    //     data = JSON.parse(JSON.stringify(data));
+    //     console.log('combining on data:');
+    //     console.log(data);
+    //     // assume they all have the same date for now and are sorted in ascending order according to seconds
+    //     // loop over each data point
+    //     var i = 0; 
+    //     var newData = [];
+    //     var rScale = [];
+    //     while (i < data.length) {
+    //         console.log(i);
+    //         var r = 1;
+    //         var j = i+1;
+    //         var newPoint = data[i];
+    //         if (i == data.length - 1) {
+    //             newData.push(newPoint);
+    //             rScale.push(1);
+    //             return [newData, rScale];
+    //         }
+    //         while (j < data.length) {
+    //             var day_i = newPoint[0];
+    //             var day_j = data[j][0];
+    //             var time_i = newPoint[1];
+    //             var time_j = data[j][1];
+    //             if (day_i == day_j) {
+    //                 console.log("true");
+    //             } else {
+    //                 console.log("false");
+    //             }
     
-                if (day_i == day_j && (time_j - time_i <= 60)) {
-                    var avgTime = (time_i + time_j) / 2;
-                    newPoint[1] = avgTime;
-                    j += 1;
-                    r += 1;
-                } else {
-                    newData.push(newPoint);
-                    rScale.push(r);
-                    i = j; // skip over the points that were included in the superpoint
-                    j = data.length; //break inner loop;
-                }
-            }
-            console.log(newData);
-        }
-    }
+    //             if (day_i == day_j && (time_j - time_i <= 60)) {
+    //                 var avgTime = (time_i + time_j) / 2;
+    //                 newPoint[1] = avgTime;
+    //                 j += 1;
+    //                 r += 1;
+    //             } else {
+    //                 newData.push(newPoint);
+    //                 rScale.push(r);
+    //                 i = j; // skip over the points that were included in the superpoint
+    //                 j = data.length; //break inner loop;
+    //             }
+    //         }
+    //         console.log(newData);
+    //     }
+    // }
 
     redrawChart = () => {
         var size = this.getSize();
@@ -320,7 +336,7 @@ export default class DateTimeScatter extends Component {
                 chart.select(`#p${i}`)
                     .transition()
                     .duration(500)
-                    .attr("r", 10);
+                    .attr("r", this.global.expandedPointRadius);
                 
                 // show tooltip
                 this.tooltipMouseover(d[1], config.tooltip);
@@ -330,7 +346,7 @@ export default class DateTimeScatter extends Component {
                 chart.select(`#p${i}`)
                     .transition()
                     .duration(500)
-                    .attr("r", 5);
+                    .attr("r", this.global.pointRadius);
                 
                 // hide tooltip
                 this.tooltipMouseout(d[1], config.tooltip);
@@ -343,11 +359,70 @@ export default class DateTimeScatter extends Component {
     }
 
     render() {
+        console.log(this.state.data);
+        if (this.state.data == null) {
+            return (
+                <div>Loading...</div>
+            )
+        } else {
+            return (
+                <div className={`graph-container ${this.props.id}`}>
+                    <div ref="canvas"></div>
+                    <div>{this.startDateSelect(this.state.data)}</div>
+                </div> 
+            )
+        }
+    }
+
+    formatTimestamp = (timestamp) => {
+        const date = new Date(timestamp);
+        return `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`;
+    }
+
+    onStartDateSelectChange = (e) => {
+        this.setState({
+            startDate: e.target.value,
+        });
+    }
+
+    onEndDateSelectChange = (e) => {
+        this.setState({
+            endDate: e.target.value,
+        });
+    }
+
+    startDateSelect = (dates) => {
+        console.log(dates);
         return (
-            <div className={`graph-container ${this.props.id}`}>
-                <div ref="canvas"></div>
-            </div> 
-        )
+            <select onChange={this.onStartDateSelectChange}>
+                {
+                    dates.map((date, i) => {
+                        console.log(date);
+                        if (i == this.state.startDate) {
+                            return <option selected="selected" value={i}>{this.formatTimestamp(date)}</option>
+                        } else {
+                            return <option value={i}>{this.formatTimestamp(date)}</option>
+                        }
+                    })
+                }
+            </select>
+        );
+    }
+
+    endDateSelect = (dates) => {
+        return (
+            <select onChange={this.onEndDateSelectChange}>
+                {
+                    dates.map((date, i) => {
+                        if (i == this.state.endDate) {
+                            return <option selected="selected" value={i}>{this.formatTimestamp(date)}</option>
+                        } else {
+                            return <option value={i}>{this.formatTimestamp(date)}</option>
+                        }
+                    })
+                }
+            </select>
+        );
     }
 }
 
