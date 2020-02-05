@@ -5,6 +5,7 @@ export default class DateTimeScatter extends Component {
     
     constructor(props) {
         super(props);
+
         this.state = {
             svg: null,
             chart: null,
@@ -15,7 +16,13 @@ export default class DateTimeScatter extends Component {
             startDate: 0,
             // index of the end date
             endDate: this.props.data.length - 1,
-            data: null,
+            data: this.reformatData(this.props.data),
+            selectedData: {
+                dispenses: true,
+                btn1: false,
+                btn2: false,
+                btn3: false,
+            }
         }
         this.global = {
             pointRadius: 3,
@@ -24,14 +31,14 @@ export default class DateTimeScatter extends Component {
     }
     
     componentDidMount() {
+        console.log("componentDidMount() called");
         console.log(this.props);
 
-        var data = this.parseData(this.props.data); // replace dispenses with this.props.data
-        data = this.flattenData(data);
-        console.log(data);
+        // var data = this.parseData(this.props.data); // replace dispenses with this.props.data
+        console.log(this.state.data);
         var size = this.getSize();
 
-        this.setState({data: data, width: size.width, height: size.height}, () => {
+        this.setState({ width: size.width, height: size.height }, () => {
             this.drawChart();
         });
 
@@ -111,9 +118,9 @@ export default class DateTimeScatter extends Component {
         console.log(dateRange);
     }
 
-    parseData(data) {
-        return data.map(set => {
-            return set.map(timestamp => {
+    reformatData(data) {
+        var newData = data.map((set, i) => {
+            return set.sort().map(timestamp => {
                 const date = new Date(timestamp);
                 const x = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`       
                 const hours = date.getHours();
@@ -123,6 +130,8 @@ export default class DateTimeScatter extends Component {
                 return [x,y]
             });
         });
+        var formattedData = this.flattenData(newData);
+        return formattedData;
     }
 
     flattenData(data) {
@@ -164,7 +173,8 @@ export default class DateTimeScatter extends Component {
     }
 
     drawChart() {
-        var data = this.state.data; 
+        console.log("drawChart() called");
+        var data = this.getData();
         const margin = 60;
         const canvasHeight = this.state.height - 2*margin;
         const canvasWidth = this.state.width - 2*margin;
@@ -317,6 +327,7 @@ export default class DateTimeScatter extends Component {
     // }
 
     redrawChart = () => {
+        console.log("redrawChart() called");
         var size = this.getSize();
         this.setState({width: size.width, height: size.height});
         d3.select(`#${this.props.id}`).remove();
@@ -324,6 +335,7 @@ export default class DateTimeScatter extends Component {
     }
 
     updateChart() {
+        console.log("updateChart() called");
         const { chart, config } = this.state;
         /**
          * since componentDidUpdate can be called before drawChart is called,
@@ -355,23 +367,20 @@ export default class DateTimeScatter extends Component {
     }
     
     componentDidUpdate() {
+        console.log("componentDidUpate() called");
+        console.log(this.state);
         this.updateChart();
     }
 
     render() {
-        console.log(this.state.data);
-        if (this.state.data == null) {
-            return (
-                <div>Loading...</div>
-            )
-        } else {
-            return (
-                <div className={`graph-container ${this.props.id}`}>
-                    <div ref="canvas"></div>
-                    <div>{this.startDateSelect(this.state.data)}</div>
-                </div> 
-            )
-        }
+        return (
+            <div className={`graph-container ${this.props.id}`}>
+                <div ref="canvas"></div>
+                <div>{this.dataSelectorHTML()}</div>
+                <div>Start Date: {this.startDateSelect(this.state.data)}</div>
+                <div>End Date: {this.endDateSelect(this.state.data)}</div>
+            </div> 
+        )
     }
 
     formatTimestamp = (timestamp) => {
@@ -382,26 +391,131 @@ export default class DateTimeScatter extends Component {
     onStartDateSelectChange = (e) => {
         this.setState({
             startDate: e.target.value,
+        }, () => {
+            this.redrawChart();
         });
     }
 
     onEndDateSelectChange = (e) => {
         this.setState({
             endDate: e.target.value,
+        }, () => {
+            console.log(this.state.selectedData);
+            this.redrawChart();
         });
     }
 
-    startDateSelect = (dates) => {
-        console.log(dates);
+    dataSelectorHTML = () => {
+        return (
+            <form>
+                <label>
+                    <input 
+                        type="checkbox" 
+                        name="dispenses" 
+                        checked={this.state.selectedData.dispenses}
+                        value={this.state.selectedData.dispenses} 
+                        onChange={this.onDataSelectorChange} /> 
+                    Dispenses
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        name="btn1"
+                        value={this.state.selectedData.btn1} 
+                        onChange={this.onDataSelectorChange} />
+                    Button 1
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        name="btn2" 
+                        value={this.state.selectedData.btn2}
+                        onChange={this.onDataSelectorChange} />
+                    Button 2
+                </label>
+                <br />
+                <label>
+                    <input 
+                        type="checkbox" 
+                        name="btn3" 
+                        value={this.state.selectedData.btn3} 
+                        onChange={this.onDataSelectorChange} />
+                    Button 3
+                </label>
+            </form>
+        )
+    }
+
+    onDataSelectorChange = (e) => {
+        // some clicks not registering bc the sidebar div is overlayed
+        console.log("onDataSelectorChange() called");
+        var val = this.strToBool(e.target.value);
+        var new_val = !val;
+        this.setState({
+            selectedData: {
+                ...this.state.selectedData,
+                [e.target.name]: new_val,
+            }
+        }, () => {
+            this.redrawChart();
+        });
+    }
+
+    getData = () => {
+        var data = this.getDataSlice();
+        data = this.getSelectedData(data);
+        return data;
+    }
+
+    getDataSlice = () => {
+        return this.state.data.slice(this.state.startDate, this.state.endDate+1);
+    }
+
+    getSelectedData = (data) => {
+        var selections = this.getDataSelections();
+        console.log(selections);
+        return data.filter((event, i) => selections.indexOf(event[2]) > -1);
+    }
+
+    getDataSelections = () => {
+        var selections = [];
+        const { selectedData } = this.state;
+        
+        if (selectedData.dispenses) { 
+            selections.push(0);
+        } 
+
+        if (selectedData.btn1) {
+            selections.push(1);
+        }
+
+        if (selectedData.btn2) {
+            selections.push(2)
+        }
+
+        if (selectedData.btn3) {
+            selections.push(3)
+        }
+
+        return selections;
+    }
+
+    strToBool = (str) => {
+        var bool = (str == 'true');
+        return bool;
+    }
+
+    startDateSelect = (events) => {
         return (
             <select onChange={this.onStartDateSelectChange}>
                 {
-                    dates.map((date, i) => {
-                        console.log(date);
+                    events.map((event, i) => {
                         if (i == this.state.startDate) {
-                            return <option selected="selected" value={i}>{this.formatTimestamp(date)}</option>
+                            return <option selected="selected" value={i}>{this.formatTimestamp(event[0])}</option>
                         } else {
-                            return <option value={i}>{this.formatTimestamp(date)}</option>
+                            return <option value={i}>{this.formatTimestamp(event[0])}</option>
                         }
                     })
                 }
@@ -409,15 +523,15 @@ export default class DateTimeScatter extends Component {
         );
     }
 
-    endDateSelect = (dates) => {
+    endDateSelect = (events) => {
         return (
             <select onChange={this.onEndDateSelectChange}>
                 {
-                    dates.map((date, i) => {
+                    events.map((event, i) => {
                         if (i == this.state.endDate) {
-                            return <option selected="selected" value={i}>{this.formatTimestamp(date)}</option>
+                            return <option selected="selected" value={i}>{this.formatTimestamp(event[0])}</option>
                         } else {
-                            return <option value={i}>{this.formatTimestamp(date)}</option>
+                            return <option value={i}>{this.formatTimestamp(event[0])}</option>
                         }
                     })
                 }
