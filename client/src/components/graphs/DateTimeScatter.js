@@ -6,6 +6,7 @@ export default class DateTimeScatter extends Component {
     constructor(props) {
         super(props);
 
+        var formattedData = this.reformatData(this.props.data);
         this.state = {
             svg: null,
             chart: null,
@@ -16,13 +17,15 @@ export default class DateTimeScatter extends Component {
             startDate: 0,
             // index of the end date
             endDate: this.props.data.length - 1,
-            data: this.reformatData(this.props.data),
-            selectedData: {
+            data: formattedData,
+            selectedEvents: {
                 dispenses: true,
                 btn1: false,
                 btn2: false,
                 btn3: false,
-            }
+            },
+            selectedDates: this.getDateRange(formattedData),
+            selectedData: this.getData()
         }
         this.global = {
             pointRadius: 3,
@@ -32,7 +35,6 @@ export default class DateTimeScatter extends Component {
     
     componentDidMount() {
         console.log("componentDidMount() called");
-        console.log(this.props);
 
         // var data = this.parseData(this.props.data); // replace dispenses with this.props.data
         console.log(this.state.data);
@@ -100,37 +102,49 @@ export default class DateTimeScatter extends Component {
     }
 
     /**
-     * @param {array} dates 
+     * @param {array} events 
      */
-    getDateRange(dates) {
+    getDateRange(events) {
         var dateRange = [];
+        var timestamps = events.map(event => event[0]);
+        console.log(timestamps);
 
-        /**
-         * attempting to get date range, off by one day rn
-         */
-        var first = new Date(dates[0]);
-        var last = new Date(dates[dates.length - 1]);
-        var cur = first;
-        while (cur <= last) {
-            dateRange.push(this.formatDate(cur));
-            cur.setDate(cur.getDate() + 1);
+        if (timestamps.length < 2) {
+            return new Date(timestamps[0]);
         }
+
+        var last = new Date(timestamps[0]);
+        dateRange.push(last);
+        var cur = null;
+        for(var i = 1; i < timestamps.length; i++) {
+            var cur = new Date(timestamps[i]);
+            if (last.getYear() != cur.getYear() || last.getMonth() != cur.getMonth()) {
+                dateRange.push(cur);
+            } else if (last.getYear() == cur.getYear() && last.getMonth() == cur.getMonth() && last.getDate() != cur.getDate()) {
+                dateRange.push(cur);
+            } 
+            last = cur;
+        }
+
         console.log(dateRange);
+        return dateRange;
     }
 
     reformatData(data) {
         var newData = data.map((set, i) => {
-            return set.sort().map(timestamp => {
+            return set.map(timestamp => {
                 const date = new Date(timestamp);
                 const x = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`       
                 const hours = date.getHours();
                 const min = date.getMinutes();
                 const sec = date.getSeconds();
                 const y = hours*3600 + min*60 + sec;
-                return [x,y]
+                return [timestamp, x, y]
             });
         });
-        var formattedData = this.flattenData(newData);
+        console.log(newData);
+        var formattedData = this.flattenData(newData).sort((a, b) => (new Date(a[0])).getTime() - (new Date(b[0])).getTime());
+        console.log(formattedData);
         return formattedData;
     }
 
@@ -138,8 +152,8 @@ export default class DateTimeScatter extends Component {
         // should be called after parseData, add some check for that!
         var flatData = []
         data.forEach((set, i) => {
-            set.forEach(xy => {
-                flatData.push([xy[0],xy[1],i])
+            set.forEach(event => {
+                flatData.push([event[0], event[1], event[2], i]);
             });
         });
         return flatData;
@@ -199,7 +213,7 @@ export default class DateTimeScatter extends Component {
             .tickValues([0, 10800, 21600, 32400, 43200, 54000, 64800, 75600, 86400])
             .tickFormat((d, i) => this.formatTime(d));
 
-        var dates = data.map(d => d[0]).sort();
+        var dates = data.map(d => d[1]).sort();
         this.getDateRange(dates);
         var xDomain = dates;
         const xScale = d3.scaleBand()
@@ -253,11 +267,11 @@ export default class DateTimeScatter extends Component {
         chart.selectAll()
             .data(data).enter()
             .append("circle")
-            .attr('cx', (d, i) => xScale(d[0]) + xScale.bandwidth()/2)
-            .attr('cy', (d, i) => yScale(d[1]))
+            .attr('cx', (d, i) => xScale(d[1]) + xScale.bandwidth()/2)
+            .attr('cy', (d, i) => yScale(d[2]))
             .attr('r', this.global.pointRadius)
             .attr('id', (d, i) => `p${i}`)
-            .attr('fill', (d, i) => this.props.colors[d[2]])
+            .attr('fill', (d, i) => this.props.colors[d[3]])
             .attr('opacity', 0.5)
             .on("mouseover", (d, i) => {
                 this.setState({
@@ -400,7 +414,7 @@ export default class DateTimeScatter extends Component {
         this.setState({
             endDate: e.target.value,
         }, () => {
-            console.log(this.state.selectedData);
+            console.log(this.state.selectedEvents);
             this.redrawChart();
         });
     }
@@ -412,8 +426,8 @@ export default class DateTimeScatter extends Component {
                     <input 
                         type="checkbox" 
                         name="dispenses" 
-                        checked={this.state.selectedData.dispenses}
-                        value={this.state.selectedData.dispenses} 
+                        checked={this.state.selectedEvents.dispenses}
+                        value={this.state.selectedEvents.dispenses} 
                         onChange={this.onDataSelectorChange} /> 
                     Dispenses
                 </label>
@@ -422,7 +436,7 @@ export default class DateTimeScatter extends Component {
                     <input 
                         type="checkbox" 
                         name="btn1"
-                        value={this.state.selectedData.btn1} 
+                        value={this.state.selectedEvents.btn1} 
                         onChange={this.onDataSelectorChange} />
                     Button 1
                 </label>
@@ -431,7 +445,7 @@ export default class DateTimeScatter extends Component {
                     <input 
                         type="checkbox" 
                         name="btn2" 
-                        value={this.state.selectedData.btn2}
+                        value={this.state.selectedEvents.btn2}
                         onChange={this.onDataSelectorChange} />
                     Button 2
                 </label>
@@ -440,7 +454,7 @@ export default class DateTimeScatter extends Component {
                     <input 
                         type="checkbox" 
                         name="btn3" 
-                        value={this.state.selectedData.btn3} 
+                        value={this.state.selectedEvents.btn3} 
                         onChange={this.onDataSelectorChange} />
                     Button 3
                 </label>
@@ -454,8 +468,8 @@ export default class DateTimeScatter extends Component {
         var val = this.strToBool(e.target.value);
         var new_val = !val;
         this.setState({
-            selectedData: {
-                ...this.state.selectedData,
+            selectedEvents: {
+                ...this.state.selectedEvents,
                 [e.target.name]: new_val,
             }
         }, () => {
@@ -465,7 +479,7 @@ export default class DateTimeScatter extends Component {
 
     getData = () => {
         var data = this.getDataSlice();
-        data = this.getSelectedData(data);
+        data = this.getselectedEvents(data);
         return data;
     }
 
@@ -473,29 +487,29 @@ export default class DateTimeScatter extends Component {
         return this.state.data.slice(this.state.startDate, this.state.endDate+1);
     }
 
-    getSelectedData = (data) => {
+    getselectedEvents = (data) => {
         var selections = this.getDataSelections();
         console.log(selections);
-        return data.filter((event, i) => selections.indexOf(event[2]) > -1);
+        return data.filter((event, i) => selections.indexOf(event[3]) > -1);
     }
 
     getDataSelections = () => {
         var selections = [];
-        const { selectedData } = this.state;
+        const { selectedEvents } = this.state;
         
-        if (selectedData.dispenses) { 
+        if (selectedEvents.dispenses) { 
             selections.push(0);
         } 
 
-        if (selectedData.btn1) {
+        if (selectedEvents.btn1) {
             selections.push(1);
         }
 
-        if (selectedData.btn2) {
+        if (selectedEvents.btn2) {
             selections.push(2)
         }
 
-        if (selectedData.btn3) {
+        if (selectedEvents.btn3) {
             selections.push(3)
         }
 
