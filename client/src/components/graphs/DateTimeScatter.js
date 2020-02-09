@@ -7,6 +7,7 @@ export default class DateTimeScatter extends Component {
         super(props);
 
         var formattedData = this.reformatData(this.props.data);
+        var dateRange = this.getDateRange(formattedData);
         this.state = {
             svg: null,
             chart: null,
@@ -16,7 +17,7 @@ export default class DateTimeScatter extends Component {
             // index of the start date
             startDate: 0,
             // index of the end date
-            endDate: this.props.data.length - 1,
+            endDate: dateRange.length - 1,
             data: formattedData,
             selectedEvents: {
                 dispenses: true,
@@ -24,8 +25,9 @@ export default class DateTimeScatter extends Component {
                 btn2: false,
                 btn3: false,
             },
-            selectedDates: this.getDateRange(formattedData),
-            selectedData: this.getData()
+            selectedDates: dateRange,
+            selectedData: formattedData,
+            dateRange: dateRange,
         }
         this.global = {
             pointRadius: 3,
@@ -101,33 +103,49 @@ export default class DateTimeScatter extends Component {
             return "" + val;
     }
 
+    sameDate(a, b) {
+        if (a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getYear() == b.getYear()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @param {array} events 
      */
     getDateRange(events) {
         var dateRange = [];
         var timestamps = events.map(event => event[0]);
-        console.log(timestamps);
 
         if (timestamps.length < 2) {
-            return new Date(timestamps[0]);
+            return [new Date(timestamps[0])];
         }
 
-        var last = new Date(timestamps[0]);
-        dateRange.push(last);
-        var cur = null;
-        for(var i = 1; i < timestamps.length; i++) {
-            var cur = new Date(timestamps[i]);
-            if (last.getYear() != cur.getYear() || last.getMonth() != cur.getMonth()) {
-                dateRange.push(cur);
-            } else if (last.getYear() == cur.getYear() && last.getMonth() == cur.getMonth() && last.getDate() != cur.getDate()) {
-                dateRange.push(cur);
-            } 
-            last = cur;
+        var firstDate = new Date(timestamps[0]);
+        console.log(`First Date: ${firstDate}`);
+        var lastDate = new Date(timestamps[timestamps.length - 1]);
+        console.log(`Last Date: ${lastDate}`);
+
+        if (this.sameDate(firstDate, lastDate)) {
+            return [firstDate];
         }
 
-        console.log(dateRange);
+        var curDate = new Date(firstDate.getTime());
+        while (!this.sameDate(curDate, lastDate)) {
+            var newDate = new Date(curDate.getTime());
+            newDate.setHours(0, 0, 0, 0);
+            dateRange.push(newDate);
+            curDate = new Date(curDate.getTime() + (24 * 60 * 60 * 1000));
+        }
+        lastDate.setHours(0, 0, 0, 0);
+        dateRange.push(lastDate);
         return dateRange;
+    }
+
+    increaseByOneDay = (date) => {
+        var newDate = new Date(date.getTime() + (24 * 60 * 60 + 1000));
+        return newDate;
     }
 
     reformatData(data) {
@@ -142,9 +160,7 @@ export default class DateTimeScatter extends Component {
                 return [timestamp, x, y]
             });
         });
-        console.log(newData);
         var formattedData = this.flattenData(newData).sort((a, b) => (new Date(a[0])).getTime() - (new Date(b[0])).getTime());
-        console.log(formattedData);
         return formattedData;
     }
 
@@ -214,8 +230,9 @@ export default class DateTimeScatter extends Component {
             .tickFormat((d, i) => this.formatTime(d));
 
         var dates = data.map(d => d[1]).sort();
+        console.log(dates);
         this.getDateRange(dates);
-        var xDomain = dates;
+        var xDomain = this.state.selectedDates.slice(this.state.startDate, this.state.endDate+1).map(date => this.formatTimestamp(date));
         const xScale = d3.scaleBand()
             .range([0, canvasWidth])
             .domain(xDomain)
@@ -391,15 +408,15 @@ export default class DateTimeScatter extends Component {
             <div className={`graph-container ${this.props.id}`}>
                 <div ref="canvas"></div>
                 <div>{this.dataSelectorHTML()}</div>
-                <div>Start Date: {this.startDateSelect(this.state.data)}</div>
-                <div>End Date: {this.endDateSelect(this.state.data)}</div>
+                <div>Start Date: {this.startDateSelect(this.state.dateRange)}</div>
+                <div>End Date: {this.endDateSelect(this.state.dateRange)}</div>
             </div> 
         )
     }
 
     formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
-        return `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`;
+        return this.formatDate(date);
     }
 
     onStartDateSelectChange = (e) => {
@@ -478,18 +495,30 @@ export default class DateTimeScatter extends Component {
     }
 
     getData = () => {
-        var data = this.getDataSlice();
-        data = this.getselectedEvents(data);
+        var data = this.getDataInDateRange();
+        data = this.getSelectedEvents(data);
         return data;
     }
 
-    getDataSlice = () => {
-        return this.state.data.slice(this.state.startDate, this.state.endDate+1);
+    getDataInDateRange = () => {
+        var firstDate = this.state.dateRange[this.state.startDate];
+        var lastDate = this.state.dateRange[this.state.endDate];
+        console.log(typeof firstDate);
+        console.log(typeof(lastDate));
+        var selectedDates = this.state.data.filter(event => {
+            var date = new Date(event[0])
+            if (date.getTime() >= firstDate.getTime() && date.getTime() < this.increaseByOneDay(lastDate).getTime()) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        console.log(selectedDates);
+        return selectedDates;
     }
 
-    getselectedEvents = (data) => {
+    getSelectedEvents = (data) => {
         var selections = this.getDataSelections();
-        console.log(selections);
         return data.filter((event, i) => selections.indexOf(event[3]) > -1);
     }
 
@@ -527,9 +556,9 @@ export default class DateTimeScatter extends Component {
                 {
                     events.map((event, i) => {
                         if (i == this.state.startDate) {
-                            return <option selected="selected" value={i}>{this.formatTimestamp(event[0])}</option>
+                            return <option selected="selected" value={i}>{this.formatTimestamp(event)}</option>
                         } else {
-                            return <option value={i}>{this.formatTimestamp(event[0])}</option>
+                            return <option value={i}>{this.formatTimestamp(event)}</option>
                         }
                     })
                 }
@@ -543,9 +572,9 @@ export default class DateTimeScatter extends Component {
                 {
                     events.map((event, i) => {
                         if (i == this.state.endDate) {
-                            return <option selected="selected" value={i}>{this.formatTimestamp(event[0])}</option>
+                            return <option selected="selected" value={i}>{this.formatTimestamp(event)}</option>
                         } else {
-                            return <option value={i}>{this.formatTimestamp(event[0])}</option>
+                            return <option value={i}>{this.formatTimestamp(event)}</option>
                         }
                     })
                 }
