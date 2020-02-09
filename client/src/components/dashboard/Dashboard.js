@@ -86,6 +86,8 @@ class Dashboard extends Component {
 
         const { userProfile } = auth0client; 
 
+        console.log(userProfile); 
+
         console.log(userProfile.sub.substring(6)); 
         ReactGA.set({
             userId: userProfile.sub.substring(6),
@@ -204,6 +206,7 @@ class Dashboard extends Component {
                 <div className="DashHeader-container">
                     <DashHeader
                         name={this.props.profile.personalData.name}  
+                        roles={roles}
                         toggleSideBar={this.toggleSideBar}
                         sideBarCollapsed={this.props.sideBarCollapsed}
                         sideBarToggle={this.props.sideBarToggle}

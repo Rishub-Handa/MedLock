@@ -14,6 +14,10 @@ class DashHeader extends Component {
         super(props);
     }
 
+    componentDidMount() {
+        console.log(this.props.roles); 
+    }
+
     collapsedSideBarJSX = () => {
         return (
             <div className="DashHeader" >
@@ -25,9 +29,13 @@ class DashHeader extends Component {
                         <p>"You never know how strong you are until being strong is your only choice."</p>
                     </body>
                 </div>
-                <div className="AddDispenser-container">
-                    <AddDispenser displayCodeCallback={this.props.displayDispenserCode} /> 
-                </div>
+                {
+                    this.props.roles[0].name == "Patient" && (
+                        <div className="AddDispenser-container">
+                            <AddDispenser displayCodeCallback={this.props.displayDispenserCode} /> 
+                        </div>
+                    )
+                }
                 <div className="UserInfo-container">
                     <UserInfo name={this.props.name} />
                 </div>
@@ -41,9 +49,13 @@ class DashHeader extends Component {
                 <div className="menuIcon-container expanded" onClick={this.props.toggleSideBar}>
                     <img className="menuIcon" src={menuIcon} />
                 </div>
-                <div className="AddDispenser-container">
-                    <AddDispenser displayCodeCallback={this.props.displayDispenserCode} /> 
-                </div>
+                {
+                    this.props.roles[0].name == "Patient" && (
+                        <div className="AddDispenser-container">
+                            <AddDispenser displayCodeCallback={this.props.displayDispenserCode} /> 
+                        </div>
+                    )
+                }
                 <div className="UserInfo-container">
                     <UserInfo name={this.props.name} />
                 </div>
@@ -60,9 +72,13 @@ class DashHeader extends Component {
                         <p>"You never know how strong you are until being strong is your only choice."</p>
                     </body>
                 </div>
-                <div className="AddDispenser-container">
-                    <AddDispenser displayCodeCallback={this.props.displayDispenserCode} /> 
-                </div>
+                {
+                    this.props.roles[0].name == "Patient" && (
+                        <div className="AddDispenser-container">
+                            <AddDispenser displayCodeCallback={this.props.displayDispenserCode} /> 
+                        </div>
+                    )
+                }
                 <div className="UserInfo-container">
                     <UserInfo name={this.props.name} />
                 </div>
@@ -73,9 +89,13 @@ class DashHeader extends Component {
     render() {
         return (
             <div className="DashHeader">
-                <div className="AddDispenser-container">
-                    <AddDispenser displayCodeCallback={this.props.displayDispenserCode} /> 
-                </div>
+                {
+                    this.props.roles[0].name == "Patient" && (
+                        <div className="AddDispenser-container">
+                            <AddDispenser displayCodeCallback={this.props.displayDispenserCode} /> 
+                        </div>
+                    )
+                }
                 <div className="UserInfo-container">
                     <UserInfo name={this.props.name} />
                 </div>
