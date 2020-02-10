@@ -71,9 +71,19 @@ class Dashboard extends Component {
 
     toggleSideBar = () => {
         if (this.props.sideBarCollapsed) {
+            ReactGA.event({
+                category: 'SideBar Toggle', 
+                action: 'Expanded SideBar', 
+                label: 'Click Sidebar Menu Icon to Expand' 
+            })
             this.props.expandSideBar();
         } 
         else {
+            ReactGA.event({
+                category: 'SideBar Toggle', 
+                action: 'Collapsed SideBar', 
+                label: 'Click Sidebar Menu Icon to Collapse' 
+            })
             this.props.collapseSideBar(); 
         }
     }

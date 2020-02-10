@@ -132,12 +132,12 @@ class IntakeSurvey extends Component {
         }
 
         return (
-            <div>
-                <p>Intake Survey</p>
+            <div class="survey-container">
+                <h1 class="header">Intake Survey</h1>
                 {this.state.questions ? this.questionsHTML() : (
                     <p>Loading . . . </p>
                 )} 
-                <button onClick={this.submitResponses}>Submit</button>
+                <button class="create-new-btn" onClick={this.submitResponses}>Submit</button>
             </div>
         )
     }

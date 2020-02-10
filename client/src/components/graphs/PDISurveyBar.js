@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as d3 from "d3";
+import ReactGA from 'react-ga'; 
 
 export default class PDISurveyBar extends Component {
 
@@ -73,6 +74,11 @@ export default class PDISurveyBar extends Component {
     }
 
     onSelectChange = (e) => {
+        ReactGA.event({
+            category: 'Data Chart Interaction', 
+            action: 'Updated PDI Survey Chart Data to Chosen Date', //specify date user changed to
+            label: 'Change Time Interval for PDI Survey Bar Chart'
+        }); 
         this.setState({
             surveyIndex: e.target.value,
         });
