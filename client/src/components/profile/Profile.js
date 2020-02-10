@@ -23,7 +23,7 @@ class Profile extends Component {
         //
         ReactGA.event({
             category: 'Profile Interaction', 
-            action: 'Updated Profile Data', 
+            action: 'Updated Personal Data', 
             label: 'Click Save after Edit Profile'
         }); 
         this.props.saveProfile(updatedPersonalData, this.state.role);
