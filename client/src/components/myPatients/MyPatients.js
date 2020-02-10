@@ -12,6 +12,7 @@ import PatientView from '../patientView/PatientView';
 import SearchField from 'react-search-field';
 import UserList from '../users/UserList';
 import { MEDLOCK_API } from '../../config/servers';
+import DispenserCode from '../dashboard/DispenserCode'; 
 import '../../css/MyPatients.css';
 
 
@@ -24,7 +25,9 @@ class MyPatients extends Component {
         this.state = {
             newPatientForm: false,
             onePatientView: false,
-            viewedPatient: null
+            viewedPatient: null, 
+            toggleDispenserCodeDisplay: false, 
+            dispenserCodeUser: null 
         }
     }
 
@@ -43,6 +46,19 @@ class MyPatients extends Component {
 
     addPatient = () => {
         this.setState({newPatientForm: true});
+    } 
+
+    addDispenser = (user) => {
+        console.log(user); 
+        this.setState({ 
+            toggleDispenserCodeDisplay: true, 
+            dispenserCodeUser: user 
+        }); 
+        console.log(this.state.toggleDispenserCodeDisplay); 
+    }
+
+    hideDispenserCode = () => {
+        this.setState({ toggleDispenserCodeDisplay: false }); 
     }
 
     displayNewPatientForm = () => {
@@ -198,11 +214,19 @@ class MyPatients extends Component {
 
         return (
             <div className="MyPatients">
+                {
+                    this.state.toggleDispenserCodeDisplay && 
+                        <div className="DispenserCode-container">
+                            <DispenserCode hideDispenserCode={this.hideDispenserCode}
+                                            userProfile={this.state.dispenserCodeUser}/> 
+                        </div> 
+                }
                 <UserList 
                     title="My Patients"
                     users={this.props.patients}
                     viewUser={this.viewPatient}
                     deleteUser={this.onRemovePatient}
+                    addDispenser={this.addDispenser} 
                 />
                 {this.displayNewPatientForm()}
             </div>
