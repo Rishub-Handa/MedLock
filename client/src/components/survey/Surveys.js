@@ -3,6 +3,8 @@ import PDISurvey from './PDISurvey';
 import SecuredRoute from '../SecuredRoute'; 
 import history from '../nav/history'; 
 import IntakeSurvey from './IntakeSurvey'; 
+import '../../css/Surveys.css';
+import ReactGA from 'react-ga'; 
 
 class Surveys extends Component {
 
@@ -12,6 +14,11 @@ class Surveys extends Component {
 
     surveyLink = (e) => {
         // history.replace(this.props.link);
+        ReactGA.event({
+            category: 'Survey Selection', 
+            action: 'Navigated to ' + this.surveyLink + ' from Surveys', 
+            label: 'Click ' + this.surveyLink + ' from Surveys'
+        }); 
         console.log(e); 
         console.log(e.target.value); 
         history.replace(e.target.value); 
@@ -31,9 +38,9 @@ class Surveys extends Component {
     surveysHTML = () => {
         return (
             <div>
-                <p>Surveys</p>
-                <button value="/dashboard/survey/pdisurvey" onClick={this.surveyLink}>PDI Survey</button>
-                <button value="/dashboard/survey/intake" onClick={this.surveyLink}>Intake Survey</button>
+                <h1 style={{marginBottom: "20px"}} class="header">Surveys</h1>
+                <button class="create-new-btn" value="/dashboard/survey/pdisurvey" onClick={this.surveyLink}>PDI Survey</button>
+                <button class="create-new-btn" value="/dashboard/survey/intake" onClick={this.surveyLink}>Intake Survey</button>
             </div>
         ); 
     }

@@ -20,17 +20,8 @@ class PatientData extends Component {
 
     state = {
         retrievedData: false, 
-        showCheckIn: false 
     } 
-
-    submitCheckIn = (checkInResponses) => {
-        console.log(checkInResponses); 
-        this.setState({ showCheckIn: false }); 
-        this.props.addCheckIn(checkInResponses); 
-        
-        // Show submitted CheckIn 
-    }
-
+    
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
         this.props.fetchPDISurveys(); 
@@ -45,10 +36,7 @@ class PatientData extends Component {
                 dispenser, 
                 dispenserLoading, 
                 dispenserLoaded,
-                dispenserError, 
-                checkInData, 
-                checkInLoading, 
-                checkInError } = this.props; 
+                dispenserError, } = this.props; 
 
         console.log(dispenser);
 
@@ -87,7 +75,7 @@ class PatientData extends Component {
          
         return (
             <div className="pd-container">
-                <h1 className="pd-title">
+                <h1 className="header">
                     My Data
                 </h1>
                 {!checkInData && !checkInLoading && !checkInError && !this.state.showCheckIn && 
@@ -128,10 +116,7 @@ const mapStateToProps = state => ({
     dispenserLoading: state.dispenseState.dispenserLoading,
     dispenserLoaded: state.dispenseState.dispenserLoaded,
     dispenserError: state.dispenseState.error, 
-    checkInData: state.patientState.checkInData,
-    checkInLoading: state.patientState.checkInLoading, 
-    checkInError: state.patientState.checkInError 
 
 });
 
-export default connect(mapStateToProps, { fetchPDISurveys, fetchDispenser, addCheckIn })(PatientData); 
+export default connect(mapStateToProps, { fetchPDISurveys, fetchDispenser })(PatientData); 

@@ -85,15 +85,20 @@ router.put('/', (req, res) => {
 router.post('/code', (req, res) => {
     console.log("Dispenser Code POST Request");
 
-    console.log(req.body);
+    console.log(req.body.numArray);
 
-    // Use different logic to identify patient if the provider is registering the patient dispenser 
+    var patientId = ""; 
 
-    var patientId = req.user.sub.substring(6);
+    if(req.body.patientId) {
+        patientId = req.body.patientId; 
+    } else {
+        req.user.sub.substring(6); 
+    }
+
     Patient.findById(patientId, (err, patient) => {
-        if (err) return res.status(500).send(err); 
+        if (err || !patient) return res.status(500).send(err); 
 
-        patient.medicalData.dispenserCode = req.body; 
+        patient.medicalData.dispenserCode = req.body.numArray; 
 
         return patient.save()
             .then(patient => {
@@ -123,12 +128,13 @@ router.post('/checkIn', (req, res) => {
 
     console.log(req.body); 
 
-    var id = req.user.sub.substring(6);
+    var id = req.body.patientId;
 
+    
     Patient.findById(id)
         .then(patient => {
             const newCheckIn = new CheckIn({
-                data: req.body, 
+                data: req.body.responses, 
             }); 
 
             patient.medicalData.checkIns.push(newCheckIn); 
@@ -140,6 +146,7 @@ router.post('/checkIn', (req, res) => {
                 .catch(error => console.log(error));
         })
         .catch(error => res.status(404).json(error));
+    
 });
 
 module.exports = router;

@@ -9,12 +9,12 @@
     position: fixed;
     z-index: 2;
     height: 100vh;
-    width: 16.7%;
+    width: 210px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     color: white;
-    /* box-shadow: 2px 2px 5px black; */
+    box-shadow: 0px 0px 8px .5px var(--medlock-dark-gray);
     /* border-radius: 25px; */
 }
 
@@ -24,8 +24,9 @@
     justify-content: space-between;
     background-color: var(--medlock-blue);
     margin: 0px;
-    padding: 10px 7.5px 10px 7.5px;
+    padding: 15px;
     box-shadow: 0 3px 17px 0 rgba(0, 0, 0, 0.16);
+    height: 65px;
 }
 
 .dash-logo {
@@ -35,6 +36,8 @@
 #collapsedMenuItem {
     height: 30px;
     background-color: var(--medlock-blue);
+    padding: 2px;
+    border-radius: 5px;
 }
 
 .logo-container:hover {

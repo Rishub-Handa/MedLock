@@ -7,7 +7,7 @@ import auth0client from '../../auth/Auth';
 import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
-import Inbox from '../inbox/Inbox';
+ //import Inbox from '../inbox/Inbox';
 import { loadProfile } from '../../actions/profileActions'; 
 import { fetchRoles } from '../../actions/authActions';
 import { fetchAMT } from '../../auth/AuthManagement'; 
@@ -71,9 +71,19 @@ class Dashboard extends Component {
 
     toggleSideBar = () => {
         if (this.props.sideBarCollapsed) {
+            ReactGA.event({
+                category: 'SideBar Toggle', 
+                action: 'Expanded SideBar', 
+                label: 'Click Sidebar Menu Icon to Expand' 
+            })
             this.props.expandSideBar();
         } 
         else {
+            ReactGA.event({
+                category: 'SideBar Toggle', 
+                action: 'Collapsed SideBar', 
+                label: 'Click Sidebar Menu Icon to Collapse' 
+            })
             this.props.collapseSideBar(); 
         }
     }
@@ -85,6 +95,8 @@ class Dashboard extends Component {
         x.addListener(this.autoCollapseSideBar);
 
         const { userProfile } = auth0client; 
+
+        console.log(userProfile); 
 
         console.log(userProfile.sub.substring(6)); 
         ReactGA.set({
@@ -204,6 +216,7 @@ class Dashboard extends Component {
                 <div className="DashHeader-container">
                     <DashHeader
                         name={this.props.profile.personalData.name}  
+                        roles={roles}
                         toggleSideBar={this.toggleSideBar}
                         sideBarCollapsed={this.props.sideBarCollapsed}
                         sideBarToggle={this.props.sideBarToggle}
@@ -270,7 +283,7 @@ class Dashboard extends Component {
         return (
             <div className="SecuredRoutes-container">
                 <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
-                <SecuredRoute path="/dashboard/inbox" component={Inbox} />
+                {/* <SecuredRoute path="/dashboard/inbox" component={Inbox} /> */}
                 <SecuredRoute path="/dashboard/mydata" patient={props.profile} component={PatientData} />
                 <SecuredRoute path="/dashboard/resources" component={Resources} />
                 <SecuredRoute path="/dashboard/survey" component={Surveys} />

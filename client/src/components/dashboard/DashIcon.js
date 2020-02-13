@@ -6,7 +6,7 @@ import ReactGA from 'react-ga';
 
 /**
  * Class Component for displaying info about the 
- * module it represents. When clicked, the correspoding
+ * module it represents. When clicked, the corresponding
  * module is loaded. 
  */
 class DashIcon extends Component {
@@ -17,7 +17,6 @@ class DashIcon extends Component {
      */
     route = (e) => {
         
-        console.log("Dash Icon Route. "); 
         ReactGA.event({
             category: 'Dash Icon Click', 
             action: 'Navigated to ' + this.props.name + ' from Dash', 

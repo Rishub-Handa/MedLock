@@ -146,7 +146,7 @@ export default class Inbox extends Component {
   render() {
     return (
       <div>
-        Welcome to the Inbox!
+        <h1 className="header"> Welcome to the Inbox! </h1>
       </div>
     )
   }

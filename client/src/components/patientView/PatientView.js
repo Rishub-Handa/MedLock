@@ -5,11 +5,30 @@ import { fetchDispenser } from '../../actions/dispenserActions';
 import DataView from '../patientData/DataView';
 import PropTypes from 'prop-types';
 import '../../css/PatientView.css';
+import CheckIn from './CheckIn'; 
+import { addCheckIn } from '../../actions/patientActions'; 
+import RawDataDisp from './RawDataDisp'; 
 
 class PatientView extends Component {
 
     constructor(props) {
         super(props);
+    }
+
+    state = {
+        showCheckIn: false 
+    }
+
+    submitCheckIn = (checkInResponses) => {
+        console.log(checkInResponses); 
+        this.setState({ showCheckIn: false }); 
+
+        let checkInBody = {
+            responses: checkInResponses, 
+            patientId: this.props.patient._id
+        } 
+        this.props.addCheckIn(checkInBody); 
+
     }
 
     componentDidMount() {
@@ -22,7 +41,10 @@ class PatientView extends Component {
                 dispenser, 
                 dispenserLoading, 
                 dispenserLoaded,
-                dispenserError } = this.props; 
+                dispenserError, 
+                checkInData, 
+                checkInLoading, 
+                checkInError } = this.props; 
 
         const { pdiSurveys } = patient.medicalData.surveys;
 
@@ -64,9 +86,18 @@ class PatientView extends Component {
             }
         }
 
+        
+
         return (
             <div className="patientView-container">
                 <PersonalDataView personalData={patient.personalData} />
+                {!checkInData && !checkInLoading && !checkInError && !this.state.showCheckIn && 
+                    <button onClick={() => { this.setState({ showCheckIn: true }); }}>Add Check In</button>} 
+                {!checkInData && !checkInLoading && !checkInError && this.state.showCheckIn && 
+                    <CheckIn submitData={this.submitCheckIn}/>}
+                {checkInLoading && <p>Loading . . .</p>}
+                {checkInError && <p>There was an error in sending the data. </p>}
+                {checkInData && <p>Thank you, the data has been saved. </p>}
                 <DataView data={data}
                 />
                 {/* <div className="leftPanel">
@@ -76,6 +107,7 @@ class PatientView extends Component {
                 <div className="rightPanel">
                     <MedicalDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}} />
                 </div> */}
+                <RawDataDisp patient={this.props.patient} rawData={dispenser.events}/> 
             </div>
         )
     }
@@ -93,7 +125,10 @@ const mapStateToProps = state => ({
     dispenser: state.dispenseState.dispenser, 
     dispenserLoading: state.dispenseState.dispenserLoading,
     dispenserLoaded: state.dispenseState.dispenserLoaded,
-    dispenserError: state.dispenseState.error 
+    dispenserError: state.dispenseState.error, 
+    checkInData: state.patientState.checkInData,
+    checkInLoading: state.patientState.checkInLoading, 
+    checkInError: state.patientState.checkInError 
 })
 
-export default connect(mapStateToProps, { fetchDispenser })(PatientView);
+export default connect(mapStateToProps, { fetchDispenser, addCheckIn })(PatientView);

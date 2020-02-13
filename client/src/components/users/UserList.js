@@ -20,7 +20,8 @@ export default class UserList extends Component {
                 className="listItem"
                 user={user}
                 deleteUser={this.props.deleteUser}
-                viewUser={this.props.viewUser}
+                viewUser={this.props.viewUser} 
+                addDispenser={this.props.addDispenser}
             />
         ));
     }
@@ -69,19 +70,19 @@ export default class UserList extends Component {
                             />
                         </FormGroup>
                         <FormGroup>
-                            <Button className="red-button" onClick={() => {
-                                this.setState({
-                                    ...this.state,
-                                    createNewUserForm: false,
-                                });
-                            }}>Cancel</Button>
-                            <Button className="blue-button" onClick={() => {
+                            <button style={{float: "left"}} className="create-new-btn" onClick={() => {
                                 this.setState({
                                     ...this.state,
                                     createNewUserForm: false,
                                 });
                                 this.props.createNewUser(this.state.newUserName, this.state.newUserEmail);
-                            }}>Create</Button>
+                            }}>Add Patient</button>
+                            <button style={{float: "left"}} className="cancel-button" onClick={() => {
+                                this.setState({
+                                    ...this.state,
+                                    createNewUserForm: false,
+                                });
+                            }}>Cancel</button>
                         </FormGroup>
                     </Form>
                 </div>
@@ -93,10 +94,10 @@ export default class UserList extends Component {
         return (
             <div className="UserList">
                 <div className="UserList-header">
-                    <h3>{this.props.title}</h3>
+                    <h1 className="header" style={{textAlign: "left", marginBottom: "20px", alignSelf: "center"}}>{this.props.title}</h1>
                     <div className="UserList-ControlPanel">
                         <div className="left">
-                            <button className="create-new-btn" onClick={() => this.setState({ createNewUserForm: true })}>Create New</button>
+                            <button className="create-new-btn" onClick={() => this.setState({ createNewUserForm: true })}>+ Create New</button>
                             <button className="delete-btn" onClick={() => this.props.deleteAllUsers()}>Delete All</button>
                         </div>
                         <div className="right">
