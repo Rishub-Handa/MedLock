@@ -30,8 +30,8 @@ export default class DateTimeScatter extends Component {
             dateRange: dateRange,
         }
         this.global = {
-            pointRadius: 3,
-            expandedPointRadius: 6,
+            pointRadius: 5,
+            expandedPointRadius: 10,
         }
     }
     
@@ -123,9 +123,7 @@ export default class DateTimeScatter extends Component {
         }
 
         var firstDate = new Date(timestamps[0]);
-        console.log(`First Date: ${firstDate}`);
         var lastDate = new Date(timestamps[timestamps.length - 1]);
-        console.log(`Last Date: ${lastDate}`);
 
         if (this.sameDate(firstDate, lastDate)) {
             return [firstDate];
@@ -179,15 +177,18 @@ export default class DateTimeScatter extends Component {
         var html = `${this.formatTime(d)}`;
 
         tooltip.html(html)
-            .style("left", (d3.event.pageX + 15) + "px")
-            .style("top", (d3.event.pageY - 28) + "px")
+            .style("left", (d3.event.pageX - 17) + "px")
+            .style("top", (d3.event.pageY - 11) + "px")
+            .style("padding", "2px")
+            .style("margin", "0px")
             .transition()
                 .duration(300)
-                .style("opacity", 1)
+                .style("opacity", 0.7)
     }
 
     tooltipMouseout = (d, tooltip) => {
         tooltip.transition()
+            .delay(2000)
             .duration(300)
             .style("opacity", 0)
     }
@@ -204,7 +205,7 @@ export default class DateTimeScatter extends Component {
 
     drawChart() {
         console.log("drawChart() called");
-        var data = this.getData();
+        var data = this.getSelectedData();
         const margin = 60;
         const canvasHeight = this.state.height - 2*margin;
         const canvasWidth = this.state.width - 2*margin;
@@ -230,9 +231,9 @@ export default class DateTimeScatter extends Component {
             .tickFormat((d, i) => this.formatTime(d));
 
         var dates = data.map(d => d[1]).sort();
-        console.log(dates);
         this.getDateRange(dates);
-        var xDomain = this.state.selectedDates.slice(this.state.startDate, this.state.endDate+1).map(date => this.formatTimestamp(date));
+        var selectedDates = this.state.dateRange.slice(this.state.startDate, this.state.endDate+1);
+        var xDomain = selectedDates.map(date => this.formatTimestamp(date));
         const xScale = d3.scaleBand()
             .range([0, canvasWidth])
             .domain(xDomain)
@@ -255,7 +256,6 @@ export default class DateTimeScatter extends Component {
             .attr('text-anchor', 'middle')
             .text('Time')
         
-
         // x-axis label
         svg.append('text')
             .attr('x', canvasWidth / 2 + margin)
@@ -298,7 +298,7 @@ export default class DateTimeScatter extends Component {
                 })
             });
         
-        const config = { tooltip };
+        const config = { xScale, yScale, tooltip };
 
         this.setState({ 
             svg, 
@@ -372,24 +372,43 @@ export default class DateTimeScatter extends Component {
          * since componentDidUpdate can be called before drawChart is called,
          * make sure that chart is defined before proceeding
          */
-        if (chart) { 
+         if (chart) { 
+            const { xScale, yScale } = config;
+
+            var getSign = () => {
+                var val = Math.random() - 0.5;
+                return val / Math.abs(val);
+            }
+
             chart.selectAll("circle")
             .on("mouseover", (d, i) => {
+                console.log(`d: ${d}`);
+                console.log(`i: ${i}`);
                 // increase the size of the point
+                var dx = getSign() * Math.floor((Math.random() * 20) + 15);
+                var dy = getSign() * Math.floor((Math.random() * 20) + 15);
                 chart.select(`#p${i}`)
                     .transition()
-                    .duration(500)
-                    .attr("r", this.global.expandedPointRadius);
+                        .duration(1000)
+                        .attr('cx', (d, i) => (xScale(d[1]) + xScale.bandwidth()/2 + dx))
+                        .attr('cy', (d, i) => (yScale(d[2]) + dy))
+                    .transition()
+                        .delay(1000)
+                        .duration(1000)
+                        .attr('cx', (d, i) => xScale(d[1]) + xScale.bandwidth()/2)
+                        .attr('cy', (d, i) => yScale(d[2]))
+                    // .attr("r", this.global.expandedPointRadius);
                 
                 // show tooltip
-                this.tooltipMouseover(d[1], config.tooltip);
+                this.tooltipMouseover(d[2], config.tooltip);
             })
             .on("mouseout", (d, i) => {
                 // decrease the size of the point
-                chart.select(`#p${i}`)
-                    .transition()
-                    .duration(500)
-                    .attr("r", this.global.pointRadius);
+                // chart.select(`#p${i}`)
+                //     .transition()
+                //     .duration(1000)
+                //     .attr('cx', (d, i) => xScale(d[1]) + xScale.bandwidth()/2)
+                //     .attr('cy', (d, i) => yScale(d[2]))
                 
                 // hide tooltip
                 this.tooltipMouseout(d[1], config.tooltip);
@@ -399,7 +418,6 @@ export default class DateTimeScatter extends Component {
     
     componentDidUpdate() {
         console.log("componentDidUpate() called");
-        console.log(this.state);
         this.updateChart();
     }
 
@@ -421,7 +439,7 @@ export default class DateTimeScatter extends Component {
 
     onStartDateSelectChange = (e) => {
         this.setState({
-            startDate: e.target.value,
+            startDate: Number(e.target.value),
         }, () => {
             this.redrawChart();
         });
@@ -429,9 +447,8 @@ export default class DateTimeScatter extends Component {
 
     onEndDateSelectChange = (e) => {
         this.setState({
-            endDate: e.target.value,
+            endDate: Number(e.target.value),
         }, () => {
-            console.log(this.state.selectedEvents);
             this.redrawChart();
         });
     }
@@ -494,7 +511,7 @@ export default class DateTimeScatter extends Component {
         });
     }
 
-    getData = () => {
+    getSelectedData = () => {
         var data = this.getDataInDateRange();
         data = this.getSelectedEvents(data);
         return data;
@@ -503,17 +520,15 @@ export default class DateTimeScatter extends Component {
     getDataInDateRange = () => {
         var firstDate = this.state.dateRange[this.state.startDate];
         var lastDate = this.state.dateRange[this.state.endDate];
-        console.log(typeof firstDate);
-        console.log(typeof(lastDate));
+        var lastDatePlusOne = new Date(lastDate.getTime() + (24 * 60 * 60 * 1000));
         var selectedDates = this.state.data.filter(event => {
-            var date = new Date(event[0])
-            if (date.getTime() >= firstDate.getTime() && date.getTime() < this.increaseByOneDay(lastDate).getTime()) {
+            var date = new Date(event[0]);
+            if (date.getTime() >= firstDate.getTime() && date.getTime() < lastDatePlusOne.getTime()) {
                 return true;
             } else {
                 return false;
             }
         });
-        console.log(selectedDates);
         return selectedDates;
     }
 
