@@ -425,9 +425,11 @@ export default class DateTimeScatter extends Component {
         return (
             <div className={`graph-container ${this.props.id}`}>
                 <div ref="canvas"></div>
-                <div>{this.dataSelectorHTML()}</div>
-                <div>Start Date: {this.startDateSelect(this.state.dateRange)}</div>
-                <div>End Date: {this.endDateSelect(this.state.dateRange)}</div>
+                <div className="graph-settings-div">
+                    <div>{this.dataSelectorHTML()}</div>
+                    <div>Start Date: {this.startDateSelect(this.state.dateRange)}</div>
+                    <div>End Date: {this.endDateSelect(this.state.dateRange)}</div>
+                </div>
             </div> 
         )
     }
