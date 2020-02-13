@@ -7,6 +7,7 @@ export default class SummaryStats extends Component {
             <div>
                 <p>{`Average Pills Per Day: ${this.averagePillsPerDay()}`}</p>
                 <p>{`Days Met Prescription: ${this.daysMetPrescription()}`}</p>
+                <p>{`Collar Off Count: ${this.collarOffCount()}`}</p>
             </div>
         )
     }
@@ -16,10 +17,8 @@ export default class SummaryStats extends Component {
             const date = new Date(timestamp);
             return date;
         });
-        console.log(dispense_dates);
 
         var num_pills = dispense_dates.length;
-        console.log(num_pills);
         var num_days = 0;
         for(var i = 0; i < dispense_dates.length - 1; i++) {
             var j = i + 1;
@@ -31,9 +30,12 @@ export default class SummaryStats extends Component {
                     num_days++;
                 } 
         }
-        console.log(num_days);
         var avgPillsPerDay = num_pills / num_days;
-        return avgPillsPerDay;
+        return avgPillsPerDay.toFixed(2);
+    }
+
+    collarOffCount = () => {
+        return this.props.data.collarOff.length;
     }
 
     daysMetPrescription = () => {

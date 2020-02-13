@@ -4,12 +4,8 @@ import { connect } from 'react-redux';
 import { fetchPDISurveys } from '../../actions/surveyActions'; 
 import { fetchDispenser } from '../../actions/dispenserActions';  
 import '../../css/PatientData.css'; 
-import PDISurveyBar from '../graphs/PDISurveyBar';
-import DateTimeScatter from '../graphs/DateTimeScatter';
 import DataView from './DataView';
 import SummaryStats from './SummaryStats';
-import CheckIn from './CheckIn'; 
-import { addCheckIn } from '../../actions/patientActions'; 
 
 /** 
  * Component for displaying individual patient data
@@ -70,6 +66,8 @@ class PatientData extends Component {
                 btn1: dispenser.events.btn1,
                 btn2: dispenser.events.btn2,
                 btn3: dispenser.events.btn3,
+                collarOff: dispenser.events.collarOff,
+                capTurn: dispenser.events.capTurn
             }
         }
          
@@ -78,13 +76,6 @@ class PatientData extends Component {
                 <h1 className="header">
                     My Data
                 </h1>
-                {!checkInData && !checkInLoading && !checkInError && !this.state.showCheckIn && 
-                    <button onClick={() => { this.setState({ showCheckIn: true }); }}>Add Check In</button>} 
-                {!checkInData && !checkInLoading && !checkInError && this.state.showCheckIn && 
-                    <CheckIn submitData={this.submitCheckIn}/>}
-                {checkInLoading && <p>Loading . . .</p>}
-                {checkInError && <p>There was an error in sending the data. </p>}
-                {checkInData && <p>Thank you, the data has been saved. </p>}
                 <SummaryStats data={data}/>
                 <DataView data={data} />
             </div>
