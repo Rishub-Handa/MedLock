@@ -22,7 +22,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build-start": "cd client && npm run-script build && cd .. && npm run start"
   },
   "author": "MedLock LLC",
   "license": "MIT"
