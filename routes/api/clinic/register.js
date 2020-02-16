@@ -18,3 +18,5 @@ router.post('/', (req, res) => {
             res.json(clinic);
         }); 
 });
+
+module.exports = router;

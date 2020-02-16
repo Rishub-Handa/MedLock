@@ -72,10 +72,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 clinicRegistering: false,
-                clinics: [
-                    ...clinics,
-                    action.payload.clinic
-                ],
+                clinics: state.clinics.concat(action.payload.clinic),
             };
         case REGISTER_NEW_CLINIC_FAILURE:
             return {
