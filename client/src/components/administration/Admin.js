@@ -10,7 +10,7 @@ import axios from 'axios';
 import ProviderSection from './sections/providers/ProviderSection';
 import ClinicSection from './sections/clinics/ClinicSection';
 import PropTypes from 'prop-types';
-import { fetchAllClinics } from '../../actions/clinicActions';
+import { fetchAllClinics, registerNewClinic } from '../../actions/clinicActions';
 import '../../css/Admin.css';
 
 class Admin extends Component {
@@ -105,7 +105,12 @@ class Admin extends Component {
 
     registerClinic = (clinicName) => {
         console.log("registerClinic() called");
-        this.props.registerClinic();
+        // depending on what info we want when we register a clinic
+        // we can change the newClinic object
+        const newClinic = {
+            name: clinicName,
+        }
+        this.props.registerNewClinic(newClinic);
     }
 
     render() {
@@ -211,6 +216,9 @@ const mapStateToProps = state => ({
     clinicsFetched: state.clinicState.clinicsFetched,
     fetchClinicsError: state.clinicState.clinicsError,
     clinics: state.clinicState.clinics,
+
+    clinicRegistering: state.clinicState.clinicRegistering,
+    registerClinicError: state.clinicState.registerError,
 });
 
 export default connect(mapStateToProps, { 
@@ -222,4 +230,5 @@ export default connect(mapStateToProps, {
     deleteProvider,
     deletePatient,
     fetchAllClinics,
+    registerNewClinic
 })(Admin); 

@@ -4,7 +4,10 @@ import {
     FETCH_ALL_CLINICS_FAILURE,
     FETCH_ALL_PROVIDERS_AT_CLINIC_BEGIN,
     FETCH_ALL_PROVIDERS_AT_CLINIC_SUCCESS,
-    FETCH_ALL_PROVIDERS_AT_CLINIC_FAILURE
+    FETCH_ALL_PROVIDERS_AT_CLINIC_FAILURE,
+    REGISTER_NEW_CLINIC_BEGIN,
+    REGISTER_NEW_CLINIC_SUCCESS,
+    REGISTER_NEW_CLINIC_FAILURE,
 } from './types';
 
 import axios from 'axios';
@@ -94,4 +97,45 @@ export function fetchAllProvidersAtClinic(clinicId) {
                 dispatch(fetchAllProvidersAtClinicFailure(error));
             });
     }
+}
+
+const registerNewClinicBegin = () => ({
+    type: REGISTER_NEW_CLINIC_BEGIN
+});
+
+const registerNewClinicSuccess = (clinic) => ({
+    type: REGISTER_NEW_CLINIC_SUCCESS,
+    payload: {
+        clinic
+    }
+});
+
+const registerNewClinicError = (error) => ({
+    type: REGISTER_NEW_CLINIC_FAILURE,
+    payload: {
+        error
+    }
+});
+
+export function registerNewClinic(newClinic) {
+    const { getAccessToken } = auth0client;
+    let API_URL = `${MEDLOCK_API}/clinic/register`;
+    const headers = {
+        'Authorization': `Bearer ${getAccessToken()}`
+    }
+
+    return dispatch => {
+        dispatch(registerNewClinicBegin());
+        return axios.post(API_URL, {'name': newClinic.name}, { headers })
+            .then(res => {
+                var clinic = res.data;
+                console.log(clinic);
+                dispatch(registerNewClinicSuccess(clinic));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(registerNewClinicError(error));
+            });
+    }
+
 }
