@@ -11,6 +11,7 @@ const adminProvider = require('./api/administration/provider');
 const adminPatient = require('./api/administration/patient');
 const patientRegister = require('./api/patient/register');
 const clinic = require('./api/clinic/clinic');
+const clinicRegister = require('../api/clinic/register');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const path = require('path');
@@ -62,6 +63,7 @@ router.use('/api/email', email);
 
 router.use('/api/patient/register', patientRegister);
 router.use('/api/clinic', clinic);
+router.use('/api/clinic/register', clinicRegister);
 
 // If no API routes are hit, send the React app
 router.use(function(req, res) {

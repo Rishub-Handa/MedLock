@@ -103,8 +103,9 @@ class Admin extends Component {
         this.props.deletePatient(ids);
     }
 
-    registerClinic = () => {
+    registerClinic = (clinicName) => {
         console.log("registerClinic() called");
+        this.props.registerClinic();
     }
 
     render() {
