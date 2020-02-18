@@ -1,21 +1,21 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux'; 
-
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import { auth0Registration, assignRoles } from '../../actions/authActions'; 
 import { createProviderProfile, fetchAllProviders, deleteProvider } from '../../actions/providerActions'; 
 import { fetchAllPatients, deletePatient } from '../../actions/patientActions';
 import { MEDLOCK_API } from '../../config/servers';
-
 import PatientSection from './sections/patients/PatientSection';
-
 import axios from 'axios';
 import ProviderSection from './sections/providers/ProviderSection';
+import ClinicSection from './sections/clinics/ClinicSection';
 import PropTypes from 'prop-types';
+import { fetchAllClinics, registerNewClinic } from '../../actions/clinicActions';
 import '../../css/Admin.css';
 
 class Admin extends Component {
     
+    clinics = [{"name": "clinic1"}, {"name": "clinic2"}]
     constructor(props) {
         super(props);
         this.state = {};
@@ -24,6 +24,7 @@ class Admin extends Component {
     componentDidMount() {
         this.props.fetchAllPatients();
         this.props.fetchAllProviders();
+        this.props.fetchAllClinics();
     }
 
     onChange = (e) => {
@@ -86,84 +87,33 @@ class Admin extends Component {
         // var url = `${MEDLOCK_API}/admin/provider`;
         const ids = this.props.providers.map(provider => provider._id);
         this.props.deleteProvider(ids);
-        // console.log(ids);
-        // fetchAMT()
-        //     .then(res => {
-        //         const AMT = res.data.access_token;
-        //         axios.delete(url, {
-        //             data: {
-        //                 AMT,
-        //                 ids, 
-        //             }
-        //         })
-        //         .then(console.log("All Providers Deleted Successfully"))
-        //         .catch(err => console.log(err));
-        //     });
     }
 
     deletePatient = (patientId) => {
         this.props.deletePatient([patientId]);
-        // console.log(patientId);
-        // var url = `${MEDLOCK_API}/admin/patient`;
-        // var ids = [patientId]
-        // fetchAMT()
-        //     .then(res => {
-        //         const AMT = res.data.access_token; 
-        //         axios.delete(url, {
-        //             data: {
-        //                 AMT,
-        //                 ids,
-        //             }
-        //         })
-        //             .then((err) => {
-        //                 if(err) {console.log(err); throw Error(err)};
-        //                 alert(`Patient ${patientId} deleted successfully`);
-        //             })
-        //             .catch(err => alert(`Error On Delete: ${err}`));
-        //     });            
     }
 
     deleteProvider = (providerId) => {
         this.props.deleteProvider([providerId]);
-        // console.log(providerId);
-        // var url = `${MEDLOCK_API}/admin/provider`;
-        // var ids = [providerId]
-        // console.log(ids);
-        // fetchAMT()
-        //     .then(res => {
-        //         const AMT = res.data.access_token;
-        //         axios.delete(url, {
-        //             data: {
-        //                 AMT,
-        //                 ids,
-        //             }
-        //         })
-        //             .then(alert(`Provider(id=${providerId}) deleted successfully`))
-        //             .catch(err => alert(err));
-        //     });
     }
 
     deleteAllPatients = () => {
         // var url = `${MEDLOCK_API}/admin/patient`;
         const ids = this.props.patients.map(patient => patient._id);
         this.props.deletePatient(ids);
-        // fetchAMT()
-        //     .then(res => {
-        //         const AMT = res.data.access_token;
-        //         axios.delete(url, {
-        //             data: {
-        //                 AMT,
-        //                 ids,     
-        //             }
-        //         })
-        //             .then(alert(`All patients deleted successfully`))
-        //             .catch(err => alert(`Error On Delete: ${err}`));
-        //     });
-            
+    }
+
+    registerClinic = (clinicName) => {
+        console.log("registerClinic() called");
+        // depending on what info we want when we register a clinic
+        // we can change the newClinic object
+        const newClinic = {
+            name: clinicName,
+        }
+        this.props.registerNewClinic(newClinic);
     }
 
     render() {
-        console.log(this.props);
         const { patients, 
                 patientsFetching, 
                 patientsFetched, 
@@ -171,11 +121,12 @@ class Admin extends Component {
                 providers,
                 providersFetching,
                 providersFetched,
-                fetchProvidersError
+                fetchProvidersError,
+                clinicsFetching,
+                fetchClinicsError,
             } = this.props;
 
-        
-        if (fetchProvidersError || fetchPatientsError) {
+        if (fetchProvidersError || fetchPatientsError || fetchClinicsError) {
             return (
                 <div>
                     PROVIDER: ${fetchProvidersError}
@@ -184,7 +135,7 @@ class Admin extends Component {
             );
         }
 
-        if (providersFetching || patientsFetching) {
+        if (providersFetching || patientsFetching || clinicsFetching) {
             return (
                 <div> Loading . . .</div>
             );
@@ -206,6 +157,10 @@ class Admin extends Component {
                                 createNewProvider={this.createNewProvider}
                                 deleteProvider={this.deleteProvider}
                                 deleteAllProviders={this.deleteAllProviders} 
+                            />
+                            <ClinicSection 
+                                clinics={this.props.clinics}
+                                registerClinic={this.registerClinic}
                             />
                     </div>
                 </div>
@@ -234,6 +189,11 @@ Admin.propTypes = {
 
     deletePatient: PropTypes.func.isRequired,
     deletedPatients: PropTypes.array.isRequired,
+
+    clinicsFetching: PropTypes.bool.isRequired,
+    clinicsFetched: PropTypes.bool.isRequired,
+    fetchClinicsError: PropTypes.object,
+    clinics: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -250,7 +210,15 @@ const mapStateToProps = state => ({
     fetchProvidersError: state.providerState.providerError, 
 
     deletedProviders: state.providerState.deletedProviders,
-    deletedPatients: state.patientState.deletedPatients
+    deletedPatients: state.patientState.deletedPatients, 
+
+    clinicsFetching: state.clinicState.clinicsFetching,
+    clinicsFetched: state.clinicState.clinicsFetched,
+    fetchClinicsError: state.clinicState.clinicsError,
+    clinics: state.clinicState.clinics,
+
+    clinicRegistering: state.clinicState.clinicRegistering,
+    registerClinicError: state.clinicState.registerError,
 });
 
 export default connect(mapStateToProps, { 
@@ -261,4 +229,6 @@ export default connect(mapStateToProps, {
     fetchAllProviders,
     deleteProvider,
     deletePatient,
+    fetchAllClinics,
+    registerNewClinic
 })(Admin); 

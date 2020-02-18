@@ -83,7 +83,7 @@ class PDISurvey extends Component {
                             );
                         })
                     }
-                    <button type="submit" style={{ marginTop: '20px' }}>Submit</button>
+                    <button class="create-new-btn" type="submit" style={{ marginTop: '20px' }}>Submit</button>
                 </form>
 
             </div>

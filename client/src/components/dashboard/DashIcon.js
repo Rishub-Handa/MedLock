@@ -6,7 +6,7 @@ import ReactGA from 'react-ga';
 
 /**
  * Class Component for displaying info about the 
- * module it represents. When clicked, the correspoding
+ * module it represents. When clicked, the corresponding
  * module is loaded. 
  */
 class DashIcon extends Component {

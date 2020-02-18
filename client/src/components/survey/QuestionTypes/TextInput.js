@@ -20,14 +20,14 @@ class TextInput extends Component {
     responseHTML = () => {
 
         return (
-            <form onChange={this.onChange}>
-                <textarea rows="3" col="50" placeholder="Response . . . "></textarea>
+            <form style={{marginBottom: "10px"}} onChange={this.onChange}>
+                <textarea style={{padding: "5px", width: "100%"}}rows="3" col="50" placeholder=" Response . . . "></textarea>
             </form>
         )
     }
 
     questionHTML = () => (
-        <h1>{this.props.question}</h1>
+        <h3 class="header">{this.props.question}</h3>
     )
 
     render() {

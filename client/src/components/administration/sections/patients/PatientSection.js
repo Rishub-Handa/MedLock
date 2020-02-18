@@ -19,7 +19,7 @@ export default class PatientSection extends Component {
                 <div className="PatientSection-header">
                     <h3 className="header">Patients</h3>
                 </div>
-                <div className="ProviderSection-content">
+                <div className="PatientSection-content">
                     <div className="patientList-container">
                         <UserList 
                             users={this.props.patients}

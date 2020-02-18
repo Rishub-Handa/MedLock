@@ -33,7 +33,6 @@ class Register extends Component {
             };
             this.props.auth0Registration(newUser, AMT)
                 .then(() => {
-                    alert(`Successfully Registered New User with Auth0.`);
                     // assign role to new user
                     newUser = {
                         ...newUser,
@@ -48,6 +47,10 @@ class Register extends Component {
                     // send new user login info
                     var url = `${MEDLOCK_API}/email`;
                     axios.post(url, newUser);
+                })
+                .then(() => {
+                    alert("Thank you for registering for Medlock! You should receive an email from us shortly containing your login information." );
+                    window.location = window.location.origin;
                 })
                 .catch(error => {
                     alert(`${error}`);
