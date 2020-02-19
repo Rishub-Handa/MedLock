@@ -92,12 +92,12 @@ class PatientView extends Component {
             <div className="patientView-container">
                 <PersonalDataView personalData={patient.personalData} />
                 {!checkInData && !checkInLoading && !checkInError && !this.state.showCheckIn && 
-                    <button onClick={() => { this.setState({ showCheckIn: true }); }}>Add Check In</button>} 
+                    <button className="create-new-btn" onClick={() => { this.setState({ showCheckIn: true }); }}>Add Check In</button>} 
                 {!checkInData && !checkInLoading && !checkInError && this.state.showCheckIn && 
                     <CheckIn submitData={this.submitCheckIn}/>}
                 {checkInLoading && <p>Loading . . .</p>}
-                {checkInError && <p>There was an error in sending the data. </p>}
-                {checkInData && <p>Thank you, the data has been saved. </p>}
+                {checkInError && <div className="error-box"><p>There was an error in sending the data. </p></div>}
+                {checkInData && <div className="confirmation-box"><p><span>✔</span> Thank you, the data has been saved. </p></div>}
                 <DataView data={data}
                 />
                 {/* <div className="leftPanel">
