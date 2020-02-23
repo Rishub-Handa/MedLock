@@ -71,15 +71,6 @@ router.put('/', (req, res) => {
                 res.send(patient.personalData);
             });
     });
-    // Patient.findByIdAndUpdate(
-    //     patientId,
-    //     {personalData: req.body},
-    //     {new: true},
-    //     (err, patient) => {
-    //         if (err) return res.status(500).send(err);
-    //         console.log(patient);
-    //         return res.send(patient);
-    //     });
 });
 
 router.post('/code', (req, res) => {

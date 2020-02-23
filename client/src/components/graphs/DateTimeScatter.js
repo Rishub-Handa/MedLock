@@ -385,8 +385,16 @@ export default class DateTimeScatter extends Component {
                 console.log(`d: ${d}`);
                 console.log(`i: ${i}`);
                 // increase the size of the point
-                var dx = getSign() * Math.floor((Math.random() * 20) + 15);
-                var dy = getSign() * Math.floor((Math.random() * 20) + 15);
+                // randomly compute theta in [0, 2pi]
+                var theta = Math.random() * (2 * Math.PI);
+                // let r = 30
+                var r = 30;
+                // dx = rcos(0)
+                var dx = r * Math.cos(theta);
+                // dy = rsin(0)
+                var dy = r * Math.sin(theta);
+                // var dx = getSign() * Math.floor((Math.random() * 20) + 15);
+                // var dy = getSign() * Math.floor((Math.random() * 20) + 15);
                 chart.select(`#p${i}`)
                     .transition()
                         .duration(1000)
