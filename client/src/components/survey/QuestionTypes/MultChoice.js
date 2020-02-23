@@ -26,15 +26,15 @@ class MultChoice extends Component {
 
 
     questionHTML = () => (
-        <h1>
+        <h3 class="header">
             {this.props.question} 
-        </h1>
+        </h3>
     ); 
 
     responsesHTML = (other) => {
         
         return (
-            <form onChange={this.onChange}>
+            <form style={{marginBottom: "10px"}} onChange={this.onChange}>
                 {this.props.responses.map(answer => (
                     <div>
                         <p><input name={this.props.question} type="radio" value={answer} id={this.props.id}/>{answer}</p>

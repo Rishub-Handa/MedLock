@@ -16,13 +16,15 @@
     "mongoose": "^5.5.13",
     "nodemailer": "^6.2.1",
     "path": "^0.12.7",
-    "query-string": "^6.8.1"
+    "query-string": "^6.8.1",
+    "react-bootstrap": "^1.0.0-beta.16"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build-start": "cd client && npm run-script build && cd .. && npm run start"
   },
   "author": "MedLock LLC",
   "license": "MIT"

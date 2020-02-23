@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import '../../css/PatientView.css';
 import CheckIn from './CheckIn'; 
 import { addCheckIn } from '../../actions/patientActions'; 
-import ColOffDisp from './ColOffDisp'; 
+import RawDataDisp from './RawDataDisp'; 
 
 class PatientView extends Component {
 
@@ -107,7 +107,7 @@ class PatientView extends Component {
                 <div className="rightPanel">
                     <MedicalDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}} />
                 </div> */}
-                {dispenser.events.collarOff && <ColOffDisp patient={this.props.patient} colOffData={dispenser.events.collarOff}/> }
+                <RawDataDisp patient={this.props.patient} rawData={dispenser.events}/> 
             </div>
         )
     }
