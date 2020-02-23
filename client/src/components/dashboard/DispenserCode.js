@@ -43,7 +43,21 @@ class DispenserCode extends Component {
             }
         })
 
-        this.props.addDispenserCode(numArray) 
+        
+        let dispenserCodeData = { }; 
+
+        if(this.props.userProfile._id) {
+            dispenserCodeData = {
+                numArray: numArray, 
+                patientId: this.props.userProfile._id 
+            }
+        } else {
+            dispenserCodeData = {
+                numArray: numArray 
+            }
+        }
+
+        this.props.addDispenserCode(dispenserCodeData) 
             .then(() => { 
                 console.log("Returned Code Adding. "); 
                 console.log(this.props.code); 
@@ -105,7 +119,7 @@ class DispenserCode extends Component {
 DispenserCode.propTypes = {
     hideDispenserCode: PropTypes.func.isRequired, 
     addDispenserCode: PropTypes.func.isRequired, 
-    profile: PropTypes.object.isRequired, 
+    // profile: PropTypes.object.isRequired, 
     code: PropTypes.array.isRequired,
     codeAdding: PropTypes.bool.isRequired,
     codeAddedError: PropTypes.string,

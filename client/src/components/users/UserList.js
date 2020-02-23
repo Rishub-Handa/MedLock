@@ -20,7 +20,8 @@ export default class UserList extends Component {
                 className="listItem"
                 user={user}
                 deleteUser={this.props.deleteUser}
-                viewUser={this.props.viewUser}
+                viewUser={this.props.viewUser} 
+                addDispenser={this.props.addDispenser}
             />
         ));
     }

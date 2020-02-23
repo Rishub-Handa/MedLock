@@ -71,9 +71,19 @@ class Dashboard extends Component {
 
     toggleSideBar = () => {
         if (this.props.sideBarCollapsed) {
+            ReactGA.event({
+                category: 'SideBar Toggle', 
+                action: 'Expanded SideBar', 
+                label: 'Click Sidebar Menu Icon to Expand' 
+            })
             this.props.expandSideBar();
         } 
         else {
+            ReactGA.event({
+                category: 'SideBar Toggle', 
+                action: 'Collapsed SideBar', 
+                label: 'Click Sidebar Menu Icon to Collapse' 
+            })
             this.props.collapseSideBar(); 
         }
     }
@@ -85,6 +95,8 @@ class Dashboard extends Component {
         x.addListener(this.autoCollapseSideBar);
 
         const { userProfile } = auth0client; 
+
+        console.log(userProfile); 
 
         console.log(userProfile.sub.substring(6)); 
         ReactGA.set({
@@ -204,6 +216,7 @@ class Dashboard extends Component {
                 <div className="DashHeader-container">
                     <DashHeader
                         name={this.props.profile.personalData.name}  
+                        roles={roles}
                         toggleSideBar={this.toggleSideBar}
                         sideBarCollapsed={this.props.sideBarCollapsed}
                         sideBarToggle={this.props.sideBarToggle}

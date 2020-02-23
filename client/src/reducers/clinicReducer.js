@@ -4,7 +4,10 @@ import {
     FETCH_ALL_CLINICS_FAILURE,
     FETCH_ALL_PROVIDERS_AT_CLINIC_BEGIN,
     FETCH_ALL_PROVIDERS_AT_CLINIC_SUCCESS,
-    FETCH_ALL_PROVIDERS_AT_CLINIC_FAILURE
+    FETCH_ALL_PROVIDERS_AT_CLINIC_FAILURE,
+    REGISTER_NEW_CLINIC_BEGIN,
+    REGISTER_NEW_CLINIC_SUCCESS,
+    REGISTER_NEW_CLINIC_FAILURE,
 } from '../actions/types';
 
 const initialState = {
@@ -16,6 +19,8 @@ const initialState = {
     providers: [],
     providersFetching: false,
     providersFetched: false,
+    clinicRegistering: false,
+    registerError: null,
 }
 
 export default function(state = initialState, action) {
@@ -57,6 +62,23 @@ export default function(state = initialState, action) {
                 providersFetching: false,
                 providersFetched: true,
                 clinicsError: action.payload.error
+            };
+        case REGISTER_NEW_CLINIC_BEGIN:
+            return {
+                ...state,
+                clinicRegistering: true,
+            };
+        case REGISTER_NEW_CLINIC_SUCCESS:
+            return {
+                ...state,
+                clinicRegistering: false,
+                clinics: state.clinics.concat(action.payload.clinic),
+            };
+        case REGISTER_NEW_CLINIC_FAILURE:
+            return {
+                ...state,
+                clinicRegistering: false,
+                registerError: action.payload.error,
             };
         default:
             return state;

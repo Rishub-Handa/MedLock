@@ -8,13 +8,13 @@ class NumInput extends Component {
     } 
 
     questionHTML = () => (
-        <h1>{this.props.question}</h1>
+        <h3 class="header">{this.props.question}</h3>
     )
 
     responsesHTML = () => {
 
         return (
-            <form onChange={this.onChange}>
+            <form style={{marginBottom: "10px"}} onChange={this.onChange}>
                 <input type="number" min={this.props.min} max={this.props.max} name={this.props.question}/> 
             </form>
         )
