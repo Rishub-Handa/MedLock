@@ -24,6 +24,8 @@ import MyPatients from '../myPatients/MyPatients';
 import NewUser from './NewUser';
 import { collapseSideBar, expandSideBar, setSideBarToggle } from '../../actions/sideBarActions'; 
 import ReactGA from 'react-ga'; 
+import history from '../nav/history';
+
 
 console.log(auth0client.getProfile()); 
 
@@ -38,6 +40,21 @@ class Dashboard extends Component {
             icons: modules, 
             newUser: false, 
             toggleCodeDisplay: false
+        }
+    }
+
+    routeToAdminPage = () => {
+        console.log("rerouting to admin");
+        history.replace('/admin');
+    }
+
+    checkAdminStatus = () => {
+        console.log("checking");
+        // is there a more secure way to do this?
+        if (this.props.roles[0].name.toLowerCase() == "admin") {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -113,8 +130,10 @@ class Dashboard extends Component {
                 console.log(`AMT: ${AMT}`);
                 this.props.fetchRoles(AMT) 
                     .then(() => {
-                        console.log(this.props);
-                        this.props.loadProfile(this.props.roles[0].name) 
+                        if (this.checkAdminStatus()) {
+                            this.routeToAdminPage();
+                        } else {
+                            this.props.loadProfile(this.props.roles[0].name) 
                             .then(() => {
                                 console.log(this.props);
                                 // Need better method of verifying that this is a new patient. 
@@ -128,6 +147,7 @@ class Dashboard extends Component {
                                     console.log(userProfile); 
                                 }
                             });
+                        }
                     }); 
             }); 
     }

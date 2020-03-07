@@ -73,15 +73,6 @@ router.put('/', (req, res) => {
             });
     });
 
-    // Provider.findByIdAndUpdate(
-    //     id,
-    //     {personalData: req.body},
-    //     {new: true, useFindAndModify: false},
-    //     (err, provider) => {
-    //         if (err) return res.status(500).send(err);
-    //         console.log(provider);
-    //         return res.send(provider); 
-    //     });
 });
 
 module.exports = router; 
