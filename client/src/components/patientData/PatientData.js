@@ -34,8 +34,6 @@ class PatientData extends Component {
                 dispenserLoaded,
                 dispenserError, } = this.props; 
 
-        console.log(dispenser);
-
         if(surveyError || dispenserError) {
             return (
                 <div>

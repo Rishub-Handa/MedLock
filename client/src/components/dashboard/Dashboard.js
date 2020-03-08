@@ -207,7 +207,7 @@ class Dashboard extends Component {
             )
         }
 
-        if (!profile) {
+        if (!profile || profileLoading) {
             return (
                 <div>
                     Profile Loading . . .

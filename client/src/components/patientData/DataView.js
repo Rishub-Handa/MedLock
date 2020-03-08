@@ -39,7 +39,6 @@ export default class DataView extends Component {
 
     displayGraphs() {
         const { pdisurveys, dispenses, btn1, btn2, btn3 } = this.props.data;
-        console.log(this.props.data);
         if (pdisurveys && dispenses) {
             return (
                 <div className="DataView">

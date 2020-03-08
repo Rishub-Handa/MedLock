@@ -46,7 +46,7 @@ export function loadProfile(role) {
             API_URL += "/patient/patient"; 
             break; 
         case "Provider": 
-            API_URL += "/provider"; 
+            API_URL += "/provider/provider"; 
             break; 
     }
 

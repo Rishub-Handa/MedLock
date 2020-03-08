@@ -226,8 +226,10 @@ export default class PDISurveyBar extends Component {
     render() {
         return (
             <div className={`graph-container ${this.props.id}`} >
-                <div ref="canvas"></div>
-                <div>{this.surveySelect(this.props.data.map(survey => survey.date))}</div>
+                <div class="canvas" ref="canvas"></div>
+                <div div="graph-settings">
+                    <div>{this.surveySelect(this.props.data.map(survey => survey.date))}</div>
+                </div>
             </div>
             );
         }
