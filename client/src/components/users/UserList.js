@@ -15,6 +15,8 @@ export default class UserList extends Component {
     }
     
     userHTML = (users) => {
+        console.log("userHTML");
+        console.log(this.props.viewUser);
         return this.state.displayedUsers.map(user => (
             <UserListItem 
                 className="listItem"
@@ -91,6 +93,7 @@ export default class UserList extends Component {
     }
     
     render() {
+        console.log(this.props.users);
         return (
             <div className="UserList">
                 <div className="UserList-header">

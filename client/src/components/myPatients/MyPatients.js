@@ -32,6 +32,7 @@ class MyPatients extends Component {
     }
 
     viewPatient = (patient) => {
+        console.log("viewing patient...");
         console.log(patient);
         this.setState({
             onePatientView: true,
@@ -177,7 +178,7 @@ class MyPatients extends Component {
     render() {
         console.log("DISPLAYED PATIENTS:" + this.state.displayedPatients);
         const { patientRegistering, registerError, patientsFetching, patientsFetched } = this.props;
-        //console.log("DISPLAYED PATIENTS AFTER SET EQUALS:" + this.state.displayedPatients);
+        console.log("DISPLAYED PATIENTS AFTER SET EQUALS:" + this.state.displayedPatients);
     
         if(registerError) {
             return (
