@@ -20,7 +20,6 @@ class PatientView extends Component {
     }
 
     submitCheckIn = (checkInResponses) => {
-        console.log(checkInResponses); 
         this.setState({ showCheckIn: false }); 
 
         let checkInBody = {

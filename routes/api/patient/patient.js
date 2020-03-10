@@ -140,4 +140,39 @@ router.post('/checkIn', (req, res) => {
     
 });
 
+router.put('/medicaldata', (req, res) => {
+    console.log("PUT request to /medicaldata");
+    var patientId = req.body._id;
+    Patient.findById(patientId, (err, patient) => {
+        if (err) return res.status(500).send(err);
+        console.log(patient);
+        console.log(req.body);
+
+        for (var property in req.body.medicalData) {
+            if (property == "provider") {
+                var providerId = req.body.medicalData[property];
+                patient.medicalData.providers.push(providerId);
+                Provider.findById(providerId, (err, provider) => {
+                    const newPatientInfo = {
+                        _id: patient._id,
+                        name: patient.personalData.name,
+                        email: patient.personalData.email,
+                    };
+                    provider.medicalData.patients.push(newPatientInfo);
+                    provider.save();
+                });
+            } else {
+                patient.medicalData[property] = req.body.medicalData[property];
+            }
+        }
+
+        return patient.save()
+            .then(patient => {
+                console.log(`Patient(id=${patient._id}) updated.`);
+                console.log(`Updated Medical Data: ${patient.medicalData}`);
+                res.send(patient.medicalData);
+        });
+    });
+});
+
 module.exports = router;

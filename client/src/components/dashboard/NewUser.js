@@ -1,10 +1,11 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux'; 
-import { saveProfile } from '../../actions/profileActions'; 
+import { saveProfile, updateMedicalData } from '../../actions/profileActions'; 
 import { fetchAllClinics, fetchAllProvidersAtClinic } from '../../actions/clinicActions';
 import { resetPassword } from '../../auth/AuthManagement'; 
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import auth0client from '../../auth/Auth';
+import { MEDLOCK_API } from '../../config/servers';
 import '../../css/NewUser.css';
 
 class NewUser extends Component {
@@ -30,12 +31,23 @@ class NewUser extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchAllClinics();
+        this.props.fetchAllClinics()
+            .then(() => {
+                this.setState({
+                    medicalData: {
+                        clinic: this.props.clinics[0]._id,
+                        provider: this.props.providers[0]._id
+                    }
+                });
+            });
     }
 
     onSubmit = e => {
         e.preventDefault(); 
-        this.props.saveProfile(this.state.personalData, this.props.role); 
+        this.props.saveProfile(this.state.personalData, this.props.role)
+            .then(() => {
+                this.props.updateMedicalData(this.props.profile._id, "patient", this.state.medicalData);
+            });
         
         // Send Password Reset Email and Test Temporary Password Email 
         resetPassword(this.props.profile.personalData.email); 
@@ -53,6 +65,14 @@ class NewUser extends Component {
             }, () => {
                 // when the selected clinic is changed, fetch the associated providers
                 this.props.fetchAllProvidersAtClinic(clinicId);
+            });
+        } else if (e.target.name === "provider") {
+            const providerId = e.target.value;
+            this.setState({
+                medicalData: {
+                    ...this.state.medicalData,
+                    [e.target.name]: providerId
+                }
             });
         } else if (e.target.name === "street" || e.target.name === "city"   ||
             e.target.name === "state"  || e.target.name === "zip") {
@@ -76,7 +96,13 @@ class NewUser extends Component {
     }
 
     clinicsToOptions = () => {
-        return this.props.clinics.map(clinic => { 
+
+        // this.setState({
+        //     ...this.state.medicalData,
+        //     clinic: this.props.clinics[0]._id,
+        // });
+
+        return this.props.clinics.map((clinic, i) => { 
             return (
                 <option value={clinic._id}>{clinic.name}</option>
             )
@@ -84,9 +110,16 @@ class NewUser extends Component {
     }
 
     providersToOptions = () => {
-        return this.props.providers.map(provider => {
+        // this.setState({
+        //     medicalData: {
+        //         ...this.state.medicalData,
+        //         provider: this.props.providers[0]._id,
+        //     }
+        // });
+        
+        return this.props.providers.map((provider, i) => {
             return (
-                <option>{provider.personalData.name}</option>
+                <option value={provider._id}>{provider.personalData.name}</option>
             )
         });
     }
@@ -196,6 +229,8 @@ const mapStateToProps = state => ({
     providers: state.clinicState.providers,
     providersFetching: state.clinicState.providersFetching,
     providersFetched: state.clinicState.providersFetched,
+
+    profile: state.profileState.profile,
 });
 
-export default connect(mapStateToProps, { saveProfile, fetchAllClinics, fetchAllProvidersAtClinic })(NewUser); 
+export default connect(mapStateToProps, { saveProfile, fetchAllClinics, fetchAllProvidersAtClinic, updateMedicalData })(NewUser); 

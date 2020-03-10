@@ -130,6 +130,7 @@ class Dashboard extends Component {
                 console.log(`AMT: ${AMT}`);
                 this.props.fetchRoles(AMT) 
                     .then(() => {
+                        console.log(this.props.roles);
                         if (this.checkAdminStatus()) {
                             this.routeToAdminPage();
                         } else {
@@ -137,8 +138,7 @@ class Dashboard extends Component {
                             .then(() => {
                                 console.log(this.props);
                                 // Need better method of verifying that this is a new patient. 
-                                if(this.props.roles[0].name === 'Patient' && 
-                                    !this.props.profile.personalData.bio) { 
+                                if(!this.props.profile.medicalData.clinic) { 
                                         this.setState({ 
                                             newUser: true 
                                         });

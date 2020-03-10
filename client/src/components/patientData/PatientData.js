@@ -20,6 +20,8 @@ class PatientData extends Component {
     
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
+        console.log(this.props);
+        console.log(this.props.patient.medicalData.dispenser_id);
         this.props.fetchPDISurveys(); 
         this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
     } 

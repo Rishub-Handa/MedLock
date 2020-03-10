@@ -23,6 +23,7 @@ class Register extends Component {
     }
 
     registerUser = (newUser) => {
+        console.log(newUser);
         this.props.validateRegisterCode(newUser.registerCode, newUser.role)
             .then((passed) => {
                 console.log(passed);
@@ -51,7 +52,7 @@ class Register extends Component {
                                 
                                 // send new user login info
                                 var url = `${MEDLOCK_API}/email`;
-                                axios.post(url, newUser);
+                                axios.post(url, newAuth);
                             })
                             .then(() => {
                                 alert("Thank you for registering for Medlock! You should receive an email from us shortly containing your login information." );
@@ -77,13 +78,15 @@ class Register extends Component {
             }
         };
 
-        if (newUser.role == "Patient") {
+        if (newUser.role.toLowerCase() == "patient") {
             console.log("creating Patient Profile");
             var url = `${MEDLOCK_API}/patient/register`;
             axios.post(url, newUserProfile);
             // this.props.createPatientProfile(newUserProfile);
-        } else if (newUser.role == "Provider") {
+        } else if (newUser.role.toLowerCase() == "provider") {
             console.log("Create Provider");
+            var url = `${MEDLOCK_API}/provider/register`;
+            axios.post(url, newUserProfile);
         } else {
             console.log("Not a valid role.");
         }
@@ -120,8 +123,8 @@ class Register extends Component {
                     <FormGroup required>
                         <Label for="pi-role"></Label>
                         <Input type="select" name="role" id="pi-role" value={this.state.role} onChange={this.onChange}>
-                            <option value="patient" selected="selected">Patient</option>
-                            <option value="provider">Provider</option>
+                            <option value="Patient" selected="selected">Patient</option>
+                            <option value="Provider">Provider</option>
                         </Input>
                     </FormGroup>
                     <FormGroup required>

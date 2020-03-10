@@ -30,6 +30,26 @@ console.log('Reached api/provider/register endpoint');
 //         });
 // });
 
+router.post('/', (req, res) => {
+    console.log("POST request to api/provider/register");
+    const providerId = req.body._id;
+    Provider.find({ "_id": mongoose.Types.ObjectId(providerId) })
+        .then(providers => {
+            if (providers.length > 1) {
+                throw new Error("Multiple providers with same ObjectId exist!");
+            } else if (providers.length === 0) {
+                // create new patient
+                const newProvider = new Provider({
+                    _id: mongoose.Types.ObjectId(providerId),
+                    personalData: req.body.personalData,
+                });
+                newProvider.save().then(provider => console.log(`Provider(id=${req.body._id}) -> MedLock Database`));
+            } else if (providers.length === 1) {
+                throw new Error(`Provider(id=${req.body._id})already exists in MedLock Database.`);
+            }
+        });
+});
+
 router.post('/code', (req, res) => {
     console.log("POST request to api/provider/register/code");
     console.log(req.body);
