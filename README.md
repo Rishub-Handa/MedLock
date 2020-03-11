@@ -244,7 +244,11 @@ For development, this will function as the web server, REST API, and database in
     * / - POST: create a new provider as a provider 
     * / - PUT: update data about the provider based on authentication credentials 
 
-
+DEPLOYMENT:
+* Comment out the DEVELOPMENT urls and uncomment the PRODUCTION urls in /MedLock/client/src/config/servers.js and /MedLock/config/servers.js
+* Create the build files using the command "npm run-script build". You must be in the client folder to do this.
+* Push the production code to master. 
+* Go to heroku and deploy the master branch.
 
 
 
