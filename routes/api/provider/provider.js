@@ -66,22 +66,31 @@ router.put('/', (req, res) => {
         }
 
         return provider.save()
-            .then(provder => {
+            .then(provider => {
                 console.log("Provider Updated.");
                 console.log(provider.personalData);
                 res.send(provider.personalData);
             });
     });
 
-    // Provider.findByIdAndUpdate(
-    //     id,
-    //     {personalData: req.body},
-    //     {new: true, useFindAndModify: false},
-    //     (err, provider) => {
-    //         if (err) return res.status(500).send(err);
-    //         console.log(provider);
-    //         return res.send(provider); 
-    //     });
+});
+
+router.put('/medicaldata', (req, res) => {
+    var providerId = req.body._id;
+    Provider.findById(providerId, (err, provider) => {
+        if (err) return res.status(500).send(err);
+
+        for (var property in req.body.medicalData) {
+            provider.medicalData[property] = req.body.medicalData[property];
+        }
+
+        return provider.save()
+            .then(provider => {
+                console.log(`Provider(id=${provider._id}) updated.`);
+                console.log(`Updated Medical Data: ${provider.medicalData}`);
+                res.send(provider.medicalData);
+            })
+    })
 });
 
 module.exports = router; 
