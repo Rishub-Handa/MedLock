@@ -307,56 +307,6 @@ export default class DateTimeScatter extends Component {
         });
     }
 
-    /**
-     * method to combine points and increase radius if they're within a certain
-     * distance of one another, not working atm
-     */
-    // combineClosePoints = (data) => {
-    //     data = JSON.parse(JSON.stringify(data));
-    //     console.log('combining on data:');
-    //     console.log(data);
-    //     // assume they all have the same date for now and are sorted in ascending order according to seconds
-    //     // loop over each data point
-    //     var i = 0; 
-    //     var newData = [];
-    //     var rScale = [];
-    //     while (i < data.length) {
-    //         console.log(i);
-    //         var r = 1;
-    //         var j = i+1;
-    //         var newPoint = data[i];
-    //         if (i == data.length - 1) {
-    //             newData.push(newPoint);
-    //             rScale.push(1);
-    //             return [newData, rScale];
-    //         }
-    //         while (j < data.length) {
-    //             var day_i = newPoint[0];
-    //             var day_j = data[j][0];
-    //             var time_i = newPoint[1];
-    //             var time_j = data[j][1];
-    //             if (day_i == day_j) {
-    //                 console.log("true");
-    //             } else {
-    //                 console.log("false");
-    //             }
-    
-    //             if (day_i == day_j && (time_j - time_i <= 60)) {
-    //                 var avgTime = (time_i + time_j) / 2;
-    //                 newPoint[1] = avgTime;
-    //                 j += 1;
-    //                 r += 1;
-    //             } else {
-    //                 newData.push(newPoint);
-    //                 rScale.push(r);
-    //                 i = j; // skip over the points that were included in the superpoint
-    //                 j = data.length; //break inner loop;
-    //             }
-    //         }
-    //         console.log(newData);
-    //     }
-    // }
-
     redrawChart = () => {
         console.log("redrawChart() called");
         var size = this.getSize();
@@ -433,7 +383,7 @@ export default class DateTimeScatter extends Component {
         return (
             <div className={`graph-container ${this.props.id}`}>
                 <div className="canvas" ref="canvas"></div>
-                <div className="graph-settings" width={this.state.width} height={this.state.height}>
+                <div className="graph-settings datetime" width={this.state.width} height={this.state.height}>
                     <div>{this.dataSelectorHTML()}</div>
                     <div>
                         <div>Start Date: {this.startDateSelect(this.state.dateRange)}</div>
@@ -468,42 +418,51 @@ export default class DateTimeScatter extends Component {
     dataSelectorHTML = () => {
         return (
             <form>
-                <label>
-                    <input 
-                        type="checkbox" 
-                        name="dispenses" 
-                        checked={this.state.selectedEvents.dispenses}
-                        value={this.state.selectedEvents.dispenses} 
-                        onChange={this.onDataSelectorChange} /> 
-                    Dispenses
-                </label>
-                <br />
-                <label>
-                    <input 
-                        type="checkbox" 
-                        name="btn1"
-                        value={this.state.selectedEvents.btn1} 
-                        onChange={this.onDataSelectorChange} />
-                    Button 1
-                </label>
-                <br />
-                <label>
-                    <input 
-                        type="checkbox" 
-                        name="btn2" 
-                        value={this.state.selectedEvents.btn2}
-                        onChange={this.onDataSelectorChange} />
-                    Button 2
-                </label>
-                <br />
-                <label>
-                    <input 
-                        type="checkbox" 
-                        name="btn3" 
-                        value={this.state.selectedEvents.btn3} 
-                        onChange={this.onDataSelectorChange} />
-                    Button 3
-                </label>
+                <div class="group">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="dispenses" 
+                            checked={this.state.selectedEvents.dispenses}
+                            value={this.state.selectedEvents.dispenses} 
+                            onChange={this.onDataSelectorChange} /> 
+                        Dispenses
+                    </label>
+                    <div className="circle-legend dispenses"></div>
+                </div>
+                <div class="group">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="btn1"
+                            value={this.state.selectedEvents.btn1} 
+                            onChange={this.onDataSelectorChange} />
+                        Button 1
+                    </label>
+                    <div className="circle-legend btn1"></div>
+                </div>
+                <div class="group"> 
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="btn2" 
+                            value={this.state.selectedEvents.btn2}
+                            onChange={this.onDataSelectorChange} />
+                        Button 2
+                    </label>
+                    <div className="circle-legend btn2"></div>
+                </div>
+                <div class="group">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="btn3" 
+                            value={this.state.selectedEvents.btn3} 
+                            onChange={this.onDataSelectorChange} />
+                        Button 3
+                    </label>
+                    <div className="circle-legend btn3"></div>
+                </div>
             </form>
         )
     }

@@ -67,7 +67,7 @@ const saveProfileBegin = () => ({
     type: SAVE_PROFILE_BEGIN
 });
 
-const saveProfileSuccess = updatedPersonalData => ({
+const saveProfileSuccess = profile => ({
     type: SAVE_PROFILE_SUCCESS,
     payload: {
         profile

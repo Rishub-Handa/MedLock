@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAllClinics, registerNewClinic, addProviderToClinic } from '../../actions/clinicActions';
-import { resetPassword } from '../../auth/AuthManagement';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import auth0client from '../../auth/Auth';
 import { MEDLOCK_API } from '../../config/servers';
