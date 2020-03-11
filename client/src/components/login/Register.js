@@ -113,12 +113,12 @@ class Register extends Component {
             <div className="Register">
                 <Form>
                     <FormGroup required>
-                        <Label for="pi-name">Full Name</Label>
-                        <Input type="text" name="name" id="pi-name" placeholder="Harry Potter" value={this.state.name} onChange={this.onChange} />
+                        <Label for="pi-name">User Name</Label>
+                        <Input type="text" name="name" id="pi-name" placeholder="John Doe" value={this.state.name} onChange={this.onChange} />
                     </FormGroup>
                     <FormGroup required>
                         <Label for="pi-email">Email</Label>
-                        <Input type="email" name="email" id="pi-email" placeholder="harry.potter@hogwarts.edu" value={this.state.email} onChange={this.onChange} />
+                        <Input type="email" name="email" id="pi-email" placeholder="john.doe@gmail.com" value={this.state.email} onChange={this.onChange} />
                     </FormGroup>
                     <FormGroup required>
                         <Label for="pi-role"></Label>

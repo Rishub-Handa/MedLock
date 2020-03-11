@@ -149,11 +149,11 @@ class NewUser extends Component {
                     <Form>
                         <FormGroup required>
                             <Label for="pi-name">User Name</Label>
-                            <Input type="text" name="name" id="pi-name" placeholder="Jon Doe" value={this.state.personalData.name} onChange={this.onChange} />
+                            <Input type="text" name="name" id="pi-name" placeholder="John Doe" value={this.state.personalData.name} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup required>
                             <Label for="pi-email">Email</Label>
-                            <Input type="email" name="email" id="pi-email" placeholder="jon.doe@gmail.com" value={this.state.personalData.email} onChange={this.onChange} />
+                            <Input type="email" name="email" id="pi-email" placeholder="john.doe@gmail.com" value={this.state.personalData.email} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-clinic">Clinic</Label>
