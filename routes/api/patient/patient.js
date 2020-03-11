@@ -68,7 +68,7 @@ router.put('/', (req, res) => {
             .then(patient => {
                 console.log("Patient Updated.");
                 console.log(patient.personalData);
-                res.send(patient.personalData);
+                res.send(patient);
             });
     });
 });
@@ -170,7 +170,7 @@ router.put('/medicaldata', (req, res) => {
             .then(patient => {
                 console.log(`Patient(id=${patient._id}) updated.`);
                 console.log(`Updated Medical Data: ${patient.medicalData}`);
-                res.send(patient.medicalData);
+                res.send(patient);
         });
     });
 });

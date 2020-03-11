@@ -44,9 +44,10 @@ class NewUser extends Component {
 
     onSubmit = e => {
         e.preventDefault(); 
-        this.props.saveProfile(this.state.personalData, this.props.role)
-            .then(() => {
-                this.props.updateMedicalData(this.props.profile._id, "patient", this.state.medicalData);
+        this.props.saveProfile(this.state.personalData, this.props.role) // this isn't running as a promise
+            .then((profile) => {
+                console.log(profile);
+                this.props.updateMedicalData(profile._id, "patient", this.state.medicalData);
             });
         
         // Send Password Reset Email and Test Temporary Password Email 
@@ -64,7 +65,16 @@ class NewUser extends Component {
                 }
             }, () => {
                 // when the selected clinic is changed, fetch the associated providers
-                this.props.fetchAllProvidersAtClinic(clinicId);
+                this.props.fetchAllProvidersAtClinic(clinicId)
+                    .then(() => {
+                        this.setState({
+                            ...this.state,
+                            medicalData: {
+                                ...this.state.medicalData,
+                                provider: this.props.providers[0]._id,
+                            }
+                        });
+                    });
             });
         } else if (e.target.name === "provider") {
             const providerId = e.target.value;
@@ -96,12 +106,6 @@ class NewUser extends Component {
     }
 
     clinicsToOptions = () => {
-
-        // this.setState({
-        //     ...this.state.medicalData,
-        //     clinic: this.props.clinics[0]._id,
-        // });
-
         return this.props.clinics.map((clinic, i) => { 
             return (
                 <option value={clinic._id}>{clinic.name}</option>
@@ -110,13 +114,6 @@ class NewUser extends Component {
     }
 
     providersToOptions = () => {
-        // this.setState({
-        //     medicalData: {
-        //         ...this.state.medicalData,
-        //         provider: this.props.providers[0]._id,
-        //     }
-        // });
-        
         return this.props.providers.map((provider, i) => {
             return (
                 <option value={provider._id}>{provider.personalData.name}</option>
@@ -151,12 +148,12 @@ class NewUser extends Component {
                 <div className="NewUser">
                     <Form>
                         <FormGroup required>
-                            <Label for="pi-name">Full Name</Label>
-                            <Input type="text" name="name" id="pi-name" placeholder="Jon Snow" value={this.state.personalData.name} onChange={this.onChange} />
+                            <Label for="pi-name">User Name</Label>
+                            <Input type="text" name="name" id="pi-name" placeholder="Jon Doe" value={this.state.personalData.name} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup required>
                             <Label for="pi-email">Email</Label>
-                            <Input type="email" name="email" id="pi-email" placeholder="jon.snow@nightswatch.org" value={this.state.personalData.email} onChange={this.onChange} />
+                            <Input type="email" name="email" id="pi-email" placeholder="jon.doe@gmail.com" value={this.state.personalData.email} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-clinic">Clinic</Label>
@@ -182,19 +179,19 @@ class NewUser extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-addr">Address</Label>
-                            <Input type="text" name="street" id="pi-addr" placeholder="123 Direwolf Ave" value={this.state.personalData.address.street} onChange={this.onChange} />
+                            <Input type="text" name="street" id="pi-addr" placeholder="123 Main Street" value={this.state.personalData.address.street} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-city">City</Label>
-                            <Input type="text" name="city" id="pi-city" placeholder="Winterfell" value={this.state.personalData.address.city} onChange={this.onChange} />
+                            <Input type="text" name="city" id="pi-city" placeholder="Charlottesville" value={this.state.personalData.address.city} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-state">State</Label>
-                            <Input type="text" name="state" id="pi-state" placeholder="The North" value={this.state.personalData.address.state} onChange={this.onChange} />
+                            <Input type="text" name="state" id="pi-state" placeholder="VA" value={this.state.personalData.address.state} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-zip">Zip</Label>
-                            <Input type="text" name="zip" id="pi-zip" placeholder="12345" value={this.state.personalData.address.zip} onChange={this.onChange} />
+                            <Input type="text" name="zip" id="pi-zip" placeholder="22903" value={this.state.personalData.address.zip} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-phone">Phone</Label>
@@ -202,11 +199,11 @@ class NewUser extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-chatname">Chat Name</Label>
-                            <Input type="text" name="chatname" id="pi-chatname" placeholder="jsnow" value={this.state.personalData.chatname} onChange={this.onChange} />
+                            <Input type="text" name="chatname" id="pi-chatname" placeholder="jdoe" value={this.state.personalData.chatname} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup required>
                             <Label for="pi-bio">Biography</Label>
-                            <Input type="textarea" name="bio" id="pi-bio" placeholder="I lived one hell of a life (and death and life). Heir to the Iron Throne but raised as a bastard. I rode a dragon a couple times. Also, I had sex with my aunt, then killed her." value={this.state.personalData.bio} onChange={this.onChange} />
+                            <Input type="textarea" name="bio" id="pi-bio" placeholder="in recovery" value={this.state.personalData.bio} onChange={this.onChange} />
                         </FormGroup>
                         <Button onClick={this.onSubmit}>Save</Button>
                     </Form>

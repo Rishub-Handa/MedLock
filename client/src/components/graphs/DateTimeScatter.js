@@ -397,12 +397,12 @@ export default class DateTimeScatter extends Component {
                 // var dy = getSign() * Math.floor((Math.random() * 20) + 15);
                 chart.select(`#p${i}`)
                     .transition()
-                        .duration(1000)
+                        .duration(500)
                         .attr('cx', (d, i) => (xScale(d[1]) + xScale.bandwidth()/2 + dx))
                         .attr('cy', (d, i) => (yScale(d[2]) + dy))
                     .transition()
-                        .delay(1000)
-                        .duration(1000)
+                        .delay(5000)
+                        .duration(500)
                         .attr('cx', (d, i) => xScale(d[1]) + xScale.bandwidth()/2)
                         .attr('cy', (d, i) => yScale(d[2]))
                     // .attr("r", this.global.expandedPointRadius);

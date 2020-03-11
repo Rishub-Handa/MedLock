@@ -23,7 +23,11 @@ class PatientData extends Component {
         console.log(this.props);
         console.log(this.props.patient.medicalData.dispenser_id);
         this.props.fetchPDISurveys(); 
-        this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
+        if (this.props.patient.medicalData != null) {
+            if (this.props.patient.medicalData.dispenser_id != null) {
+                this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
+            }
+        }
     } 
 
     render() {        

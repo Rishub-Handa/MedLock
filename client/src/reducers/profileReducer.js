@@ -75,10 +75,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 profileSaving: false,
-                profile: {
-                    ...state.profile,
-                    personalData: action.payload.updatedPersonalData
-                }
+                profile: action.payload.profile,
             };
         case SAVE_PROFILE_FAILURE:
             return {
@@ -130,13 +127,11 @@ export default function(state = initialState, action) {
                 medicalDataUpdating: true,
             };
         case UPDATE_MEDICAL_DATA_SUCCESS:
+            console.log(state.profile); // probably getting called before the other finishes
             return {
                 ...state,
                 medicalDataUpdating: false,
-                profile: {
-                    ...state.profile,
-                    medicalData: action.payload.medicalData,
-                }
+                profile: action.payload.profile
             };
         case UPDATE_MEDICAL_DATA_FAILURE: 
             return {

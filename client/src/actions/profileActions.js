@@ -70,7 +70,7 @@ const saveProfileBegin = () => ({
 const saveProfileSuccess = updatedPersonalData => ({
     type: SAVE_PROFILE_SUCCESS,
     payload: {
-        updatedPersonalData
+        profile
     }
 });
 
@@ -101,6 +101,7 @@ export function saveProfile(updatedPersonalData, role) {
             .then(res => {
                 console.log(res.data);
                 dispatch(saveProfileSuccess(res.data));
+                return res.data;
             })
             .catch(error => dispatch(saveProfileFailure(error)));
     }
@@ -181,10 +182,10 @@ const updateMedicalDataBegin = () => ({
     type: UPDATE_MEDICAL_DATA_BEGIN,
 });
 
-const updateMedicalDataSuccess = (user) => ({
+const updateMedicalDataSuccess = (profile) => ({
     type: UPDATE_MEDICAL_DATA_SUCCESS,
     payload: {
-        user
+        profile
     }
 });
 

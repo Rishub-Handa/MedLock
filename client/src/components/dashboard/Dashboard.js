@@ -22,6 +22,7 @@ import ServerEndpoints from '../test/ServerEndpoints';
 import { modules } from '../nav/ModuleInfo'; 
 import MyPatients from '../myPatients/MyPatients'; 
 import NewUser from './NewUser';
+import NewProvider from './NewProvider';
 import { collapseSideBar, expandSideBar, setSideBarToggle } from '../../actions/sideBarActions'; 
 import ReactGA from 'react-ga'; 
 import history from '../nav/history';
@@ -216,9 +217,16 @@ class Dashboard extends Component {
         } 
 
         if(this.state.newUser) {
-            return (
-                <NewUser toggle={this.toggleNewUser} profile={this.props.profile} role={roles[0].name}/> 
-            );
+            if (roles[0].name.toLowerCase() == "patient") {
+                return (
+                    <NewUser toggle={this.toggleNewUser} profile={this.props.profile} role={roles[0].name}/> 
+                );
+            } else if (roles[0].name.toLowerCase() == "provider") {
+                return (
+                    <NewProvider toggle={this.toggleNewUser} profile={this.props.profile} />
+                );
+            }
+
         }
 
         return (
