@@ -33,13 +33,18 @@ class NewUser extends Component {
     componentDidMount() {
         this.props.fetchAllClinics()
             .then(() => {
-                this.setState({
-                    medicalData: {
-                        clinic: this.props.clinics[0]._id,
-                        provider: this.props.providers[0]._id
-                    }
-                });
-            });
+                var clinicId = this.props.clinics[0]._id;
+                this.props.fetchAllProvidersAtClinic(clinicId)
+                    .then(() => {
+                        this.setState({
+                            ...this.state,
+                            medicalData: {
+                                clinic: clinicId,
+                                provider: this.props.providers[0]._id,
+                            }
+                        });
+                    });
+               });
     }
 
     onSubmit = e => {

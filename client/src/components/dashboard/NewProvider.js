@@ -12,7 +12,7 @@ class NewProvider extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            clinic: "",
+            clinic: "other",
             new_clinic: "",
         };
     }
@@ -61,8 +61,8 @@ class NewProvider extends Component {
             this.props.addProviderToClinic(providerId, clinicId);
         }
 
+        this.resetPassword(this.props.profile.personalData.email);
         this.props.toggle();
-        this.resetPassword();
     }
 
     render() {
