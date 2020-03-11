@@ -61,7 +61,7 @@ class NewProvider extends Component {
             this.props.addProviderToClinic(providerId, clinicId);
         }
 
-        resetPassword(this.props.profile.personalData.email);
+        // resetPassword(this.props.profile.personalData.email);
         this.props.toggle();
     }
 
