@@ -351,7 +351,7 @@ export default class DateTimeScatter extends Component {
                         .attr('cx', (d, i) => (xScale(d[1]) + xScale.bandwidth()/2 + dx))
                         .attr('cy', (d, i) => (yScale(d[2]) + dy))
                     .transition()
-                        .delay(5000)
+                        .delay(3000)
                         .duration(500)
                         .attr('cx', (d, i) => xScale(d[1]) + xScale.bandwidth()/2)
                         .attr('cy', (d, i) => yScale(d[2]))
