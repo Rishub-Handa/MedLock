@@ -118,7 +118,7 @@ export function assignRoles(user_id, API_MANAGEMENT_TOKEN, role) {
                     'Content-Type': 'application/json' };
 
     let req_body = {}; 
-
+    
     switch(role) {
         case "Patient": 
             req_body = {
