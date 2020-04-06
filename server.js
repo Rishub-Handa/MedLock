@@ -18,6 +18,8 @@ const config = require('config');
 const routes = require('./routes');
 const jwtAuthz = require('express-jwt-authz');
 const cors = require('cors'); 
+require('dotenv').config();
+console.log(process.env);
 
 const app = express(); 
 
