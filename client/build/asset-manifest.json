@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.0b46a361.chunk.css",
-    "main.js": "/static/js/main.cdee1642.chunk.js",
-    "main.js.map": "/static/js/main.cdee1642.chunk.js.map",
+    "main.css": "/static/css/main.bff07876.chunk.css",
+    "main.js": "/static/js/main.1dc820de.chunk.js",
+    "main.js.map": "/static/js/main.1dc820de.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.f4442493.js",
     "runtime-main.js.map": "/static/js/runtime-main.f4442493.js.map",
     "static/css/2.17e5ed98.chunk.css": "/static/css/2.17e5ed98.chunk.css",
-    "static/js/2.0149f40a.chunk.js": "/static/js/2.0149f40a.chunk.js",
-    "static/js/2.0149f40a.chunk.js.map": "/static/js/2.0149f40a.chunk.js.map",
+    "static/js/2.69bb02b3.chunk.js": "/static/js/2.69bb02b3.chunk.js",
+    "static/js/2.69bb02b3.chunk.js.map": "/static/js/2.69bb02b3.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.3d40bf79e236a15fea378ebb6f583b60.js": "/precache-manifest.3d40bf79e236a15fea378ebb6f583b60.js",
+    "precache-manifest.2b063603bf14e2b40a2f634e4d8d9162.js": "/precache-manifest.2b063603bf14e2b40a2f634e4d8d9162.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.17e5ed98.chunk.css.map": "/static/css/2.17e5ed98.chunk.css.map",
-    "static/css/main.0b46a361.chunk.css.map": "/static/css/main.0b46a361.chunk.css.map",
+    "static/css/main.bff07876.chunk.css.map": "/static/css/main.bff07876.chunk.css.map",
     "static/media/003-info.svg": "/static/media/003-info.2bca5cf0.svg",
     "static/media/profile_pic.png": "/static/media/profile_pic.527e37d6.png",
     "static/media/round-folder-24px.svg": "/static/media/round-folder-24px.e371ccf8.svg",
@@ -26,8 +26,8 @@
   "entrypoints": [
     "static/js/runtime-main.f4442493.js",
     "static/css/2.17e5ed98.chunk.css",
-    "static/js/2.0149f40a.chunk.js",
-    "static/css/main.0b46a361.chunk.css",
-    "static/js/main.cdee1642.chunk.js"
+    "static/js/2.69bb02b3.chunk.js",
+    "static/css/main.bff07876.chunk.css",
+    "static/js/main.1dc820de.chunk.js"
   ]
 }

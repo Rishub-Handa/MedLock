@@ -21,6 +21,12 @@ router.get('/', (req, res) => {
         .catch(err => console.log(err)); 
 });
 
+router.post('/film', (req, res) => {
+    console.log(req.body); 
+    // console.log(req); 
+    console.log("Film Dispenser Endpoint. "); 
+}); 
+
 // @route   POST api/dispense
 // @desc    Update Dispenser array. 
 // @access  Public --> Will Change 
