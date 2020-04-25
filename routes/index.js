@@ -12,6 +12,7 @@ const adminPatient = require('./api/administration/patient');
 const patientRegister = require('./api/patient/register');
 const clinic = require('./api/clinic/clinic');
 const clinicRegister = require('./api/clinic/register');
+const providerRegister = require('./api/provider/register');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const path = require('path');
@@ -49,7 +50,7 @@ router.use('/api/dispense', dispense);
 
 // Define Provider Scope 
 router.use('/api/provider/patients', checkJwt, providerPatients); 
-router.use('/api/provider', checkJwt, provider); 
+router.use('/api/provider/provider', checkJwt, provider); 
 
 // Define Administration Scope 
 // Create Administration Accounts --> Check JSON Web Tokens 
@@ -62,6 +63,7 @@ router.use('/api/chatAuth', chatAuth);
 router.use('/api/email', email); 
 
 router.use('/api/patient/register', patientRegister);
+router.use('/api/provider/register', providerRegister);
 router.use('/api/clinic', clinic);
 router.use('/api/clinic/register', clinicRegister);
 
