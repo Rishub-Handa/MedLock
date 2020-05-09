@@ -5,16 +5,19 @@ import { tickStep } from 'd3';
 import "../../css/RawDataDisp.css";
 
 class RawDataDisp extends Component {
-    
-    state = {
-        data: [], 
-        dates: [], 
-        selectedDateIndex: 0 
+    constructor(props) {
+        super(props);
+        var data = this.sequenceRawData(this.props.rawData);
+        var dates = this.getAvailableDates(data);
+        this.state = {
+            data,
+            dates, 
+            selectedDateIndex: 0 
+        }
     }
 
     componentDidMount() {
         console.log(this.props); 
-        this.sequenceRawData(this.props.rawData); 
     }
 
     sequenceRawData = (data) => {
@@ -51,19 +54,13 @@ class RawDataDisp extends Component {
 
         console.log(dispenseData); 
         console.log(colOffData); 
-        const allData = dispenseData.concat(colOffData, btn1Data, btn2Data, btn3Data); 
+        var allData = dispenseData.concat(colOffData, btn1Data, btn2Data, btn3Data); 
 
         console.log(allData); 
 
         allData.sort((pt1, pt2) => pt1.timestamp - pt2.timestamp); 
         console.log(allData); 
-        this.setState({ data: allData }); 
-        
-        // Order timestamps 
-        // Add to chart 
-        // Have chart show 20 data points at a time 
-        this.getAvailableDates(allData); 
-
+        return allData;
     }
 
     getAvailableDates = (data) => {
@@ -75,7 +72,7 @@ class RawDataDisp extends Component {
         }); 
 
         console.log(availableDates); 
-        this.setState({ dates: availableDates }); 
+        return availableDates;
     }
 
     formatDate = (timestamp) => {
@@ -141,7 +138,7 @@ class RawDataDisp extends Component {
             <tr>
                 <td className={className}>{resTime}<b>{resLabel}</b></td>
             </tr>
-        )
+        );
 
     }
 
@@ -150,38 +147,50 @@ class RawDataDisp extends Component {
         this.setState({ selectedDateIndex: e.target.value }); 
     }
 
-    dateSelector = (dates, selectedIndex) => (
-        <select onChange={this.selectOnChange}>
-            {dates.map((date, i) => {
-                if(i == selectedIndex) 
-                    return <option selected="selected" value={i}>{date}</option>
-                else 
-                    return <option value={i}>{date}</option>
-            })}
-        </select>
-    )
+    dateSelector = (dates, selectedIndex) => {
+        return (
+            <select onChange={this.selectOnChange}>
+                {dates.map((date, i) => {
+                    if(i == selectedIndex) 
+                        return <option selected="selected" value={i}>{date}</option>
+                    else 
+                        return <option value={i}>{date}</option>
+                })}
+            </select>
+        )
+    }
+
+    getSelectedEntries = () => {
+        var selectedEntries = this.state.data.filter(pt => this.formatDate(pt.timestamp) == this.state.dates[this.state.selectedDateIndex]);
+        console.log(selectedEntries);
+        return selectedEntries;
+    }
+
+    getTableEntries = (entries) => {
+        var tableEntries = entries.map(pt => this.getTableEntry(pt));
+        console.log(tableEntries);
+        return tableEntries;
+    }
 
     render() {
+        console.log("rendering");
+        console.log(this.state);
+        var selectedEntries = this.getSelectedEntries();
+        var tableEntries = this.getTableEntries(selectedEntries);
         return (
             <div>
                 {this.dateSelector(this.state.dates, this.state.selectedDateIndex)}
                 Raw Data Table 
-                <Table striped bordered hover> 
+                <table striped bordered hover> 
                     <thead>
                         <tr>
                             <th>Dispenser Log: </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            this.state.data.map(pt => {
-                                if(this.formatDate(pt.timestamp) == this.state.dates[this.state.selectedDateIndex]) {
-                                    return this.getTableEntry(pt); 
-                                }
-                            })
-                        }
+                        {tableEntries}
                     </tbody>
-                </Table> 
+                </table> 
             </div>
         )
     }

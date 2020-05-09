@@ -320,6 +320,7 @@ export default class DateTimeScatter extends Component {
         });
     }
 
+<<<<<<< HEAD
     /**
      * method to combine points and increase radius if they're within a certain
      * distance of one another, not working atm
@@ -370,6 +371,8 @@ export default class DateTimeScatter extends Component {
     //     }
     // }
 
+=======
+>>>>>>> master
     redrawChart = () => {
         console.log("redrawChart() called");
         var size = this.getSize();
@@ -394,6 +397,7 @@ export default class DateTimeScatter extends Component {
             }
 
             chart.selectAll("circle")
+<<<<<<< HEAD
                 .on("mouseover", (d, i) => {
                     console.log(`d: ${d}`);
                     console.log(`i: ${i}`);
@@ -409,6 +413,31 @@ export default class DateTimeScatter extends Component {
                         .delay(1000)
                         .duration(1000)
                         .attr('cx', (d, i) => xScale(d[1]) + xScale.bandwidth() / 2)
+=======
+            .on("mouseover", (d, i) => {
+                console.log(`d: ${d}`);
+                console.log(`i: ${i}`);
+                // increase the size of the point
+                // randomly compute theta in [0, 2pi]
+                var theta = Math.random() * (2 * Math.PI);
+                // let r = 30
+                var r = 30;
+                // dx = rcos(0)
+                var dx = r * Math.cos(theta);
+                // dy = rsin(0)
+                var dy = r * Math.sin(theta);
+                // var dx = getSign() * Math.floor((Math.random() * 20) + 15);
+                // var dy = getSign() * Math.floor((Math.random() * 20) + 15);
+                chart.select(`#p${i}`)
+                    .transition()
+                        .duration(500)
+                        .attr('cx', (d, i) => (xScale(d[1]) + xScale.bandwidth()/2 + dx))
+                        .attr('cy', (d, i) => (yScale(d[2]) + dy))
+                    .transition()
+                        .delay(3000)
+                        .duration(500)
+                        .attr('cx', (d, i) => xScale(d[1]) + xScale.bandwidth()/2)
+>>>>>>> master
                         .attr('cy', (d, i) => yScale(d[2]))
                     // .attr("r", this.global.expandedPointRadius);
 
@@ -437,11 +466,13 @@ export default class DateTimeScatter extends Component {
     render() {
         return (
             <div className={`graph-container ${this.props.id}`}>
-                <div ref="canvas"></div>
-                <div className="graph-settings-div">
+                <div className="canvas" ref="canvas"></div>
+                <div className="graph-settings datetime" width={this.state.width} height={this.state.height}>
                     <div>{this.dataSelectorHTML()}</div>
-                    <div>Start Date: {this.startDateSelect(this.state.dateRange)}</div>
-                    <div>End Date: {this.endDateSelect(this.state.dateRange)}</div>
+                    <div>
+                        <div>Start Date: {this.startDateSelect(this.state.dateRange)}</div>
+                        <div>End Date: {this.endDateSelect(this.state.dateRange)}</div>
+                    </div>
                 </div>
             </div>
         )
@@ -470,6 +501,7 @@ export default class DateTimeScatter extends Component {
 
     dataSelectorHTML = () => {
         return (
+<<<<<<< HEAD
             <form style={{ padding: "15px", paddingLeft: "0px", marginTop: "100px" }}>
                 <label>
                     <input
@@ -507,6 +539,54 @@ export default class DateTimeScatter extends Component {
                         onChange={this.onDataSelectorChange} />
                     Button 3
                 </label>
+=======
+            <form>
+                <div class="group">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="dispenses" 
+                            checked={this.state.selectedEvents.dispenses}
+                            value={this.state.selectedEvents.dispenses} 
+                            onChange={this.onDataSelectorChange} /> 
+                        Dispenses
+                    </label>
+                    <div className="circle-legend dispenses"></div>
+                </div>
+                <div class="group">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="btn1"
+                            value={this.state.selectedEvents.btn1} 
+                            onChange={this.onDataSelectorChange} />
+                        Button 1
+                    </label>
+                    <div className="circle-legend btn1"></div>
+                </div>
+                <div class="group"> 
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="btn2" 
+                            value={this.state.selectedEvents.btn2}
+                            onChange={this.onDataSelectorChange} />
+                        Button 2
+                    </label>
+                    <div className="circle-legend btn2"></div>
+                </div>
+                <div class="group">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="btn3" 
+                            value={this.state.selectedEvents.btn3} 
+                            onChange={this.onDataSelectorChange} />
+                        Button 3
+                    </label>
+                    <div className="circle-legend btn3"></div>
+                </div>
+>>>>>>> master
             </form>
         )
     }
