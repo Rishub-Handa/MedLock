@@ -55,10 +55,6 @@ class IntakeSurvey extends Component {
         this.setState({
             responses: newResponses 
         }); 
-
-        // console.log(this.state); 
-
-        
     } 
 
     questionsHTML = () => (

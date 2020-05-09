@@ -6,7 +6,7 @@ class MultChoice extends Component {
     state = {
         question: null, 
         answer: null, 
-        showOther: false 
+        showOther: false, 
     } 
 
     onChange = (e) => { 
@@ -49,7 +49,21 @@ class MultChoice extends Component {
         ); 
         
         
-    }
+    } 
+
+    agreeTypeHTML = () => ( 
+        <tr>
+            <td>{this.props.question}</td>
+            <form onChange={this.onChange}>
+                {this.props.responses.map(answer => (
+                    <td><input name={this.props.question} type="radio" value={answer} id={this.props.id}/></td>
+                ))}
+            </form>
+        </tr> 
+    )
+
+    
+
 
     componentDidMount() {
         console.log(this.props); 
@@ -58,12 +72,21 @@ class MultChoice extends Component {
 
 
     render() {
-        return (
-            <div>
-                {this.questionHTML()} 
-                {this.responsesHTML(this.props.other)} 
-            </div>
-        )
+
+        if(this.props.agreeType) {
+            return (
+                <div>
+                    {this.agreeTypeHTML()}
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    {this.questionHTML()} 
+                    {this.responsesHTML(this.props.other)} 
+                </div>
+            )
+        }
     }
 }
 
@@ -72,6 +95,7 @@ MultChoice.propTypes = {
     question: PropTypes.string.isRequired, 
     responses: PropTypes.array.isRequired, 
     other: PropTypes.bool.isRequired, 
+    agreeType: PropTypes.bool, 
     onChange: PropTypes.func.isRequired 
 }
 

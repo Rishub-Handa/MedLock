@@ -3,6 +3,7 @@ import PDISurvey from './PDISurvey';
 import SecuredRoute from '../SecuredRoute'; 
 import history from '../nav/history'; 
 import IntakeSurvey from './IntakeSurvey'; 
+import ExitSurvey from './ExitSurvey'; 
 import '../../css/Surveys.css';
 import ReactGA from 'react-ga'; 
 
@@ -41,6 +42,7 @@ class Surveys extends Component {
                 <h1 style={{marginBottom: "20px"}} class="header">Surveys</h1>
                 <button class="create-new-btn" value="/dashboard/survey/pdisurvey" onClick={this.surveyLink}>PDI Survey</button>
                 <button class="create-new-btn" value="/dashboard/survey/intake" onClick={this.surveyLink}>Intake Survey</button>
+                <button class="create-new-btn" value="/dashboard/survey/exitsurvey" onClick={this.surveyLink}>Exit Survey</button>
             </div>
         ); 
     }
@@ -54,6 +56,9 @@ class Surveys extends Component {
             case "/dashboard/survey/intake": 
                 return ( <SecuredRoute path="/dashboard/survey/intake" component={IntakeSurvey} /> ); 
                 break;     
+            case "/dashboard/survey/exitsurvey": 
+                return ( <SecuredRoute path="/dashboard/survey/exitsurvey" component={ExitSurvey} /> ); 
+                break;  
             default: 
                 break; 
         }
