@@ -22,31 +22,31 @@ export const surveys = [
         date: "2019-06-27T19:36:59.095Z",
         responses: [
             {
-                question: "family",
+                question: "Family",
                 answer: "1"
             },
             {
-                question: "recreation",
+                question: "Recreation",
                 answer: "2"
             },
             {
-                question: "social activity",
+                question: "Social Activity",
                 answer: "3"
             },
             {
-                question: "occupation",
+                question: "Occupation",
                 answer: "4"
             },
             {
-                question: "sexual behavior",
+                question: "Sexual Behavior",
                 answer: "5"
             },
             {
-                question: "self care",
+                question: "Self Care",
                 answer: "6"
             },
             {
-                question: "life support activities",
+                question: "Life Support Activities",
                 answer: "7"
             },
         ]
@@ -55,31 +55,31 @@ export const surveys = [
         date: "2019-06-28T19:36:59.095Z",
         responses: [
             {
-                question: "family",
+                question: "Family",
                 answer: "2"
             },
             {
-                question: "recreation",
+                question: "Recreation",
                 answer: "1"
             },
             {
-                question: "social activity",
+                question: "Social Activity",
                 answer: "3"
             },
             {
-                question: "occupation",
+                question: "Occupation",
                 answer: "3"
             },
             {
-                question: "sexual behavior",
+                question: "Sexual Behavior",
                 answer: "5"
             },
             {
-                question: "self care",
+                question: "Self Care",
                 answer: "2"
             },
             {
-                question: "life support activities",
+                question: "Life Support Activities",
                 answer: "7"
             },
         ]
@@ -88,31 +88,31 @@ export const surveys = [
         date: "2019-06-29T19:36:59.095Z",
         responses: [
             {
-                question: "family",
+                question: "Family",
                 answer: "3"
             },
             {
-                question: "recreation",
+                question: "Recreation",
                 answer: "1"
             },
             {
-                question: "social activity",
+                question: "Social Activity",
                 answer: "3"
             },
             {
-                question: "occupation",
+                question: "Occupation",
                 answer: "2"
             },
             {
-                question: "sexual behavior",
+                question: "Sexual Behavior",
                 answer: "3"
             },
             {
-                question: "self care",
+                question: "Self Care",
                 answer: "2"
             },
             {
-                question: "life support activities",
+                question: "Life Support Activities",
                 answer: "7"
             },
         ]
@@ -121,31 +121,31 @@ export const surveys = [
         date: "2019-06-30T19:36:59.095Z",
         responses: [
             {
-                question: "family",
+                question: "Family",
                 answer: "4"
             },
             {
-                question: "recreation",
+                question: "Recreation",
                 answer: "2"
             },
             {
-                question: "social activity",
+                question: "Social Activity",
                 answer: "3"
             },
             {
-                question: "occupation",
+                question: "Occupation",
                 answer: "1"
             },
             {
-                question: "sexual behavior",
+                question: "Sexual Behavior",
                 answer: "1"
             },
             {
-                question: "self care",
+                question: "Self Care",
                 answer: "2"
             },
             {
-                question: "life support activities",
+                question: "Life Support Activities",
                 answer: "7"
             },
         ]

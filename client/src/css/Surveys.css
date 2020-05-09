@@ -23,13 +23,13 @@ input[type=radio]{
     margin-right: 5px;
     margin-left: 10px;
     cursor: pointer;
-    box-shadow: 0px 1px 1px var(--medlock-blue)
+    /* box-shadow: 0px 1px 1px var(--medlock-blue) */
 }
 
 input[type=checkbox]{
     margin-right: 5px;
     margin-left: 10px;
     cursor: pointer;
-    box-shadow: 0px 1px 1px var(--medlock-blue)
+    /* box-shadow: 0px 1px 1px var(--medlock-blue) */
 }
 

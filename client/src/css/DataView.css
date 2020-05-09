@@ -77,10 +77,20 @@
 
 .graph-container {
     min-width: 400px;
-    border: 1px solid #ccc;
-    border-radius: 15px;
     display: flex;
+<<<<<<< HEAD
+    flex-direction: row;
+    box-shadow: 0 0 10px var(--medlock-light-gray);
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.graph-container:hover {
+    box-shadow: 0 0 10px var(--medlock-gray);
+=======
     flex-direction: column;
+>>>>>>> master
 }
 
 .g0 {

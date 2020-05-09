@@ -286,4 +286,3 @@ class Resources extends Component {
 }
 
 export default Resources;
-
