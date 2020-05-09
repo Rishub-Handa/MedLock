@@ -19,7 +19,7 @@ export default class SummaryStats extends Component {
         });
 
         var num_pills = dispense_dates.length;
-        var num_days = 1;
+        var num_days = 0;
         for(var i = 0; i < dispense_dates.length - 1; i++) {
             var j = i + 1;
             var date1 = dispense_dates[i];
@@ -30,8 +30,6 @@ export default class SummaryStats extends Component {
                     num_days++;
                 } 
         }
-        console.log(num_pills);
-        console.log(num_days);
         var avgPillsPerDay = num_pills / num_days;
         return avgPillsPerDay.toFixed(2);
     }

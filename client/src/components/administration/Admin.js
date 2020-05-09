@@ -12,7 +12,6 @@ import ClinicSection from './sections/clinics/ClinicSection';
 import PropTypes from 'prop-types';
 import { fetchAllClinics, registerNewClinic } from '../../actions/clinicActions';
 import '../../css/Admin.css';
-import autho0client from '../../auth/Auth';
 
 class Admin extends Component {
     
@@ -164,7 +163,6 @@ class Admin extends Component {
                                 registerClinic={this.registerClinic}
                             />
                     </div>
-                    <button onClick={autho0client.logout}>Logout</button>
                 </div>
             );
         

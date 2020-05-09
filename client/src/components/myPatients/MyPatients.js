@@ -32,7 +32,6 @@ class MyPatients extends Component {
     }
 
     viewPatient = (patient) => {
-        console.log("viewing patient...");
         console.log(patient);
         this.setState({
             onePatientView: true,
@@ -176,8 +175,9 @@ class MyPatients extends Component {
     }
 
     render() {
-        console.log(this.props.history);
+        console.log("DISPLAYED PATIENTS:" + this.state.displayedPatients);
         const { patientRegistering, registerError, patientsFetching, patientsFetched } = this.props;
+        //console.log("DISPLAYED PATIENTS AFTER SET EQUALS:" + this.state.displayedPatients);
     
         if(registerError) {
             return (
@@ -207,11 +207,9 @@ class MyPatients extends Component {
             if (this.state.viewedPatient === null)
                 throw "onePatientView is true, but viewedPatient is null!";
             
-            if (this.props.history.location.pathname == "/dashboard/mypatients/viewpatient") {
-                return (
-                    <PatientView patient={this.state.viewedPatient} />
-               );
-            }
+            return (
+                 <PatientView patient={this.state.viewedPatient} />
+            );
         }
 
         return (

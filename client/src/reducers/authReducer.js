@@ -4,10 +4,7 @@ import {
     FETCH_ROLES_FAILURE, 
     AUTH0_REGISTRATION_BEGIN, 
     AUTH0_REGISTRATION_SUCCESS, 
-    AUTH0_REGISTRATION_FAILURE,
-    VALIDATE_REGISTER_CODE_BEGIN,
-    VALIDATE_REGISTER_CODE_SUCCESS,
-    VALIDATE_REGISTER_CODE_FAILURE, 
+    AUTH0_REGISTRATION_FAILURE 
 } from '../actions/types';
 
 const initialState = {
@@ -19,9 +16,7 @@ const initialState = {
     AMTError: null, 
     userProfile: null, 
     userProfileLoading: false, 
-    userProfileError: null,
-    registerCodeValidating: false,
-    registerCodeValidated: false
+    userProfileError: null 
 }
 
 export default function(state = initialState, action) {
@@ -63,21 +58,6 @@ export default function(state = initialState, action) {
                 userProfileLoading: false, 
                 userProfileError: action.payload.error 
             }; 
-        case VALIDATE_REGISTER_CODE_BEGIN:
-            return {
-                ...state, 
-                registerCodeValidating: true,
-            };
-        case VALIDATE_REGISTER_CODE_SUCCESS:
-            return {
-                registerCodeValidating: false,
-                registerCodeValidated: true,
-            };
-        case VALIDATE_REGISTER_CODE_FAILURE:
-            return {
-                registerCodeValidating: false,
-                registerCodeValidated: false,
-            };
         default:
             return state;
     }

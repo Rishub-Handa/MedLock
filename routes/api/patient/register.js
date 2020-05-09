@@ -32,19 +32,4 @@ router.post('/', (req, res) => {
         });
 });
 
-router.post('/code', (req, res) => {
-    console.log("POST request to api/register/code");
-    console.log(req.body);
-    var correctCode = "12345";
-    if (req.body.role.toLowerCase() === "patient") {
-        if (req.body.registerCode === correctCode) {
-            res.status(200).send(true);
-        } else {
-            res.status(403).send(new Error("Invalid Register Code"));
-        }
-    } else {
-        res.status(400).send(new Error("Role Mismatch Error"));
-    }
-});
-
 module.exports = router;

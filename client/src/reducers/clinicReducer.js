@@ -8,9 +8,6 @@ import {
     REGISTER_NEW_CLINIC_BEGIN,
     REGISTER_NEW_CLINIC_SUCCESS,
     REGISTER_NEW_CLINIC_FAILURE,
-    ADD_PROVIDER_TO_CLINIC_BEGIN,
-    ADD_PROVIDER_TO_CLINIC_SUCCESS,
-    ADD_PROVIDER_TO_CLINIC_FAILURE,
 } from '../actions/types';
 
 const initialState = {
@@ -18,7 +15,6 @@ const initialState = {
     clinicsFetching: false,
     clinicsFetched: false,
     clinicsError: null,
-    lastRegistered: null,
 
     providers: [],
     providersFetching: false,
@@ -73,13 +69,10 @@ export default function(state = initialState, action) {
                 clinicRegistering: true,
             };
         case REGISTER_NEW_CLINIC_SUCCESS:
-            var newClinic = action.payload.clinic;
-            console.log(newClinic);
             return {
                 ...state,
                 clinicRegistering: false,
-                clinics: state.clinics.concat(newClinic),
-                lastRegistered: newClinic,
+                clinics: state.clinics.concat(action.payload.clinic),
             };
         case REGISTER_NEW_CLINIC_FAILURE:
             return {
@@ -87,19 +80,6 @@ export default function(state = initialState, action) {
                 clinicRegistering: false,
                 registerError: action.payload.error,
             };
-        case ADD_PROVIDER_TO_CLINIC_BEGIN:
-            return {
-                ...state, 
-            };
-        case ADD_PROVIDER_TO_CLINIC_SUCCESS:
-            return {
-                ...state,
-            };
-        case ADD_PROVIDER_TO_CLINIC_FAILURE:
-            return {
-                ...state,
-                clinicsError: action.payload.error,
-            }
         default:
             return state;
     }

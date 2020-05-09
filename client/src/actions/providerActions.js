@@ -47,7 +47,7 @@ export function createProviderProfile(newProfile, creatorScope) {
             API_URL = `${MEDLOCK_API}/admin/provider`; 
             break; 
         case "Provider": 
-            API_URL = `${MEDLOCK_API}/provider/provider`; 
+            API_URL = `${MEDLOCK_API}/provider`; 
             break; 
         default: 
             API_URL = `${MEDLOCK_API}/provider`; 

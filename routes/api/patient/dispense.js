@@ -16,11 +16,7 @@ router.get('/', (req, res) => {
     Dispenser.findOne({ _id: req.query.id })
         .then(dispenserData => {
             console.log(dispenserData);
-            if (dispenserData == null) {
-                res.status(404).send("You haven't registered a dispenser. Please register a dispenser to begin logging and viewing your data.");
-            } else {
-                res.json(dispenserData);
-            }
+            res.json(dispenserData);
         })
         .catch(err => console.log(err)); 
 });

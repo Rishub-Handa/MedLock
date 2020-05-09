@@ -11,15 +11,11 @@ import {
     ADD_PROFILE_MODULE_FAILURE,
     ADD_DISPENSER_CODE_BEGIN, 
     ADD_DISPENSER_CODE_SUCCESS, 
-    ADD_DISPENSER_CODE_FAILURE,
-    UPDATE_MEDICAL_DATA_BEGIN,
-    UPDATE_MEDICAL_DATA_SUCCESS,
-    UPDATE_MEDICAL_DATA_FAILURE
+    ADD_DISPENSER_CODE_FAILURE
 } from '../actions/types';
 
 const initialState = {
     profile: null,
-    medicalData: null,
     editable: false,
     profileLoading: false,
     profileLoaded: false,
@@ -32,10 +28,7 @@ const initialState = {
     profileModules: [], 
     code: null, 
     codeAdding: false, 
-    codeAddedError: null,
-    medicalDataUpdating: false,
-    medicalDataUpdateError: null,
-
+    codeAddedError: null 
 }
 
 export default function(state = initialState, action) {
@@ -75,7 +68,9 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 profileSaving: false,
-                profile: action.payload.profile,
+                profile: {
+                    personalData: action.payload.updatedPersonalData
+                }
             };
         case SAVE_PROFILE_FAILURE:
             return {
@@ -120,24 +115,6 @@ export default function(state = initialState, action) {
                 ...state,
                 codeAdding: false,
                 codeAddedError: action.payload.error
-            };
-        case UPDATE_MEDICAL_DATA_BEGIN: 
-            return {
-                ...state,
-                medicalDataUpdating: true,
-            };
-        case UPDATE_MEDICAL_DATA_SUCCESS:
-            console.log(state.profile); // probably getting called before the other finishes
-            return {
-                ...state,
-                medicalDataUpdating: false,
-                profile: action.payload.profile
-            };
-        case UPDATE_MEDICAL_DATA_FAILURE: 
-            return {
-                ...state,
-                medicalDataUpdating: false,
-                medicalDataUpdateError: action.payload.error
             };
         default:
             return state;

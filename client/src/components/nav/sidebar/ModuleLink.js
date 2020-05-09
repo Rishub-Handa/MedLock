@@ -11,8 +11,6 @@ export default class ModuleLink extends Component {
             action: 'Navigated to ' + this.props.module.name + ' from Sidebar', 
             label: 'Click ' + this.props.module.name + ' from Sidebar'
         }); 
-        console.log(this.props.module.link);
-        console.log(history);
         history.push(this.props.module.link);
     }
     

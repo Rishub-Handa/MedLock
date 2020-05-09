@@ -11,10 +11,7 @@ import {
     ADD_PROFILE_MODULE_FAILURE,
     ADD_DISPENSER_CODE_BEGIN, 
     ADD_DISPENSER_CODE_SUCCESS, 
-    ADD_DISPENSER_CODE_FAILURE,
-    UPDATE_MEDICAL_DATA_BEGIN,
-    UPDATE_MEDICAL_DATA_SUCCESS,
-    UPDATE_MEDICAL_DATA_FAILURE, 
+    ADD_DISPENSER_CODE_FAILURE 
 } from './types';
 
 import axios from 'axios';
@@ -49,7 +46,7 @@ export function loadProfile(role) {
             API_URL += "/patient/patient"; 
             break; 
         case "Provider": 
-            API_URL += "/provider/provider"; 
+            API_URL += "/provider"; 
             break; 
     }
 
@@ -67,10 +64,10 @@ const saveProfileBegin = () => ({
     type: SAVE_PROFILE_BEGIN
 });
 
-const saveProfileSuccess = profile => ({
+const saveProfileSuccess = updatedPersonalData => ({
     type: SAVE_PROFILE_SUCCESS,
     payload: {
-        profile
+        updatedPersonalData
     }
 });
 
@@ -91,7 +88,7 @@ export function saveProfile(updatedPersonalData, role) {
             API_URL += "/patient/patient"; 
             break; 
         case "Provider": 
-            API_URL += "/provider/provider"; 
+            API_URL += "/provider"; 
             break; 
     }
 
@@ -101,7 +98,6 @@ export function saveProfile(updatedPersonalData, role) {
             .then(res => {
                 console.log(res.data);
                 dispatch(saveProfileSuccess(res.data));
-                return res.data;
             })
             .catch(error => dispatch(saveProfileFailure(error)));
     }
@@ -177,51 +173,3 @@ export function addDispenserCode(code) {
             .catch(error => dispatch(addDispenserCodeFailure(error)));
     } 
 } 
-
-const updateMedicalDataBegin = () => ({
-    type: UPDATE_MEDICAL_DATA_BEGIN,
-});
-
-const updateMedicalDataSuccess = (profile) => ({
-    type: UPDATE_MEDICAL_DATA_SUCCESS,
-    payload: {
-        profile
-    }
-});
-
-const updateMedicalDataFailure = (error) => ({
-    type: UPDATE_MEDICAL_DATA_FAILURE,
-    payload: {
-        error
-    }
-});
-
-export function updateMedicalData(userId, role, medicalData) {
-    console.log("updating medical data");
-    console.log(`userId: ${userId}`);
-    console.log(`role: ${role}`);
-    console.log(`medicalData: ${medicalData}`);
-    const { getAccessToken } = auth0client;
-    var API_URL = `${MEDLOCK_API}`;
-    const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
-
-    if (role.toLowerCase() == "patient") {
-        API_URL += "/patient/patient"
-    } else if (role.toLowerCase() == "provider") {
-        API_URL += "/provider/provider"
-    }
-
-    console.log(API_URL);
-
-    const body = {
-        _id: userId,
-        medicalData,
-    };
-
-    return dispatch => {
-        dispatch(updateMedicalDataBegin());
-        return axios.put(`${API_URL}/medicaldata`, body, { headers })
-            .then(res => dispatch(updateMedicalDataSuccess(res.data)))
-            .catch(error => dispatch(updateMedicalDataFailure(error)));
-    };
-}

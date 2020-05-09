@@ -7,15 +7,12 @@ import {
     AUTH0_REGISTRATION_FAILURE, 
     ASSIGN_ROLES_BEGIN, 
     ASSIGN_ROLES_SUCCESS, 
-    ASSIGN_ROLES_FAILURE,
-    VALIDATE_REGISTER_CODE_BEGIN,
-    VALIDATE_REGISTER_CODE_SUCCESS,
-    VALIDATE_REGISTER_CODE_FAILURE
+    ASSIGN_ROLES_FAILURE 
  } from './types';
 
 import axios from 'axios';
 import auth0client from '../auth/Auth';
-import { MEDLOCK_API } from '../config/servers';
+import { MEDLOCK_URL } from '../config/servers';
 
 export const fetchRolesBegin = () => ({
     type: FETCH_ROLES_BEGIN
@@ -79,6 +76,7 @@ export function auth0Registration(newUser, API_MANAGEMENT_TOKEN) {
     const API_URL = 'https://medlock-dev.auth0.com/api/v2/users';
     const headers = { authorization: `Bearer ${API_MANAGEMENT_TOKEN}`, 
                     'content-type': 'application/json' };
+
     return dispatch => {
         dispatch(auth0RegistrationBegin());
         return axios.post(API_URL, newUser, { headers })
@@ -112,13 +110,12 @@ const assignRolesFailure = error => ({
 });
 
 export function assignRoles(user_id, API_MANAGEMENT_TOKEN, role) {
-    const { getAccessToken } = auth0client;
     const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}/roles`;
     const headers = { authorization: `Bearer ${API_MANAGEMENT_TOKEN}`, 
                     'Content-Type': 'application/json' };
 
     let req_body = {}; 
-    
+
     switch(role) {
         case "Patient": 
             req_body = {
@@ -135,7 +132,6 @@ export function assignRoles(user_id, API_MANAGEMENT_TOKEN, role) {
             }
             break; 
         default: 
-            break;
     } 
 
     return dispatch => {
@@ -147,47 +143,6 @@ export function assignRoles(user_id, API_MANAGEMENT_TOKEN, role) {
             .catch(error => {
                 console.log(error);
                 dispatch(assignRolesFailure(error));
-            });
-    }
-}
-
-const validateRegisterCodeBegin = () => ({
-    type: VALIDATE_REGISTER_CODE_BEGIN,
-});
-
-const validateRegisterCodeSuccess = () => ({
-    type: VALIDATE_REGISTER_CODE_SUCCESS,
-});
-
-const validateRegisterCodeFailure = (error) => ({
-    type: VALIDATE_REGISTER_CODE_FAILURE,
-    payload: {
-        error
-    }
-});
-
-export function validateRegisterCode(registerCode, role) {
-    const { getAccessToken } = auth0client;
-    const headers = {
-        'Authorization': `Bearer ${getAccessToken()}`
-    }
-    let API_URL = `${MEDLOCK_API}`;
-
-    if (role.toLowerCase() === "provider") {
-        API_URL += "/provider/register/code"
-    } else {
-        API_URL += "/patient/register/code"
-    }
-
-    let req_body = { registerCode, role }; 
-    return dispatch => {
-        dispatch(validateRegisterCodeBegin());
-        return axios.post(API_URL, req_body, { headers })
-            .then(res => {
-                dispatch(validateRegisterCodeSuccess(res.data));
-            })
-            .catch(error => {
-                dispatch(validateRegisterCodeFailure(error));
             });
     }
 }

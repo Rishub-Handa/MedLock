@@ -20,14 +20,8 @@ class PatientData extends Component {
     
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
-        console.log(this.props);
-        console.log(this.props.patient.medicalData.dispenser_id);
         this.props.fetchPDISurveys(); 
-        if (this.props.patient.medicalData != null) {
-            if (this.props.patient.medicalData.dispenser_id != null) {
-                this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
-            }
-        }
+        this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
     } 
 
     render() {        
@@ -39,6 +33,8 @@ class PatientData extends Component {
                 dispenserLoading, 
                 dispenserLoaded,
                 dispenserError, } = this.props; 
+
+        console.log(dispenser);
 
         if(surveyError || dispenserError) {
             return (

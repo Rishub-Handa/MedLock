@@ -48,32 +48,4 @@ router.post('/providers', (req, res) => {
         .catch(error => res.status(404).send("Not Found"));
 });
 
-router.post('/add/provider', (req, res) => {
-    console.log("POST request to /add/provider");
-    console.log(req.body);
-    var clinicId = req.body.clinic_id;
-    var providerId = req.body.provider_id;
-
-    Provider.findById(providerId, (err, provider) => {
-        if (err) return res.status(500).send(err);
-        provider.medicalData.clinic = clinicId;
-        provider.save()
-            .then(provider => {
-                console.log(`Clinic(id=${clinicId}) added to the medicalData of Provider(id=${providerId})`);
-            });
-    });
-
-    Clinic.findById(clinicId, (err, clinic) => {
-        if (err) return res.status(500).send(err);
-        clinic.providers.push(providerId);
-        clinic.save()
-            .then(clinic => {
-                console.log(`Provider(id=${providerId}) added to Clinic(id=${clinicId})`);
-                res.send(clinic);
-            });
-    });
-
-    
-})
-
 module.exports = router;

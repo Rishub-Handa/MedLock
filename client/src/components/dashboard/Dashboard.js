@@ -22,11 +22,8 @@ import ServerEndpoints from '../test/ServerEndpoints';
 import { modules } from '../nav/ModuleInfo'; 
 import MyPatients from '../myPatients/MyPatients'; 
 import NewUser from './NewUser';
-import NewProvider from './NewProvider';
 import { collapseSideBar, expandSideBar, setSideBarToggle } from '../../actions/sideBarActions'; 
 import ReactGA from 'react-ga'; 
-import history from '../nav/history';
-
 
 console.log(auth0client.getProfile()); 
 
@@ -41,21 +38,6 @@ class Dashboard extends Component {
             icons: modules, 
             newUser: false, 
             toggleCodeDisplay: false
-        }
-    }
-
-    routeToAdminPage = () => {
-        console.log("rerouting to admin");
-        history.replace('/admin');
-    }
-
-    checkAdminStatus = () => {
-        console.log("checking");
-        // is there a more secure way to do this?
-        if (this.props.roles[0].name.toLowerCase() == "admin") {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -131,15 +113,13 @@ class Dashboard extends Component {
                 console.log(`AMT: ${AMT}`);
                 this.props.fetchRoles(AMT) 
                     .then(() => {
-                        console.log(this.props.roles);
-                        if (this.checkAdminStatus()) {
-                            this.routeToAdminPage();
-                        } else {
-                            this.props.loadProfile(this.props.roles[0].name) 
+                        console.log(this.props);
+                        this.props.loadProfile(this.props.roles[0].name) 
                             .then(() => {
                                 console.log(this.props);
                                 // Need better method of verifying that this is a new patient. 
-                                if(!this.props.profile.medicalData.clinic) { 
+                                if(this.props.roles[0].name === 'Patient' && 
+                                    !this.props.profile.personalData.bio) { 
                                         this.setState({ 
                                             newUser: true 
                                         });
@@ -148,7 +128,6 @@ class Dashboard extends Component {
                                     console.log(userProfile); 
                                 }
                             });
-                        }
                     }); 
             }); 
     }
@@ -208,7 +187,7 @@ class Dashboard extends Component {
             )
         }
 
-        if (!profile || profileLoading) {
+        if (!profile) {
             return (
                 <div>
                     Profile Loading . . .
@@ -217,16 +196,9 @@ class Dashboard extends Component {
         } 
 
         if(this.state.newUser) {
-            if (roles[0].name.toLowerCase() == "patient") {
-                return (
-                    <NewUser toggle={this.toggleNewUser} profile={this.props.profile} role={roles[0].name}/> 
-                );
-            } else if (roles[0].name.toLowerCase() == "provider") {
-                return (
-                    <NewProvider toggle={this.toggleNewUser} profile={this.props.profile} />
-                );
-            }
-
+            return (
+                <NewUser toggle={this.toggleNewUser} profile={this.props.profile} role={roles[0].name}/> 
+            );
         }
 
         return (
