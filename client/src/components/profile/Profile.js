@@ -11,22 +11,15 @@ import '../../css/Profile.css';
 import ReactGA from 'react-ga'; 
 
 class Profile extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            role: props.roles[0].name,
-        }
-    }
-
     onProfileSave = (updatedPersonalData) => {
+        console.log(updatedPersonalData);
         //
         ReactGA.event({
             category: 'Profile Interaction', 
             action: 'Updated Personal Data', 
             label: 'Click Save after Edit Profile'
         }); 
-        this.props.saveProfile(updatedPersonalData, this.state.role);
+        this.props.saveProfile(updatedPersonalData, this.props.role);
     }
 
     onProfileEdit = () => {
@@ -59,7 +52,7 @@ class Profile extends Component {
     // }
 
     render() {
-        const { personalData, profileSaving, error, editable } = this.props;
+        const { personalData, profileSaving, error, editable, role } = this.props;
 
         if (error) {
             return (
@@ -84,7 +77,7 @@ class Profile extends Component {
                     <img className="profilePic" src={profilePic} />
                     <Button variant="light" onClick={this.onProfileEdit} className="editProfile">Edit Profile<img src={editPic} width="30" height="30" /></Button>
                     <div className="personalInfo-container">
-                        <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} role={this.state.role} />
+                        <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} role={role} />
                     </div>
                     {/* <div className="profileModules-container">
                         {this.profileModulesHTML(this.state.profileModules)}
@@ -104,7 +97,7 @@ Profile.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    personalData: state.profileState.profile.personalData,
+    userData: state.authState.userData.personalData,
     editable: state.profileState.editable,
     profileLoading: state.profileState.loadingProfile,
     profileSaving: state.profileState.profileSaving,

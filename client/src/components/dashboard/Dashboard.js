@@ -9,7 +9,7 @@ import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
  //import Inbox from '../inbox/Inbox';
 import { loadProfile } from '../../actions/profileActions'; 
-import { fetchRoles } from '../../actions/authActions';
+import { fetchRoles, fetchUserData } from '../../actions/authActions';
 import { fetchAMT } from '../../auth/AuthManagement'; 
 import SecuredRoute from '../SecuredRoute';
 import DashHeader from './DashHeader';
@@ -51,8 +51,9 @@ class Dashboard extends Component {
 
     checkAdminStatus = () => {
         console.log("checking");
+        console.log(this.props.userData);
         // is there a more secure way to do this?
-        if (this.props.roles[0].name.toLowerCase() == "admin") {
+        if (this.props.userData.roles[0].name.toLowerCase() == "admin") {
             return true;
         } else {
             return false;
@@ -124,33 +125,18 @@ class Dashboard extends Component {
         var ga = ReactGA.ga(); 
         ReactGA.timing(); 
 
-        // Fetch the API Management Token. 
-        fetchAMT() 
-            .then(res => { 
-                const AMT = res.data.access_token; 
-                console.log(`AMT: ${AMT}`);
-                this.props.fetchRoles(AMT) 
-                    .then(() => {
-                        console.log(this.props.roles);
-                        if (this.checkAdminStatus()) {
-                            this.routeToAdminPage();
-                        } else {
-                            this.props.loadProfile(this.props.roles[0].name) 
-                            .then(() => {
-                                console.log(this.props);
-                                // Need better method of verifying that this is a new patient. 
-                                if(!this.props.profile.medicalData.clinic) { 
-                                        this.setState({ 
-                                            newUser: true 
-                                        });
-                                // Testing New Password 
-                                } else {
-                                    console.log(userProfile); 
-                                }
-                            });
-                        }
-                    }); 
-            }); 
+        var promise = this.props.fetchUserData();
+        console.log(promise);
+        promise.then(() => {
+            console.log(this.props);
+            if(this.checkAdminStatus()) {
+                this.routeToAdminPage();
+            }
+        })
+    }
+
+    componentDidUpdate() {
+        console.log("componentDidUpdate");
     }
 
     toggleNewUser = () => {
@@ -176,6 +162,7 @@ class Dashboard extends Component {
     }
 
     render() { 
+        console.log("render");
 
         // ReactGA.ga('create', 'UA-155183323-1', { 'userId': '1234' }); 
         // ReactGA.ga('set', 'dimension1', '1234'); 
@@ -188,42 +175,42 @@ class Dashboard extends Component {
         // You must also use a pageview or event to send the data.
         // ReactGA.ga('send', 'event', 'authentication', 'user-id available');
 
-        const { profile, profileLoading, profileError, 
-                roles, rolesLoading, rolesError } = this.props;
+        const { userData, userDataLoading, userDataError } = this.props;
 
-        if(rolesError || profileError) {
+        if(userDataError) {
             return (
                 <div>
-                    <p>Profile Error: {profileError ? profileError.message : null}</p>
-                    <p>Roles Error: {rolesError ? rolesError.message : null}</p>
+                    <p>Error: {userDataError.message}</p>
                 </div>
             )
         } 
 
-        if(rolesLoading) {
+        if(!userData || userDataLoading || (userData && this.checkAdminStatus())) {
             return (
                 <div>
-                    Roles Loading . . . 
+                    User Data Loading . . . 
                 </div>
             )
         }
+        
+        // if (userData) {
+        //     if(this.checkAdminStatus()) {
+        //         this.routeToAdminPage();
+        //         return;
+        //     }
+        // }
 
-        if (!profile || profileLoading) {
-            return (
-                <div>
-                    Profile Loading . . .
-                </div>
-            );
-        } 
+        console.log(this.props.userData);
+        const { roles } = this.props.userData;
 
         if(this.state.newUser) {
             if (roles[0].name.toLowerCase() == "patient") {
                 return (
-                    <NewUser toggle={this.toggleNewUser} profile={this.props.profile} role={roles[0].name}/> 
+                    <NewUser toggle={this.toggleNewUser} profile={userData} role={roles[0].name}/> 
                 );
             } else if (roles[0].name.toLowerCase() == "provider") {
                 return (
-                    <NewProvider toggle={this.toggleNewUser} profile={this.props.profile} />
+                    <NewProvider toggle={this.toggleNewUser} profile={userData} />
                 );
             }
 
@@ -236,14 +223,14 @@ class Dashboard extends Component {
                 {this.state.toggleCodeDisplay ? 
                     <div className="DispenserCode-container">
                         <DispenserCode hideDispenserCode={this.hideDispenserCode}
-                                        userProfile={this.props.profile}/> 
+                                        userProfile={this.props.userData}/> 
                     </div> 
                     : null 
                 }
                 
                 <div className="DashHeader-container">
                     <DashHeader
-                        name={this.props.profile.personalData.name}  
+                        name={this.props.userData.personalData.name}  
                         roles={roles}
                         toggleSideBar={this.toggleSideBar}
                         sideBarCollapsed={this.props.sideBarCollapsed}
@@ -253,8 +240,8 @@ class Dashboard extends Component {
                 </div>
                 <div className="SideBar-container">
                         <SideBar 
-                            roles={this.props.roles} 
-                            personalData={this.props.profile.personalData}
+                            roles={this.props.userData.roles} 
+                            personalData={this.props.userData.personalData}
                             toggle={this.toggleSideBar}
                             togglable={this.sideBarToggle}
                             collapsed={this.props.sideBarCollapsed}
@@ -302,7 +289,7 @@ class Dashboard extends Component {
     dashboardHTML = () => {
         return (
             <div className="DashIcons-container">
-                {this.iconHTML(this.state.icons, this.props.roles)}
+                {this.iconHTML(this.state.icons, this.props.userData.roles)}
             </div>
         );
     }
@@ -310,12 +297,15 @@ class Dashboard extends Component {
     makeMainRoutes = (props) => {
         return (
             <div className="SecuredRoutes-container">
-                <SecuredRoute path="/dashboard/profile" personalData={props.profile.personalData} component={Profile} />
+                <SecuredRoute path="/dashboard/profile" 
+                    personalData={props.userData.personalData}
+                    role={props.userData.roles[0].name} 
+                    component={Profile} />
                 {/* <SecuredRoute path="/dashboard/inbox" component={Inbox} /> */}
-                <SecuredRoute path="/dashboard/mydata" patient={props.profile} component={PatientData} />
+                <SecuredRoute path="/dashboard/mydata" patient={props.userData} component={PatientData} />
                 <SecuredRoute path="/dashboard/resources" component={Resources} />
                 <SecuredRoute path="/dashboard/survey" component={Surveys} />
-                <SecuredRoute path="/dashboard/dispenser" profile={props.profile} component={Dispenser} /> 
+                <SecuredRoute path="/dashboard/dispenser" profile={props.userData} component={Dispenser} /> 
                 <SecuredRoute path="/dashboard/serverendpoints" component={ServerEndpoints} /> 
                 <SecuredRoute path="/dashboard/mypatients" component={MyPatients} />
             </div>
@@ -354,6 +344,9 @@ const mapStateToProps = state => ({
 
     sideBarCollapsed: state.sideBarState.collapsed,
     sideBarToggle: state.sideBarState.toggle,
+    userData: state.authState.userData,
+    userDataError: state.authState.userDataError,
+    userDataLoading: state.authState.userDataLoading
 });
 
 export default connect(mapStateToProps, { 
@@ -361,5 +354,6 @@ export default connect(mapStateToProps, {
     fetchRoles, 
     collapseSideBar, 
     expandSideBar, 
-    setSideBarToggle 
+    setSideBarToggle, 
+    fetchUserData,
 })(Dashboard); 

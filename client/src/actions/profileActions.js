@@ -82,9 +82,11 @@ const saveProfileFailure = error => ({
 });
 
 export function saveProfile(updatedPersonalData, role) {
+    console.log(updatedPersonalData);
     const { getAccessToken } = auth0client;
     let API_URL = MEDLOCK_API;
     const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
+    console.log(role);
 
     switch (role) {
         case "Patient": 
@@ -94,6 +96,8 @@ export function saveProfile(updatedPersonalData, role) {
             API_URL += "/provider/provider"; 
             break; 
     }
+
+    console.log(API_URL);
 
     return dispatch => {
         dispatch(saveProfileBegin());
