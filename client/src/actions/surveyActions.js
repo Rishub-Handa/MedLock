@@ -7,7 +7,10 @@ import {
   FETCH_PDISURVEYS_FAILURE, 
   SUBMIT_INTAKESURVEY_BEGIN, 
   SUBMIT_INTAKESURVEY_SUCCESS, 
-  SUBMIT_INTAKESURVEY_FAILURE 
+  SUBMIT_INTAKESURVEY_FAILURE, 
+  SUBMIT_EXITSURVEY_BEGIN, 
+  SUBMIT_EXITSURVEY_SUCCESS, 
+  SUBMIT_EXITSURVEY_FAILURE
 } from './types';
 import auth0client from '../auth/Auth';
 import { MEDLOCK_API } from '../config/servers';
@@ -118,5 +121,40 @@ export function submitIntakeSurvey(survey) {
       .then(res => dispatch(submitIntakeSurveySuccess(res.data)))
       .catch(error => dispatch(submitIntakeSurveyFailure(error)));
   };
+}
+
+export const submitExitSurveyBegin = () => ({
+  type: SUBMIT_EXITSURVEY_BEGIN
+});
+
+export const submitExitSurveySuccess = survey => ({
+  type: SUBMIT_EXITSURVEY_SUCCESS,
+  payload: {
+    survey
+  }
+});
+
+export const submitExitSurveyFailure = error => ({
+  type: SUBMIT_EXITSURVEY_FAILURE,
+  payload: {
+    error
+  }
+});
+
+// Submit a survey to the server 
+export function submitExitSurvey(survey) {
+
+  console.log("Exit Survey Actions"); 
+  console.log(survey); 
+
+  const { getAccessToken } = auth0client;
+  const API_URL = MEDLOCK_API;
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}`};
   
+  return dispatch => {
+    dispatch(submitExitSurveyBegin());
+    return axios.post(`${API_URL}/survey/exitsurvey`, survey, { headers })
+      .then(res => dispatch(submitExitSurveySuccess(res.data)))
+      .catch(error => dispatch(submitExitSurveyFailure(error)));
+  };
 }
