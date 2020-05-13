@@ -3,8 +3,10 @@ import MultChoice from './QuestionTypes/MultChoice';
 import MultSelect from './QuestionTypes/MultSelect'; 
 import TextInput from './QuestionTypes/TextInput'; 
 import NumInput from './QuestionTypes/NumInput'; 
+import TextDirections from './QuestionTypes/TextDirections'
 import { connect } from 'react-redux'; 
 import { submitIntakeSurvey } from '../../actions/surveyActions'; 
+// IMPLEMENT: change JSON file 
 const surveyJSON = require('./SurveyBank/Intake.json'); 
 
 class IntakeSurvey extends Component {
@@ -89,8 +91,13 @@ class IntakeSurvey extends Component {
                                         id={question.id} 
                                         onChange={this.onChange} /> 
                         ); 
+                    } else if(question.type == "TD") {
+                        return (
+                            <TextDirections question={question.question} 
+                                                id={question.id} /> 
+                        ); 
                     }
-                })
+                }) 
             }
         </div> 
     ); 

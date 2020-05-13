@@ -320,59 +320,6 @@ export default class DateTimeScatter extends Component {
         });
     }
 
-<<<<<<< HEAD
-    /**
-     * method to combine points and increase radius if they're within a certain
-     * distance of one another, not working atm
-     */
-    // combineClosePoints = (data) => {
-    //     data = JSON.parse(JSON.stringify(data));
-    //     console.log('combining on data:');
-    //     console.log(data);
-    //     // assume they all have the same date for now and are sorted in ascending order according to seconds
-    //     // loop over each data point
-    //     var i = 0; 
-    //     var newData = [];
-    //     var rScale = [];
-    //     while (i < data.length) {
-    //         console.log(i);
-    //         var r = 1;
-    //         var j = i+1;
-    //         var newPoint = data[i];
-    //         if (i == data.length - 1) {
-    //             newData.push(newPoint);
-    //             rScale.push(1);
-    //             return [newData, rScale];
-    //         }
-    //         while (j < data.length) {
-    //             var day_i = newPoint[0];
-    //             var day_j = data[j][0];
-    //             var time_i = newPoint[1];
-    //             var time_j = data[j][1];
-    //             if (day_i == day_j) {
-    //                 console.log("true");
-    //             } else {
-    //                 console.log("false");
-    //             }
-
-    //             if (day_i == day_j && (time_j - time_i <= 60)) {
-    //                 var avgTime = (time_i + time_j) / 2;
-    //                 newPoint[1] = avgTime;
-    //                 j += 1;
-    //                 r += 1;
-    //             } else {
-    //                 newData.push(newPoint);
-    //                 rScale.push(r);
-    //                 i = j; // skip over the points that were included in the superpoint
-    //                 j = data.length; //break inner loop;
-    //             }
-    //         }
-    //         console.log(newData);
-    //     }
-    // }
-
-=======
->>>>>>> master
     redrawChart = () => {
         console.log("redrawChart() called");
         var size = this.getSize();
@@ -397,23 +344,6 @@ export default class DateTimeScatter extends Component {
             }
 
             chart.selectAll("circle")
-<<<<<<< HEAD
-                .on("mouseover", (d, i) => {
-                    console.log(`d: ${d}`);
-                    console.log(`i: ${i}`);
-                    // increase the size of the point
-                    var dx = getSign() * Math.floor((Math.random() * 20) + 15);
-                    var dy = getSign() * Math.floor((Math.random() * 20) + 15);
-                    chart.select(`#p${i}`)
-                        .transition()
-                        .duration(1000)
-                        .attr('cx', (d, i) => (xScale(d[1]) + xScale.bandwidth() / 2 + dx))
-                        .attr('cy', (d, i) => (yScale(d[2]) + dy))
-                        .transition()
-                        .delay(1000)
-                        .duration(1000)
-                        .attr('cx', (d, i) => xScale(d[1]) + xScale.bandwidth() / 2)
-=======
             .on("mouseover", (d, i) => {
                 console.log(`d: ${d}`);
                 console.log(`i: ${i}`);
@@ -437,7 +367,6 @@ export default class DateTimeScatter extends Component {
                         .delay(3000)
                         .duration(500)
                         .attr('cx', (d, i) => xScale(d[1]) + xScale.bandwidth()/2)
->>>>>>> master
                         .attr('cy', (d, i) => yScale(d[2]))
                     // .attr("r", this.global.expandedPointRadius);
 
@@ -501,45 +430,6 @@ export default class DateTimeScatter extends Component {
 
     dataSelectorHTML = () => {
         return (
-<<<<<<< HEAD
-            <form style={{ padding: "15px", paddingLeft: "0px", marginTop: "100px" }}>
-                <label>
-                    <input
-                        type="checkbox"
-                        name="dispenses"
-                        checked={this.state.selectedEvents.dispenses}
-                        value={this.state.selectedEvents.dispenses}
-                        onChange={this.onDataSelectorChange} />
-                    Dispenses
-                </label>
-                <br />
-                <label>
-                    <input
-                        type="checkbox"
-                        name="btn1"
-                        value={this.state.selectedEvents.btn1}
-                        onChange={this.onDataSelectorChange} />
-                    Button 1
-                </label>
-                <br />
-                <label>
-                    <input
-                        type="checkbox"
-                        name="btn2"
-                        value={this.state.selectedEvents.btn2}
-                        onChange={this.onDataSelectorChange} />
-                    Button 2
-                </label>
-                <br />
-                <label>
-                    <input
-                        type="checkbox"
-                        name="btn3"
-                        value={this.state.selectedEvents.btn3}
-                        onChange={this.onDataSelectorChange} />
-                    Button 3
-                </label>
-=======
             <form>
                 <div class="group">
                     <label>
@@ -586,7 +476,6 @@ export default class DateTimeScatter extends Component {
                     </label>
                     <div className="circle-legend btn3"></div>
                 </div>
->>>>>>> master
             </form>
         )
     }

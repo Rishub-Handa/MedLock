@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react'; 
+import PropTypes from 'prop-types'; 
 
 class TextDirections extends Component {
 
@@ -17,7 +18,7 @@ class TextDirections extends Component {
     }
 }
 
-MultChoice.propTypes = {
+TextDirections.propTypes = {
     id: PropTypes.number.isRequired, 
     question: PropTypes.string.isRequired, 
 }
