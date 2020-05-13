@@ -5,6 +5,7 @@ export default class DateTimeScatter extends Component {
     
     constructor(props) {
         super(props);
+        console.log(this.props.data);
 
         var formattedData = this.reformatData(this.props.data);
         var dateRange = this.getDateRange(formattedData);
@@ -24,6 +25,7 @@ export default class DateTimeScatter extends Component {
                 btn1: false,
                 btn2: false,
                 btn3: false,
+                collarOff: false,
             },
             selectedDates: dateRange,
             selectedData: formattedData,
@@ -437,7 +439,7 @@ export default class DateTimeScatter extends Component {
                             name="btn1"
                             value={this.state.selectedEvents.btn1} 
                             onChange={this.onDataSelectorChange} />
-                        Button 1
+                        Low
                     </label>
                     <div className="circle-legend btn1"></div>
                 </div>
@@ -448,7 +450,7 @@ export default class DateTimeScatter extends Component {
                             name="btn2" 
                             value={this.state.selectedEvents.btn2}
                             onChange={this.onDataSelectorChange} />
-                        Button 2
+                        Medium
                     </label>
                     <div className="circle-legend btn2"></div>
                 </div>
@@ -459,9 +461,20 @@ export default class DateTimeScatter extends Component {
                             name="btn3" 
                             value={this.state.selectedEvents.btn3} 
                             onChange={this.onDataSelectorChange} />
-                        Button 3
+                        High
                     </label>
                     <div className="circle-legend btn3"></div>
+                </div>
+                <div class="group">
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            name="collarOff"
+                            value={this.state.selectedEvents.collarOff} 
+                            onChange={this.onDataSelectorChange} />
+                        Collar Off
+                    </label>
+                    <div className="circle-legend collarOff"></div>
                 </div>
             </form>
         )
@@ -521,11 +534,15 @@ export default class DateTimeScatter extends Component {
         }
 
         if (selectedEvents.btn2) {
-            selections.push(2)
+            selections.push(2);
         }
 
         if (selectedEvents.btn3) {
-            selections.push(3)
+            selections.push(3);
+        }
+
+        if (selectedEvents.collarOff) {
+            selections.push(4);
         }
 
         return selections;

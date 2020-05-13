@@ -10,6 +10,7 @@ export default class DataView extends Component {
 
     constructor(props) {
         super(props);
+        console.log(this.props.data);
         this.state = {
             graph_id: 0,
         }
@@ -38,45 +39,34 @@ export default class DataView extends Component {
     }
 
     displayGraphs() {
-        const { pdisurveys, dispenses, btn1, btn2, btn3 } = this.props.data;
-        if (pdisurveys && dispenses) {
+        const { pdisurveys, dispenses, btn1, btn2, btn3, collarOff } = this.props.data;
+        
+        if (pdisurveys && dispenses) { // data for both pdisurveys and dispenses are available
             return (
                 <div className="DataView">
-                     {/* <DateTimeScatter 
-                        id="g0"
-                        title="Dispenses"
-                        data={[dispenses]}
-                        colors={["var(--medlock-blue)"]}
-                    /> */}
                     <DateTimeScatter 
                         id="g0"
                         title="Dispenser Events" 
-                        data={[dispenses, btn1, btn2, btn3]} 
-                        colors={["var(--medlock-blue)", "red", "yellow", "green"]}
+                        data={[dispenses, btn1, btn2, btn3, collarOff]} 
+                        colors={["var(--medlock-blue)", "red", "yellow", "green", "black"]}
                     />
                     <PDISurveyBar id="g1" data={pdisurveys} />
                 </div>
             )
-        } else if (pdisurveys) {
+        } else if (pdisurveys) { // only data for pdisurveys are available
             return (
                 <div className="DataView">
                     <PDISurveyBar id="g0" data={pdisurveys} />
                 </div>
             )
-        } else if (dispenses) {
+        } else if (dispenses) { // only data for dispenses are available
             return (
                 <div className="DataView">
-                     {/* <DateTimeScatter 
-                        id="g0"
-                        title="Dispenses"
-                        data={[dispenses]}
-                        colors={["var(--medlock-blue)"]}
-                    /> */}
                     <DateTimeScatter 
                         id="g0"
                         title="Dispenser Events" 
-                        data={[dispenses, btn1, btn2, btn3]} 
-                        colors={["var(--medlock-blue)", "red", "blue", "green"]}
+                        data={[dispenses, btn1, btn2, btn3, collarOff]} 
+                        colors={["var(--medlock-blue)", "red", "blue", "green", "black"]}
                     />
                 </div>
             )

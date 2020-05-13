@@ -141,6 +141,10 @@
     background: green;
 }
 
+.collarOff {
+    background: black;
+}
+
 .group {
     display: flex;
     flex-direction: row;

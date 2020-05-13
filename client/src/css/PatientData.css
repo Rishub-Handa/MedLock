@@ -89,5 +89,14 @@
     grid-column: 2/4;
 }
 
+.SummaryStats > p {
+    font-weight: bold;
+    margin: 0;
+}
+
+.SummaryStats > p > span {
+    font-weight: normal;
+}
+
 
 

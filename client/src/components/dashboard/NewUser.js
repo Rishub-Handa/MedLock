@@ -12,6 +12,7 @@ class NewUser extends Component {
 
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             personalData: {
                 ...props.profile.personalData,
@@ -232,7 +233,6 @@ const mapStateToProps = state => ({
     providersFetching: state.clinicState.providersFetching,
     providersFetched: state.clinicState.providersFetched,
 
-    profile: state.profileState.profile,
 });
 
 export default connect(mapStateToProps, { saveProfile, fetchAllClinics, fetchAllProvidersAtClinic, updateMedicalData })(NewUser); 

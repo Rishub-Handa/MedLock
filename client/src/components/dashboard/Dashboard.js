@@ -1,6 +1,5 @@
 import React, { Component } from 'react'; 
 import DashIcon from './DashIcon'; 
-import DispenserCode from './DispenserCode'; 
 import PropTypes from 'prop-types';
 import '../../css/Dashboard.css';
 import auth0client from '../../auth/Auth';
@@ -60,23 +59,7 @@ class Dashboard extends Component {
         }
     }
 
-    displayDispenserCode = () => {
-        console.log("Display Dispenser Code. "); 
-        ReactGA.event({
-            category: 'Pop Up Modal', 
-            action: 'Generated dispenser code from Dashboard', 
-            label: 'Add Dispenser from Dashboard' 
-        })
-        this.setState({
-            toggleCodeDisplay: true 
-        }); 
-    }
 
-    hideDispenserCode = () => {
-        this.setState({
-            toggleCodeDisplay: false 
-        }); 
-    }
 
     autoCollapseSideBar = (query) => {
         //not getting called at the right times
@@ -131,8 +114,10 @@ class Dashboard extends Component {
             console.log(this.props);
             if(this.checkAdminStatus()) {
                 this.routeToAdminPage();
+            } else {
+                this.checkNewUserStatus();
             }
-        })
+        });
     }
 
     componentDidUpdate() {
@@ -145,6 +130,13 @@ class Dashboard extends Component {
                 newUser: !prevState.newUser 
             }
         })
+    }
+
+    checkNewUserStatus = () => {
+        console.log("checkNewUserStatus");
+        if (!this.props.userData.personalData.bio) {
+            this.toggleNewUser();
+        }
     }
 
     dashboardContentStyle = () => {
@@ -192,25 +184,19 @@ class Dashboard extends Component {
                 </div>
             )
         }
-        
-        // if (userData) {
-        //     if(this.checkAdminStatus()) {
-        //         this.routeToAdminPage();
-        //         return;
-        //     }
-        // }
 
         console.log(this.props.userData);
         const { roles } = this.props.userData;
 
         if(this.state.newUser) {
+            console.log(userData);
             if (roles[0].name.toLowerCase() == "patient") {
                 return (
-                    <NewUser toggle={this.toggleNewUser} profile={userData} role={roles[0].name}/> 
+                    <NewUser toggle={this.toggleNewUser} profile={this.props.userData} role={roles[0].name}/> 
                 );
             } else if (roles[0].name.toLowerCase() == "provider") {
                 return (
-                    <NewProvider toggle={this.toggleNewUser} profile={userData} />
+                    <NewProvider toggle={this.toggleNewUser} profile={this.props.userData} />
                 );
             }
 
@@ -218,7 +204,7 @@ class Dashboard extends Component {
 
         return (
             <div className="Dashboard">
-                {this.state.toggleCodeDisplay ? 
+                {/* {this.state.toggleCodeDisplay ? 
                     <div className="Grey-Layer"></div> : null}
                 {this.state.toggleCodeDisplay ? 
                     <div className="DispenserCode-container">
@@ -226,7 +212,7 @@ class Dashboard extends Component {
                                         userProfile={this.props.userData}/> 
                     </div> 
                     : null 
-                }
+                } */}
                 
                 <div className="DashHeader-container">
                     <DashHeader
@@ -314,7 +300,6 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-    profile: PropTypes.object.isRequired,
     loadProfile: PropTypes.func.isRequired,
     profileLoading: PropTypes.bool.isRequired,
     profileLoaded: PropTypes.bool.isRequired, 
@@ -333,7 +318,6 @@ Dashboard.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    profile: state.profileState.profile,
     profileLoading: state.profileState.profileLoading,
     profileLoaded: state.profileState.profileLoaded,
     profileError: state.profileState.profileError,

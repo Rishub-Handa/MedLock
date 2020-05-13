@@ -12,7 +12,7 @@ import PatientView from '../patientView/PatientView';
 import SearchField from 'react-search-field';
 import UserList from '../users/UserList';
 import { MEDLOCK_API } from '../../config/servers';
-import DispenserCode from '../dashboard/DispenserCode'; 
+import DispenserCode from '../patientData/DispenserCode'; 
 import '../../css/MyPatients.css';
 
 
