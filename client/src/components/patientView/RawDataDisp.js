@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'; 
 import { Table } from 'react-bootstrap'; 
 import { tickStep } from 'd3';
+import "../../css/RawDataDisp.css";
 
 class RawDataDisp extends Component {
     constructor(props) {
@@ -101,34 +102,41 @@ class RawDataDisp extends Component {
             return date + " " + String(hourNum) + ":" + minute + " " + timeOfDay; 
         */ 
 
-        let res = ""; 
+        let resLabel = ""; 
+        let resTime = "";
+        let className = "";
 
         switch(pt.type) {
             case "dispense": 
-                res += "Dispense: "
+                resLabel += " Dispense"
+                className = "dispense-log";
                 break; 
             case "colOff": 
-                res += "Removed Collar: "
+                resLabel += " Removed Collar"
+                className = "colOff-log";
                 break; 
             case "btn1": 
-                res += "Green Button: "
+                resLabel += " Green Button"
+                className = "btn1-log";
                 break; 
             case "btn2": 
-                res += "Yellow Button: "
+                resLabel += " Yellow Button"
+                className = "btn2-log";
                 break; 
             case "btn3": 
-                res += "Red Button: "
+                resLabel += " Red Button"
+                className = "btn3-log";
                 break; 
             default: 
                 break; 
         } 
 
         const date = new Date(pt.timestamp); 
-        res += date.toLocaleTimeString(); 
+        resTime = date.toLocaleTimeString(); 
 
         return  (
             <tr>
-                <td>{res}</td>
+                <td className={className}>{resTime}<b>{resLabel}</b></td>
             </tr>
         );
 
@@ -176,7 +184,7 @@ class RawDataDisp extends Component {
                 <table striped bordered hover> 
                     <thead>
                         <tr>
-                            <th>Dispenses: </th>
+                            <th>Dispenser Log: </th>
                         </tr>
                     </thead>
                     <tbody>
