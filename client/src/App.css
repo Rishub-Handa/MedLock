@@ -61,3 +61,15 @@ h3.header {
     letter-spacing: normal;
     color: #4d4f5c;
 }
+
+select {
+    border-radius: 5px;
+    border-color: var(--medlock-gray);
+    margin: 5px;
+    padding: 2px;
+}
+
+.grid line {
+    stroke: var(--medlock-dark-gray);
+    opacity: .2;
+}
