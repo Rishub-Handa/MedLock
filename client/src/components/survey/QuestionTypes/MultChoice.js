@@ -6,7 +6,7 @@ class MultChoice extends Component {
     state = {
         question: null, 
         answer: null, 
-        showOther: false 
+        showOther: false, 
     } 
 
     onChange = (e) => { 
@@ -49,7 +49,8 @@ class MultChoice extends Component {
         ); 
         
         
-    }
+    } 
+
 
     componentDidMount() {
         console.log(this.props); 
