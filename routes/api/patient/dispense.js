@@ -25,9 +25,133 @@ router.get('/', (req, res) => {
         .catch(err => console.log(err)); 
 });
 
+router.post('/film', (req, res) => {
+    console.log(req.body); 
+    // console.log(req); 
+    console.log("Film Dispenser Endpoint. "); 
+}); 
+
 // @route   POST api/dispense
 // @desc    Update Dispenser array. 
 // @access  Public --> Will Change 
+router.post('/', (req,res) => {
+    console.log('Dispenser POST Request. '); 
+    
+    var dispenser_id = req.body.id; 
+    var lastUpdated = req.body.current_time; 
+    var events = req.body.events; 
+    var code = new Array(6); var counter = 0; 
+
+    if(dispenser_id == "1") {
+        dispenser_id = ObjectId("000000000000000000000000"); 
+        events.forEach(event => {
+            if(counter < 6) { 
+                switch(event.name) {
+                    case "Button 1": 
+                        code[counter] = 0; counter++; 
+                        break; 
+                    case "Button 2": 
+                        code[counter] = 1; counter++; 
+                        break; 
+                    case "Button 3": 
+                        code[counter] = 2; counter++; 
+                        break; 
+                    default: 
+                        break; 
+                }
+            } 
+        }); 
+    } 
+
+
+
+    Dispenser.findById(dispenser_id, (err, dispenser) => {
+        
+        if(err) console.log(err); 
+        console.log("Searched for dispenser. "); 
+
+        if(!dispenser && code) {
+            // Create new Dispenser and assign to Patient with corresponding code 
+            // Only create Dispenser if there is a Patient with corresponding code 
+
+            console.log("No dispenser found. "); 
+            console.log(code); 
+
+            Patient.findOne({ 'medicalData.dispenserCode': code }, (err, patient) => {
+                
+                if(err) console.log(err); 
+
+                if(patient) {
+                    dispenser = new Dispenser({ _id: mongoose.Types.ObjectId() }); 
+                    console.log("Creating Dispenser. "); 
+
+                    return dispenser.save()
+                        .then(dispenser => {
+                            patient.medicalData.dispenser_id = dispenser._id; 
+                            res.send("Dispenser ID: " + dispenser._id + "\nCurrent Date: " + Date.now()); 
+                            console.log("Dispense Logged.");
+
+                            return patient.save() 
+                                .then(patient => {
+                                    console.log("Patient Dispenser ID: " + patient.medicalData.dispenser_id); 
+                                }); 
+                        })
+                        .catch(err => console.log(err)); 
+                } else {
+                    res.send("Wrong Code. "); 
+                }
+            }); 
+
+        } else {
+            // Add events to dispenser 
+
+            events.forEach(event => {
+                switch(event.name) {
+                    case "Dispense": 
+                        // dispenser.events.dispenses.push(new Date(lastUpdated + event.value)); 
+                        dispenser.events.dispenses.push(new Date(event.value * 1000)); 
+                        break; 
+                    case "Button 1": 
+                        dispenser.events.btn1.push(new Date(event.value * 1000)); 
+                        break; 
+                    case "Button 2": 
+                        dispenser.events.btn2.push(new Date(event.value * 1000)); 
+                        break; 
+                    case "Button 3": 
+                        dispenser.events.btn3.push(new Date(event.value * 1000)); 
+                        break; 
+                    case "Col Off": 
+                        dispenser.events.collarOff.push(new Date(event.value * 1000)); 
+                        break; 
+                    default: 
+                        break; 
+                }
+                
+            }); 
+
+            return dispenser.save()
+            .then(dispenser => {
+                res.send("Dispenser ID: " + dispenser._id + "\nCurrent Date: " + Date.now()); 
+                console.log(dispenser); 
+                console.log(Date.now()); 
+                console.log("Dispense Logged.");
+                console.log(dispenser);
+            })
+            .catch(err => console.log(err)); 
+
+        }
+
+    }); 
+}); 
+
+
+
+
+
+
+
+
+/*
 router.post('/', (req, res) => {
     console.log('Dispenser POST Request ');
 
@@ -138,16 +262,17 @@ router.post('/', (req, res) => {
         
         // res.send("Saved. "); 
 
-        /* 
-            if(!dispenser) {
-                res.send("Error: Try entering the code again. "); 
-            } else {
+        
+            // if(!dispenser) {
+            //     res.send("Error: Try entering the code again. "); 
+            // } else {
 
-            } 
+            // } 
 
-        */
+    
     }); 
 }); 
 
+*/
 
 module.exports = router; 

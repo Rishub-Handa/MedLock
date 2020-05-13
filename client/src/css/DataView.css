@@ -78,7 +78,6 @@
 .graph-container {
     min-width: 400px;
     display: flex;
-<<<<<<< HEAD
     flex-direction: row;
     box-shadow: 0 0 10px var(--medlock-light-gray);
     margin-bottom: 15px;
@@ -88,9 +87,7 @@
 
 .graph-container:hover {
     box-shadow: 0 0 10px var(--medlock-gray);
-=======
     flex-direction: column;
->>>>>>> master
 }
 
 .g0 {
