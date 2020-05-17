@@ -33,17 +33,21 @@ router.post('/', (req, res) => {
             } else if (role_list[0].name.toLowerCase() == roles.PROVIDER) {
                 // login as provider
                 console.log("LOGGING IN AS A PROVIDER")
-                user.getUserData(user_id, roles.PROVIDER)
-                    .then(qres => {
-                        provider = qres.doc_
+                var promise = user.getUserData(user_id, roles.PROVIDER);
+                console.log(promise);
+                promise.then(qres => {
+                        provider = qres._doc;
                         // the client prepares content based on the roles of the user,
                         // so include roles in response back to client
                         provider = {
                             ...provider,
                             roles: role_list
-                        }
+                        };
                         console.log(provider);
                         res.json(provider);
+                    }).catch(error => {
+                        console.log("Promise rejected.");
+                        console.log(error);
                     });
 
             } else if (role_list[0].name.toLowerCase() == roles.PATIENT) {
@@ -57,7 +61,8 @@ router.post('/', (req, res) => {
                         patient = {
                             ...patient,
                             roles: role_list
-                        }
+                        };
+                        console.log(patient);
                         res.json(patient);
                     });
             } else {
