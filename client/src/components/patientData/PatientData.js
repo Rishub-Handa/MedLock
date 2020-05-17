@@ -18,6 +18,7 @@ class PatientData extends Component {
 
     state = {
         retrievedData: false, 
+        toggleCodeDisplay: false,
     } 
     
     // Fetch Surveys and Dispenses data from database 
@@ -35,7 +36,7 @@ class PatientData extends Component {
             <div>
                 <p>You need to add a dispenser.</p>
                 <div className="AddDispenser-container">
-                    <AddDispenser displayCodeCallback={this.props.displayDispenserCode} /> 
+                    <AddDispenser displayCodeCallback={this.displayDispenserCode} /> 
                 </div>
             </div>
         );
@@ -69,15 +70,24 @@ class PatientData extends Component {
                 dispenserLoaded,
                 dispenserError, } = this.props; 
 
-        if(dispenserError) {
+        if(dispenserError && !this.state.toggleCodeDisplay) {
             return this.addDispenserHTML();
+        }
+
+        if(this.state.toggleCodeDisplay) {
+            return (
+                <div className="DispenserCode-container">
+                    <DispenserCode hideDispenserCode={this.hideDispenserCode}
+                                    userProfile={this.props.patient}/> 
+                </div> 
+            );
         }
 
 
         if(surveysLoading || dispenserLoading || !surveysLoaded || !dispenserLoaded) {
             return (
                 <div>Loading . . . </div>
-            )
+            );
         }
 
         var data = {}
@@ -105,6 +115,15 @@ class PatientData extends Component {
                 <h1 className="header">
                     My Data
                 </h1>
+                {this.state.toggleCodeDisplay ? 
+                    <div className="Grey-Layer"></div> : null}
+                {this.state.toggleCodeDisplay ? 
+                    <div className="DispenserCode-container">
+                        <DispenserCode hideDispenserCode={this.hideDispenserCode}
+                                        userProfile={this.props.userData}/> 
+                    </div> 
+                    : null 
+                }
                 <SummaryStats data={data}/>
                 <DataView data={data} />
             </div>

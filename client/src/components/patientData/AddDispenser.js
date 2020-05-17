@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import '../../css/DashHeader.css'; 
 import PropTypes from 'prop-types';
 
-
-// TODO: Style button and toggle functionality 
-
-
 class AddDispenser extends Component {
     render() {
         return (

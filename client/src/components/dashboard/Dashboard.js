@@ -185,11 +185,9 @@ class Dashboard extends Component {
             )
         }
 
-        console.log(this.props.userData);
         const { roles } = this.props.userData;
 
         if(this.state.newUser) {
-            console.log(userData);
             if (roles[0].name.toLowerCase() == "patient") {
                 return (
                     <NewUser toggle={this.toggleNewUser} profile={this.props.userData} role={roles[0].name}/> 

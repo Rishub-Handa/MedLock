@@ -7,6 +7,7 @@ import { addDispenserCode } from '../../actions/profileActions';
 class DispenserCode extends Component {
 
     constructor(props) {
+        console.log(props);
         super(props);
         
         this.state = {
@@ -119,7 +120,6 @@ class DispenserCode extends Component {
 DispenserCode.propTypes = {
     hideDispenserCode: PropTypes.func.isRequired, 
     addDispenserCode: PropTypes.func.isRequired, 
-    // profile: PropTypes.object.isRequired, 
     code: PropTypes.array.isRequired,
     codeAdding: PropTypes.bool.isRequired,
     codeAddedError: PropTypes.string,
