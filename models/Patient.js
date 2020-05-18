@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const PDISurveySchema = require('./schemas/PDISurveySchema'); 
 const IntakeSurveySchema = require('./schemas/IntakeSurveySchema'); 
+const ExitSurveySchema = require('./schemas/ExitSurveySchema'); 
 const PrescriptionSchema = require('./schemas/PrescriptionSchema');
 const CheckInSchema = require('./schemas/CheckInSchema'); 
 //const ProviderInfoSchema = require('./schemas/ProviderInfoSchema');
@@ -44,6 +45,7 @@ const PatientSchema = new Schema({
         surveys: {
             pdiSurveys: [PDISurveySchema],
             intakeSurvey: [IntakeSurveySchema], 
+            exitSurvey: [ExitSurveySchema], 
             painSurveys: {
                 type: Array
             }

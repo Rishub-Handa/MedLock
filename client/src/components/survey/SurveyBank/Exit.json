@@ -1,0 +1,79 @@
+[
+    {
+        "id": 0, 
+        "type": "MS", 
+        "question": "What condition(s) are you currently being treated for?", 
+        "responses": ["Alcoholism", "Depression", "Opioid addiction", "Anxiety", "ADHD"], 
+        "other": true 
+    }, 
+    {
+        "id": 1, 
+        "type": "MC", 
+        "question": "What is the longest you experienced any of the above conditions before entering treatment?", 
+        "responses": ["0 - 3 months", "3 - 6 months", "6 months - 2 years", "2 - 5 years", "5+ years"], 
+        "other": false 
+    }, 
+    {
+        "id": 2, 
+        "type": "MC", 
+        "question": "How long have you been in treatment?", 
+        "responses": ["0 - 1 months", "1 - 3 months", "3 - 12 months", "1 - 3 years", "3+ years"], 
+        "other": false 
+    }, 
+    {
+        "id": 3, 
+        "type": "MS", 
+        "question": "Have any of your blood relatives been diagnosed with the following conditions? If so, please answer the next two questions. ", 
+        "responses": ["N/A", "Alcoholism", "Depression", "Opioid addiction", "Anxiety", "ADHD"], 
+        "other": true 
+    }, 
+    {
+        "id": 4, 
+        "type": "NI", 
+        "question": "At what age were they diagnosed? If you answered N/A to previous question, enter -1. ", 
+        "min": 0, 
+        "max": 100 
+    }, 
+    {
+        "id": 5, 
+        "type": "MC", 
+        "question": "Were they treated for their condition? If you answered N/A to the previous two questions, select N/A. ", 
+        "responses": ["N/A", "They were diagnosed with a condition, but did not receieve treatment. ", "They were prescribed medications. ", "They recevied counseling. ", "They received both prescription medication and counseling. "], 
+        "other": true 
+    }, 
+    {
+        "id": 6, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My treatment is easy to access. This includes access to the medication, if applicable. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 7, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: My treatment is affordable. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 8, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: The clinic location is easy to access. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 9, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: The clinic’s counseling is affordable. ", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }, 
+    {
+        "id": 10, 
+        "type": "MC", 
+        "question": "How much do you agree with the following statement?: The amount of counseling I receive in the clinic is sufficient.", 
+        "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+        "other": false 
+    }
+]

@@ -1,0 +1,207 @@
+[
+    {
+       "id": 0, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: I was satisfied with my experiences using the medication dispenser", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   }, 
+   {
+       "id": 1, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: I was satisfied with my experiences interacting with the online portal", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   }, 
+   {
+       "id": 2, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: Use of the technology caused me to be concerned for my personal safety", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 3, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: Use of the technology cuased me to be concerned about judgement from friends or family", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 4, 
+       "type": "TI", 
+       "question": "What difficulties did you experience using the medication dispenser" 
+   },
+   {
+       "id": 5, 
+       "type": "TI", 
+       "question": "What difficulties did you experience using the online portal" 
+   },
+   {
+       "id": 6, 
+       "type": "TI", 
+       "question": "Were there any inaccuracies in the medication or symptom data (at any point did information from the online site not match with your actual dispensation times)" 
+   },
+   {
+       "id": 7, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: If I had the option, I would continue using the technology in its current state", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 8, 
+       "type": "MC", 
+       "question": "If my stated issues with the technology were resolved, I would continue using the technology", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 9, 
+       "type": "NI", 
+       "question": "In its current state, how much would you be willing to pay each month for a combination of both MedLock's hardware and software? If it is zero be honest!", 
+       "min": 0, 
+       "max": 100 
+   }, 
+   {
+       "id": 10, 
+       "type": "NI", 
+       "question": "If all your previously noted issues were resolved, how much would you be willing to pay each month for a combination of both MedLock's hardware and software? If it is zero be honest!", 
+       "min": 0, 
+       "max": 100
+   }, 
+   {
+       "id": 11, 
+       "type": "TI", 
+       "question": "Is there anything you wish the technology did, which it does not do currently?" 
+   }, 
+   {
+       "id": 12, 
+       "type": "TI", 
+       "question": "We genuinely appreciate all the feedback you have given our team. As students, we are hoping more than anything to learn and design a device that can help others. Is there any other constructive feedback you would like to add?" 
+   }, 
+   {
+       "id": 13, 
+       "type": "MC", 
+       "question": "The device/mobile platform made my treatment easier to maintain or access", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false
+   }, 
+   {
+       "id": 14, 
+       "type": "MC", 
+       "question": "My device/mobile platform helped alleviate some of the stigma I felt from people around me regarding my treatment", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false
+   }, 
+   {
+       "id": 15, 
+       "type": "MC", 
+       "question": "My treatment is improving my health", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false
+   }, 
+   {
+       "id": 16, 
+       "type": "MC", 
+       "question": "Counseling is a necessary part of treatment", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false
+   },
+   {
+       "id": 17, 
+       "type": "MC", 
+       "question": "My medication is a necessary part of my treatment", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false
+   },
+   {
+       "id": 18, 
+       "type": "MC", 
+       "question": "I feel that my treatment plan is individualized for me, and I can suggest treatment changes to my provider as needed", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false
+   },
+   {
+       "id": 19, 
+       "type": "MC", 
+       "question": "I felt that data from the dispenser which my provider had access to improved my counseling sessions", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false
+   },
+   {
+       "id": 20, 
+       "type": "MC", 
+       "question": "I felt that data from the dispenser which my provider had access to improved my medication/prescription schedule", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false
+   },
+   {
+       "id": 21, 
+       "type": "MC", 
+       "question": "I was able to use data on my personal medication-intake habits or symptoms to improve my own treatment", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false
+   },
+   {
+       "id": 22, 
+       "type": "MC", 
+       "question": "During the course of the trial, how often did you look at data collected on your symptoms or medication intake", 
+       "responses": ["Not at all", "Once a month", "Once a week", "Several times a week", "Every day"], 
+       "other": false
+   },
+   {
+       "id": 23, 
+       "type": "MC", 
+       "question": "During the course of the trial, how often did you change your habits (behavior, or medication consumption) to improve your treatment over the course of the trial using information gathered from the device?", 
+       "responses": ["Not at all", "Once a month", "Once a week", "Several times a week", "Every day"], 
+       "other": false
+   },
+   {
+       "id": 24, 
+       "type": "NI", 
+       "question": "On average, how many days a week do you believe you missed a dose of medication or take a dose 3 or more hours off when it was prescribed?", 
+       "min": 0, 
+       "max": 7 
+   },
+   {
+       "id": 25, 
+       "type": "MC", 
+       "question": "If you are being treated for addiction, how many times did you use a non-prescribed drug during the trial?", 
+       "responses": ["N/A (not being treated for drug addiction)", "1-3 times", "4-10 times", "10+ times"],
+       "other": true
+   },
+   {
+       "id": 26, 
+       "type": "MC", 
+       "question": "If you are being treated for addiction, do you see yourself using again?", 
+       "responses": ["N/A (not being treated for drug addiction)", "No, not at all", "Yes, in the next week", "Yes, in the next month", "Yes, in the next year or longer", "Yes, but I do not know when"],
+       "other": true
+   },
+   {
+       "id": 27, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: Using technology (either as a substitution for, or in addition to regular treatment) like facetime, skype, text messages, or phone calls can be effective.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   }, 
+   {
+       "id": 28, 
+       "type": "MC", 
+       "question": "How would you feel if your physician knew when you took your medications as well as what your symptoms were at that time?", 
+       "responses": ["Not Concerned", "Mildly Concerned", "Neutral", "See it as beneficial"], 
+       "other": false 
+   }, 
+   {
+       "id": 29, 
+       "type": "MC", 
+       "question": "I believe this study had a positive impact", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   }, 
+   {
+       "id": 30, 
+       "type": "TI", 
+       "question": "Is there any way you believe the technology in the study helped you which was not already mentioned? If so, what are they?" 
+   } 
+]
