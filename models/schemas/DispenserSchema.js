@@ -44,9 +44,9 @@ const DispenserSchema = new Schema({
             type: Date 
         }] 
     }, 
-    lastUpdated: {
+    lastUpdated: [{
         type: Date 
-    }
+    }]
 });
 
 module.exports = DispenserSchema;
