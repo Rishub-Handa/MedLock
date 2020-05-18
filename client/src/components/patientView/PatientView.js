@@ -76,7 +76,6 @@ class PatientView extends Component {
             }
         }
 
-        // TODO: change so that I only pass dispenser.events to DataView
         if (dispenser) {
             data = {
                 ...data,
