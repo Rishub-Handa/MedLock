@@ -6,8 +6,7 @@ import NumInput from './QuestionTypes/NumInput';
 import TextDirections from './QuestionTypes/TextDirections'
 import { connect } from 'react-redux'; 
 import { submitIntakeSurvey } from '../../actions/surveyActions'; 
-// IMPLEMENT: change JSON file 
-const surveyJSON = require('./SurveyBank/Intake.json'); 
+const surveyJSON = require('./SurveyBank/IntakeQs.json'); 
 
 class IntakeSurvey extends Component {
 
@@ -27,7 +26,7 @@ class IntakeSurvey extends Component {
         let answeredAll = true; 
         if(this.state.responses.length != this.state.questions.length) answeredAll = false; 
         this.state.responses.forEach((response, i) => {
-            if(!response || !response.answer || response.answer == "") {
+            if((!response || !response.answer || response.answer == "") && (this.state.questions[i].type != "TD")) {
                 answeredAll = false; 
                 console.log(response); 
             }
@@ -43,6 +42,7 @@ class IntakeSurvey extends Component {
             console.log("Submit. "); 
             this.props.submitIntakeSurvey(this.state.responses); 
         } else {
+            // IMPLEMENT: Make an alert 
             console.log("Respond to all the questions. "); 
         }
     }

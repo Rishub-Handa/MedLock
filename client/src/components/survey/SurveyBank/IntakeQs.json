@@ -1,0 +1,185 @@
+[
+    {
+       "id": 0, 
+       "type": "MC", 
+       "question": "How long have you been in treatment? Not just at your current clinic, but any clinic?", 
+       "responses": ["0 - 1 months", "1 - 3 months", "3 - 12 months", "1 - 3 years", "3+ years"], 
+       "other": false 
+   }, 
+   {
+       "id": 1, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: My treatment is easy to access in terms of transportation.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   }, 
+   {
+       "id": 2, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: My treatment is affordable given my work, need for child care, and other financial needs.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 3, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: I experience stigma from friends/family/culture/etc. regarding my treatment.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 4, 
+       "type": "MS", 
+       "question": "What do you want to learn more about your treatment or want family/friends/community to learn about it?", 
+       "responses": ["Where to find treatment", "Coping strategies to deal with mental/physical health issues", "What the biological basis of my condition is", "How to afford treatment", "What my medications do", "Why this type of treatment is necessary", "Why my treatment is structured the way it is (regular check-ins, therapy with medication, etc.)", "Where to find communities of support", "How others respond to treatment and what they know about recovery", "What political/economic changes are happening related to treatment"], 
+       "other": true
+   },
+   {
+       "id": 5, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: My treatment is improving my health/condition.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 6, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: Counseling is a necessary part of my treatment.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 7, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: My medication is a necessary part of my treatment.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 8, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: I feel that my treatment plan is individualized for me, and I can suggest treatment changes to my provider as needed.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 9, 
+       "type": "NI", 
+       "question": "On average, how many days a week do you believe you missed a dose of medication or take a dose 3 or more hours off when it was prescribed?", 
+       "min": 0, 
+       "max": 7 
+   }, 
+   {
+       "id": 10, 
+       "type": "MS", 
+       "question": "Which of the following do you experience regularly", 
+       "responses": ["Pain", "Anxiousness", "Sadness", "Loneliness", "Anger", "Frustration"], 
+       "other": true
+   }, 
+   {
+       "id": 11, 
+       "type": "MS", 
+       "question": "What do you believe msot often causes/triggers the above symptoms", 
+       "responses": ["Stigma/Negative responses from those around you", "Economic hardship", "Job related stress", "Relationship/Social Stress", "Withdrawal Symptoms"], 
+       "other": true
+   }, 
+   {
+       "id": 12, 
+       "type": "MS", 
+       "question": "What do you do to alleviate negative symptoms when you have them?",  
+       "responses": ["Mindfulness (meditation, deep breathing, etc.)", "Excercise", "Reaching out to others for support", "Taking medication (prescribed)", "Use of legal substances (alcohol, tobacco, etc.)", "Taking non-prescribed opioids"], 
+       "other": true 
+   }, 
+   {
+       "id": 13, 
+       "type": "TD", 
+       "question": "Please indicate your confidence in recalling information during your visits to the clinic." 
+   }, 
+   {
+       "id": 14, 
+       "type": "MC", 
+       "question": "While speaking to a physician, how well can you recall major symptoms (ex: Pain at a certain time, mood swings, nausea etc.)? ", 
+       "responses": ["Not at all", "Accurate to the past day", "Accurate up to the past several days", "Accurate up to the past week", "Accurate up to the last counseling session"],
+       "other": false
+   }, 
+   {
+       "id": 15, 
+       "type": "MC", 
+       "question": "While speaking to a physician, how well can you recall your medication intake habits (ex: When you take your medication, when you miss a dose etc.)?", 
+       "responses": ["Not at all", "Accurate to the past day", "Accurate up to the past several days", "Accurate up to the past week", "Accurate up to the last counseling session"],
+       "other": false
+   }, 
+   {
+       "id": 16, 
+       "type": "MC", 
+       "question": "Do you feel that counseling sessions have a sustained positive impact (motivation to change, mindfulness of condition, adherence to medication, etc.)? If so, how long?", 
+       "responses": ["No effect", "A couple of hours", "A day", "Several Days", "A week", "Until the next counseling session"],
+       "other": false
+   }, 
+   {
+       "id": 17, 
+       "type": "MS", 
+       "question": "What condition(s) are you currently being treated for?", 
+       "responses": ["Alcoholism", "Depression", "Opioid Addiction", "Anxiety", "ADHD"],
+       "other": true
+   }, 
+   {
+       "id": 18, 
+       "type": "MC", 
+       "question": "ONLY ANSWER IF YOU ANSWERED 'Alcoholism' or 'Opioid Addiction' TO THE PREVIOUS QUESTION. Since beginning treatment, how many times, if at all, have you begun to use again?", 
+       "responses": ["Never", "1-3 times", "4-10 time", "10+ times"],
+       "other": true
+   }, 
+   {
+       "id": 19, 
+       "type": "MC", 
+       "question": "ONLY ANSWER IF YOU ANSWERED 'Alcoholism' or 'Opioid Addiction' TO Question 18. How many times do you anticipate beginning to use again", 
+       "responses": ["Never", "1-3 times", "4-10 times", "10+ times"],
+       "other": true
+   },
+   {
+       "id": 20, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: Using technology (either as a substitution for, or in addition to regular treatment) like facetime, skype, text messages, or phone calls can be effective.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   }, 
+   {
+       "id": 21, 
+       "type": "MS", 
+       "question": "Which of the following technologies/software do you use regularly?", 
+       "responses": ["Mobile Phone", "Smartphone", "Video Calling Services (Skype, Zoom, etc.)", "In-Home WiFi"], 
+       "other": false 
+   }, 
+   {
+       "id": 22, 
+       "type": "MC", 
+       "question": "How would you feel if your physician knew when you took your medications as well as what your symptoms were at that time?", 
+       "responses": ["Not Concerned", "Mildly Concerned", "Neutral", "See it as beneficial"], 
+       "other": false 
+   }, 
+   {
+       "id": 23, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: I will use data on my medication-intake habits to improve my treatment or habits", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 24, 
+       "type": "TI", 
+       "question": "Could you provide an example of how you see yourself using this data?"
+   },
+   {
+       "id": 25, 
+       "type": "MC", 
+       "question": "How much do you agree with the following statement?: My providers will effectively use my data on my medication-intake habits to improve my treatment results.", 
+       "responses": ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"], 
+       "other": false 
+   },
+   {
+       "id": 26, 
+       "type": "TI", 
+       "question": "Could you provide an example of how your provider might use this data?"
+   } 
+]
