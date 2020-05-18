@@ -13,7 +13,7 @@ export default class SummaryStats extends Component {
     }
 
     averagePillsPerDay = () => {
-        var dispense_dates = this.props.data.dispenses.map(timestamp => {
+        var dispense_dates = this.props.data.events.dispenses.map(timestamp => {
             const date = new Date(timestamp);
             return date;
         });
@@ -35,7 +35,7 @@ export default class SummaryStats extends Component {
     }
 
     collarOffCount = () => {
-        return this.props.data.collarOff.length;
+        return this.props.data.events.collarOff.length;
     }
 
     daysMetPrescription = () => {
@@ -43,11 +43,10 @@ export default class SummaryStats extends Component {
     }
 
     getLastUpdated = () => {
-        const { dispenses, btn1, btn2, btn3, collarOff } = this.props.data;
+        const { dispenses, btn1, btn2, btn3, collarOff } = this.props.data.events;
         var arr1 = dispenses.concat(btn1);
         var arr2 = btn2.concat(btn3).concat(collarOff);
         var flatData = [].concat(arr1).concat(arr2).map(timestamp => {
-            console.log(timestamp);
             var date = new Date(timestamp);
             return date;
         }).sort((a, b) => {

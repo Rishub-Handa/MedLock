@@ -39,7 +39,8 @@ export default class DataView extends Component {
     }
 
     displayGraphs() {
-        const { pdisurveys, dispenses, btn1, btn2, btn3, collarOff } = this.props.data;
+        const { pdisurveys } = this.props.data;
+        const { dispenses, btn1, btn2, btn3, collarOff } = this.props.data.events;
         
         if (pdisurveys && dispenses) { // data for both pdisurveys and dispenses are available
             return (
@@ -52,13 +53,13 @@ export default class DataView extends Component {
                     />
                     <PDISurveyBar id="g1" data={pdisurveys} />
                 </div>
-            )
+            );
         } else if (pdisurveys) { // only data for pdisurveys are available
             return (
                 <div className="DataView">
                     <PDISurveyBar id="g0" data={pdisurveys} />
                 </div>
-            )
+            );
         } else if (dispenses) { // only data for dispenses are available
             return (
                 <div className="DataView">
@@ -69,8 +70,8 @@ export default class DataView extends Component {
                         colors={["var(--medlock-blue)", "red", "blue", "green", "black"]}
                     />
                 </div>
-            )
-        } else return ( <h2>There are no data at the moment.</h2> )
+            );
+        } else return ( <h2>There are no data at the moment.</h2> );
     }
 
     render() {

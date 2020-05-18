@@ -60,7 +60,8 @@ class PatientData extends Component {
         }); 
     }
 
-    render() {        
+    render() {   
+        console.log(this.props);     
         const { allPDISurveys, 
                 surveysLoading, 
                 surveysLoaded,
@@ -101,29 +102,23 @@ class PatientData extends Component {
         if (dispenser) {
             data = {
                 ...data,
-                dispenses: dispenser.events.dispenses,
-                btn1: dispenser.events.btn1,
-                btn2: dispenser.events.btn2,
-                btn3: dispenser.events.btn3,
-                collarOff: dispenser.events.collarOff,
-                capTurn: dispenser.events.capTurn
-            }
+                events: dispenser.events,
+            };
         }
+
+        console.log(data);
+
+        // return (
+        //     <div>
+        //         Loaded regularly...
+        //     </div>
+        // );
 
         return (
             <div className="pd-container">
                 <h1 className="header">
                     My Data
                 </h1>
-                {this.state.toggleCodeDisplay ? 
-                    <div className="Grey-Layer"></div> : null}
-                {this.state.toggleCodeDisplay ? 
-                    <div className="DispenserCode-container">
-                        <DispenserCode hideDispenserCode={this.hideDispenserCode}
-                                        userProfile={this.props.userData}/> 
-                    </div> 
-                    : null 
-                }
                 <SummaryStats data={data}/>
                 <DataView data={data} />
             </div>
