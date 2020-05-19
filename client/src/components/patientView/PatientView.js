@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PersonalDataView from './PersonalDataView';
 import { connect } from 'react-redux';
-import { fetchDispenser } from '../../actions/dispenserActions';  
+import { fetchDispenser, updateButtonMeaning } from '../../actions/dispenserActions';  
 import DataView from '../patientData/DataView';
 import SummaryStats from '../patientData/SummaryStats';
 import PropTypes from 'prop-types';
@@ -96,7 +96,7 @@ class PatientView extends Component {
                 {checkInError && <div className="error-box"><p>There was an error in sending the data. </p></div>}
                 {checkInData && <div className="confirmation-box"><p><span>✔</span> Thank you, the data has been saved. </p></div>}
                 <SummaryStats data={data} />
-                <DispenserInfo />
+                <DispenserInfo updateButtonMeaning={this.props.updateButtonMeaning} dispenser={this.props.dispenser} />
                 <DataView data={data}/>
                 <RawDataDisp patient={this.props.patient} rawData={dispenser.events}/> 
             </div>
@@ -106,6 +106,7 @@ class PatientView extends Component {
 
 PatientView.propTypes = {
     fetchDispenser: PropTypes.func.isRequired, 
+    updateButtonMeaning: PropTypes.func.isRequired,
     dispenser: PropTypes.object.isRequired,
     dispenserLoading: PropTypes.bool.isRequired,
     dispenserLoaded: PropTypes.bool.isRequired,
@@ -122,4 +123,7 @@ const mapStateToProps = state => ({
     checkInError: state.patientState.checkInError 
 })
 
-export default connect(mapStateToProps, { fetchDispenser, addCheckIn })(PatientView);
+export default connect(mapStateToProps, { 
+    fetchDispenser, 
+    updateButtonMeaning, 
+    addCheckIn })(PatientView);

@@ -7,9 +7,9 @@ export default class DispenserInfo extends Component {
         super(props);
         this.state = {
             editable: false,
-            btn1: "Low Symptom Severity",
-            btn2: "Medium Symptom Severity",
-            btn3: "High Symptom Severity",
+            btn1: this.props.dispenser.info.button_meanings[0],
+            btn2: this.props.dispenser.info.button_meanings[1],
+            btn3: this.props.dispenser.info.button_meanings[2],
         };
     }
 
@@ -60,6 +60,10 @@ export default class DispenserInfo extends Component {
 
     onSave = () => {
         console.log("onSave called");
+        this.props.updateButtonMeaning(
+            this.props.dispenser._id, 
+            [this.state.btn1, this.state.btn2, this.state.btn3]
+        );
     }
 
     onChange = e => {
