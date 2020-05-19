@@ -9,6 +9,7 @@ import '../../css/PatientView.css';
 import CheckIn from './CheckIn'; 
 import { addCheckIn } from '../../actions/patientActions'; 
 import RawDataDisp from './RawDataDisp'; 
+import DispenserInfo from './DispenserInfo';
 
 class PatientView extends Component {
 
@@ -95,6 +96,7 @@ class PatientView extends Component {
                 {checkInError && <div className="error-box"><p>There was an error in sending the data. </p></div>}
                 {checkInData && <div className="confirmation-box"><p><span>✔</span> Thank you, the data has been saved. </p></div>}
                 <SummaryStats data={data} />
+                <DispenserInfo />
                 <DataView data={data}/>
                 <RawDataDisp patient={this.props.patient} rawData={dispenser.events}/> 
             </div>
