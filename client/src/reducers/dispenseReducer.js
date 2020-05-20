@@ -42,10 +42,15 @@ export default function(state = initialState, action) {
         case UPDATE_BUTTON_MEANING_BEGIN:
             return {
                 ...state,
+                dispenserLoading: true,
+                dispenserLoaded: false,
             };
         case UPDATE_BUTTON_MEANING_SUCCESS:
+            console.log(action.payload.dispenser);
             return {
                 ...state,
+                dispenserLoading: false,
+                dispenserLoaded: true,
                 dispenser: action.payload.dispenser,
             };
         case UPDATE_BUTTON_MEANING_FAILURE:

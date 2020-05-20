@@ -97,7 +97,7 @@ class PatientView extends Component {
                 {checkInData && <div className="confirmation-box"><p><span>✔</span> Thank you, the data has been saved. </p></div>}
                 <SummaryStats data={data} />
                 <DispenserInfo updateButtonMeaning={this.props.updateButtonMeaning} dispenser={this.props.dispenser} />
-                <DataView data={data}/>
+                <DataView data={data} dispenser={this.props.dispenser} />
                 <RawDataDisp patient={this.props.patient} rawData={dispenser.events}/> 
             </div>
         );

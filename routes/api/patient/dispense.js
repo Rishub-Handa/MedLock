@@ -149,7 +149,7 @@ router.post('/button_meanings', (req, res) => {
     var dispenser_id = req.body.id;
     var new_meanings = req.body.meanings;
     Dispenser.findById(dispenser_id, (err, dispenser) => {
-        dispenser.info.button_meanings = new_meanings;
+        dispenser.info.buttonMeaning = new_meanings;
         dispenser.save().then(dispenser => {
             console.log(`Button Meanings for Dispenser(id=${dispenser_id}) updated.`);
             // send updated dispenser back to client

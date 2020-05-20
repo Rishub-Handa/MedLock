@@ -50,9 +50,9 @@ const updateButtonMeaningBegin = () => ({
     type: UPDATE_BUTTON_MEANING_BEGIN 
 });
   
-const updateButtonMeaningSuccess = meanings => ({
+const updateButtonMeaningSuccess = dispenser => ({
     type: UPDATE_BUTTON_MEANING_SUCCESS,
-    payload: { meanings }
+    payload: { dispenser }
 });
 
 const updateButtonMeaningFailure = error => ({
@@ -73,8 +73,8 @@ export function updateButtonMeaning(id, meanings) {
         .then(res => { 
             // updated dispenser should be returned
             console.log(res.data);
-            dispatch(fetchDispenserSuccess(res.data));
+            dispatch(updateButtonMeaningSuccess(res.data));
         })
-        .catch(error => dispatch(fetchDispenserFailure(error)));
+        .catch(error => dispatch(updateButtonMeaningFailure(error)));
     };
 }

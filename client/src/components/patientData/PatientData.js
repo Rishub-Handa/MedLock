@@ -120,7 +120,7 @@ class PatientData extends Component {
                     My Data
                 </h1>
                 <SummaryStats data={data}/>
-                <DataView data={data} />
+                <DataView data={data} dispenser={this.props.dispenser} />
             </div>
         );
         

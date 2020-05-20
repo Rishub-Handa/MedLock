@@ -49,6 +49,7 @@ export default class DataView extends Component {
                         id="g0"
                         title="Dispenser Events" 
                         data={[dispenses, btn1, btn2, btn3, collarOff]} 
+                        buttonMeaning={this.props.dispenser.info.buttonMeaning}
                         colors={["var(--medlock-blue)", "red", "yellow", "green", "black"]}
                     />
                     <PDISurveyBar id="g1" data={pdisurveys} />
@@ -67,6 +68,7 @@ export default class DataView extends Component {
                         id="g0"
                         title="Dispenser Events" 
                         data={[dispenses, btn1, btn2, btn3, collarOff]} 
+                        buttonMeaning={this.props.dispenser.info.buttonMeaning}
                         colors={["var(--medlock-blue)", "red", "blue", "green", "black"]}
                     />
                 </div>

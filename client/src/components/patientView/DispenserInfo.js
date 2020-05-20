@@ -7,9 +7,9 @@ export default class DispenserInfo extends Component {
         super(props);
         this.state = {
             editable: false,
-            btn1: this.props.dispenser.info.button_meanings[0],
-            btn2: this.props.dispenser.info.button_meanings[1],
-            btn3: this.props.dispenser.info.button_meanings[2],
+            btn1: this.props.dispenser.info.buttonMeaning[0],
+            btn2: this.props.dispenser.info.buttonMeaning[1],
+            btn3: this.props.dispenser.info.buttonMeaning[2],
         };
     }
 
@@ -77,7 +77,7 @@ export default class DispenserInfo extends Component {
     render() {
         console.log(this.state);
         return (
-            <div className="DispenserInfo">
+            <div className="DispenserInfo patientData-comp">
                 {this.state.editable ? this.editableHTML() : this.nonEditableHTML()}
                 <button onClick={this.toggleEditable}>{this.state.editable ? "Save" : "Edit"}</button>
             </div>

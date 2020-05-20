@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class SummaryStats extends Component {
     render() {
         return (
-            <div class="SummaryStats">
+            <div class="SummaryStats patientData-comp">
                 <p>Average Pills Per Day: <span>{this.averagePillsPerDay()}</span></p>
                 <p>Days Met Prescription: <span>{this.daysMetPrescription()}</span></p>
                 <p>Collar Off Count: <span>{this.collarOffCount()}</span></p>

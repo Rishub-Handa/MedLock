@@ -452,7 +452,7 @@ export default class DateTimeScatter extends Component {
                             name="btn1"
                             value={this.state.selectedEvents.btn1} 
                             onChange={this.onDataSelectorChange} />
-                        Low
+                        {this.props.buttonMeaning[0]}
                     </label>
                     <div className="circle-legend btn1"></div>
                 </div>
@@ -463,7 +463,7 @@ export default class DateTimeScatter extends Component {
                             name="btn2" 
                             value={this.state.selectedEvents.btn2}
                             onChange={this.onDataSelectorChange} />
-                        Medium
+                        {this.props.buttonMeaning[1]}
                     </label>
                     <div className="circle-legend btn2"></div>
                 </div>
@@ -474,7 +474,7 @@ export default class DateTimeScatter extends Component {
                             name="btn3" 
                             value={this.state.selectedEvents.btn3} 
                             onChange={this.onDataSelectorChange} />
-                        High
+                        {this.props.buttonMeaning[2]}
                     </label>
                     <div className="circle-legend btn3"></div>
                 </div>
