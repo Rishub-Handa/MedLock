@@ -44,16 +44,16 @@ const DispenserSchema = new Schema({
             type: Date 
         }] 
     }, 
-    lastUpdated: {
+    lastUpdated: [{
         type: Date 
-    }, 
+    }], 
     info: {
         // button meanings stored as array of strings where array[0] holds the meaning for buton1,
         // array[1] holds the meaning for button 2, and array[2] holds the meaning for button 3
         buttonMeaning: [{ 
             type: String
         }],
-    }
+    },
 });
 
 module.exports = DispenserSchema;

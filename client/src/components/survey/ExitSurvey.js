@@ -5,13 +5,8 @@ import TextInput from './QuestionTypes/TextInput';
 import NumInput from './QuestionTypes/NumInput'; 
 import TextDirections from './QuestionTypes/TextDirections'
 import { connect } from 'react-redux'; 
-// IMPLEMENT: Change JSON file 
-const surveyJSON = require('./SurveyBank/Intake.json'); 
-
-// TODO: 
-// Test dispatch action and communication with backend 
-// Test data format to backend 
-// Write server endpoint 
+import { submitExitSurvey } from '../../actions/surveyActions'; 
+const surveyJSON = require('./SurveyBank/ExitQs.json'); 
 
 class ExitSurvey extends Component {
 
@@ -28,7 +23,28 @@ class ExitSurvey extends Component {
     } 
 
     submitResponses = () => {
-        console.log(this.state); 
+        let answeredAll = true; 
+        if(this.state.responses.length != this.state.questions.length) answeredAll = false; 
+        this.state.responses.forEach((response, i) => {
+            if((!response || !response.answer || response.answer == "") && (this.state.questions[i].type != "TD")) {
+                answeredAll = false; 
+                console.log(response); 
+            }
+            console.log(i); 
+            if(this.state.questions[i].type == "NI" && 
+                response && 
+                (response.answer < this.state.questions[i].min || response.answer > this.state.questions[i].max)) {
+                    answeredAll = false; 
+                }
+        })
+
+        if(answeredAll) {
+            console.log("Submit. "); 
+            this.props.submitExitSurvey(this.state.responses); 
+        } else {
+            // IMPLEMENT: Make an alert 
+            console.log("Respond to all the questions. "); 
+        }
     }
 
     onChange = (id, name, value) => {
@@ -91,6 +107,35 @@ class ExitSurvey extends Component {
 
         // IMPLEMENT: surveyResponse, loading, and error 
 
+        const { surveyResponse, loading, error } = this.props; 
+
+        if(loading) {
+            console.log(loading); 
+            return (
+                <div> 
+                    <p>Sending . . . </p>
+                </div>
+            )
+        } 
+
+        if(error) {
+            console.log(error); 
+            return (
+                <div>
+                    <p>There was an error in submitting the survey; please try again. </p>
+                </div>
+            )
+        } 
+
+        if(surveyResponse) {
+            console.log(surveyResponse); 
+            return (
+                <div> 
+                    <p>Your responses were submitted. Thank you </p>
+                </div>
+            )
+        }
+
         return (
             <div class="survey-container">
                 <h1 class="header">Exit Survey</h1>
@@ -104,4 +149,10 @@ class ExitSurvey extends Component {
 }
 
 
-export default ExitSurvey; 
+const mapStateToProps = state => ({
+    surveyResponse: state.surveyState.ExitSurveyResponse, 
+    loading: state.surveyState.ExitSurveyLoading, 
+    error: state.surveyState.ExitSurveyError 
+});
+
+export default connect(mapStateToProps, { submitExitSurvey })(ExitSurvey); 

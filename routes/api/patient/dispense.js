@@ -105,6 +105,8 @@ router.post('/', (req,res) => {
         } else {
             // Add events to dispenser 
 
+            dispenser.lastUpdated.push(new Date()); 
+
             events.forEach(event => {
                 switch(event.name) {
                     case "Dispense": 

@@ -2,6 +2,7 @@ const express = require('express');
 const patient = require('./api/patient/patient'); 
 const pdisurvey = require('./api/patient/surveys/pdisurvey'); 
 const intake = require('./api/patient/surveys/intake'); 
+const exitsurvey = require('./api/patient/surveys/exitsurvey'); 
 const dispense = require('./api/patient/dispense'); 
 const chatAuth = require('./api/chatAuth'); 
 const email = require('./api/email'); 
@@ -46,6 +47,7 @@ const checkJwt = jwt({
 // Define Patient Scope 
 router.use('/api/survey/pdisurvey', checkJwt, pdisurvey); 
 router.use('/api/survey/intake', checkJwt, intake); 
+router.use('/api/survey/exitsurvey', checkJwt, exitsurvey); 
 router.use('/api/patient/patient', checkJwt, patient); 
 router.use('/api/dispense', dispense); 
 
