@@ -134,7 +134,7 @@ class Dashboard extends Component {
 
     checkNewUserStatus = () => {
         console.log("checkNewUserStatus");
-        if (!this.props.userData.personalData.bio) {
+        if (!this.props.userData.medicalData.clinic) {
             this.toggleNewUser();
         }
     }
