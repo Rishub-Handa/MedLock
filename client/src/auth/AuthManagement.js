@@ -15,20 +15,20 @@ export function getUserByEmail(email, AMT) {
 
 // TODO: remove all dependences of fetchAMT
 // it isn't secure to have this in client
-// export function fetchAMT() {
-//     console.log("called function: fetchAMT");
-//     const AMTHeader = { 
-//         'Content-Type': 'application/json',
-//         'Access-Control-Allow-Origin': MEDLOCK_URL,
-//      }; 
-//     const AMTBody = {"client_id":"Wf9NsAneKffcZ8y24IhMzjZ4C3JvIken","client_secret":"sPFQ_UQ1G5e20F87cc2MDU-BDjzG1i9CHEnOISfnuHSgyYGvI_zhXQR5nsZto-tA","audience":"https://medlock-dev.auth0.com/api/v2/","grant_type":"client_credentials"}; 
-//     const API_URL = `https://medlock-dev.auth0.com/oauth/token`;
-//     console.log(AMTHeader);
-//     const promise = axios.post(API_URL, AMTBody, AMTHeader); 
+export function fetchAMT() {
+    console.log("called function: fetchAMT");
+    const AMTHeader = { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': MEDLOCK_URL,
+     }; 
+    const AMTBody = {"client_id":"Wf9NsAneKffcZ8y24IhMzjZ4C3JvIken","client_secret":"sPFQ_UQ1G5e20F87cc2MDU-BDjzG1i9CHEnOISfnuHSgyYGvI_zhXQR5nsZto-tA","audience":"https://medlock-dev.auth0.com/api/v2/","grant_type":"client_credentials"}; 
+    const API_URL = `https://medlock-dev.auth0.com/oauth/token`;
+    console.log(AMTHeader);
+    const promise = axios.post(API_URL, AMTBody, AMTHeader); 
 
-//     return promise; 
+    return promise; 
 
-// }
+}
 
 export function resetPassword(email) {
     const URL = 'https://medlock-dev.auth0.com/dbconnections/change_password'; 
