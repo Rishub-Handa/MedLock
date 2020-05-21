@@ -32,7 +32,7 @@ class MyPatients extends Component {
     }
 
     viewPatient = (patient) => {
-        console.log("viewing patient...");
+        console.log("viewPatient called");
         console.log(patient);
         this.setState({
             onePatientView: true,
@@ -82,66 +82,67 @@ class MyPatients extends Component {
         */
     }
 
+    // TODO: restructure logic so AMT isn't fetched beforehand
     submitForm = (name, email) => {
 
-        const password = Math.random().toString(36).slice(-12); 
+        // const password = Math.random().toString(36).slice(-12); 
 
-        const newPatient = {
-            "name": name, 
-            "email": email,
-            "password": password,
-            "connection": "Username-Password-Authentication"
-        };
+        // const newPatient = {
+        //     "name": name, 
+        //     "email": email,
+        //     "password": password,
+        //     "connection": "Username-Password-Authentication"
+        // };
             
 
-        fetchAMT() 
-            .then(res => {
+        // fetchAMT() 
+        //     .then(res => {
 
-                const AMT = res.data.access_token; 
+        //         const AMT = res.data.access_token; 
 
-                this.props.auth0Registration(newPatient, AMT)
-                .then(() => { 
-                    alert(`Patient Succesfully Added`);
-                    this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
-                })
-                .catch(error => {
-                    console.log(`User Registration Error: ${error}`); 
-                    const errorString = `${error}`; 
-                    console.log(errorString.includes("409")); 
-                    if(!errorString.includes("409")) alert(`Failed To Add Patient. Error Code: ${error}`);
+        //         this.props.auth0Registration(newPatient, AMT)
+        //         .then(() => { 
+        //             alert(`Patient Succesfully Added`);
+        //             this.createPatient(newPatient, AMT, this.props.userProfile.user_id);
+        //         })
+        //         .catch(error => {
+        //             console.log(`User Registration Error: ${error}`); 
+        //             const errorString = `${error}`; 
+        //             console.log(errorString.includes("409")); 
+        //             if(!errorString.includes("409")) alert(`Failed To Add Patient. Error Code: ${error}`);
                     
-                    if(errorString.includes("409")) {
-                        getUserByEmail(email, AMT) 
-                            .then(res => {
-                                const user_id = res.data[0].user_id; 
-                                console.log(user_id); 
+        //             if(errorString.includes("409")) {
+        //                 getUserByEmail(email, AMT) 
+        //                     .then(res => {
+        //                         const user_id = res.data[0].user_id; 
+        //                         console.log(user_id); 
 
-                                const newPatientProfile = {
-                                    _id: user_id.substring(6),
-                                    personalData: {
-                                        name: name,
-                                        email: email,
-                                    },
-                                    medicalData: {
-                                        providers: [auth0client.userProfile.sub.substring(6)]
-                                    }
-                                };
-                                this.props.createPatientProfile(newPatientProfile);
-                            })
-                            .then(() => {
-                                console.log("successful");
-                                this.props.fetchPatients();
-                            })
-                    }
-                });
-            }) 
-            .then((err) => {
-                this.props.fetchPatients();
-                if(err) console.log(err);
-            })
-            .catch(error => {alert(`Failed To Create Patient. Error Code: ${error}`); console.log(error);});
+        //                         const newPatientProfile = {
+        //                             _id: user_id.substring(6),
+        //                             personalData: {
+        //                                 name: name,
+        //                                 email: email,
+        //                             },
+        //                             medicalData: {
+        //                                 providers: [auth0client.userProfile.sub.substring(6)]
+        //                             }
+        //                         };
+        //                         this.props.createPatientProfile(newPatientProfile);
+        //                     })
+        //                     .then(() => {
+        //                         console.log("successful");
+        //                         this.props.fetchPatients();
+        //                     })
+        //             }
+        //         });
+        //     }) 
+        //     .then((err) => {
+        //         this.props.fetchPatients();
+        //         if(err) console.log(err);
+        //     })
+        //     .catch(error => {alert(`Failed To Create Patient. Error Code: ${error}`); console.log(error);});
 
-        this.setState({ newPatientForm: false });
+        // this.setState({ newPatientForm: false });
     }
 
     createPatient = (newPatient, AMT, patient_id) => {
