@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPDISurveys } from '../../actions/surveyActions'; 
 import { fetchDispenser } from '../../actions/dispenserActions';  
+import DispenserCode from './DispenserCode'; 
+import AddDispenser from './AddDispenser'; 
 import '../../css/PatientData.css'; 
 import DataView from './DataView';
 import SummaryStats from './SummaryStats';
@@ -16,12 +18,11 @@ class PatientData extends Component {
 
     state = {
         retrievedData: false, 
+        toggleCodeDisplay: false,
     } 
     
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
-        console.log(this.props);
-        console.log(this.props.patient.medicalData.dispenser_id);
         this.props.fetchPDISurveys(); 
         if (this.props.patient.medicalData != null) {
             if (this.props.patient.medicalData.dispenser_id != null) {
@@ -30,7 +31,37 @@ class PatientData extends Component {
         }
     } 
 
-    render() {        
+    addDispenserHTML = () => {
+        return (
+            <div>
+                <p>You need to add a dispenser.</p>
+                <div className="AddDispenser-container">
+                    <AddDispenser displayCodeCallback={this.displayDispenserCode} /> 
+                </div>
+            </div>
+        );
+    }
+
+    displayDispenserCode = () => {
+        console.log("Display Dispenser Code. "); 
+        // ReactGA.event({
+        //     category: 'Pop Up Modal', 
+        //     action: 'Generated dispenser code from Dashboard', 
+        //     label: 'Add Dispenser from Dashboard' 
+        // })
+        this.setState({
+            toggleCodeDisplay: true 
+        }); 
+    }
+
+    hideDispenserCode = () => {
+        this.setState({
+            toggleCodeDisplay: false 
+        }); 
+    }
+
+    render() {   
+        console.log(this.props);     
         const { allPDISurveys, 
                 surveysLoading, 
                 surveysLoaded,
@@ -40,19 +71,24 @@ class PatientData extends Component {
                 dispenserLoaded,
                 dispenserError, } = this.props; 
 
-        if(surveyError || dispenserError) {
-            return (
-                <div>
-                    <div>Survey Error: { surveyError ? surveyError.message : null}</div>
-                    <div>Dispense Error: {dispenserError ? dispenserError.message : null}</div>
-                </div>
-            ); 
+        if(dispenserError && !this.state.toggleCodeDisplay) {
+            return this.addDispenserHTML();
         }
+
+        if(this.state.toggleCodeDisplay) {
+            return (
+                <div className="DispenserCode-container">
+                    <DispenserCode hideDispenserCode={this.hideDispenserCode}
+                                    userProfile={this.props.patient}/> 
+                </div> 
+            );
+        }
+
 
         if(surveysLoading || dispenserLoading || !surveysLoaded || !dispenserLoaded) {
             return (
                 <div>Loading . . . </div>
-            )
+            );
         }
 
         var data = {}
@@ -66,22 +102,25 @@ class PatientData extends Component {
         if (dispenser) {
             data = {
                 ...data,
-                dispenses: dispenser.events.dispenses,
-                btn1: dispenser.events.btn1,
-                btn2: dispenser.events.btn2,
-                btn3: dispenser.events.btn3,
-                collarOff: dispenser.events.collarOff,
-                capTurn: dispenser.events.capTurn
-            }
+                events: dispenser.events,
+            };
         }
-         
+
+        console.log(data);
+
+        // return (
+        //     <div>
+        //         Loaded regularly...
+        //     </div>
+        // );
+
         return (
             <div className="pd-container">
                 <h1 className="header">
                     My Data
                 </h1>
                 <SummaryStats data={data}/>
-                <DataView data={data} />
+                <DataView data={data} dispenser={this.props.dispenser} />
             </div>
         );
         

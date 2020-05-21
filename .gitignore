@@ -1,2 +1,3 @@
 node_modules
 client/build
+.env # this contains secrets, don't store unencrypted in source control

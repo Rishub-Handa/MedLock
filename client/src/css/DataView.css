@@ -87,7 +87,6 @@
 
 .graph-container:hover {
     box-shadow: 0 0 10px var(--medlock-gray);
-    flex-direction: column;
 }
 
 .g0 {
@@ -146,6 +145,10 @@
 
 .btn3 {
     background: green;
+}
+
+.collarOff {
+    background: black;
 }
 
 .group {

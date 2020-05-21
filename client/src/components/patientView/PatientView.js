@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import PersonalDataView from './PersonalDataView';
 import { connect } from 'react-redux';
-import { fetchDispenser } from '../../actions/dispenserActions';  
+import { fetchDispenser, updateButtonMeaning } from '../../actions/dispenserActions';  
 import DataView from '../patientData/DataView';
+import SummaryStats from '../patientData/SummaryStats';
 import PropTypes from 'prop-types';
 import '../../css/PatientView.css';
 import CheckIn from './CheckIn'; 
 import { addCheckIn } from '../../actions/patientActions'; 
 import RawDataDisp from './RawDataDisp'; 
+import DispenserInfo from './DispenserInfo';
 
 class PatientView extends Component {
 
     constructor(props) {
+        console.log(props);
         super(props);
     }
 
@@ -35,7 +38,6 @@ class PatientView extends Component {
     }
 
     render() {
-
         const { patient,
                 dispenser, 
                 dispenserLoading, 
@@ -78,15 +80,11 @@ class PatientView extends Component {
         if (dispenser) {
             data = {
                 ...data,
-                dispenses: dispenser.events.dispenses,
-                btn1: dispenser.events.btn1,
-                btn2: dispenser.events.btn2,
-                btn3: dispenser.events.btn3,
+                events: dispenser.events
             }
         }
 
-        
-
+        console.log(data);
         return (
             <div className="patientView-container">
                 <PersonalDataView personalData={patient.personalData} />
@@ -97,23 +95,18 @@ class PatientView extends Component {
                 {checkInLoading && <p>Loading . . .</p>}
                 {checkInError && <div className="error-box"><p>There was an error in sending the data. </p></div>}
                 {checkInData && <div className="confirmation-box"><p><span>✔</span> Thank you, the data has been saved. </p></div>}
-                <DataView data={data}
-                />
-                {/* <div className="leftPanel">
-                    <PersonalDataView personalData={patient.personalData} />
-                    <ConsumptionDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}}/>
-                </div>
-                <div className="rightPanel">
-                    <MedicalDataView medicalData={patient.medicalData} data={{pdiSurveys, dispenses}} />
-                </div> */}
+                <SummaryStats data={data} />
+                <DispenserInfo updateButtonMeaning={this.props.updateButtonMeaning} dispenser={this.props.dispenser} />
+                <DataView data={data} dispenser={this.props.dispenser} />
                 <RawDataDisp patient={this.props.patient} rawData={dispenser.events}/> 
             </div>
-        )
+        );
     }
 }
 
 PatientView.propTypes = {
     fetchDispenser: PropTypes.func.isRequired, 
+    updateButtonMeaning: PropTypes.func.isRequired,
     dispenser: PropTypes.object.isRequired,
     dispenserLoading: PropTypes.bool.isRequired,
     dispenserLoaded: PropTypes.bool.isRequired,
@@ -130,4 +123,7 @@ const mapStateToProps = state => ({
     checkInError: state.patientState.checkInError 
 })
 
-export default connect(mapStateToProps, { fetchDispenser, addCheckIn })(PatientView);
+export default connect(mapStateToProps, { 
+    fetchDispenser, 
+    updateButtonMeaning, 
+    addCheckIn })(PatientView);

@@ -16,7 +16,7 @@ class Auth {
     // it should match the API identifier in auth0 and the audience in checkJWT
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
-        clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
+        clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l', // should probably make an API call to get this info
         redirectUri: `${MEDLOCK_URL}/callback`,
         responseType: 'token id_token',
         audience: MEDLOCK_AUDIENCE,

@@ -10,7 +10,10 @@ import {
     ASSIGN_ROLES_FAILURE,
     VALIDATE_REGISTER_CODE_BEGIN,
     VALIDATE_REGISTER_CODE_SUCCESS,
-    VALIDATE_REGISTER_CODE_FAILURE
+    VALIDATE_REGISTER_CODE_FAILURE,
+    FETCH_USER_DATA_BEGIN,
+    FETCH_USER_DATA_SUCCESS,
+    FETCH_USER_DATA_FAILURE
  } from './types';
 
 import axios from 'axios';
@@ -192,5 +195,44 @@ export function validateRegisterCode(registerCode, role) {
     }
 }
 
+const fetchUserDataBegin = () => ({
+    type: FETCH_USER_DATA_BEGIN,
+});
+
+const fetchUserDataSuccess = (userData) => ({
+    type: FETCH_USER_DATA_SUCCESS, 
+    payload: {
+        userData
+    }
+}); 
+
+const fetchUserDataFailure = (error) => ({
+    type: FETCH_ROLES_FAILURE,
+    payload: {
+        error
+    }
+});
+ 
+export function fetchUserData() {
+    console.log("fetching user data");
+    const { getAccessToken } = auth0client;
+    const headers = {
+        'Authorization': `Bearer ${getAccessToken()}`
+    }
+    let API_URL = `${MEDLOCK_API}/user/login`;
+    const user_id = auth0client.userProfile.sub; 
+    let req_body = { user_id }; 
+    return dispatch => {
+        dispatch(fetchUserDataBegin());
+        return axios.post(API_URL, req_body, { headers })
+            .then(res => {
+                console.log(res.data);
+                dispatch(fetchUserDataSuccess(res.data));
+            })
+            .catch(error => {
+                dispatch(fetchUserDataFailure(error));
+            });
+    }
+}
 
 

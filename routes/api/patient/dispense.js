@@ -146,6 +146,23 @@ router.post('/', (req,res) => {
     }); 
 }); 
 
+router.post('/button_meanings', (req, res) => {
+    console.log('POST Request to /button_meanings');
+    var dispenser_id = req.body.id;
+    var new_meanings = req.body.meanings;
+    Dispenser.findById(dispenser_id, (err, dispenser) => {
+        dispenser.info.buttonMeaning = new_meanings;
+        dispenser.save().then(dispenser => {
+            console.log(`Button Meanings for Dispenser(id=${dispenser_id}) updated.`);
+            // send updated dispenser back to client
+            res.send(dispenser);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    });
+});
+
 
 
 
