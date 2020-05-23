@@ -140,7 +140,10 @@ class ExitSurvey extends Component {
             <div class="survey-container">
                 <h1 class="header">Exit Survey</h1>
                 {this.state.questions ? this.questionsHTML() : (
-                    <p>Loading . . . </p>
+                    <div>
+                    <div class="loader"></div>
+                    <p class="loading-text">Loading...</p>
+                </div>
                 )} 
                 <button class="create-new-btn" onClick={this.submitResponses}>Submit</button>
             </div>

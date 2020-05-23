@@ -46,7 +46,10 @@ class PDISurvey extends Component {
 
         if (loading) {
             return (
-                <div>Loading . . .</div>
+                <div>
+                    <div class="loader"></div>
+                    <p class="loading-text">Loading...</p>
+                </div>
             )
         }
 

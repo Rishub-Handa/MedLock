@@ -59,7 +59,10 @@ class PatientView extends Component {
 
         if(dispenserLoading || !dispenserLoaded) {
             return (
-                <div>Loading . . . </div>
+                <div>
+                    <div class="loader"></div>
+                    <p class="loading-text">Loading...</p>
+                </div>
             )
         }
 
@@ -92,7 +95,10 @@ class PatientView extends Component {
                     <button className="create-new-btn" onClick={() => { this.setState({ showCheckIn: true }); }}>Add Check In</button>} 
                 {!checkInData && !checkInLoading && !checkInError && this.state.showCheckIn && 
                     <CheckIn submitData={this.submitCheckIn}/>}
-                {checkInLoading && <p>Loading . . .</p>}
+                {checkInLoading && <div>
+                    <div class="loader"></div>
+                    <p class="loading-text">Loading...</p>
+                </div>}
                 {checkInError && <div className="error-box"><p>There was an error in sending the data. </p></div>}
                 {checkInData && <div className="confirmation-box"><p><span>✔</span> Thank you, the data has been saved. </p></div>}
                 <SummaryStats data={data} />

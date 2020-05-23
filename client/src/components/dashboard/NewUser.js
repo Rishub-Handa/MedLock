@@ -1,8 +1,8 @@
-import React, { Component } from 'react'; 
-import { connect } from 'react-redux'; 
-import { saveProfile, updateMedicalData } from '../../actions/profileActions'; 
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { saveProfile, updateMedicalData } from '../../actions/profileActions';
 import { fetchAllClinics, fetchAllProvidersAtClinic } from '../../actions/clinicActions';
-import { resetPassword } from '../../auth/AuthManagement'; 
+import { resetPassword } from '../../auth/AuthManagement';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import auth0client from '../../auth/Auth';
 import { MEDLOCK_API } from '../../config/servers';
@@ -45,20 +45,20 @@ class NewUser extends Component {
                             }
                         });
                     });
-               });
+            });
     }
 
     onSubmit = e => {
-        e.preventDefault(); 
+        e.preventDefault();
         this.props.saveProfile(this.state.personalData, this.props.role) // this isn't running as a promise
             .then((profile) => {
                 console.log(profile);
                 this.props.updateMedicalData(profile._id, "patient", this.state.medicalData);
             });
-        
+
         // Send Password Reset Email and Test Temporary Password Email 
-        resetPassword(this.props.profile.personalData.email); 
-        this.props.toggle(); 
+        resetPassword(this.props.profile.personalData.email);
+        this.props.toggle();
     }
 
     onChange = e => {
@@ -90,8 +90,8 @@ class NewUser extends Component {
                     [e.target.name]: providerId
                 }
             });
-        } else if (e.target.name === "street" || e.target.name === "city"   ||
-            e.target.name === "state"  || e.target.name === "zip") {
+        } else if (e.target.name === "street" || e.target.name === "city" ||
+            e.target.name === "state" || e.target.name === "zip") {
             this.setState({
                 personalData: {
                     ...this.state.personalData,
@@ -102,17 +102,17 @@ class NewUser extends Component {
                 }
             });
         } else {
-            this.setState({ 
+            this.setState({
                 personalData: {
                     ...this.state.personalData,
-                    [e.target.name]: e.target.value 
+                    [e.target.name]: e.target.value
                 }
             });
         }
     }
 
     clinicsToOptions = () => {
-        return this.props.clinics.map((clinic, i) => { 
+        return this.props.clinics.map((clinic, i) => {
             return (
                 <option value={clinic._id}>{clinic.name}</option>
             )
@@ -148,7 +148,10 @@ class NewUser extends Component {
 
     render() {
         if (!this.props.clinicsFetched || this.props.clinicsFetching || this.props.providersFetching) {
-            return <div>Loading...</div>
+            return <div>
+                <div class="loader"></div>
+                <p class="loading-text">Loading...</p>
+            </div>
         } else {
             return (
                 <div className="NewUser">
@@ -201,7 +204,7 @@ class NewUser extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-phone">Phone</Label>
-                            <Input type="text" name="phone" id="pi-phone" placeholder="(555) 555-5555" value={this.state.personalData.phone} onChange={this.onChange}  />
+                            <Input type="text" name="phone" id="pi-phone" placeholder="(555) 555-5555" value={this.state.personalData.phone} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="pi-chatname">Chat Name</Label>
@@ -217,12 +220,12 @@ class NewUser extends Component {
             );
         }
     }
-} 
+}
 
 const mapStateToProps = state => ({
-    AMT: state.authState.AMT, 
-    AMTLoading: state.authState.AMTLoading, 
-    AMTError: state.authState.AMTError, 
+    AMT: state.authState.AMT,
+    AMTLoading: state.authState.AMTLoading,
+    AMTError: state.authState.AMTError,
 
     clinics: state.clinicState.clinics,
     clinicsFetching: state.clinicState.clinicsFetching,

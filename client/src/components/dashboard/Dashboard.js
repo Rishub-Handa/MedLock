@@ -180,8 +180,9 @@ class Dashboard extends Component {
         if(!userData || userDataLoading || (userData && this.checkAdminStatus())) {
             return (
                 <div>
-                    User Data Loading . . . 
-                </div>
+                <div class="loader"></div> 
+                <p class="loading-text">Loading User Data...</p>
+            </div>
             )
         }
 
@@ -266,7 +267,10 @@ class Dashboard extends Component {
         } catch(error) { console.log(error); } 
 
         return (
-            <div>Loading . . . </div>
+            <div>
+                <div class="loader"></div> 
+                <p class="loading-text">Loading...</p>
+            </div>
         )
     };
 
