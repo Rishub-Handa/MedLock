@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
+// won't need the following 3 imports after switch to redux for this comp.
+import auth0client from '../../auth/Auth';
+import { MEDLOCK_API, MEDLOCK_AUTH0 } from '../../config/servers';
+import axios from 'axios';
 // not sure if I will need the 3 imports below because they seem to only relate to style
 // keeping them for now while I follow the article
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'; 
@@ -42,6 +46,16 @@ export default class UploadScreen extends Component {
         }
     }
 
+    upload = () => {
+        console.log("upload clicked");
+        const { getAccessToken } = auth0client;
+        let API_URL = `${MEDLOCK_API}/patient/documents`;
+        const headers = {
+            'Authorization': `Bearer ${getAccessToken()}`
+        };
+        axios.post(API_URL, { data: this.state.filesToBeSent }, { headers });
+    }
+
     render() {
         return (
             <div className="UploadScreen">
@@ -56,6 +70,7 @@ export default class UploadScreen extends Component {
                 <div>
                     Files to be printed are: {this.state.filesPreview}
                 </div>
+                <button onClick={this.upload}>Upload</button>
             </div>
         );
     }
