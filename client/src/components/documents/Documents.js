@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UploadScreen from './UploadScreen';
+import '../../css/Documents.css';
 
 export default class Documents extends Component {
     render() {

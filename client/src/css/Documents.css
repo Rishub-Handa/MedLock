@@ -1,0 +1,9 @@
+.dropZone {
+    border: 1px dashed black; 
+    width: 200px;
+    height: 200px;
+}
+
+.dropZone:hover {
+    background-color: lightblue;
+}
