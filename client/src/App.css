@@ -47,7 +47,7 @@ body {
     height: 100px;
     margin: 0 auto;
     margin-top: 35vh;
-    animation: spin 1s linear infinite;
+    animation: spin .5s linear infinite;
   }
   
   @keyframes spin {

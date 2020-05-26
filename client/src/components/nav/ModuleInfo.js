@@ -5,6 +5,7 @@ import ResourcesIcon from '../../icons/round-folder-24px.svg';
 import DashboardIcon from '../../icons/round-home-24px.svg';
 import ProfileIcon from '../../icons/round-person-24px.svg';
 import MyPatientsIcon from '../../icons/round-people-24px.svg';
+import MySurveysIcon from '../../icons/poll-white-18dp.svg';
 
 export const modules = [
     {
@@ -108,7 +109,7 @@ export const modules = [
             }
         ], 
         content:  {
-            icon: MyDataIcon,
+            icon: MySurveysIcon,
         },
         link: '/dashboard/survey'
     },
