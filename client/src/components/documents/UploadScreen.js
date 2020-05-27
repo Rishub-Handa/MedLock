@@ -72,13 +72,9 @@ export default class UploadScreen extends Component {
     }
 
     upload = () => {
-        // const { getAccessToken } = auth0client;
-        // let API_URL = `${MEDLOCK_API}/patient/documents`;
-        // const headers = {
-        //     'Authorization': `Bearer ${getAccessToken()}`
-        // };
-        // axios.post(API_URL, { data: this.state.filesToBeSent }, { headers });
         var { filesToBeSent, filesSent } = this.state;
+        var promise = this.props.uploadDocuments(filesToBeSent);
+
         // on successful upload, add files in filesToBeSent to filesSent
         for (var i in filesToBeSent) {
             filesSent.push(filesToBeSent[i]);
@@ -112,3 +108,5 @@ export default class UploadScreen extends Component {
         );
     }
 }
+
+
