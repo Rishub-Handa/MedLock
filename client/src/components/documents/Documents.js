@@ -6,7 +6,7 @@ export default class Documents extends Component {
     render() {
         return (
             <div class="Documents">
-                <p>Welcome to the Documents Page.</p>
+                <h1 className="header">Documents</h1>
                 <UploadScreen />
             </div>
         );

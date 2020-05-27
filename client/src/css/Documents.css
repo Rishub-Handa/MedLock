@@ -7,3 +7,9 @@
 .dropZone:hover {
     background-color: lightblue;
 }
+
+.filePreview {
+    display: flex;
+    flex-direction: row;
+}
+

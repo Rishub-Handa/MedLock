@@ -4,56 +4,90 @@ import Dropzone from 'react-dropzone';
 import auth0client from '../../auth/Auth';
 import { MEDLOCK_API, MEDLOCK_AUTH0 } from '../../config/servers';
 import axios from 'axios';
+var _ = require('lodash');
 // not sure if I will need the 3 imports below because they seem to only relate to style
 // keeping them for now while I follow the article
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'; 
-import FontIcon from 'material-ui/FontIcon';
-import {blue500, red500, greenA200 } from 'material-ui/styles/colors';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'; 
+// import FontIcon from 'material-ui/FontIcon';
+// import {blue500, red500, greenA200 } from 'material-ui/styles/colors';
 
 // document upload taken from: https://medium.com/technoetics/handling-file-upload-in-reactjs-b9b95068f6b
 export default class UploadScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filesPreview: [],
             filesToBeSent: [],
-            printCount: 10,
+            filesSent: [],
+            uploadCount: 10,
         }
     }
 
     // appends acceptedFiles to filesToBeSent in component state
     onDrop = (acceptedFiles) => {
-        console.log(acceptedFiles);
+        console.log("onDrop");
         var filesToBeSent = this.state.filesToBeSent;
-        if (filesToBeSent.length < this.state.printCount) {
+        if (filesToBeSent.length < this.state.uploadCount) {
             filesToBeSent.push(acceptedFiles); 
-            var filesPreview = [];
-            for (var i in filesToBeSent) {
-                filesPreview.push(
-                    <div>
-                        {filesToBeSent[i][0].name}
-                        <MuiThemeProvider>
-                            <a href='#'>
-                                <FontIcon className="material-icons customstyle" color={blue500} styles={{ top:10, }}>clear</FontIcon>
-                            </a>
-                        </MuiThemeProvider>
-                    </div>
-                );
-            }
-            this.setState({ filesToBeSent, filesPreview });
+            this.setState({ filesToBeSent });
         } else {
-            alert('You have reached the limit of printing files at a time.');
+            alert('You have reached the limit of uploading files at a time.');
         }
     }
 
+    filesToBeSentPreviewHTML = () => {
+        console.log("filesPreviewHTML");
+        var filesToBeSent = this.state.filesToBeSent;
+        var filesPreview = [];
+        for (var i in filesToBeSent) {
+            filesPreview.push(
+                <div className="filePreview">
+                    {filesToBeSent[i][0].name}
+                    <button onClick={() => this.clear(i)}>clear</button>
+                </div>
+            );
+        }
+        return filesPreview;
+    }
+
+    filesSentPreviewHTML = () => {
+        var filesSent = this.state.filesSent;
+        var filesPreview = [];
+        for (var i in filesSent) {
+            filesPreview.push(
+                <div className="filePreview">
+                    {filesSent[i][0].name}
+                </div>
+            );
+        }
+        return filesPreview;
+    }
+
+    // @param i : index of file
+    // @desc : remove image at index i from filesToBeSent in component state
+    clear = (index) => {
+        var filesToBeSent = _.remove(this.state.filesToBeSent, (d, i) => {
+            return i != index;
+        });
+        this.setState({ filesToBeSent });
+    }
+
     upload = () => {
-        console.log("upload clicked");
-        const { getAccessToken } = auth0client;
-        let API_URL = `${MEDLOCK_API}/patient/documents`;
-        const headers = {
-            'Authorization': `Bearer ${getAccessToken()}`
-        };
-        axios.post(API_URL, { data: this.state.filesToBeSent }, { headers });
+        // const { getAccessToken } = auth0client;
+        // let API_URL = `${MEDLOCK_API}/patient/documents`;
+        // const headers = {
+        //     'Authorization': `Bearer ${getAccessToken()}`
+        // };
+        // axios.post(API_URL, { data: this.state.filesToBeSent }, { headers });
+        var { filesToBeSent, filesSent } = this.state;
+        // on successful upload, add files in filesToBeSent to filesSent
+        for (var i in filesToBeSent) {
+            filesSent.push(filesToBeSent[i]);
+        }
+        this.setState({
+            ...this.state,
+            filesToBeSent: [],
+            filesSent,
+        });
     }
 
     render() {
@@ -68,7 +102,10 @@ export default class UploadScreen extends Component {
                     )}
                 </Dropzone>
                 <div>
-                    Files to be printed are: {this.state.filesPreview}
+                    Files to be uploaded are: {this.filesToBeSentPreviewHTML()}
+                </div>
+                <div>
+                    Files uploaded successfully: {this.filesSentPreviewHTML()}
                 </div>
                 <button onClick={this.upload}>Upload</button>
             </div>
