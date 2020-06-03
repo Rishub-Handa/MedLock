@@ -5,6 +5,7 @@ import auth0client from '../../auth/Auth';
 import { MEDLOCK_API, MEDLOCK_AUTH0 } from '../../config/servers';
 import axios from 'axios';
 var _ = require('lodash');
+var request = require('superagent');
 // not sure if I will need the 3 imports below because they seem to only relate to style
 // keeping them for now while I follow the article
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'; 
@@ -19,6 +20,8 @@ export default class UploadScreen extends Component {
             filesToBeSent: [],
             filesSent: [],
             uploadCount: 10,
+            readingFiles: false,
+            fileData: [],
         }
     }
 
@@ -71,11 +74,70 @@ export default class UploadScreen extends Component {
         this.setState({ filesToBeSent });
     }
 
-    upload = () => {
-        var { filesToBeSent, filesSent } = this.state;
-        var promise = this.props.uploadDocuments(filesToBeSent);
+    readFiles = () => {
+        console.log("reading files");
+        // fileData = array of file contents, ith position holds binary data of ith file in filesToBeSent
+        var { filesToBeSent, fileData } = this.state;
+        var reader = new FileReader();
 
-        // on successful upload, add files in filesToBeSent to filesSent
+        var i = 0; // starting index
+        var numFiles = filesToBeSent.length; // number of files
+        console.log(numFiles);
+
+        const readFile = (index) => {
+            console.log(`reading file(index=${index})`);
+            var curFile = filesToBeSent[index][0];
+            reader.readAsArrayBuffer(curFile);
+        };
+
+        reader.onload = () => {
+            console.log(`finished reading file(index=${i})`);
+            fileData.push({ name: filesToBeSent[i][0].name, data: reader.result }); // may need to cast to Blob 
+            console.log(fileData);
+            i = i + 1;
+            if (i < numFiles) {
+                readFile(i);
+            } else {
+                this.setState({
+                    ...this.state,
+                    readingFiles: false,
+                    fileData,
+                }, () => {
+                    this.props.uploadDocuments(this.state.fileData);
+                });
+            }
+        }
+
+        reader.onerror = () => {
+            console.log(`error reading file(index=${i})`);
+        }
+
+        readFile(0); // start loop by reading first file
+    }
+
+    upload = () => {
+        // redux code
+        // this.setState({
+        //     ...this.state,
+        //     readingFiles: true,
+        // }, () => {
+        //     this.readFiles();
+        // });
+
+        // // on successful upload, add files in filesToBeSent to filesSent
+        var { filesToBeSent, filesSent } = this.state;
+        
+        var filesArray = this.state.filesToBeSent;
+        var req = request.post(`${MEDLOCK_API}/patient/documents/upload`);
+        for (var i in filesArray) {
+            req.attach(filesArray[i][0].name, filesArray[i][0]);
+        }
+        req.end((err, res) => {
+            if (err) {
+                console.log("error occured");
+            }
+        });
+
         for (var i in filesToBeSent) {
             filesSent.push(filesToBeSent[i]);
         }
@@ -87,6 +149,8 @@ export default class UploadScreen extends Component {
     }
 
     render() {
+        console.log(this.state);
+        console.log(this.props);
         return (
             <div className="UploadScreen">
                 <Dropzone onDrop={(files) => this.onDrop(files)}>

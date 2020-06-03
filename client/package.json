@@ -31,6 +31,7 @@
     "redux-promise-middleware": "^6.1.2",
     "redux-thunk": "^2.3.0",
     "request": "^2.88.2",
+    "superagent": "^5.2.2",
     "uuid": "^3.4.0",
     "victory": "^32.3.7"
   },
