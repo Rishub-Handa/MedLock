@@ -72,7 +72,7 @@ class Profile extends Component {
 
         return (
             <div className="profile-container" align="center">
-                <h1 class="header">Profile</h1>
+                <h1 className="header">Profile</h1>
                 <div className="main" align="center">
                     <img className="profilePic" src={profilePic} />
                     <Button variant="light" onClick={this.onProfileEdit} className="editProfile">Edit Profile<img src={editPic} width="30" height="30" /></Button>

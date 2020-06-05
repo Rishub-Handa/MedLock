@@ -1,8 +1,8 @@
-import React, { Component } from 'react'; 
-import { connect } from 'react-redux'; 
-import { fetchAMT } from '../../auth/AuthManagement'; 
-import { auth0Registration, assignRoles } from '../../actions/authActions'; 
-import { createProviderProfile, fetchAllProviders, deleteProvider } from '../../actions/providerActions'; 
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchAMT } from '../../auth/AuthManagement';
+import { auth0Registration, assignRoles } from '../../actions/authActions';
+import { createProviderProfile, fetchAllProviders, deleteProvider } from '../../actions/providerActions';
 import { fetchAllPatients, deletePatient } from '../../actions/patientActions';
 import { MEDLOCK_API } from '../../config/servers';
 import PatientSection from './sections/patients/PatientSection';
@@ -15,8 +15,8 @@ import '../../css/Admin.css';
 import autho0client from '../../auth/Auth';
 
 class Admin extends Component {
-    
-    clinics = [{"name": "clinic1"}, {"name": "clinic2"}]
+
+    clinics = [{ "name": "clinic1" }, { "name": "clinic2" }]
     constructor(props) {
         super(props);
         this.state = {};
@@ -31,56 +31,56 @@ class Admin extends Component {
     onChange = (e) => {
         this.setState({
             ...this.state,
-            [e.target.name]: e.target.value 
+            [e.target.name]: e.target.value
         });
         console.log(this.state);
     }
 
     createNewProvider = (name, email) => {
-        fetchAMT() 
+        fetchAMT()
             .then(res => {
-                console.log(res); 
-                const AMT = res.data.access_token; 
-                
-                const password = Math.random().toString(36).slice(-12); 
+                console.log(res);
+                const AMT = res.data.access_token;
+
+                const password = Math.random().toString(36).slice(-12);
 
                 const newProvider = {
-                    "name": name, 
+                    "name": name,
                     "email": email,
                     "password": password,
                     "connection": "Username-Password-Authentication"
                 };
 
                 // Create New Provider in Auth0 
-                this.props.auth0Registration(newProvider, AMT) 
+                this.props.auth0Registration(newProvider, AMT)
                     .then(() => {
                         // Send Temporary Password 
-                        this.newProviderEmail(newProvider); 
+                        this.newProviderEmail(newProvider);
 
                         // Create New Provider in MongoDB 
-                        const user_id = this.props.userProfile.user_id; 
+                        const user_id = this.props.userProfile.user_id;
                         this.props.createProviderProfile({
-                            _id: user_id.substring(6), 
+                            _id: user_id.substring(6),
                             personalData: {
-                                name, 
+                                name,
                                 email,
                             }
-                        // Eventually create administrator roles and query user roles. 
-                        }, "Admin"); 
+                            // Eventually create administrator roles and query user roles. 
+                        }, "Admin");
 
                         // Assign Provider Role to New User 
-                        this.props.assignRoles(user_id, AMT, "Provider"); 
+                        this.props.assignRoles(user_id, AMT, "Provider");
 
 
-                    }) 
-                    .catch(error => console.log(error)); 
-            }) 
-            .catch(error => console.log(error)); 
+                    })
+                    .catch(error => console.log(error));
+            })
+            .catch(error => console.log(error));
     }
 
     newProviderEmail = (newProvider) => {
         var url = `${MEDLOCK_API}/email`;
-        axios.post(url, newProvider); 
+        axios.post(url, newProvider);
     }
 
     deleteAllProviders = () => {
@@ -115,17 +115,17 @@ class Admin extends Component {
     }
 
     render() {
-        const { patients, 
-                patientsFetching, 
-                patientsFetched, 
-                fetchPatientsError,
-                providers,
-                providersFetching,
-                providersFetched,
-                fetchProvidersError,
-                clinicsFetching,
-                fetchClinicsError,
-            } = this.props;
+        const { patients,
+            patientsFetching,
+            patientsFetched,
+            fetchPatientsError,
+            providers,
+            providersFetching,
+            providersFetched,
+            fetchProvidersError,
+            clinicsFetching,
+            fetchClinicsError,
+        } = this.props;
 
         if (fetchProvidersError || fetchPatientsError || fetchClinicsError) {
             return (
@@ -138,38 +138,41 @@ class Admin extends Component {
 
         if (providersFetching || patientsFetching || clinicsFetching) {
             return (
-                <div> Loading . . .</div>
-            );
-        } 
-
-            return (
                 <div>
-                    <div className="Admin-header">
-                        <h1 className="header">MedLock Admin</h1>
-                    </div>
-                    <div className="Admin-content">
-                            <PatientSection 
-                                patients={patients}
-                                deletePatient={this.deletePatient}
-                                deleteAllPatients={this.deleteAllPatients}
-                            />
-                            <ProviderSection 
-                                providers={providers}
-                                createNewProvider={this.createNewProvider}
-                                deleteProvider={this.deleteProvider}
-                                deleteAllProviders={this.deleteAllProviders} 
-                            />
-                            <ClinicSection 
-                                clinics={this.props.clinics}
-                                registerClinic={this.registerClinic}
-                            />
-                    </div>
-                    <button onClick={autho0client.logout}>Logout</button>
+                    <div class="loader"></div>
+                    <p class="loading-text">Loading...</p>
                 </div>
             );
-        
+        }
+
+        return (
+            <div>
+                <div className="Admin-header">
+                    <h1 className="header">MedLock Admin</h1>
+                </div>
+                <div className="Admin-content">
+                    <PatientSection
+                        patients={patients}
+                        deletePatient={this.deletePatient}
+                        deleteAllPatients={this.deleteAllPatients}
+                    />
+                    <ProviderSection
+                        providers={providers}
+                        createNewProvider={this.createNewProvider}
+                        deleteProvider={this.deleteProvider}
+                        deleteAllProviders={this.deleteAllProviders}
+                    />
+                    <ClinicSection
+                        clinics={this.props.clinics}
+                        registerClinic={this.registerClinic}
+                    />
+                </div>
+                <button onClick={autho0client.logout}>Logout</button>
+            </div>
+        );
+
     }
-} 
+}
 
 Admin.propTypes = {
     userProfile: PropTypes.object.isRequired,
@@ -209,10 +212,10 @@ const mapStateToProps = state => ({
     providers: state.providerState.providers,
     providersFetching: state.providerState.providersFetching,
     providersFetched: state.providerState.providersFetched,
-    fetchProvidersError: state.providerState.providerError, 
+    fetchProvidersError: state.providerState.providerError,
 
     deletedProviders: state.providerState.deletedProviders,
-    deletedPatients: state.patientState.deletedPatients, 
+    deletedPatients: state.patientState.deletedPatients,
 
     clinicsFetching: state.clinicState.clinicsFetching,
     clinicsFetched: state.clinicState.clinicsFetched,
@@ -223,11 +226,11 @@ const mapStateToProps = state => ({
     registerClinicError: state.clinicState.registerError,
 });
 
-export default connect(mapStateToProps, { 
-    auth0Registration, 
-    createProviderProfile, 
-    assignRoles, 
-    fetchAllPatients, 
+export default connect(mapStateToProps, {
+    auth0Registration,
+    createProviderProfile,
+    assignRoles,
+    fetchAllPatients,
     fetchAllProviders,
     deleteProvider,
     deletePatient,

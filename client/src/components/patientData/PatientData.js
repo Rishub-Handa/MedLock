@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPDISurveys } from '../../actions/surveyActions'; 
-import { fetchDispenser } from '../../actions/dispenserActions';  
-import DispenserCode from './DispenserCode'; 
-import AddDispenser from './AddDispenser'; 
-import '../../css/PatientData.css'; 
+import { fetchPDISurveys } from '../../actions/surveyActions';
+import { fetchDispenser } from '../../actions/dispenserActions';
+import DispenserCode from './DispenserCode';
+import AddDispenser from './AddDispenser';
+import '../../css/PatientData.css';
 import DataView from './DataView';
 import SummaryStats from './SummaryStats';
 
@@ -17,77 +17,80 @@ import SummaryStats from './SummaryStats';
 class PatientData extends Component {
 
     state = {
-        retrievedData: false, 
+        retrievedData: false,
         toggleCodeDisplay: false,
-    } 
-    
+    }
+
     // Fetch Surveys and Dispenses data from database 
     componentWillMount() {
-        this.props.fetchPDISurveys(); 
+        this.props.fetchPDISurveys();
         if (this.props.patient.medicalData != null) {
             if (this.props.patient.medicalData.dispenser_id != null) {
-                this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id); 
+                this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id);
             }
         }
-    } 
+    }
 
     addDispenserHTML = () => {
         return (
             <div>
                 <p>You need to add a dispenser.</p>
                 <div className="AddDispenser-container">
-                    <AddDispenser displayCodeCallback={this.displayDispenserCode} /> 
+                    <AddDispenser displayCodeCallback={this.displayDispenserCode} />
                 </div>
             </div>
         );
     }
 
     displayDispenserCode = () => {
-        console.log("Display Dispenser Code. "); 
+        console.log("Display Dispenser Code. ");
         // ReactGA.event({
         //     category: 'Pop Up Modal', 
         //     action: 'Generated dispenser code from Dashboard', 
         //     label: 'Add Dispenser from Dashboard' 
         // })
         this.setState({
-            toggleCodeDisplay: true 
-        }); 
+            toggleCodeDisplay: true
+        });
     }
 
     hideDispenserCode = () => {
         this.setState({
-            toggleCodeDisplay: false 
-        }); 
+            toggleCodeDisplay: false
+        });
     }
 
-    render() {   
-        console.log(this.props);     
-        const { allPDISurveys, 
-                surveysLoading, 
-                surveysLoaded,
-                surveyError, 
-                dispenser, 
-                dispenserLoading, 
-                dispenserLoaded,
-                dispenserError, } = this.props; 
+    render() {
+        console.log(this.props);
+        const { allPDISurveys,
+            surveysLoading,
+            surveysLoaded,
+            surveyError,
+            dispenser,
+            dispenserLoading,
+            dispenserLoaded,
+            dispenserError, } = this.props;
 
-        if(dispenserError && !this.state.toggleCodeDisplay) {
+        if (dispenserError && !this.state.toggleCodeDisplay) {
             return this.addDispenserHTML();
         }
 
-        if(this.state.toggleCodeDisplay) {
+        if (this.state.toggleCodeDisplay) {
             return (
                 <div className="DispenserCode-container">
                     <DispenserCode hideDispenserCode={this.hideDispenserCode}
-                                    userProfile={this.props.patient}/> 
-                </div> 
+                        userProfile={this.props.patient} />
+                </div>
             );
         }
 
 
-        if(surveysLoading || dispenserLoading || !surveysLoaded || !dispenserLoaded) {
+        if (surveysLoading || dispenserLoading || !surveysLoaded || !dispenserLoaded) {
             return (
-                <div>Loading . . . </div>
+                <div>
+                    <div class="loader"></div>
+                    <p class="loading-text">Loading...</p>
+                </div>
             );
         }
 
@@ -119,22 +122,22 @@ class PatientData extends Component {
                 <h1 className="header">
                     My Data
                 </h1>
-                <SummaryStats data={data}/>
+                <SummaryStats data={data} />
                 <DataView data={data} dispenser={this.props.dispenser} />
             </div>
         );
-        
+
     }
 }
 
 PatientData.propTypes = {
     fetchPDISurveys: PropTypes.func.isRequired,
-    allPDISurveys: PropTypes.array.isRequired, 
+    allPDISurveys: PropTypes.array.isRequired,
     surveysLoading: PropTypes.bool.isRequired,
     surveysLoaded: PropTypes.bool.isRequired,
     surveyError: PropTypes.object,
 
-    fetchDispenser: PropTypes.func.isRequired, 
+    fetchDispenser: PropTypes.func.isRequired,
     dispenser: PropTypes.array.isRequired,
     dispenserLoading: PropTypes.bool.isRequired,
     dispenserLoaded: PropTypes.bool.isRequired,
@@ -142,14 +145,14 @@ PatientData.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    allPDISurveys: state.surveyState.PDIResponses, 
+    allPDISurveys: state.surveyState.PDIResponses,
     surveysLoading: state.surveyState.PDISurveysLoading,
     surveysLoaded: state.surveyState.PDISurveysLoaded,
-    surveyError: state.surveyState.PDIError,  
-    dispenser: state.dispenseState.dispenser, 
+    surveyError: state.surveyState.PDIError,
+    dispenser: state.dispenseState.dispenser,
     dispenserLoading: state.dispenseState.dispenserLoading,
     dispenserLoaded: state.dispenseState.dispenserLoaded,
-    dispenserError: state.dispenseState.error, 
+    dispenserError: state.dispenseState.error,
 
 });
 
