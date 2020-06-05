@@ -100,8 +100,8 @@ export default class UserList extends Component {
                     <h1 className="header" style={{textAlign: "left", marginBottom: "20px", alignSelf: "center"}}>{this.props.title}</h1>
                     <div className="UserList-ControlPanel">
                         <div className="left">
-                            <button className="create-new-btn" onClick={() => this.setState({ createNewUserForm: true })}>+ Create New</button>
-                            <button className="delete-btn" onClick={() => this.props.deleteAllUsers()}>Delete All</button>
+                            {/* <button className="create-new-btn" onClick={() => this.setState({ createNewUserForm: true })}>+ Create New</button> */}
+                            {/* <button className="delete-btn" onClick={() => this.props.deleteAllUsers()}>Delete All</button> */}
                         </div>
                         <div className="right">
                             <SearchField
