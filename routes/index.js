@@ -50,7 +50,7 @@ router.use('/api/survey/pdisurvey', checkJwt, pdisurvey);
 router.use('/api/survey/intake', checkJwt, intake); 
 router.use('/api/survey/exitsurvey', checkJwt, exitsurvey); 
 router.use('/api/patient/patient', checkJwt, patient); 
-router.use('/api/patient/documents', checkJwt, patientDocuments); // add checkJwt
+router.use('/api/patient/document', checkJwt, patientDocuments); // add checkJwt
 router.use('/api/dispense', dispense); 
 
 // Define Provider Scope 

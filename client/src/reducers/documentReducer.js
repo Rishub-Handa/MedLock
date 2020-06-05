@@ -30,6 +30,7 @@ export default function(state = initialState, action) {
                 documentsUploading: true,
             };
         case UPLOAD_DOCUMENTS_SUCCESS: 
+            console.log(action.payload.documents);
             return {
                 ...state, 
                 documentsUploading: false,

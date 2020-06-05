@@ -116,65 +116,17 @@ export default class UploadScreen extends Component {
     }
 
     upload = () => {
-        this.setState({
-            ...this.state,
-            uploadingFiles: true,
-        }, () => {
-            // on successful upload, add files in filesToBeSent to filesSent
-            var { filesToBeSent, filesSent } = this.state;
-            
-            // works but not with Redux
-            var filesArray = this.state.filesToBeSent;
-            this.props.uploadDocuments(filesArray);
-            // const { getAccessToken } = auth0client;
+        // works but not with Redux
+        var filesArray = this.state.filesToBeSent;
 
-            // var req = request
-            //     .post(`${MEDLOCK_API}/patient/documents/upload`)
-            //     .set('Authorization', `Bearer ${getAccessToken()}`);
-
-            // for (var i in filesArray) {
-            //     req.attach(filesArray[i][0].name, filesArray[i][0]);
-            // }
-            // req.end((err, res) => {
-            //     // called when response is received
-            //     this.setState({
-            //         ...this.state,
-            //         uploadingFiles: false,
-            //     })
-            //     if (err) {
-            //         console.log("error occured");
-            //     } else {
-            //         for (var i in filesToBeSent) {
-            //             filesSent.push(filesToBeSent[i]);
-            //         }
-
-            //         this.setState({
-            //             ...this.state,
-            //             uploadingFiles: false,
-            //             filesToBeSent: [],
-            //             filesSent,
-            //         });
-            //     }
-            // });
-        });
-
-
-        // tyring with redux, doesn't seem to work
-        // var filesToBeSent = this.state.filesToBeSent;
-        // var data = [];
-        // for (var i in filesToBeSent) {
-        //     data.push(filesToBeSent[i][0]);
-        // }
-        // this.props.uploadDocuments(data);
-
-        // for (var i in filesToBeSent) {
-        //     filesSent.push(filesToBeSent[i]);
-        // }
-        // this.setState({
-        //     ...this.state,
-        //     filesToBeSent: [],
-        //     filesSent,
-        // });
+        // creates POST request to upload documents to server
+        this.props.uploadDocuments(filesArray)
+            .then(() => { // after successfully uploading documents, reset filesToBeSent
+                this.setState({ 
+                    ...this.state,
+                    filesToBeSent: [],
+                })
+            });
     }
 
     render() {
@@ -182,6 +134,7 @@ export default class UploadScreen extends Component {
         console.log(this.props);
         return (
             <div className="UploadScreen">
+                {/* HTML for drag 'n' drop area. */}
                 <Dropzone onDrop={(files) => this.onDrop(files)}>
                     {({getRootProps, getInputProps}) => (
                         <div {...getRootProps()} className="dropZone">
@@ -196,7 +149,11 @@ export default class UploadScreen extends Component {
                 <div>
                     Files uploaded successfully: {this.filesSentPreviewHTML()}
                 </div>
-                <button onClick={this.upload}>Upload</button>
+                {/* Upload button is disabled if no files have been selected. */}
+                { this.state.filesToBeSent.length > 0 ? 
+                    <button onClick={this.upload}>Upload</button> :
+                    <button disabled>Upload</button> 
+                }
             </div>
         );
     }
