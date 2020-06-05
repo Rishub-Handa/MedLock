@@ -36,9 +36,11 @@ class Documents extends Component {
         return this.props.documents.map(document => (
             <div className="document-view">
                 <p>{document.name}</p>
-                {this.props.documentDeleting ? <button disabled>Delete</button> : 
-                <button onClick={() => this.props.deleteDocument(document._id)}>Delete</button> }
-                <button>Download</button>
+                <div class="two-btn">
+                    {this.props.documentDeleting ? <button class="create-new-btn" disabled>Delete</button> :
+                        <button class="delete-btn" onClick={() => this.props.deleteDocument(document._id)}>Delete</button>}
+                    <button class="create-new-btn">Download</button>
+                </div>
             </div>
         ));
     }
@@ -52,7 +54,7 @@ const mapStateToProps = state => ({
     documentsFetching: state.documentState.documentsFetching,
     documentsFetchError: state.documentState.documentsFetchError,
 
-    documentDeleting: state.documentState.documentDeleting, 
+    documentDeleting: state.documentState.documentDeleting,
     documentDeleteError: state.documentState.documentDeleteError
 });
 

@@ -186,17 +186,17 @@ export default class UploadScreen extends Component {
                     {({getRootProps, getInputProps}) => (
                         <div {...getRootProps()} className="dropZone">
                             <input {...getInputProps()} />
-                            <p>drag 'n' drop some files here, or click to select files</p>
+                            <p>Drag and drop files here, <br />OR <br />Click to select files</p>
                         </div>
                     )}
                 </Dropzone>
-                <div>
+                <div class="bodyText-single">
                     Files to be uploaded are: {this.filesToBeSentPreviewHTML()}
                 </div>
-                <div>
+                <div class="bodyText-single">
                     Files uploaded successfully: {this.filesSentPreviewHTML()}
                 </div>
-                <button onClick={this.upload}>Upload</button>
+                <button class="create-new-btn" onClick={this.upload}>Upload</button>
             </div>
         );
     }
