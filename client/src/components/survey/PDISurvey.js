@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { submitPDISurvey } from '../../actions/surveyActions';
 import PropTypes from 'prop-types';
+import '../../css/Surveys.css';
 
 class PDISurvey extends Component {
 
@@ -46,7 +47,10 @@ class PDISurvey extends Component {
 
         if (loading) {
             return (
-                <div>Loading . . .</div>
+                <div>
+                    <div class="loader"></div>
+                    <p class="loading-text">Loading...</p>
+                </div>
             )
         }
 
@@ -59,7 +63,7 @@ class PDISurvey extends Component {
 
         return (
             <div class="survey-container">
-                <h1 class="header">Pain Disability Survey </h1>
+                <h1 class="header-underlined">Pain Disability Survey </h1>
                 <div class="description">
                     <p> The following survey will ask how much pain is preventing you from doing what you normally do.
                         <br/>A score of <b>0</b> means <b>no disruption.</b>
@@ -71,7 +75,7 @@ class PDISurvey extends Component {
                     {
                         questions.map(question => {
                             return (
-                                <div>
+                                <div class="question-module">
                                     <h3 class="header">How does pain affect your {question.subject}?</h3>
                                     <p class="question-description">{question.description}</p>
                                     <input style={{marginBottom: "10px"}} type="number"

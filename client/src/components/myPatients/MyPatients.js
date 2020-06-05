@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import PatientList from './PatientList';
 import AddPatientForm from './AddPatientForm';
-import { fetchAMT, getUserByEmail } from '../../auth/AuthManagement'; 
+import { fetchAMT, getUserByEmail } from '../../auth/AuthManagement';
 import { auth0Registration, assignRoles } from '../../actions/authActions';
-import { createPatientProfile, addPatientToProviderList, removePatient, fetchPatients, deletePatient } from '../../actions/patientActions'; 
+import { createPatientProfile, addPatientToProviderList, removePatient, fetchPatients, deletePatient } from '../../actions/patientActions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import auth0client from '../../auth/Auth'; 
+import auth0client from '../../auth/Auth';
 import PatientView from '../patientView/PatientView';
 import SearchField from 'react-search-field';
 import UserList from '../users/UserList';
 import { MEDLOCK_API } from '../../config/servers';
-import DispenserCode from '../patientData/DispenserCode'; 
+import DispenserCode from '../patientData/DispenserCode';
 import '../../css/MyPatients.css';
 
 
-const axios = require('axios'); 
+const axios = require('axios');
 
 class MyPatients extends Component {
 
@@ -25,9 +25,9 @@ class MyPatients extends Component {
         this.state = {
             newPatientForm: false,
             onePatientView: false,
-            viewedPatient: null, 
-            toggleDispenserCodeDisplay: false, 
-            dispenserCodeUser: null 
+            viewedPatient: null,
+            toggleDispenserCodeDisplay: false,
+            dispenserCodeUser: null
         }
     }
 
@@ -46,20 +46,20 @@ class MyPatients extends Component {
     }
 
     addPatient = () => {
-        this.setState({newPatientForm: true});
-    } 
+        this.setState({ newPatientForm: true });
+    }
 
     addDispenser = (user) => {
-        console.log(user); 
-        this.setState({ 
-            toggleDispenserCodeDisplay: true, 
-            dispenserCodeUser: user 
-        }); 
-        console.log(this.state.toggleDispenserCodeDisplay); 
+        console.log(user);
+        this.setState({
+            toggleDispenserCodeDisplay: true,
+            dispenserCodeUser: user
+        });
+        console.log(this.state.toggleDispenserCodeDisplay);
     }
 
     hideDispenserCode = () => {
-        this.setState({ toggleDispenserCodeDisplay: false }); 
+        this.setState({ toggleDispenserCodeDisplay: false });
     }
 
     displayNewPatientForm = () => {
@@ -146,7 +146,7 @@ class MyPatients extends Component {
     }
 
     createPatient = (newPatient, AMT, patient_id) => {
-        console.log("Patient registered. Now creating profile . . . "); 
+        console.log("Patient registered. Now creating profile . . . ");
         const newPatientProfile = {
             _id: patient_id.substring(6),
             personalData: {
@@ -169,7 +169,7 @@ class MyPatients extends Component {
         this.props.patients.push(newPatientProfile);
 
         var url = `${MEDLOCK_API}/email`;
-        axios.post(url, newPatient); 
+        axios.post(url, newPatient);
     }
 
     componentDidMount() {
@@ -179,8 +179,8 @@ class MyPatients extends Component {
     render() {
         console.log(this.props.history);
         const { patientRegistering, registerError, patientsFetching, patientsFetched } = this.props;
-    
-        if(registerError) {
+
+        if (registerError) {
             return (
                 <div>
                     <p>Register Error: {registerError ? registerError.message : null}</p>
@@ -199,7 +199,8 @@ class MyPatients extends Component {
         if (patientsFetching || !patientsFetched) {
             return (
                 <div>
-                    Loading patients . . .
+                    <div class="loader"></div>
+                    <p class="loading-text">Loading...</p>
                 </div>
             )
         }
@@ -207,29 +208,29 @@ class MyPatients extends Component {
         if (this.state.onePatientView) {
             if (this.state.viewedPatient === null)
                 throw "onePatientView is true, but viewedPatient is null!";
-            
+
             if (this.props.history.location.pathname == "/dashboard/mypatients/viewpatient") {
                 return (
                     <PatientView patient={this.state.viewedPatient} />
-               );
+                );
             }
         }
 
         return (
             <div className="MyPatients">
                 {
-                    this.state.toggleDispenserCodeDisplay && 
-                        <div className="DispenserCode-container">
-                            <DispenserCode hideDispenserCode={this.hideDispenserCode}
-                                            userProfile={this.state.dispenserCodeUser}/> 
-                        </div> 
+                    this.state.toggleDispenserCodeDisplay &&
+                    <div className="DispenserCode-container">
+                        <DispenserCode hideDispenserCode={this.hideDispenserCode}
+                            userProfile={this.state.dispenserCodeUser} />
+                    </div>
                 }
-                <UserList 
+                <UserList
                     title="My Patients"
                     users={this.props.patients}
                     viewUser={this.viewPatient}
                     deleteUser={this.onRemovePatient}
-                    addDispenser={this.addDispenser} 
+                    addDispenser={this.addDispenser}
                 />
                 {this.displayNewPatientForm()}
             </div>
@@ -264,7 +265,7 @@ const mapStateToProps = state => ({
     patients: state.patientState.patients,
     patient: state.patientState.patient,
 
-    patientRegistering: state.patientState.patientLoading, 
+    patientRegistering: state.patientState.patientLoading,
     patientsFetching: state.patientState.patientsFetching,
     patientsFetched: state.patientState.patientsFetched,
     fetchPatientsError: state.patientState.fetchPatientsError,
@@ -273,8 +274,8 @@ const mapStateToProps = state => ({
     roleAssigning: state.providerState.roleAssigning,
     roleAssignError: state.providerState.roleAssignError,
 
-    userProfile: state.authState.userProfile, 
-    userProfileLoading: state.authState.userProfileLoading, 
+    userProfile: state.authState.userProfile,
+    userProfileLoading: state.authState.userProfileLoading,
     userProfileError: state.authState.userProfileError,
 
     patientRemoving: state.patientState.patientRemoving,
@@ -284,11 +285,11 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-    mapStateToProps, { 
-        auth0Registration, 
-        assignRoles, 
-        createPatientProfile, 
-        addPatientToProviderList,
-        fetchPatients,
-        removePatient,
-    })(MyPatients);
+    mapStateToProps, {
+    auth0Registration,
+    assignRoles,
+    createPatientProfile,
+    addPatientToProviderList,
+    fetchPatients,
+    removePatient,
+})(MyPatients);

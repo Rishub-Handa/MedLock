@@ -9,32 +9,42 @@ class Resources extends Component {
             <div className="Resources-container">
                 <h1 style={{ marginBottom: "20px" }} class="header">Resources</h1>
 
-                <Collapsible style={{ backgroundImage: "linear-gradient(to bottom, #51bfcb, #2095d8)" }} className="module-container"
+                <Collapsible className="module-container"
                     title={
-                        <h4><strong>How do drugs work on the brain?</strong></h4>
+                        <h6><strong>How do drugs work on the brain?</strong></h6>
                     } paragraph={
                         <div>
-                            <p> Drugs are chemicals. They work in the brain by tapping into the brain’s communication system and interfering with the way nerve cells of the brain normally send, receive, and process information.</p>
-                            <p> Some drugs, such as marijuana and heroin, can increase the action of neurons because their chemical structure copies that of a natural neurotransmitter (chemical which allows messages to be sent in the brain). This similarity in structure “fools” receptors and allows the drugs to lock onto and activate the nerve cells. </p>
-                            <p> Although these drugs mimic brain chemicals, they don’t activate nerve cells in the exact same way as a neurotransmitter which we can produce normally in the body, and they lead to abnormal messages being transmitted through the network. </p>
-                            <p> Other drugs, such as amphetamine or cocaine, can cause the nerve cells to release abnormally large amounts of natural neurotransmitters or prevent the normal recycling of these brain chemicals. This disruption produces a greatly amplified message, ultimately disrupting communication channels. The difference in effect can be described as the difference between someone whispering into your ear and someone shouting into a microphone. </p>
+                            <Collapsible className="module-container" title={<h6>Section 1</h6>
+                            } paragraph={
+                                <div>
+                                    <p> Drugs are chemicals. They work in the brain by tapping into the brain’s communication system and interfering with the way nerve cells of the brain normally send, receive, and process information.</p> <br />
+                                    <p> Some drugs, such as marijuana and heroin, can increase the action of neurons because their chemical structure copies that of a natural neurotransmitter (chemical which allows messages to be sent in the brain). This similarity in structure “fools” receptors and allows the drugs to lock onto and activate the nerve cells. </p>
+                                </div>}>
+                            </Collapsible>
+                            <Collapsible className="module-container" title={<h6>Section 2</h6>}
+                                paragraph={
+                                    <div>
+                                        <p> Although these drugs mimic brain chemicals, they don’t activate nerve cells in the exact same way as a neurotransmitter which we can produce normally in the body, and they lead to abnormal messages being transmitted through the network. </p> <br />
+                                        <p> Other drugs, such as amphetamine or cocaine, can cause the nerve cells to release abnormally large amounts of natural neurotransmitters or prevent the normal recycling of these brain chemicals. This disruption produces a greatly amplified message, ultimately disrupting communication channels. The difference in effect can be described as the difference between someone whispering into your ear and someone shouting into a microphone. </p>
+                                    </div>}>
+                            </Collapsible>
                         </div>
                     }></Collapsible>
-                <Collapsible style={{ backgroundImage: "linear-gradient(to bottom, #5f82cc, #2057d8)" }} className="module-container"
+                <Collapsible className="module-container"
                     title={
-                        <h4><strong>Understanding Drugs</strong></h4>
+                        <h6><strong>Understanding Drugs</strong></h6>
                     } paragraph={
                         <div>
                             <p><strong> Types of drugs: </strong></p>
                             <p> • Stimulants (Caffeine, Amphetamines, Meth, Cocaine, and Nicotine, as well as Ecstasy/ MDMA to some extent) </p>
                             <p> Causes an increase in breathing, blood pressure, heart rate, alertness, and mental activity
-                                Works on the receptors for neurotransmitters: Dopamine (happiness), Serotonin (satisfaction), and Norepinephrine (excitement and fight-or-flight)
+                            Works on the receptors for neurotransmitters: Dopamine (happiness), Serotonin (satisfaction), and Norepinephrine (excitement and fight-or-flight)
                         Most of all, increase dopamine </p>
                             <p> • Depressants (barbiturates, benzodiazepines, and alcohol, as well as marijuana to some degree) </p>
                             <p> Causes a decrease in blood pressure, heart rate, respiration, processing speed, reaction time. Slows down your movement and thinking. </p>
                             <p> • Opioids (Morphine, Heroin, Vicodin® and OxyContin®) </p>
                             <p> Causes a decrease in brain activity, heart rate, blood pressure
-                                Analgesic (reduces pain)
+                            Analgesic (reduces pain)
                         Acts on endorphin receptors which reduce pain and increase dopamine </p>
                             <p> • Hallucinogens (LSD, Psilocybin/shrooms, and PCP) </p>
                             <p> Distorts perception, increases sensation, involves hallucinations
@@ -70,23 +80,23 @@ class Resources extends Component {
                             <p> Taking your prescription in ways other than instructed, mixing it with other drugs/alcohol, or taking it more often than is needed/prescribed for the purpose of getting a high. This can also entail taking your prescription less than instructed and saving them, selling them or giving them to others. Getting and using prescription pills from a friend or family member, even if it’s for a real medical condition. </p>
                         </div>
                     }></Collapsible>
-                <Collapsible style={{ backgroundImage: "linear-gradient(to bottom, #b351cb, #9d3cb1)" }} className="module-container"
+                <Collapsible className="module-container"
                     title={
-                        <h4><strong>Understanding MAT</strong></h4>
+                        <h6><strong>Understanding MAT</strong></h6>
                     } paragraph={
                         <div>
-                            <p style={{backgroundColor: "#a351cb"}}><strong> What is MAT? </strong></p>
+                            <p style={{ backgroundColor: "#a351cb" }}><strong> What is MAT? </strong></p>
                             <p> Medication-assisted treatment, or MAT, is an evidence-based treatment for substance use disorders, including OUD. </p>
                             <p> Methadone, buprenorphine, and naltrexone are the three medications used for OUD. This treatment involves partial or full blockade of problematic opioid effects in the brain. Therefore, as the patient is slowly tapered off of their opioids, they also receive an MAT drug which reduces their withdrawal symptoms. Medication selection is based on the “whole-patient” approach. According to the American Society of Addiction Medicine, no matter which medication is selected, the goal is the same: getting the patient to feel normal, have little to no side effects or withdrawal symptoms, and have controlled cravings. </p>
                             <p> But MAT is not just medications and it is NOT replacing one drug with another. Acknowledging that MAT is often misunderstood as a medication-alone treatment for OUD, MAT prescribers point out that the Substance Abuse and Mental Health Services Administration (SAMHSA) specifically notes MAT is to be used “in combination with counseling and behavioral therapies, to provide a whole-patient  approach to the treatment of substance use disorders.” </p>
 
-                            <p style={{backgroundColor: "#a351cb"}}><strong> What are the different types of MAT drugs and what are their pros/cons? </strong></p>
+                            <p style={{ backgroundColor: "#a351cb" }}><strong> What are the different types of MAT drugs and what are their pros/cons? </strong></p>
                             <p> Different institutions may have access to only certain types of MAT drugs and so it is critical to understand the purpose each serves. </p>
 
-                            <p style={{backgroundColor: "#a351cb"}}><strong> Getting Sober: Can addiction be treated? </strong></p>
+                            <p style={{ backgroundColor: "#a351cb" }}><strong> Getting Sober: Can addiction be treated? </strong></p>
                             <p> Yes, as with any other chronic condition, addiction may be treated such that it no longer affects someone’s life in a negative manner. Treatment using a variety of means and with support allows people to completely regain control of their lives. </p>
 
-                            <p style={{backgroundColor: "#a351cb"}}><strong> What happens if I relapse? </strong></p>
+                            <p style={{ backgroundColor: "#a351cb" }}><strong> What happens if I relapse? </strong></p>
                             <p> When a person uses alcohol or another drug after a long period of not using, they are having a relapse. </p>
                             <p> Here are some relapse warning signs: </p>
                             <p> Due to their success, the person believes that they no longer need to focus on their recovery effort; they are convinced they will never use again </p>
@@ -98,13 +108,13 @@ class Resources extends Component {
                             <p> Wanting too much too quickly or setting unrealistic goals and attempting to taper too quickly </p>
                             <p> It is important to understand that relapse is not a weakness and is a natural part of recovery, particularly in the earliest stages. It is good to recognize that relapse has occurred and that additional support may be needed in order to get over this speedbump. Let someone know about your relapse, whether it is a loved one or your care provider and ask for additional treatment/support. </p>
 
-                            <p style={{backgroundColor: "#a351cb"}}><strong> How does medication help with recovery? </strong></p>
+                            <p style={{ backgroundColor: "#a351cb" }}><strong> How does medication help with recovery? </strong></p>
                             <p> Different types of medications may be useful at different stages of treatment to help a patient stop abusing drugs, stay in treatment, and avoid relapse. </p>
                             <p> Treating Withdrawal. When patients first stop abusing drugs, they can experience a variety of physical and emotional symptoms, including depression, anxiety, and other mood disorders; restlessness; and sleeplessness. Certain treatment medications are designed to reduce these symptoms, which makes it easier to stop the abuse. </p>
                             <p> Staying in Treatment. Some treatment medications are used to help the brain adapt gradually to the absence of the abused drug. These medications act slowly to stave off drug cravings, and have a calming effect on body systems. They can help patients focus on counseling and other psychotherapies related to their drug treatment. </p>
                             <p> Preventing Relapse. Science has taught us that stress, cues linked to the drug experience (e.g., people, places, things, moods), and exposure to drugs are the most common triggers for relapse. Medications are being developed to interfere with these triggers to help patients sustain recovery. </p>
 
-                            <p style={{backgroundColor: "#a351cb"}}><strong> How does behavioral therapy help with recovery </strong></p>
+                            <p style={{ backgroundColor: "#a351cb" }}><strong> How does behavioral therapy help with recovery </strong></p>
                             <p> Behavioral treatments help engage people in drug abuse treatment, modifying their attitudes and behaviors related to drug abuse and increasing their life skills to handle stressful circumstances and environmental cues that may trigger intense craving for drugs and prompt another cycle of compulsive abuse. Moreover, behavioral therapies can enhance the effectiveness of medications and help people remain in treatment longer. </p>
                             <p> Cognitive Behavioral Therapy. Seeks to help patients recognize, avoid, and cope with situations in which they are most likely to abuse drugs. </p>
                             <p> Motivational Incentives. Uses positive reinforcement such as providing rewards or privileges for remaining drug free, for attending and participating in counseling sessions, or for taking treatment medications as prescribed. </p>
@@ -112,16 +122,16 @@ class Resources extends Component {
                             <p> Group Therapy. Helps patients face their drug abuse realistically, come to terms with its harmful consequences, and boost their motivation to stay drug free. Patients learn effective ways to solve their emotional and interpersonal problems without resorting to drugs. </p>
                         </div>
                     }></Collapsible>
-                <Collapsible style={{ backgroundImage: "linear-gradient(to bottom, #cba151, #d8a620)" }} className="module-container"
+                <Collapsible className="module-container"
                     title={
-                        <h4><strong>Maintaining General Life</strong></h4>
+                        <h6><strong>Maintaining General Life</strong></h6>
                     } paragraph={
                         <div>
-                            <p style={{backgroundColor: "#bba151"}}><strong> If taking drugs makes me happier what is the problem? </strong></p>
+                            <p style={{ backgroundColor: "#bba151" }}><strong> If taking drugs makes me happier what is the problem? </strong></p>
                             <p> At first, people may perceive what seem to be positive effects with drug use. They also may believe that they can control their use; however, drugs can quickly take over their lives. </p>
                             <p> Consider how a social drinker can become intoxicated, put himself behind the wheel and quickly turn a pleasurable activity into a tragedy for him and others. Over time, if drug use continues, pleasurable activities become less pleasurable, and drug abuse becomes necessary for abusers to simply feel “normal.” Drug abusers reach a point where they seek and take drugs, despite the tremendous problems caused for themselves and their loved ones. Some individuals may start to feel the need to take higher or more frequent doses, even in the early stages of their drug use </p>
 
-                            <p style={{backgroundColor: "#bba151"}}><strong> Why do some people get addicted and others don’t? </strong></p>
+                            <p style={{ backgroundColor: "#bba151" }}><strong> Why do some people get addicted and others don’t? </strong></p>
                             <p> Biological factors </p>
                             <p> Scientists estimate that genetic factors account for between 40 and 60 percent of a person’s vulnerability to addiction, including the effects of environment on gene expression and function. Adolescents and individuals with mental disorders are at greater risk of drug abuse and addiction than the general population. </p>
                             <p> Environmental factors </p>
@@ -131,23 +141,23 @@ class Resources extends Component {
                             <p> Early Use. Although taking drugs at any age can lead to addiction, research shows that the earlier a person begins to use drugs the more likely they are to progress to more serious abuse. This may reflect the harmful effect that drugs can have on the developing brain; it also may result from a constellation of early biological and social vulnerability factors, including genetic susceptibility, mental illness, unstable family relationships, and exposure to physical or sexual abuse. Still, the fact remains that early use is a strong indicator of problems ahead, among them, substance abuse and addiction. </p>
                             <p> Method of Administration. Smoking a drug or injecting it into a vein increases its addictive potential. Both smoked and injected drugs enter the brain within seconds, producing a powerful rush of pleasure. However, this intense “high” can fade within a few minutes, taking the abuser down to lower, more normal levels. It is a starkly felt contrast, and scientists believe that this low feeling drives individuals to repeated drug abuse in an attempt to recapture the high pleasurable state. </p>
 
-                            <p style={{backgroundColor: "#bba151"}}><strong> How does addiction affect other people in my life? </strong></p>
+                            <p style={{ backgroundColor: "#bba151" }}><strong> How does addiction affect other people in my life? </strong></p>
                             <p> Negative effects of prenatal drug exposure on infants and children. </p>
                             <p> It is likely that some drug-exposed children will need educational support in the classroom to help them overcome what may be subtle deficits in developmental areas such as behavior, attention, and cognition. Ongoing work is investigating whether the effects of prenatal exposure on brain and behavior extend into adolescence to cause developmental problems during that time period. </p>
                             <p> Increased spread of infectious diseases. </p>
                             <p> Injection of drugs such as heroin, cocaine, and methamphetamine accounts for more than a third of new AIDS cases. Injection drug use is also a major factor in the spread of hepatitis C, a serious, potentially fatal liver disease. Injection drug use is not the only way that drug abuse contributes to the spread of infectious diseases. All drugs of abuse cause some form of intoxication, which interferes with judgment and increases the likelihood of risky sexual behaviors. This, in turn, contributes to the spread of HIV/AIDS, hepatitis B and C, and other sexually transmitted diseases. </p>
 
 
-                            <p style={{backgroundColor: "#bba151"}}><strong> How to talk to people about my recovery? </strong></p>
+                            <p style={{ backgroundColor: "#bba151" }}><strong> How to talk to people about my recovery? </strong></p>
                             <p> Broadly speaking, it may be challenging for you to speak to others about your experience with recovery and your decision to pursue MAT. Decide what to share with people based upon your relationship with them. If you feel that an individual may not be willing to support you in your journey then it may be in your best interest at this stage to distance yourself from these “friends” </p>
                             <p> Trust develops over time. Depending on your comfort level with people you can decide what makes sense.  Also, thinking about how you will respond to people ahead of time will help. </p>
                             <p> For instance, if someone you know from work asks about where you have been, consider stating that you had some health related problems and leaving it at that. Most people will then ask if you are ok, at which point you can say, "Yes, thank you," and change the subject. Some people may just choose to say, "I had some personal issues." If you decide to say this, the person may still wonder what was going on but will usually not ask any further questions. Even though you may feel anxious or even pressured in some way–it is ok to not discuss personal information about yourself with others and this can be good recovery practice in setting appropriate boundaries. </p>
 
 
-                            <p style={{backgroundColor: "#bba151"}}><strong> Problems with sleep </strong></p>
+                            <p style={{ backgroundColor: "#bba151" }}><strong> Problems with sleep </strong></p>
                             <p> There is a period of readjustment around sleep in early recovery. Sleep patterns need time to return to normal. It generally takes a bit longer to fall asleep. This is especially true if you were previously using alcohol or sedative drugs during the day or before bed. To reduce your sleep problems, develop a regular sleep schedule. Plan for as close to 8 hours as you can. Do not watch television or read in bed. Do not use caffeine in the afternoon or evening (this includes coffee, soda and chocolate). Drink milk or herbal tea. Don't exercise or involve yourself in strenuous mental activity before bed. Try a warm bath. Don't go to bed hungry or after eating a large meal. Do not nap during the day–this will just compound your difficulties. Also, Melatonin is a hormone that is naturally produced in the brain. It helps regulate sleep cycles and has been shown to be a safe dietary supplement. You can buy it without a prescription from health food stores, drug stores and on the Internet. As with any medication or supplement, consult with a health professional about this. If the problem persists, check with your doctor. You might benefit from other sleep medications with low or no addiction potential. </p>
 
-                            <p style={{backgroundColor: "#bba151"}}><strong> Loneliness </strong></p>
+                            <p style={{ backgroundColor: "#bba151" }}><strong> Loneliness </strong></p>
                             <p> Feeling lonely is very common when a person first stops using drugs. So you are definitely not alone in this regard. Many people who stop using drugs or alcohol miss the friends they used to use with. Missing them and feeling lonely is normal. Remember, it takes time to develop a new social network. </p>
                             <p> Here are a few things to think about as a way to deal with feeling lonely: </p>
                             <p> Are there people you know who do not use drugs and who you grew apart from due to your using? If so, this might be a good time to try to reconnect with them. You can even acknowledge that you grew apart due to your drug use, but that you are abstinent now and would love to see them. Family members can also be good people to reconnect with if you have family around. There may even be people at work who you might attempt to get to know on a more social level. </p>
@@ -156,9 +166,9 @@ class Resources extends Component {
                             <p> Remember that your feelings are normal. It takes time to develop new friends and a new social support system. Give it time and you will eventually develop new friends. </p>
                         </div>
                     }></Collapsible>
-                <Collapsible style={{ backgroundImage: "linear-gradient(to bottom, #68cb51, #61c694)" }} className="module-container"
+                <Collapsible className="module-container"
                     title={
-                        <h4><strong>Building Community Support</strong></h4>
+                        <h6><strong>Building Community Support</strong></h6>
                     } paragraph={
                         <div>
                             <p> Triggers </p>
@@ -176,9 +186,9 @@ class Resources extends Component {
                             <p> The most responsible thing you can do is stop driving while using drugs. This can be inconvenient, but it will show loved ones you are serious about getting better.  Specific drugs act differently on the brain, but all impair skills necessary for the safe operation of a vehicle. These include motor skills, balance and coordination, perception, attention, reaction time, and judgment. Even small amounts of some drugs can have measurable effects on driving ability. Drugs also impact your ability to tell if you are impaired, so you should not trust your own judgment on driving until you receive an evaluation and treatment. For more, see our DrugFacts on drugged driving. </p>
                         </div>
                     }></Collapsible>
-                <Collapsible style={{ backgroundImage: "linear-gradient(to bottom, #c56358, #d86320)" }} className="module-container"
+                <Collapsible className="module-container"
                     title={
-                        <h4><strong>Understanding Addiction</strong></h4>
+                        <h6><strong>Understanding Addiction</strong></h6>
                     } paragraph={
                         <div>
                             <p> Can addiction be treated successfully? </p>
@@ -236,9 +246,9 @@ class Resources extends Component {
                             <p> How the drug is taken. Smoking a drug or injecting it into a vein increases its addictive potential.33,34 Both smoked and injected drugs enter the brain within seconds, producing a powerful rush of pleasure. However, this intense high can fade within a few minutes. Scientists believe this starkly felt contrast drives some people to repeated drug taking in an attempt to recapture the fleeting pleasurable state.</p>
                         </div>
                     }></Collapsible>
-                <Collapsible style={{ backgroundColor: "#f3f3f3", color: "var(--medlock-dark-gray)" }} className="module-container"
+                <Collapsible className="module-container"
                     title={
-                        <h4><strong>Opioid Safety Checklist</strong></h4>
+                        <h6><strong>Opioid Safety Checklist</strong></h6>
                     } paragraph={
                         <div>
                             <p> Opioid Safety Checklist </p>
