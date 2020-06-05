@@ -14,18 +14,18 @@ var async = require('async');
 const multer = require('multer'); 
 var multerupload = multer({ dest: 'uploads/' });
 
-console.log('Reached api/patient/documents endpoint');
+console.log('Reached api/patient/document endpoint');
 
 // @route   POST api/patient/documents/upload
 // @desc    Upload new document to patient profile
 // @access  Private, requires an Auth0 Access Token
 router.post('/upload', multerupload.any(), (req, res) => {
-    console.log("POST request to api/patient/documents");
-    console.log(req);
+    console.log("POST request to api/patient/document/upload");
     var patientId = req.user.sub.substring(6);
     var filesArray = req.files;
     // print files array
-    console.log(filesArray)
+    console.log(filesArray);
+    var documentIds = [];
     async.each(filesArray, (file, eachcallback) => {
         async.waterfall([
             (callback) => {
@@ -38,25 +38,33 @@ router.post('/upload', multerupload.any(), (req, res) => {
                 })
             },
             (data, callback) => {
-                // print file data, I believe this is where I would save to MongoDb
-                console.log(data);
+                // create new document
                 var newDocument = new Document({
                     _id: mongoose.Types.ObjectId(),
                     name: file.originalname,
                     data: data,
                 });
-                // add document to patient
-                Patient.findById(patientId)
-                    .then(patient => {
-                        var documents = patient.documents;
-                        documents.push(newDocument._id);
-                        patient.documents = documents;
-                        patient.save();
-                    });
 
-                newDocument.save().then(doc => console.log(`Document(id=${doc._id}) saved to MedLock database.`));
-                
-                callback(null, 'success');
+                // add _id to documentIds
+                documentIds.push(newDocument._id);
+
+                // save new document
+                newDocument.save().then(doc => {
+                    console.log(`Document(id=${doc._id}) saved to MedLock database.`);     
+                    callback(null, 'success');               
+                });
+
+                // add document to patient
+                // Patient.findById(patientId)
+                //     .then(patient => {
+                //         var documents = patient.documents;
+                //         documents.push(newDocument._id);
+                //         patient.documents = documents;
+                //         patient.save().then(patient => {
+                //             console.log(`Patient(id=${patient._id}) added Document(id=${newDocument._id}) to their list of documents.`);
+                //             callback(null, 'success');
+                //         });
+                //     });
             }], (err, result) => {
                 // result now equals 'done'
                 // pass final callback to async each to move on to the next file
@@ -66,61 +74,63 @@ router.post('/upload', multerupload.any(), (req, res) => {
     }, (error) => {
         if (error) {
             console.log('error has occurred in each', error);
+            res.status(500).json(error);
         } else {
             console.log('finished processing');
-            res.send({
-                "code":"200",
-                "success":"files printed successfully"
+            Patient.findById(patientId).then(patient => {
+                for (var i in documentIds) {
+                    patient.documents.push(documentIds[i]);
+                }
+                patient.save().then(patient => {
+                    console.log(`Patient(id=${patient._id}) added Documents(ids=[${documentIds}]) to their list of documents.`);
+                    Document.find({
+                        "_id": {
+                            "$in": patient.documents
+                        }
+                    })
+                    .then(doc => {
+                        res.json(doc)
+                    })
+                    .catch(err => console.log(err)); 
+                });
+
             });
-            //cmd.run('rm -rf ./fileupload/*')
         }
     });
-
-    for (var i in req.body.documents) {
-        console.log(req.body.documents[i].data);
-    }
 });
 
 // @route   GET api/patient/documents
 // @desc    Retrieve all documents belonging to patient.
 // @access  Private, requires an Auth0 Access Token
 router.post('/delete', (req, res) => {
-    console.log("POST request at api/patient/documents/delete");
+    console.log("POST request at api/patient/document/delete");
     var id = req.user.sub.substring(6);
-    var documentId = req.body.document_id;
+    var documentId = req.body.documentId;
     Patient.findById(id)
         .then(patient => {
             console.log("patient found");
+            console.log(documentId);
             if (patient) {
                 // delete document from MongoDb
                 Document.findById(documentId)
                     .then(document => {
-                        document.delete();
+                        console.log(document);
+                        document.remove();
                     });
                 // remove document from patient's list of documents
-                var updatedDocs = [];
-                var curDoc;
-                // loop over patient's list of documents, take out document whose _id matches
-                // the one sent in the post request for deletion
-                console.log(`Patient Docs: ${patient.documents}`);
-                console.log(typeof patient.documents[0]);
-                documentId = mongoose.Types.ObjectId(documentId);
+                const newDocumentList = patient.documents.filter(doc => String(doc._id) != documentId);
+                console.log(newDocumentList);
+                patient.documents = newDocumentList;
 
-                for (var i in patient.documents) {
-                    console.log(i);
-                    curDoc = patient.documents[i];
-                    if (String(curDoc._id) === documentId) {
-                        updatedDocs.push(curDoc);
-                    }
-                }
-                // update patient's list of documents
-                console.log(updatedDocs);
-                patient.documents = updatedDocs;
                 // save patient
-                patient.save();
-                // send updated document list as response back to client
-                console.log(patient.documents);
-                res.send(patient.documents);             
+                patient.save().then(patient => console.log(`Patient(id=${patient._id}) removed Document(id=${documentId}) from list of documents`));
+                Document.find({
+                    "_id": {
+                        "$in": newDocumentList
+                    }
+                })
+                .then(doc => res.json(doc))
+                .catch(err => console.log(err));            
             }
         })
         .catch(error => res.status(404).json(error));
@@ -130,28 +140,21 @@ router.post('/delete', (req, res) => {
 // @desc    Retrieve all documents belonging to patient.
 // @access  Private, requires an Auth0 Access Token
 router.get('/', (req, res) => {
-    console.log("GET request at api/patient/documents");
+    console.log("GET request at api/patient/document");
     var id = req.user.sub.substring(6);
     Patient.findById(id)
         .then(patient => {
             console.log("patient found");
             if (patient) {
                 // send patient's documents back to client
-                var documents = [];
-                if (patient.documents.length > 0) {
-                    for (var i in patient.documents) {
-                        console.log(i);
-                        Document.findById(patient.documents[i]._id)
-                            .then(doc => {
-                                documents.push(doc);
-                                if (i == patient.documents.length - 1) {
-                                    res.json(documents);
-                                }
-                            });
+                const documentIds = patient.documents.map(doc => mongoose.Types.ObjectId(doc._id));
+                Document.find({
+                    "_id": {
+                        "$in": documentIds
                     }
-                } else {
-                    res.json([]);
-                }
+                })
+                .then(doc => res.json(doc))
+                .catch(err => console.log(err));
             }
         })
         .catch(error => res.status(404).json(error));

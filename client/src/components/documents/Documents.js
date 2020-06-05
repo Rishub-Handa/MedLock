@@ -16,12 +16,12 @@ class Documents extends Component {
     }
 
     render() {
-        if (this.props.documentsFetching) {
+        console.log(this.props);
+        if (this.props.documentsFetching || !this.props.documents) {
             return (
                 <div>Loading...</div>
-            )
+            );
         }
-        console.log(this.props.documents);
         return (
             <div class="Documents">
                 <h1 className="header">Documents</h1>
@@ -33,16 +33,18 @@ class Documents extends Component {
 
     // return HTML for viewing a patient's already uploaded documents
     documentsHTML = () => {
-        return this.props.documents.map(document => (
-            <div className="document-view">
-                <p>{document.name}</p>
-                <div class="two-btn">
-                    {this.props.documentDeleting ? <button class="create-new-btn" disabled>Delete</button> :
-                        <button class="delete-btn" onClick={() => this.props.deleteDocument(document._id)}>Delete</button>}
-                    <button class="create-new-btn">Download</button>
+        if (this.props.documents.length > 0) {
+            return this.props.documents.map(document => (
+                <div className="document-view">
+                    <p>{document.name}</p>
+                    {this.props.documentDeleting ? <button disabled>Delete</button> : 
+                    <button onClick={() => this.props.deleteDocument(document._id)}>Delete</button> }
+                    {/* <button>Download</button> */}
                 </div>
-            </div>
-        ));
+            ));
+        } else {
+            return (<div></div>)
+        }
     }
 }
 

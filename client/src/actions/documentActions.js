@@ -26,10 +26,10 @@ const uploadDocumentsBegin = () => ({
     type: UPLOAD_DOCUMENTS_BEGIN,
 });
 
-const uploadDocumentsSuccess = acceptedDocuments => ({
+const uploadDocumentsSuccess = documents => ({
     type: UPLOAD_DOCUMENTS_SUCCESS,
     payload: {
-        acceptedDocuments
+        documents
     }
 });
 
@@ -43,7 +43,7 @@ const uploadDocumentsFailure = error => ({
 export function uploadDocuments(filesArray) {
     console.log("uploadDocuments called");
     const { getAccessToken } = auth0client;
-    const API_URL = `${MEDLOCK_API}/patient/documents/upload`;
+    const API_URL = `${MEDLOCK_API}/patient/document/upload`;
     const headers = {
         'Authorization': `Bearer ${getAccessToken()}`
     };
@@ -51,7 +51,7 @@ export function uploadDocuments(filesArray) {
     return dispatch => {
         dispatch(uploadDocumentsBegin());
         var req = request
-                .post(`${MEDLOCK_API}/patient/documents/upload`)
+                .post(API_URL)
                 .set('Authorization', `Bearer ${getAccessToken()}`);
             
         // attach documents to request
@@ -61,9 +61,10 @@ export function uploadDocuments(filesArray) {
 
         return req.then(res => {
             console.log(res);
-            console.log(res.data);
-            dispatch(uploadDocumentsSuccess(res.data));
+            console.log(res.body);
+            dispatch(uploadDocumentsSuccess(res.body));
         }).catch(err => {
+            console.log('error');
             dispatch(uploadDocumentsFailure(err));
         })
     }
@@ -125,7 +126,7 @@ export function fetchDocuments() {
     console.log("fetchDocuments called");
     // used to authorize request to server, provides JWT
     const { getAccessToken } = auth0client;
-    const API_URL = `${MEDLOCK_API}/patient/documents`;
+    const API_URL = `${MEDLOCK_API}/patient/document`;
     // places JWT in header so that request is authorized
     const headers = {
         'Authorization': `Bearer ${getAccessToken()}`
@@ -174,7 +175,7 @@ export function deleteDocument(documentId) {
 
     // used to authorize request to server, provides JWT
     const { getAccessToken } = auth0client;
-    const API_URL = `${MEDLOCK_API}/patient/documents/delete`;
+    const API_URL = `${MEDLOCK_API}/patient/document/delete`;
     // places JWT in header so that request is authorized
     const headers = {
         'Authorization': `Bearer ${getAccessToken()}`
@@ -187,6 +188,7 @@ export function deleteDocument(documentId) {
                 // after successful POST request, res contains the server response
                 // res.data should contain the updated patient docs, 
                 // and the requested document for deletion shouldn't be present
+                console.log(res.data);
                 dispatch(deleteDocumentSuccess(res.data));
             })
             .catch(err => {
