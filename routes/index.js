@@ -14,6 +14,7 @@ const patientRegister = require('./api/patient/register');
 const clinic = require('./api/clinic/clinic');
 const clinicRegister = require('./api/clinic/register');
 const providerRegister = require('./api/provider/register');
+const patientDocuments = require('./api/patient/documents');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const path = require('path');
@@ -49,6 +50,7 @@ router.use('/api/survey/pdisurvey', checkJwt, pdisurvey);
 router.use('/api/survey/intake', checkJwt, intake); 
 router.use('/api/survey/exitsurvey', checkJwt, exitsurvey); 
 router.use('/api/patient/patient', checkJwt, patient); 
+router.use('/api/patient/documents', checkJwt, patientDocuments); // add checkJwt
 router.use('/api/dispense', dispense); 
 
 // Define Provider Scope 

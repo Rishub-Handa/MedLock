@@ -6,8 +6,7 @@ import auth0client from '../../auth/Auth';
 import { connect } from 'react-redux';
 import Profile from '../profile/Profile';
 import Resources from '../resources/Resources';
-//import Inbox from '../inbox/Inbox';
-import { loadProfile } from '../../actions/profileActions';
+import { loadProfile } from '../../actions/profileActions'; 
 import { fetchRoles, fetchUserData } from '../../actions/authActions';
 import { fetchAMT } from '../../auth/AuthManagement';
 import SecuredRoute from '../SecuredRoute';
@@ -15,11 +14,12 @@ import DashHeader from './DashHeader';
 import SideBar from '../nav/sidebar/SideBar';
 import PatientData from '../patientData/PatientData';
 import PDISurvey from '../survey/PDISurvey';
-import Surveys from '../survey/Surveys';
-import Dispenser from '../test/Dispenser';
-import ServerEndpoints from '../test/ServerEndpoints';
-import { modules } from '../nav/ModuleInfo';
-import MyPatients from '../myPatients/MyPatients';
+import Surveys from '../survey/Surveys'; 
+import Dispenser from '../test/Dispenser'; 
+import ServerEndpoints from '../test/ServerEndpoints'; 
+import { modules } from '../nav/ModuleInfo'; 
+import MyPatients from '../myPatients/MyPatients'; 
+import Documents from '../documents/Documents';
 import NewUser from './NewUser';
 import NewProvider from './NewProvider';
 import { collapseSideBar, expandSideBar, setSideBarToggle } from '../../actions/sideBarActions';
@@ -202,17 +202,7 @@ class Dashboard extends Component {
         }
 
         return (
-            <div className="Dashboard">
-                {/* {this.state.toggleCodeDisplay ? 
-                    <div className="Grey-Layer"></div> : null}
-                {this.state.toggleCodeDisplay ? 
-                    <div className="DispenserCode-container">
-                        <DispenserCode hideDispenserCode={this.hideDispenserCode}
-                                        userProfile={this.props.userData}/> 
-                    </div> 
-                    : null 
-                } */}
-
+            <div className="Dashboard">                
                 <div className="DashHeader-container">
                     <DashHeader
                         name={this.props.userData.personalData.name}
@@ -289,13 +279,13 @@ class Dashboard extends Component {
                     personalData={props.userData.personalData}
                     role={props.userData.roles[0].name}
                     component={Profile} />
-                {/* <SecuredRoute path="/dashboard/inbox" component={Inbox} /> */}
                 <SecuredRoute path="/dashboard/mydata" patient={props.userData} component={PatientData} />
                 <SecuredRoute path="/dashboard/resources" component={Resources} />
                 <SecuredRoute path="/dashboard/survey" component={Surveys} />
                 <SecuredRoute path="/dashboard/dispenser" profile={props.userData} component={Dispenser} />
                 <SecuredRoute path="/dashboard/serverendpoints" component={ServerEndpoints} />
                 <SecuredRoute path="/dashboard/mypatients" component={MyPatients} />
+                <SecuredRoute path="/dashboard/documents" component={Documents} />
             </div>
         );
     }

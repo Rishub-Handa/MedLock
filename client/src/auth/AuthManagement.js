@@ -13,6 +13,8 @@ export function getUserByEmail(email, AMT) {
 }
 
 
+// TODO: remove all dependences of fetchAMT
+// it isn't secure to have this in client
 export function fetchAMT() {
     console.log("called function: fetchAMT");
     const AMTHeader = { 
