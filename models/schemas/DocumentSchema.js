@@ -10,7 +10,7 @@ const DocumentSchema = new Schema({
         type: String,
         required: true,
     },
-    file: {
+    data: {
         type: Schema.Types.Buffer,
         required: true,
     }

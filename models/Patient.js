@@ -66,7 +66,8 @@ const PatientSchema = new Schema({
     todos: {
         appointments: [],
         reminders: []
-    }
+    },
+    documents: [],
 });
 
 module.exports = Patient = mongoose.model('patient', PatientSchema);

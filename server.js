@@ -3,9 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser'); 
 const mongoose = require('mongoose'); 
 const routes = require('./routes');
-// multer is middleware used to handle multipart form data
-const multer = require('multer'); 
-var upload = multer({ dest: 'uploads/' });
+
 
 require('dotenv').config();
 console.log(process.env);

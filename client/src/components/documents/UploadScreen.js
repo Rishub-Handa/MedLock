@@ -116,36 +116,65 @@ export default class UploadScreen extends Component {
     }
 
     upload = () => {
-        // redux code
-        // this.setState({
-        //     ...this.state,
-        //     readingFiles: true,
-        // }, () => {
-        //     this.readFiles();
-        // });
-
-        // // on successful upload, add files in filesToBeSent to filesSent
-        var { filesToBeSent, filesSent } = this.state;
-        
-        var filesArray = this.state.filesToBeSent;
-        var req = request.post(`${MEDLOCK_API}/patient/documents/upload`);
-        for (var i in filesArray) {
-            req.attach(filesArray[i][0].name, filesArray[i][0]);
-        }
-        req.end((err, res) => {
-            if (err) {
-                console.log("error occured");
-            }
-        });
-
-        for (var i in filesToBeSent) {
-            filesSent.push(filesToBeSent[i]);
-        }
         this.setState({
             ...this.state,
-            filesToBeSent: [],
-            filesSent,
+            uploadingFiles: true,
+        }, () => {
+            // on successful upload, add files in filesToBeSent to filesSent
+            var { filesToBeSent, filesSent } = this.state;
+            
+            // works but not with Redux
+            var filesArray = this.state.filesToBeSent;
+            this.props.uploadDocuments(filesArray);
+            // const { getAccessToken } = auth0client;
+
+            // var req = request
+            //     .post(`${MEDLOCK_API}/patient/documents/upload`)
+            //     .set('Authorization', `Bearer ${getAccessToken()}`);
+
+            // for (var i in filesArray) {
+            //     req.attach(filesArray[i][0].name, filesArray[i][0]);
+            // }
+            // req.end((err, res) => {
+            //     // called when response is received
+            //     this.setState({
+            //         ...this.state,
+            //         uploadingFiles: false,
+            //     })
+            //     if (err) {
+            //         console.log("error occured");
+            //     } else {
+            //         for (var i in filesToBeSent) {
+            //             filesSent.push(filesToBeSent[i]);
+            //         }
+
+            //         this.setState({
+            //             ...this.state,
+            //             uploadingFiles: false,
+            //             filesToBeSent: [],
+            //             filesSent,
+            //         });
+            //     }
+            // });
         });
+
+
+        // tyring with redux, doesn't seem to work
+        // var filesToBeSent = this.state.filesToBeSent;
+        // var data = [];
+        // for (var i in filesToBeSent) {
+        //     data.push(filesToBeSent[i][0]);
+        // }
+        // this.props.uploadDocuments(data);
+
+        // for (var i in filesToBeSent) {
+        //     filesSent.push(filesToBeSent[i]);
+        // }
+        // this.setState({
+        //     ...this.state,
+        //     filesToBeSent: [],
+        //     filesSent,
+        // });
     }
 
     render() {
