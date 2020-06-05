@@ -56,7 +56,7 @@ const mapStateToProps = state => ({
     documentsFetching: state.documentState.documentsFetching,
     documentsFetchError: state.documentState.documentsFetchError,
 
-    documentDeleting: state.documentState.documentDeleting, 
+    documentDeleting: state.documentState.documentDeleting,
     documentDeleteError: state.documentState.documentDeleteError
 });
 
