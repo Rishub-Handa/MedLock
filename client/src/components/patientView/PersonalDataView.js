@@ -9,7 +9,7 @@ export default class PersonalDataView extends Component {
                     <h4>{personalData.name}</h4>
                     <h6>Bio: <span style={{color: "var(--medlock-dark-gray)"}}> {personalData.bio} </span></h6>
                     <h6>Sex: <span style={{color: "var(--medlock-dark-gray)"}}> {personalData.sex} </span></h6>
-                    <h6>Birthday: <span style={{color: "var(--medlock-dark-gray)"}}> {personalData.birthday.split('T')[0]} </span></h6>
+                    <h6>Birthday: <span style={{color: "var(--medlock-dark-gray)"}}> {personalData.birthday != null ? personalData.birthday.split('T')[0] : null} </span></h6>
                     <h6>Address: <span style={{color: "var(--medlock-dark-gray)"}}> {personalData.address.street} {personalData.address.city}, {personalData.address.state} {personalData.address.zip} </span></h6>
                     <h6>Email: <span style={{color: "var(--medlock-dark-gray)"}}> {personalData.email} </span></h6>
                     <h6>Phone: <span style={{color: "var(--medlock-dark-gray)"}}> {personalData.phone} </span></h6>
