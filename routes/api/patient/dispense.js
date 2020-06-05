@@ -42,6 +42,8 @@ router.post('/', (req,res) => {
     var events = req.body.events; 
     var code = new Array(6); var counter = 0; 
 
+    console.log(dispenser_id); 
+
     if(dispenser_id == "1") {
         dispenser_id = ObjectId("000000000000000000000000"); 
         events.forEach(event => {
@@ -61,7 +63,10 @@ router.post('/', (req,res) => {
                 }
             } 
         }); 
-    } 
+    } else {
+        // Dispenser substring 
+        dispenser_id = dispenser_id.substr(0, 24); 
+    }
 
 
 
@@ -70,7 +75,7 @@ router.post('/', (req,res) => {
         if(err) console.log(err); 
         console.log("Searched for dispenser. "); 
 
-        if(!dispenser && code) {
+        if(!dispenser && code[0] != null) {
             // Create new Dispenser and assign to Patient with corresponding code 
             // Only create Dispenser if there is a Patient with corresponding code 
 
@@ -102,7 +107,7 @@ router.post('/', (req,res) => {
                 }
             }); 
 
-        } else {
+        } else if(dispenser) {
             // Add events to dispenser 
 
             dispenser.lastUpdated.push(new Date()); 
@@ -141,6 +146,9 @@ router.post('/', (req,res) => {
             })
             .catch(err => console.log(err)); 
 
+        } else {
+            console.log("No dispenser found in the database with ID " + dispenser_id); 
+            res.send("No dispenser found in the database with that ID. "); 
         }
 
     }); 
