@@ -20,6 +20,7 @@ const jwksRsa = require('jwks-rsa');
 const path = require('path');
 const config_servers = require('../config/servers');
 const userLogin = require('./api/user/login');
+const userRegister = require('./api/user/register');
 
 const MEDLOCK_AUDIENCE = config_servers.MEDLOCK_AUDIENCE;
 
@@ -73,6 +74,7 @@ router.use('/api/clinic', clinic);
 router.use('/api/clinic/register', clinicRegister);
 
 router.use('/api/user/login', checkJwt, userLogin);
+router.use('/api/user/register', userRegister);
 
 // If no API routes are hit, send the React app
 router.use(function(req, res) {
