@@ -158,8 +158,11 @@ const validateRegisterCodeBegin = () => ({
     type: VALIDATE_REGISTER_CODE_BEGIN,
 });
 
-const validateRegisterCodeSuccess = () => ({
+const validateRegisterCodeSuccess = (passed) => ({
     type: VALIDATE_REGISTER_CODE_SUCCESS,
+    payload: {
+        passed
+    }
 });
 
 const validateRegisterCodeFailure = (error) => ({
@@ -170,23 +173,13 @@ const validateRegisterCodeFailure = (error) => ({
 });
 
 export function validateRegisterCode(registerCode, role) {
-    const { getAccessToken } = auth0client;
-    const headers = {
-        'Authorization': `Bearer ${getAccessToken()}`
-    }
-    let API_URL = `${MEDLOCK_API}`;
-
-    if (role.toLowerCase() === "provider") {
-        API_URL += "/provider/register/code"
-    } else {
-        API_URL += "/patient/register/code"
-    }
-
+    let API_URL = `${MEDLOCK_API}/user/register/code`;
     let req_body = { registerCode, role }; 
     return dispatch => {
         dispatch(validateRegisterCodeBegin());
-        return axios.post(API_URL, req_body, { headers })
+        return axios.post(API_URL, req_body)
             .then(res => {
+                console.log(res);
                 dispatch(validateRegisterCodeSuccess(res.data));
             })
             .catch(error => {

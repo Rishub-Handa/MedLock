@@ -65,8 +65,8 @@ router.use('/api/admin/patient', adminPatient);
 
 // How will chatAuth authenticate with Auth0 ??? 
 // Cannot use checkJwt because the ChatKit server will also make a request to this endpoint without Auth0. 
-router.use('/api/chatAuth', chatAuth); 
-router.use('/api/email', email); 
+// router.use('/api/chatAuth', chatAuth); 
+// router.use('/api/email', email); 
 
 router.use('/api/patient/register', patientRegister);
 router.use('/api/provider/register', providerRegister);

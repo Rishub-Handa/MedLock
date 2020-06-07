@@ -78,7 +78,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 registerCodeValidating: false,
-                registerCodeValidated: true,
+                registerCodeValidated: action.payload.passed,
             };
         case VALIDATE_REGISTER_CODE_FAILURE:
             return {

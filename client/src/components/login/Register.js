@@ -23,13 +23,17 @@ class Register extends Component {
     }
 
     registerUser = (newUser) => {
+        console.log(newUser);
         this.props.validateRegisterCode(newUser.registerCode, newUser.role)
-            .then((passed) => {
-                if (passed) {
+            .then(() => {
+                console.log(this.props.registerCodeValidated);
+                if (this.props.registerCodeValidated) {
                     const API_URL = `${MEDLOCK_API}/user/register`;
                     var promise = axios.post(API_URL, { newUser });
-                    promise.then(registeredUser => {
-                        alert(`${registeredUser.name}, thank you for registering for Medlock! You should receive an email at ${registerdUser.email} from us shortly containing your login information.`);
+                    promise.then(res => {
+                        var registeredUser = res.data;
+                        console.log(registeredUser);
+                        alert(`${registeredUser.name}, thank you for registering for Medlock! You should receive an email at ${registeredUser.email} from us shortly containing your login information.`);
                         window.location = window.location.origin;
                     });
                 } else {

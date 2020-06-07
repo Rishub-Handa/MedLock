@@ -34,21 +34,22 @@ const addUserToMedLockDb = (newUser) => {
             throw new Error(`${userRole} is not a valid role.`);
     }
 
-    const newUser = new User({
+    var user = new User({
         _id: mongoose.Types.ObjectId(newUser._id),
         personalData: {
             name: newUser.name,
             email: newUser.email
         },
     });
-    return newUser.save().then(newUser => {
-        console.log(`User(name=${newUser.name}, id=${newUser._id}) added to MedLock database.`);
+    return user.save().then(user => {
+        console.log(`User(name=${user.name}, id=${user._id}) added to MedLock database.`);
     });
 }; 
 
 router.post('/', (req, res) => {
-    console.log(`POST to /api/user/register, req.body=${req.body}`);
-    const newUser = req.body.newUser;
+    console.log(`POST to /api/user/register`);
+    var newUser = req.body.newUser;
+    console.log(newUser);
 
     // generate random password for new user
     newUser = {
@@ -58,13 +59,14 @@ router.post('/', (req, res) => {
 
     // register new user in Auth0
     auth.register(newUser)
-        .then(res => {
-            res.data.user_id;
+        .then(r => {
+            r.data.user_id;
             newUser = {
                 ...newUser, 
-                auth_id: res.data.user_id,
-                _id: res.data.user_id.substring(6),
+                auth_id: r.data.user_id,
+                _id: r.data.user_id.substring(6),
             }
+            console.log(newUser);
             // assign role to user in Auth0
             auth.assignRole(newUser.auth_id, newUser.role);
             // add user to MedLock database
@@ -72,7 +74,37 @@ router.post('/', (req, res) => {
                 // send login info to new user
                 email.registrationConfirmation(newUser);
                 // send new user information to the client
+                console.log(newUser);
                 res.json(newUser);
             });
         });
 });
+
+router.post('/code', (req, res) => {
+    console.log("POST request to api/user/register/code");
+    // sanitize role input by converting to all lower case
+    var role = req.body.role.toLowerCase();
+    var registerCode = req.body.registerCode;
+    console.log(role);
+    console.log(registerCode);
+    var correctCode;
+    switch(role) {
+        case roles.PATIENT:
+            correctCode = "54321";
+            break;
+        case roles.PROVIDER:
+            correctCode = "12345";
+            break;
+        default:
+            throw new Error(`${role} is an invalid role.`);
+    }
+    console.log(correctCode);
+    // check if register code is correct based on role
+    if (registerCode === correctCode) {
+        res.status(200).send(true);
+    } else {
+        res.status(403).send(new Error("Invalid Register Code"));
+    }
+});
+
+module.exports = router;

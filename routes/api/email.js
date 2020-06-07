@@ -2,7 +2,7 @@ const express = require('express');
 const nodemailer = require('nodemailer'); 
 
 // CHECK BUG FOR CONNECTION TIMEOUT 
-exports.sendRegistrationConfirmation = (newUser) => {
+exports.registrationConfirmation = function registrationConfirmation(newUser) {
     const output = `
         <h1>MedLock</h1>
         <p>Hi ${newUser.name}</p> 

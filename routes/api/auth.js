@@ -1,6 +1,6 @@
 const axios = require('axios');
 const config_servers = require('../../config/servers');
-const roles = require('../roles');
+const roles = require('./roles');
 const MEDLOCK_URL = config_servers.MEDLOCK_URL;
 
 
@@ -27,6 +27,7 @@ function fetchAMT() {
 exports.fetchRoles = function fetchRoles(user_id) {
     console.log("fetching roles");
     return fetchAMT().then(res => {
+        console.log("AMT fetched.");
         const AMT = res.data.access_token;
         const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}/roles`;
         const headers = { 
@@ -35,6 +36,9 @@ exports.fetchRoles = function fetchRoles(user_id) {
 
         var promise = axios.get(API_URL, { headers });
         return promise;
+    })
+    .catch(error => {
+        console.log(error);
     });
 };
 
@@ -48,13 +52,19 @@ exports.register = function register(newUser) {
         const API_URL = 'https://medlock-dev.auth0.com/api/v2/users';
         const headers = { authorization: `Bearer ${AMT}`, 'content-type': 'application/json' };
 
-        newUser = {
-            ...newUser,
+        // Auth0 doesn't allow for their to be extra info, so we create a new
+        // object from newUser to send to Auth0 for registration
+        var newAuth = {
+            name: newUser.name,
+            email: newUser.email,
+            password: newUser.password,
             "connection": "Username-Password-Authentication",
         };
 
-        var promise = axios.post(API_URL, newUser, { headers });
+        var promise = axios.post(API_URL, newAuth, { headers });
         return promise;
+    }).catch(error => {
+        console.log(error);
     });
 }
 
@@ -70,7 +80,7 @@ exports.assignRole = function assignRole(id, role) {
     console.log(`assigning ${role} role to user(id=${id})`);
     return fetchAMT().then(res => {
         const AMT = res.data.access_token;
-        const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}/roles`;
+        const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${id}/roles`;
         const headers = { authorization: `Bearer ${AMT}`, 'Content-Type': 'application/json' };
 
         // request body
@@ -99,5 +109,7 @@ exports.assignRole = function assignRole(id, role) {
 
         var promise = axios(API_URL, req_body, { headers });
         return promise;
+    }).catch(error => {
+        console.log(error);
     });
 }
