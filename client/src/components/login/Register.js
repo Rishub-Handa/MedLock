@@ -25,47 +25,63 @@ class Register extends Component {
     registerUser = (newUser) => {
         console.log(newUser);
         this.props.validateRegisterCode(newUser.registerCode, newUser.role)
-            .then((passed) => {
-                console.log(passed);
+            .then(() => {
                 console.log(this.props.registerCodeValidated);
                 if (this.props.registerCodeValidated) {
-                    fetchAMT().then(res => {
-                        const AMT = res.data.access_token;
-                        const password = Math.random().toString(36).slice(-12); 
-                        var newAuth = {
-                            name: newUser.name,
-                            email: newUser.email,
-                            "password": password,
-                            "connection": "Username-Password-Authentication"
-                        };
-                        this.props.auth0Registration(newAuth, AMT)
-                            .then(() => {
-                                // assign role to new user
-                                newUser = {
-                                    ...newUser,
-                                    _id: this.props.userProfile.user_id,
-                                }
-                                this.props.assignRoles(newUser._id, AMT, newUser.role);
-                                
-                                // create profile for user in MedLock db
-                                this.registerUserInDB(newUser, AMT);
-                                
-                                // send new user login info
-                                var url = `${MEDLOCK_API}/email`;
-                                axios.post(url, newAuth);
-                            })
-                            .then(() => {
-                                alert("Thank you for registering for Medlock! You should receive an email from us shortly containing your login information." );
-                                window.location = window.location.origin;
-                            })
-                            .catch(error => {
-                                alert(`${error}`);
-                            })
+                    const API_URL = `${MEDLOCK_API}/user/register`;
+                    var promise = axios.post(API_URL, { newUser });
+                    promise.then(res => {
+                        var registeredUser = res.data;
+                        console.log(registeredUser);
+                        alert(`${registeredUser.name}, thank you for registering for Medlock! You should receive an email at ${registeredUser.email} from us shortly containing your login information.`);
+                        window.location = window.location.origin;
                     });
                 } else {
                     alert('Your registration was unsuccessful because you entered an invalid registration code.');
                 }
             })
+        // this code fetches AMT with is INSECURE
+        // console.log(newUser);
+        // this.props.validateRegisterCode(newUser.registerCode, newUser.role)
+        //     .then((passed) => {
+        //         console.log(passed);
+        //         console.log(this.props.registerCodeValidated);
+        //         if (this.props.registerCodeValidated) {
+        //             fetchAMT().then(res => {
+        //                 const AMT = res.data.access_token;
+        //                 const password = Math.random().toString(36).slice(-12); 
+        //                 var newAuth = {
+        //                     name: newUser.name,
+        //                     email: newUser.email,
+        //                     "password": password,
+        //                     "connection": "Username-Password-Authentication"
+        //                 };
+        //                 this.props.auth0Registration(newAuth, AMT)
+        //                     .then(() => {
+        //                         // assign role to new user
+        //                         newUser = {
+        //                             ...newUser,
+        //                             _id: this.props.userProfile.user_id,
+        //                         }
+        //                         this.props.assignRoles(newUser._id, AMT, newUser.role);
+                                
+        //                         // create profile for user in MedLock db
+        //                         this.registerUserInDB(newUser, AMT);
+                                
+        //                         // send new user login info
+        //                         var url = `${MEDLOCK_API}/email`;
+        //                         axios.post(url, newAuth);
+        //                     })
+        //                     .then(() => {
+        //                         alert("Thank you for registering for Medlock! You should receive an email from us shortly containing your login information." );
+        //                         window.location = window.location.origin;
+        //                     })
+        //                     .catch(error => {
+        //                         alert(`${error}`);
+        //                     })
+        //             });
+        //         } else {
+        //         }
     }
 
     registerUserInDB = (newUser, AMT) => {

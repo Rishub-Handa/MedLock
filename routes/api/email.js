@@ -1,16 +1,13 @@
 const express = require('express'); 
 const nodemailer = require('nodemailer'); 
 
-const router = express.Router(); 
-
 // CHECK BUG FOR CONNECTION TIMEOUT 
-router.post('/', (req, res) => {
-    console.log(req.body); 
+exports.registrationConfirmation = function registrationConfirmation(newUser) {
     const output = `
         <h1>MedLock</h1>
-        <p>Hi ${req.body.name}</p> 
+        <p>Hi ${newUser.name}</p> 
         <p>Thank you for working with MedLock. Please log in with the following password: </p> 
-        <b>${req.body.password}</b> 
+        <b>${newUser.password}</b> 
         <p>Best, </p> 
         <p>MedLock </p>
     `; 
@@ -30,14 +27,11 @@ router.post('/', (req, res) => {
     // send mail with defined transport object
     let info = transporter.sendMail({
         from: '"MedLock" <contact@medlocksolutions.com>', // sender address
-        to: [req.body.email], // list of receivers
+        to: [newUser.email], // list of receivers
         subject: "New Account", // Subject line
         html: output // html body
     })
         .then(result => console.log(result)) 
         .catch(error => console.log(error)); 
 
-})
-
-
-module.exports = router; 
+};
