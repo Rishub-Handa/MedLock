@@ -200,7 +200,7 @@ const fetchUserDataSuccess = (userData) => ({
 }); 
 
 const fetchUserDataFailure = (error) => ({
-    type: FETCH_ROLES_FAILURE,
+    type: FETCH_USER_DATA_FAILURE,
     payload: {
         error
     }

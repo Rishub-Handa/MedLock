@@ -21,6 +21,7 @@ const path = require('path');
 const config_servers = require('../config/servers');
 const userLogin = require('./api/user/login');
 const userRegister = require('./api/user/register');
+const userDelete = require('./api/user/delete');
 
 const MEDLOCK_AUDIENCE = config_servers.MEDLOCK_AUDIENCE;
 
@@ -60,8 +61,8 @@ router.use('/api/provider/provider', checkJwt, provider);
 
 // Define Administration Scope 
 // Create Administration Accounts --> Check JSON Web Tokens 
-router.use('/api/admin/provider', adminProvider); 
-router.use('/api/admin/patient', adminPatient);
+router.use('/api/admin/provider', checkJwt, adminProvider); 
+router.use('/api/admin/patient', checkJwt, adminPatient);
 
 // How will chatAuth authenticate with Auth0 ??? 
 // Cannot use checkJwt because the ChatKit server will also make a request to this endpoint without Auth0. 
@@ -74,6 +75,7 @@ router.use('/api/clinic', clinic);
 router.use('/api/clinic/register', clinicRegister);
 
 router.use('/api/user/login', checkJwt, userLogin);
+router.use('/api/user/delete', checkJwt, userDelete);
 router.use('/api/user/register', userRegister);
 
 // If no API routes are hit, send the React app

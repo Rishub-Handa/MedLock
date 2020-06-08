@@ -20,6 +20,8 @@ router.post('/', (req, res) => {
     auth.fetchRoles(user_id)
         .then(response => {
             const role_list = response.data;
+            console.log("response: ");
+            console.log(response.data);
             if (role_list[0].name.toLowerCase() == roles.ADMIN) {
                 // reroute to admin page
                 console.log("LOGGING IN AS A ADMIN")

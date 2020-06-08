@@ -68,7 +68,8 @@ router.post('/', (req, res) => {
             }
             console.log(newUser);
             // assign role to user in Auth0
-            auth.assignRole(newUser.auth_id, newUser.role);
+            auth.assignRole(newUser.auth_id, newUser.role)
+                .then(() => console.log("role added"));
             // add user to MedLock database
             addUserToMedLockDb(newUser).then(() => {
                 // send login info to new user

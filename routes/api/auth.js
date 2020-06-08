@@ -2,6 +2,7 @@ const axios = require('axios');
 const config_servers = require('../../config/servers');
 const roles = require('./roles');
 const MEDLOCK_URL = config_servers.MEDLOCK_URL;
+const MEDLOCK_AUTH0 = config_servers.MEDLOCK_AUTH0;
 
 
 /**
@@ -24,12 +25,33 @@ function fetchAMT() {
     return promise; 
 }
 
-exports.fetchRoles = function fetchRoles(user_id) {
+/**
+ * Since Auth0 ids begin with "auth|" and MedLock database ids remove that part of the string. 
+ * This function converts any id into a valid Auth0 id if it isn't already.
+ * @param {*} id  
+ */
+function toAuthId(id) {
+    var AUTH0_PREFIX = "auth0|";
+    var curPrefix = id.substring(0, 6);
+    if (curPrefix === AUTH0_PREFIX) {
+        // id is already a valid Auth0 id, so return
+        return id;
+    } else {
+        // id is not a valid Auth0 id, append prefix and return
+        return AUTH0_PREFIX + id;
+    }
+}
+
+exports.fetchRoles = function fetchRoles(id) {
     console.log("fetching roles");
+    // convert id to Auth0 id
+    id = toAuthId(id);
+    console.log("id: ");
+    console.log(id);
     return fetchAMT().then(res => {
         console.log("AMT fetched.");
         const AMT = res.data.access_token;
-        const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${user_id}/roles`;
+        const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${id}/roles`;
         const headers = { 
             authorization: `Bearer ${AMT}`,
         };
@@ -74,8 +96,11 @@ exports.register = function register(newUser) {
  */
 exports.assignRole = function assignRole(id, role) {
     // sanitize inputs
+    // convert id to Auth0 id
+    id = toAuthId(id);
     // convert role to all lowercase letters
     role = role.toLowerCase();
+
 
     console.log(`assigning ${role} role to user(id=${id})`);
     return fetchAMT().then(res => {
@@ -104,12 +129,27 @@ exports.assignRole = function assignRole(id, role) {
                 };
                 break; 
             default: 
-                break;
+                throw new Error(`${role} is an invalid role.`);
         } 
 
-        var promise = axios(API_URL, req_body, { headers });
+        var promise = axios.post(API_URL, req_body, { headers });
         return promise;
     }).catch(error => {
         console.log(error);
     });
 }
+
+exports.deleteUser = function deleteUser(id) {
+    console.log(`deleting user(id=${id}) from Auth0`);
+    // convert id to Auth0 id
+    id = toAuthId(id);
+    var API_URL = `${MEDLOCK_AUTH0}/v2/users/${auth_id}`;
+    return fetchAMT().then(res => {
+        const AMT = res.data.access_token;
+        const headers = { authorization: `Bearer ${AMT}`};
+        var promise = axios.delete(API_URL, { headers })
+            .then(() => console.log(`user(id=${id}) deleted from Auth0`))
+            .catch(err => console.log(`Auth0: ${err}`));
+        return promise;
+    });
+} 

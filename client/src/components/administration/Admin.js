@@ -86,22 +86,26 @@ class Admin extends Component {
     deleteAllProviders = () => {
 
         // var url = `${MEDLOCK_API}/admin/provider`;
-        const ids = this.props.providers.map(provider => provider._id);
-        this.props.deleteProvider(ids);
+        // const ids = this.props.providers.map(provider => provider._id);
+        // this.props.deleteProvider(ids);
+        console.log("DELETE ALL PROVIDERS CALLED: THIS DOESN'T DO ANYTHING");
+
     }
 
     deletePatient = (patientId) => {
-        this.props.deletePatient([patientId]);
+        console.log("delete patient");
+        this.props.deletePatient(patientId);
     }
 
     deleteProvider = (providerId) => {
-        this.props.deleteProvider([providerId]);
+        this.props.deleteProvider(providerId);
     }
 
     deleteAllPatients = () => {
         // var url = `${MEDLOCK_API}/admin/patient`;
-        const ids = this.props.patients.map(patient => patient._id);
-        this.props.deletePatient(ids);
+        // const ids = this.props.patients.map(patient => patient._id);
+        // this.props.deletePatient(ids);
+        console.log("DELETE ALL PATIENTS CALLED: THIS DOESN'T DO ANYTHING");
     }
 
     registerClinic = (clinicName) => {
