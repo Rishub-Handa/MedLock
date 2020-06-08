@@ -143,7 +143,7 @@ exports.deleteUser = function deleteUser(id) {
     console.log(`deleting user(id=${id}) from Auth0`);
     // convert id to Auth0 id
     id = toAuthId(id);
-    var API_URL = `${MEDLOCK_AUTH0}/v2/users/${auth_id}`;
+    var API_URL = `${MEDLOCK_AUTH0}/v2/users/${id}`;
     return fetchAMT().then(res => {
         const AMT = res.data.access_token;
         const headers = { authorization: `Bearer ${AMT}`};

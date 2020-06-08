@@ -73,7 +73,7 @@ const deletePatientFromMedLockDb = (id) => {
                 if (err) {
                     console.log(`Error(${err}) encountered while removing Patient(id=${id}) from Provider's(id=${patient._id})'s list of Patients.`);
                 }
-                const newPatientList = provider.medicalData.patients.filter(patient => patient._id != _id); // use != bc different types
+                const newPatientList = provider.medicalData.patients.filter(patient => patient._id != id); // use != bc different types
                 provider.medicalData.patients = newPatientList;
                 provider.save()
                     .then(() => console.log(`Patient(id=${patient._id} and Provider(id=${id}) unlinked.`));

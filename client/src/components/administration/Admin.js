@@ -36,51 +36,53 @@ class Admin extends Component {
         console.log(this.state);
     }
 
+    // TODO: change so that fetchAMT isn't required for an Admin to register a new Provider
     createNewProvider = (name, email) => {
-        fetchAMT()
-            .then(res => {
-                console.log(res);
-                const AMT = res.data.access_token;
+        // fetchAMT()
+        //     .then(res => {
+        //         console.log(res);
+        //         const AMT = res.data.access_token;
 
-                const password = Math.random().toString(36).slice(-12);
+        //         const password = Math.random().toString(36).slice(-12);
 
-                const newProvider = {
-                    "name": name,
-                    "email": email,
-                    "password": password,
-                    "connection": "Username-Password-Authentication"
-                };
+        //         const newProvider = {
+        //             "name": name,
+        //             "email": email,
+        //             "password": password,
+        //             "connection": "Username-Password-Authentication"
+        //         };
 
-                // Create New Provider in Auth0 
-                this.props.auth0Registration(newProvider, AMT)
-                    .then(() => {
-                        // Send Temporary Password 
-                        this.newProviderEmail(newProvider);
+        //         // Create New Provider in Auth0 
+        //         this.props.auth0Registration(newProvider, AMT)
+        //             .then(() => {
+        //                 // Send Temporary Password 
+        //                 this.newProviderEmail(newProvider);
 
-                        // Create New Provider in MongoDB 
-                        const user_id = this.props.userProfile.user_id;
-                        this.props.createProviderProfile({
-                            _id: user_id.substring(6),
-                            personalData: {
-                                name,
-                                email,
-                            }
-                            // Eventually create administrator roles and query user roles. 
-                        }, "Admin");
+        //                 // Create New Provider in MongoDB 
+        //                 const user_id = this.props.userProfile.user_id;
+        //                 this.props.createProviderProfile({
+        //                     _id: user_id.substring(6),
+        //                     personalData: {
+        //                         name,
+        //                         email,
+        //                     }
+        //                     // Eventually create administrator roles and query user roles. 
+        //                 }, "Admin");
 
-                        // Assign Provider Role to New User 
-                        this.props.assignRoles(user_id, AMT, "Provider");
+        //                 // Assign Provider Role to New User 
+        //                 this.props.assignRoles(user_id, AMT, "Provider");
 
 
-                    })
-                    .catch(error => console.log(error));
-            })
-            .catch(error => console.log(error));
+        //             })
+        //             .catch(error => console.log(error));
+        //     })
+        //     .catch(error => console.log(error));
     }
 
+    // TODO: change so that fetchAMT isn't required for an Admin to register a new Provider
     newProviderEmail = (newProvider) => {
-        var url = `${MEDLOCK_API}/email`;
-        axios.post(url, newProvider);
+        // var url = `${MEDLOCK_API}/email`;
+        // axios.post(url, newProvider);
     }
 
     deleteAllProviders = () => {

@@ -123,7 +123,8 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 patientDeleting: false,
-                deletedPatients: action.payload.patients
+                deletedPatients: action.payload.patients,
+                patients: state.patients.filter(patient => patient._id != action.payload.patients[0]._id) // right now delete patient only deletes one patient so this is fine for now
             };
         case DELETE_PATIENT_FAILURE:
             return {

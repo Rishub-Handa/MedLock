@@ -233,7 +233,10 @@ export function deletePatient(id) {
   return dispatch => {
     dispatch(deletePatientBegin());
     return axios.post(API_URL, { id }, { headers }) 
-          .then(res => dispatch(deletePatientSuccess(res.data)))
+          .then(res => {
+            console.log(res.data);
+            dispatch(deletePatientSuccess(res.data))
+          })
           .catch(err => dispatch(deletePatientFailure(err)));
   }
 }
