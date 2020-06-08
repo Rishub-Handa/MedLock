@@ -101,7 +101,7 @@ const deleteUserFromAuth0 = (patientId, AMT) => {
     console.log(`deleting user(id=${patientId}) from Auth0`);
     var url = `${MEDLOCK_AUTH0}/v2/users/${patientId}`;
     const headers = { authorization: `Bearer ${AMT}`};
-    axios.delete(url, { headers })
+	axios.delete(url, { headers })
         .then(() => console.log(`patient(id=${patientId}) deleted from Auth0`))
         .catch(err => console.log(`Auth0: ${err}`));
 }

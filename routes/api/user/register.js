@@ -90,10 +90,10 @@ router.post('/code', (req, res) => {
     var correctCode;
     switch(role) {
         case roles.PATIENT:
-            correctCode = "54321";
+            correctCode = "insight";
             break;
         case roles.PROVIDER:
-            correctCode = "12345";
+            correctCode = "partner";
             break;
         default:
             throw new Error(`${role} is an invalid role.`);
