@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga'; 
 
 export default class Collapsible extends React.Component {
     constructor(props) {
@@ -10,6 +11,11 @@ export default class Collapsible extends React.Component {
     }
 
     togglePanel(e) {
+        ReactGA.event({
+            category: 'Collapsible', 
+            action: 'Resource Collapsible Toggled', 
+            label: this.props.title
+        })
         this.setState({ open: !this.state.open })
     }
 
