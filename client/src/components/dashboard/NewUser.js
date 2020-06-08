@@ -158,19 +158,19 @@ class NewUser extends Component {
                     <Form>
                         <FormGroup required>
                             <Label for="pi-name">User Name</Label>
-                            <Input type="text" name="name" id="pi-name" placeholder="John Doe" value={this.state.personalData.name} onChange={this.onChange} />
+                            <Input type="text" name="name" id="pi-name" placeholder="John Doe" value={this.state.personalData.name} readOnly/>
                         </FormGroup>
                         <FormGroup required>
                             <Label for="pi-email">Email</Label>
-                            <Input type="email" name="email" id="pi-email" placeholder="john.doe@gmail.com" value={this.state.personalData.email} onChange={this.onChange} />
+                            <Input type="email" name="email" id="pi-email" placeholder="john.doe@gmail.com" value={this.state.personalData.email} readOnly/>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup required>
                             <Label for="pi-clinic">Clinic</Label>
                             <Input type="select" name="clinic" id="pi-clinic" value={this.state.medicalData.clinic} onChange={this.onChange}>
                                 {this.clinicsToOptions()}
                             </Input>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup required>
                             <Label for="pi-provider">Providers</Label>
                             {this.showSelectProvidersAtClinic()}
                         </FormGroup>
@@ -186,19 +186,19 @@ class NewUser extends Component {
                             <Label for="pi-dob">Birthday</Label>
                             <Input type="date" name="birthday" id="pi-dob" value={this.state.personalData.birthday} onChange={this.onChange} />
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup required>
                             <Label for="pi-addr">Address</Label>
-                            <Input type="text" name="street" id="pi-addr" placeholder="123 Main Street" value={this.state.personalData.address.street} onChange={this.onChange} />
+                            <Input type="text" name="street" id="pi-addr" placeholder="123 Main Street Apt. A456" value={this.state.personalData.address.street} onChange={this.onChange} />
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup required>
                             <Label for="pi-city">City</Label>
                             <Input type="text" name="city" id="pi-city" placeholder="Charlottesville" value={this.state.personalData.address.city} onChange={this.onChange} />
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup required>
                             <Label for="pi-state">State</Label>
                             <Input type="text" name="state" id="pi-state" placeholder="VA" value={this.state.personalData.address.state} onChange={this.onChange} />
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup required>
                             <Label for="pi-zip">Zip</Label>
                             <Input type="text" name="zip" id="pi-zip" placeholder="22903" value={this.state.personalData.address.zip} onChange={this.onChange} />
                         </FormGroup>
@@ -206,14 +206,14 @@ class NewUser extends Component {
                             <Label for="pi-phone">Phone</Label>
                             <Input type="text" name="phone" id="pi-phone" placeholder="(555) 555-5555" value={this.state.personalData.phone} onChange={this.onChange} />
                         </FormGroup>
-                        <FormGroup>
+		    {/* <FormGroup>
                             <Label for="pi-chatname">Chat Name</Label>
                             <Input type="text" name="chatname" id="pi-chatname" placeholder="jdoe" value={this.state.personalData.chatname} onChange={this.onChange} />
                         </FormGroup>
                         <FormGroup required>
                             <Label for="pi-bio">Biography</Label>
                             <Input type="textarea" name="bio" id="pi-bio" placeholder="in recovery" value={this.state.personalData.bio} onChange={this.onChange} />
-                        </FormGroup>
+                        </FormGroup> */}
                         <Button onClick={this.onSubmit}>Save</Button>
                     </Form>
                 </div>
