@@ -73,7 +73,7 @@ export default class DataView extends Component {
                     />
                 </div>
             );
-        } else return ( <h2>There are no data at the moment.</h2> );
+        } else return ( <h2>There is no data at the moment.</h2> );
     }
 
     render() {

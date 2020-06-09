@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as d3 from "d3";
 import '../../App.css';
+import ReactGA from 'react-ga';
 
 export default class DateTimeScatter extends Component {
 
@@ -415,6 +416,11 @@ export default class DateTimeScatter extends Component {
     }
 
     onStartDateSelectChange = (e) => {
+        ReactGA.event({
+            category: 'Graph Date Selector',
+            action: 'Chose New Graph Start Date',
+            label: 'Changed Graph Start Date to ' + Number(e.target.value)
+        })
         this.setState({
             startDate: Number(e.target.value),
         }, () => {
@@ -423,6 +429,11 @@ export default class DateTimeScatter extends Component {
     }
 
     onEndDateSelectChange = (e) => {
+        ReactGA.event({
+            category: 'Graph Date Selector',
+            action: 'Chose New Graph End Date',
+            label: 'Changed Graph End Date to ' + Number(e.target.value)
+        })
         this.setState({
             endDate: Number(e.target.value),
         }, () => {
@@ -498,6 +509,11 @@ export default class DateTimeScatter extends Component {
         console.log("onDataSelectorChange() called");
         var val = this.strToBool(e.target.value);
         var new_val = !val;
+        ReactGA.event({
+            category: 'Data Selector Checkbox',
+            action: 'Toggled ' + this.name + ' graph view',
+            label: 'Changed value of ' + this.name + ' to ' + new_val
+        })
         this.setState({
             selectedEvents: {
                 ...this.state.selectedEvents,

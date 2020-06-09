@@ -78,7 +78,7 @@ export default class PDISurveyBar extends Component {
         ReactGA.event({
             category: 'Data Chart Interaction', 
             action: 'Updated PDI Survey Chart Data to Chosen Date', //specify date user changed to
-            label: 'Change Time Interval for PDI Survey Bar Chart'
+            label: 'Change Time Interval for PDI Survey Bar Chart to ' + e.target.value
         }); 
         this.setState({
             surveyIndex: e.target.value,
