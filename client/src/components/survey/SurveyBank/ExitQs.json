@@ -30,17 +30,17 @@
    {
        "id": 4, 
        "type": "TI", 
-       "question": "What difficulties did you experience using the medication dispenser" 
+       "question": "What difficulties did you experience using the medication dispenser? If you don't feel comfortable answering, type N/A. " 
    },
    {
        "id": 5, 
        "type": "TI", 
-       "question": "What difficulties did you experience using the online portal" 
+       "question": "What difficulties did you experience using the online portal? If you don't feel comfortable answering, type N/A. " 
    },
    {
        "id": 6, 
        "type": "TI", 
-       "question": "Were there any inaccuracies in the medication or symptom data (at any point did information from the online site not match with your actual dispensation times)" 
+       "question": "Were there any inaccuracies in the medication or symptom data (at any point did information from the online site not match with your actual dispensation times). If you don't feel comfortable answering, type N/A. " 
    },
    {
        "id": 7, 
@@ -73,12 +73,12 @@
    {
        "id": 11, 
        "type": "TI", 
-       "question": "Is there anything you wish the technology did, which it does not do currently?" 
+       "question": "Is there anything you wish the technology did, which it does not do currently? If you don't feel comfortable answering, type N/A. " 
    }, 
    {
        "id": 12, 
        "type": "TI", 
-       "question": "We genuinely appreciate all the feedback you have given our team. As students, we are hoping more than anything to learn and design a device that can help others. Is there any other constructive feedback you would like to add?" 
+       "question": "We genuinely appreciate all the feedback you have given our team. As students, we are hoping more than anything to learn and design a device that can help others. Is there any other constructive feedback you would like to add? If you don't feel comfortable answering, type N/A. " 
    }, 
    {
        "id": 13, 
@@ -202,6 +202,6 @@
    {
        "id": 30, 
        "type": "TI", 
-       "question": "Is there any way you believe the technology in the study helped you which was not already mentioned? If so, what are they?" 
+       "question": "Is there any way you believe the technology in the study helped you which was not already mentioned? If so, what are they? If you don't feel comfortable answering, type N/A. " 
    } 
 ]

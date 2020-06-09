@@ -72,7 +72,7 @@ class PatientData extends Component {
             dispenserLoaded,
             dispenserError, } = this.props;
 	
-	if(dispenserLoaded) {
+	if(dispenserLoaded && !this.state.hasDispenser) {
 		this.setState({ hasDispenser: true }); 
 	}
 
