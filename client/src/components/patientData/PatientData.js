@@ -8,6 +8,7 @@ import AddDispenser from './AddDispenser';
 import '../../css/PatientData.css';
 import DataView from './DataView';
 import SummaryStats from './SummaryStats';
+import ReactGA from 'react-ga'; 
 
 /** 
  * Component for displaying individual patient data
@@ -44,11 +45,11 @@ class PatientData extends Component {
 
     displayDispenserCode = () => {
         console.log("Display Dispenser Code. ");
-        // ReactGA.event({
-        //     category: 'Pop Up Modal', 
-        //     action: 'Generated dispenser code from Dashboard', 
-        //     label: 'Add Dispenser from Dashboard' 
-        // })
+        ReactGA.event({
+            category: 'Pop Up Modal', 
+            action: 'Clicked Add Dispenser', 
+            label: 'Generated dispenser code' 
+        })
         this.setState({
             toggleCodeDisplay: true
         });

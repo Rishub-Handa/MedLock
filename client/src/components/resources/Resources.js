@@ -10,18 +10,16 @@ class Resources extends Component {
                 <h1 style={{ marginBottom: "20px" }} class="header">Resources</h1>
 
                 <Collapsible className="module-container"
-                    title={
-                        <h6><strong>How do drugs work on the brain?</strong></h6>
-                    } paragraph={
+                    title="How do drugs work on the brain?" paragraph={
                         <div>
-                            <Collapsible className="module-container" title={<h6>Section 1</h6>
-                            } paragraph={
-                                <div>
-                                    <p> Drugs are chemicals. They work in the brain by tapping into the brain’s communication system and interfering with the way nerve cells of the brain normally send, receive, and process information.</p> <br />
-                                    <p> Some drugs, such as marijuana and heroin, can increase the action of neurons because their chemical structure copies that of a natural neurotransmitter (chemical which allows messages to be sent in the brain). This similarity in structure “fools” receptors and allows the drugs to lock onto and activate the nerve cells. </p>
-                                </div>}>
+                            <Collapsible className="module-container" title="Section 1"
+                                paragraph={
+                                    <div>
+                                        <p> Drugs are chemicals. They work in the brain by tapping into the brain’s communication system and interfering with the way nerve cells of the brain normally send, receive, and process information.</p> <br />
+                                        <p> Some drugs, such as marijuana and heroin, can increase the action of neurons because their chemical structure copies that of a natural neurotransmitter (chemical which allows messages to be sent in the brain). This similarity in structure “fools” receptors and allows the drugs to lock onto and activate the nerve cells. </p>
+                                    </div>}>
                             </Collapsible>
-                            <Collapsible className="module-container" title={<h6>Section 2</h6>}
+                            <Collapsible className="module-container" title="Section 2"
                                 paragraph={
                                     <div>
                                         <p> Although these drugs mimic brain chemicals, they don’t activate nerve cells in the exact same way as a neurotransmitter which we can produce normally in the body, and they lead to abnormal messages being transmitted through the network. </p> <br />
@@ -31,9 +29,8 @@ class Resources extends Component {
                         </div>
                     }></Collapsible>
                 <Collapsible className="module-container"
-                    title={
-                        <h6><strong>Understanding Drugs</strong></h6>
-                    } paragraph={
+                    title="Understanding Drugs"
+                    paragraph={
                         <div>
                             <p><strong> Types of drugs: </strong></p>
                             <p> • Stimulants (Caffeine, Amphetamines, Meth, Cocaine, and Nicotine, as well as Ecstasy/ MDMA to some extent) </p>
@@ -81,9 +78,8 @@ class Resources extends Component {
                         </div>
                     }></Collapsible>
                 <Collapsible className="module-container"
-                    title={
-                        <h6><strong>Understanding MAT</strong></h6>
-                    } paragraph={
+                    title="Understanding MAT"
+                    paragraph={
                         <div>
                             <p style={{ backgroundColor: "#a351cb" }}><strong> What is MAT? </strong></p>
                             <p> Medication-assisted treatment, or MAT, is an evidence-based treatment for substance use disorders, including OUD. </p>
@@ -123,9 +119,8 @@ class Resources extends Component {
                         </div>
                     }></Collapsible>
                 <Collapsible className="module-container"
-                    title={
-                        <h6><strong>Maintaining General Life</strong></h6>
-                    } paragraph={
+                    title="Maintaining General Life"
+                    paragraph={
                         <div>
                             <p style={{ backgroundColor: "#bba151" }}><strong> If taking drugs makes me happier what is the problem? </strong></p>
                             <p> At first, people may perceive what seem to be positive effects with drug use. They also may believe that they can control their use; however, drugs can quickly take over their lives. </p>
@@ -167,9 +162,8 @@ class Resources extends Component {
                         </div>
                     }></Collapsible>
                 <Collapsible className="module-container"
-                    title={
-                        <h6><strong>Building Community Support</strong></h6>
-                    } paragraph={
+                    title="Building Community Support"
+                    paragraph={
                         <div>
                             <p> Triggers </p>
                             <p> Wanting to get high is normal and a common reason for relapse. Triggers include things in your environment, friends you used to drink and use with, boredom, and loneliness. Physical pain, depression, and anxiety can trigger a relapse. </p>
@@ -187,9 +181,8 @@ class Resources extends Component {
                         </div>
                     }></Collapsible>
                 <Collapsible className="module-container"
-                    title={
-                        <h6><strong>Understanding Addiction</strong></h6>
-                    } paragraph={
+                    title="Understanding Addiction"
+                    paragraph={
                         <div>
                             <p> Can addiction be treated successfully? </p>
                             <p> Yes, addiction is a treatable disorder. Research on the science of addiction and the treatment of substance use disorders has led to the development of research-based methods that help people to stop using drugs and resume productive lives, also known as being in recovery. </p>
@@ -247,9 +240,8 @@ class Resources extends Component {
                         </div>
                     }></Collapsible>
                 <Collapsible className="module-container"
-                    title={
-                        <h6><strong>Opioid Safety Checklist</strong></h6>
-                    } paragraph={
+                    title="Opioid Safety Checklist"
+                    paragraph={
                         <div>
                             <p> Opioid Safety Checklist </p>
                             <p> Take the opioid medicine exactly as prescribed. Don't take more of the medicine than prescribed. Don't take the medicine more often than prescribed. </p>

@@ -10,20 +10,21 @@ export default class Collapsible extends React.Component {
         this.togglePanel = this.togglePanel.bind(this);
     }
 
-    togglePanel(e) {
+    togglePanel = (e) => {
+        
         ReactGA.event({
             category: 'Collapsible', 
             action: 'Resource Collapsible Toggled', 
             label: this.props.title
-        })
-        this.setState({ open: !this.state.open })
+        });
+        this.setState({ open: !this.state.open });
     }
 
     render() {
         return (
             <div style={this.props.style} className={this.props.className}>
-                <h4 onClick={(e) => this.togglePanel(e)} className='header'>
-                    <strong>{this.props.title}</strong></h4>
+                <h6 onClick={this.togglePanel} className='header'>
+                    <strong>{this.props.title}</strong></h6>
                 {
                     this.state.open ? (
                         <div className='content'>
