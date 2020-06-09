@@ -38,6 +38,7 @@ class PatientView extends Component {
     }
 
     render() {
+	console.log(this.props); 
         const { patient,
                 dispenser, 
                 dispenserLoading, 
@@ -49,15 +50,15 @@ class PatientView extends Component {
 
         const { pdiSurveys } = patient.medicalData.surveys;
 
-        if(dispenserError) {
+        if(dispenserError || (!dispenserLoading && !dispenser.dispenses)) {
             return (
                 <div>
-                    <div>Dispense Error: {dispenserError.message}</div>
+                    <div>This patient does not have a dispenser. </div>
                 </div>
             ); 
         }
 
-        if(dispenserLoading || !dispenserLoaded) {
+        if(dispenserLoading) {
             return (
                 <div>
                     <div class="loader"></div>
@@ -68,7 +69,7 @@ class PatientView extends Component {
 
         if (!dispenserLoading && dispenserLoaded && !dispenser) {
             return (
-                <div>This patient doesn't yet have a dispenser.</div>
+                <div>This patient does not have a dispenser.</div>
             )
         }
 

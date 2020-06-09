@@ -105,11 +105,16 @@ exports.assignRole = function assignRole(id, role) {
     console.log(`assigning ${role} role to user(id=${id})`);
     return fetchAMT().then(res => {
         const AMT = res.data.access_token;
+	console.log("ASSIGN ROLE AMT: "); 
+	console.log(AMT); 
         const API_URL = `https://medlock-dev.auth0.com/api/v2/users/${id}/roles`;
-        const headers = { authorization: `Bearer ${AMT}`, 'Content-Type': 'application/json' };
+        const headers = { authorization: `Bearer ${AMT}`, 'content-type': 'application/json' };
 
         // request body
         var req_body = {};
+	
+	console.log("TRYING TO ASSIGN ROLE: "); 
+	console.log(role); 
 
         // based on desired role to assign to user, attach role unique identifier 
         // to the request body
@@ -131,11 +136,11 @@ exports.assignRole = function assignRole(id, role) {
             default: 
                 throw new Error(`${role} is an invalid role.`);
         } 
-
         var promise = axios.post(API_URL, req_body, { headers });
         return promise;
     }).catch(error => {
-        console.log(error);
+	console.log("ASSIGN ROLE ERROR: "); 
+	console.log(error);
     });
 }
 

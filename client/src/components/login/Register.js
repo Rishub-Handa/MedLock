@@ -117,6 +117,8 @@ class Register extends Component {
             role: this.state.role,
             registerCode: this.state.registerCode
         }
+	console.log("NEW USER ROLE: "); 
+	console.log(newUser.role); 
         this.registerUser(newUser);
     }
 
