@@ -50,7 +50,7 @@ class PatientView extends Component {
 
         const { pdiSurveys } = patient.medicalData.surveys;
 
-        if(dispenserError || (!dispenserLoading && !dispenser.dispenses)) {
+        if(dispenserError || (dispenserLoaded && !dispenser) || !dispenser.events) {
             return (
                 <div>
                     <div>This patient does not have a dispenser. </div>
@@ -67,14 +67,8 @@ class PatientView extends Component {
             )
         }
 
-        if (!dispenserLoading && dispenserLoaded && !dispenser) {
-            return (
-                <div>This patient does not have a dispenser.</div>
-            )
-        }
-
         var data = {}
-        if (pdiSurveys) {
+        if (pdiSurveys[0]) {
             data = {
                 ...data,
                 pdisurveys: pdiSurveys,

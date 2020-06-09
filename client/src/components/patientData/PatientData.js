@@ -100,7 +100,7 @@ class PatientData extends Component {
         }
 
         var data = {}
-        if (allPDISurveys) {
+        if (allPDISurveys[0] && !surveyError) {
             data = {
                 ...data,
                 pdisurveys: allPDISurveys,
