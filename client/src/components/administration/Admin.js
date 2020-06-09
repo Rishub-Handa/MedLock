@@ -131,6 +131,8 @@ class Admin extends Component {
             fetchProvidersError,
             clinicsFetching,
             fetchClinicsError,
+            patientDeleting,
+            providerDeleting
         } = this.props;
 
         if (fetchProvidersError || fetchPatientsError || fetchClinicsError) {
@@ -142,7 +144,7 @@ class Admin extends Component {
             );
         }
 
-        if (providersFetching || patientsFetching || clinicsFetching) {
+        if (providersFetching || patientsFetching || clinicsFetching || patientDeleting || providerDeleting) {
             return (
                 <div>
                     <div class="loader"></div>
@@ -222,6 +224,8 @@ const mapStateToProps = state => ({
 
     deletedProviders: state.providerState.deletedProviders,
     deletedPatients: state.patientState.deletedPatients,
+    patientDeleting: state.patientState.patientDeleting,
+    providerDeleting: state.providerState.providerDeleting,
 
     clinicsFetching: state.clinicState.clinicsFetching,
     clinicsFetched: state.clinicState.clinicsFetched,

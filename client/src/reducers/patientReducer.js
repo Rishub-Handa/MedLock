@@ -120,11 +120,15 @@ export default function(state = initialState, action) {
                 patientDeleting: true,
             };
         case DELETE_PATIENT_SUCCESS:
+            var updatedPatients = state.patients.filter(patient => {
+                console.log(patient._id);
+                return patient._id != action.payload.patients[0]._id;
+            });
             return {
                 ...state,
                 patientDeleting: false,
                 deletedPatients: action.payload.patients,
-                patients: state.patients.filter(patient => patient._id != action.payload.patients[0]._id) // right now delete patient only deletes one patient so this is fine for now
+                patients: updatedPatients,
             };
         case DELETE_PATIENT_FAILURE:
             return {

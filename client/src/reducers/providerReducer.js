@@ -71,11 +71,16 @@ export default function(state = initialState, action) {
                 providerDeleting: true
             };
         case DELETE_PROVIDER_SUCCESS:
+            var updatedProviders = state.providers.filter(provider => {
+                console.log(provider._id);
+                console.log(action.payload.providers);
+                return provider._id != action.payload.providers[0]._id;
+            });
             return {
                 ...state,
                 providerDeleting: false,
                 deletedProviders: action.payload.providers,
-                providers: state.providers.filter(provider => provider._id != action.payload.providers[0]._id) // right now delete patient only deletes one patient so this is fine for now
+                providers: updatedProviders,
 
             };
         case DELETE_PROVIDER_FAILURE:

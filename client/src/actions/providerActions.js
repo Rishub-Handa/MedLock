@@ -101,7 +101,7 @@ const deleteProviderBegin = () => ({
 const deleteProviderSuccess = providers => ({
     type: DELETE_PROVIDER_SUCCESS,
     payload: {
-        FETCH_ALL_PROVIDERS_BEGIN
+        providers
     }
 });
 
