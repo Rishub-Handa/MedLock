@@ -115,20 +115,6 @@ export const modules = [
         link: '/dashboard/survey'
     },
     {
-        name: 'Dispenser',
-        id: 'dispenser',
-        roles: [
-            {
-                name: 'Patient', 
-                description: 'Simulate dispenses'
-            }
-        ], 
-        content:  {
-            icon: MyDataIcon,
-        },
-        link: '/dashboard/dispenser'
-    },
-    {
         name: 'Documents',
         id: 'documents',
         roles: [
@@ -142,5 +128,6 @@ export const modules = [
         },
         link: '/dashboard/documents'
     }
+
 
 ]

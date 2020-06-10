@@ -59,6 +59,7 @@ class NewUser extends Component {
         // Send Password Reset Email and Test Temporary Password Email 
         resetPassword(this.props.profile.personalData.email);
         this.props.toggle();
+
     }
 
     onChange = e => {

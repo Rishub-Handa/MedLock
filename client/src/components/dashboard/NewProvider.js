@@ -63,6 +63,7 @@ class NewProvider extends Component {
 
         console.log(this.props.profile.personalData.email);
         resetPassword(this.props.profile.personalData.email);
+
         this.props.toggle();
     }
 
