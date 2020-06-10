@@ -1,6 +1,7 @@
 import auth0 from 'auth0-js';
 import history from '../components/nav/history';
 import { MEDLOCK_URL, MEDLOCK_AUDIENCE } from '../config/servers';
+import ReactGA from 'react-ga'; 
 
 class Auth {
     accessToken;
@@ -15,7 +16,7 @@ class Auth {
     // it should match the API identifier in auth0 and the audience in checkJWT
     auth0 = new auth0.WebAuth({
         domain: 'medlock-dev.auth0.com',
-        clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l',
+        clientID: '1CF1ZJqKO4RVUdkyku4LAWN78tAPhN7l', // should probably make an API call to get this info
         redirectUri: `${MEDLOCK_URL}/callback`,
         responseType: 'token id_token',
         audience: MEDLOCK_AUDIENCE,
@@ -95,6 +96,11 @@ class Auth {
     }
 
     logout() {
+        ReactGA.event({
+            category: 'Logout', 
+            action: 'User Logged Out', 
+            label: 'Click Logout from Sidebar' 
+        })
         // Remove tokens and expiry time
         this.accessToken = null;
         this.idToken = null;

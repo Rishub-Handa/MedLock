@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import infoIcon from '../../../icons/003-info.svg';
 import history from '../history';
-
+import ReactGA from 'react-ga'; 
 
 export default class ModuleLink extends Component {
     
     route = () => {
+        ReactGA.event({
+            category: 'Sidebar Click', 
+            action: 'Navigated to ' + this.props.module.name + ' from Sidebar', 
+            label: 'Click ' + this.props.module.name + ' from Sidebar'
+        }); 
+        console.log(this.props.module.link);
+        console.log(history);
         history.push(this.props.module.link);
     }
     

@@ -8,6 +8,8 @@ import store from './store';
 import { Router } from 'react-router-dom';
 import history from './components/nav/history';
 import 'bootstrap/dist/css/bootstrap.min.css';
+require('dotenv').config();
+console.log(process.env);
 
 ReactDOM.render(
     <Provider store={store}>

@@ -4,7 +4,13 @@ import {
     FETCH_ROLES_FAILURE, 
     AUTH0_REGISTRATION_BEGIN, 
     AUTH0_REGISTRATION_SUCCESS, 
-    AUTH0_REGISTRATION_FAILURE 
+    AUTH0_REGISTRATION_FAILURE,
+    VALIDATE_REGISTER_CODE_BEGIN,
+    VALIDATE_REGISTER_CODE_SUCCESS,
+    VALIDATE_REGISTER_CODE_FAILURE, 
+    FETCH_USER_DATA_BEGIN,
+    FETCH_USER_DATA_SUCCESS,
+    FETCH_USER_DATA_FAILURE,
 } from '../actions/types';
 
 const initialState = {
@@ -14,9 +20,14 @@ const initialState = {
     AMT: null, 
     AMTLoading: false, 
     AMTError: null, 
-    userProfile: null, 
+    userProfile: null,
+    userData: null, 
     userProfileLoading: false, 
-    userProfileError: null 
+    userProfileError: null,
+    registerCodeValidating: false,
+    registerCodeValidated: false,
+    userDataLoading: false,
+    userDataError: false,
 }
 
 export default function(state = initialState, action) {
@@ -58,6 +69,40 @@ export default function(state = initialState, action) {
                 userProfileLoading: false, 
                 userProfileError: action.payload.error 
             }; 
+        case VALIDATE_REGISTER_CODE_BEGIN:
+            return {
+                ...state, 
+                registerCodeValidating: true,
+            };
+        case VALIDATE_REGISTER_CODE_SUCCESS:
+            return {
+                ...state,
+                registerCodeValidating: false,
+                registerCodeValidated: true,
+            };
+        case VALIDATE_REGISTER_CODE_FAILURE:
+            return {
+                ...state,
+                registerCodeValidating: false,
+                registerCodeValidated: false,
+            };
+        case FETCH_USER_DATA_BEGIN:
+            return {
+                ...state,
+                userDataLoading: true,
+            };
+        case FETCH_USER_DATA_SUCCESS:
+            return {
+                ...state, 
+                userData: action.payload.userData,
+                userDataLoading: false,
+            };
+        case FETCH_USER_DATA_FAILURE:
+            return {
+                ...state,
+                userDataError: action.payload.error,
+                userDataLoading: false,
+            };
         default:
             return state;
     }

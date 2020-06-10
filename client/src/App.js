@@ -12,7 +12,16 @@ import { withRouter } from 'react-router-dom';
 // import Graphs from './components/graphs/Graphs';
 import ReactGA from 'react-ga'; 
 import history from './components/nav/history'; 
+import Register from './components/login/Register';
 
+const trackingId = "UA-155183323-1"; 
+ReactGA.initialize(trackingId, {
+  debug: true, // Turn Off Deployment 
+  titleCase: false 
+  // gaOptions: {
+  //   userId: 123
+  // }
+});
 
 
 const handleAuthentication = (nextState, replace) => {
@@ -28,7 +37,8 @@ const makeMainRoutes = () => {
   return (
     <div>
       <Route exact path="/" component={Login} />
-      <Route exact path="/admin" component={Admin} />
+      <Route exact path="/register" component={Register} />
+      <SecuredRoute exact path="/admin" component={Admin} />
       <SecuredRoute path="/home" component={Home} />
       <SecuredRoute path="/dashboard" component={Dashboard} />
       <Route path="/callback" render={(props) =>{
@@ -42,8 +52,7 @@ const makeMainRoutes = () => {
 export class App extends Component {
 
 
-  render() {
-    ReactGA.initialize('UA-155183323-1');
+  render() { 
 
     history.listen((location, action) => {
       console.log(location); 

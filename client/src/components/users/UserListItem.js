@@ -17,11 +17,12 @@ export default class UserListItem extends Component {
     }
 
     render() {
-        const { user, viewUser, deleteUser } = this.props;
+        const { user, viewUser, deleteUser, addDispenser } = this.props;
+        console.log(viewUser);
         console.log("USER:");
         console.log(user);
         return (
-            <div className="UserListItem" onClick={() => viewUser(user)}>
+            <div className="UserListItem" /*onClick={() => viewUser(user)}*/ >
                 <div className="UserListItem-userInfo">
                     <div>
                         <h4>{user.personalData.name}</h4>
@@ -31,6 +32,7 @@ export default class UserListItem extends Component {
                     </div>
                 </div>
                 <div className="UserListItem-options">
+                    <button onClick={() => addDispenser(user)}>Add Dispenser</button>
                     <button onClick={() => viewUser(user)}>View</button>
                     <button>Edit</button>
                     <button onClick={() => deleteUser(user._id)}>Delete</button>

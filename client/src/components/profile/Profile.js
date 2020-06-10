@@ -5,21 +5,29 @@ import { Button } from 'reactstrap';
 import { editProfile, saveProfile } from '../../actions/profileActions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import profilePic from './profile_pic.png';
+import editPic from './edit-profile.png';
 import '../../css/Profile.css';
+import ReactGA from 'react-ga'; 
+
 class Profile extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            role: props.roles[0].name,
-        }
-    }
-
     onProfileSave = (updatedPersonalData) => {
-        this.props.saveProfile(updatedPersonalData, this.state.role);
+        console.log(updatedPersonalData);
+        //
+        ReactGA.event({
+            category: 'Profile Interaction', 
+            action: 'Updated Personal Data', 
+            label: 'Click Save after Edit Profile'
+        }); 
+        this.props.saveProfile(updatedPersonalData, this.props.role);
     }
 
     onProfileEdit = () => {
+        ReactGA.event({
+            category: 'Profile Interaction', 
+            action: 'Opened Edit Profile Form', 
+            label: 'Click Edit Profile'
+        }); 
         this.props.editProfile();
     }
 
@@ -30,7 +38,7 @@ class Profile extends Component {
             <ProfileModule name={profileModule.name} content={profileModule.content} editable={this.props.editable} />
         ));
     };
-    
+
     // addProfileModule = () => { 
     //     this.setState(prevState => ({
     //         profileModules: [...prevState.profileModules, 
@@ -44,8 +52,8 @@ class Profile extends Component {
     // }
 
     render() {
-        const { personalData, profileSaving, error, editable } = this.props;
-        
+        const { personalData, profileSaving, error, editable, role } = this.props;
+
         if (error) {
             return (
                 <div>
@@ -64,10 +72,12 @@ class Profile extends Component {
 
         return (
             <div className="profile-container" align="center">
-                <h1 class="header">Profile</h1>
+                <h1 className="header">Profile</h1>
                 <div className="main" align="center">
+                    <img className="profilePic" src={profilePic} />
+                    <Button variant="light" onClick={this.onProfileEdit} className="editProfile">Edit Profile<img src={editPic} width="30" height="30" /></Button>
                     <div className="personalInfo-container">
-                        <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} role={this.state.role} />
+                        <PersonalInfo personalData={personalData} onProfileSave={this.onProfileSave} onProfileEdit={this.onProfileEdit} editable={editable} role={role} />
                     </div>
                     {/* <div className="profileModules-container">
                         {this.profileModulesHTML(this.state.profileModules)}
@@ -87,7 +97,7 @@ Profile.propTypes = {
 }
 
 const mapStateToProps = state => ({
-    personalData: state.profileState.profile.personalData,
+    userData: state.authState.userData.personalData,
     editable: state.profileState.editable,
     profileLoading: state.profileState.loadingProfile,
     profileSaving: state.profileState.profileSaving,

@@ -1,0 +1,35 @@
+.dropZone {
+    border: 1px dashed black; 
+    width: 220px;
+    height: 200px;
+    border-radius: 10px;
+    padding: 15px;
+    font-weight: bold;
+    color: var(--medlock-dark-gray);
+    margin: 20px 5px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.dropZone:hover {
+    background-color: var(--medlock-light-gray);
+    cursor: pointer;
+}
+
+.filePreview {
+    display: flex;
+    flex-direction: row;
+}
+
+.bodyText-single {
+    margin: 10px 0px;
+    font-weight: 600;
+    color: var(--medlock-dark-gray);
+}
+
+.two-btn > * {
+    margin: 0px 10px;
+    margin-bottom: 25px;
+}
+

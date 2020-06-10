@@ -30,6 +30,12 @@
     background-color: white;/*var(--medlock-blue);*/
 } 
 
+.btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 #login-button {
     position: relative;
     display: flex;
@@ -41,8 +47,33 @@
     font-weight: bold;
     font-size: 1.3vw;
     text-align: center;    
-    margin: auto;
+    margin: 0 5px 0 0;
     align-content: center;
     justify-content: center;
     text-align: center;
+}
+
+#login-button:hover {
+    background: var(--medlock-dark-blue);
+}
+
+#register-btn {
+    position: relative;
+    display: flex;
+    border-width: 5px;
+    border-radius: 1vw;
+    border-color: white;
+    font: var(--medlock-blue);
+    background: var(--medlock-blue);
+    font-weight: bold;
+    font-size: 1.3vw;
+    text-align: center;    
+    margin: 0 0 0 5px;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#register-btn:hover {
+    background: var(--medlock-dark-blue);
 }

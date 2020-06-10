@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose'); 
 const Patient = require('../../../models/Patient');
 const Dispenser = require('../../../models/Dispenser');
+const CheckIn = require('../../../models/CheckIn'); 
 
 const router = express.Router();
 
@@ -24,6 +25,7 @@ router.get('/', (req, res) => {
         })
         .catch(error => res.status(404).json(error));
 });
+
 
 router.post('/modules', (req, res) => {
     console.log("ProfileModule POST Request");
@@ -54,6 +56,8 @@ router.get('/modules', (req, res) => {
 // @desc    update existing patient
 // @access  Private, requires Auth0 Access Token 
 router.put('/', (req, res) => {
+    console.log("PATIENT UPDATE REQUEST REQUEST");
+    console.log(req.body);
     var patientId = req.user.sub.substring(6);
     Patient.findById(patientId, (err, patient) => {
         if (err) return res.status(500).send(err); 
@@ -66,32 +70,28 @@ router.put('/', (req, res) => {
             .then(patient => {
                 console.log("Patient Updated.");
                 console.log(patient.personalData);
-                res.send(patient.personalData);
+                res.send(patient);
             });
     });
-    // Patient.findByIdAndUpdate(
-    //     patientId,
-    //     {personalData: req.body},
-    //     {new: true},
-    //     (err, patient) => {
-    //         if (err) return res.status(500).send(err);
-    //         console.log(patient);
-    //         return res.send(patient);
-    //     });
 });
 
 router.post('/code', (req, res) => {
     console.log("Dispenser Code POST Request");
 
-    console.log(req.body);
+    console.log(req.body.numArray);
 
-    // Use different logic to identify patient if the provider is registering the patient dispenser 
+    var patientId = ""; 
 
-    var patientId = req.user.sub.substring(6);
+    if(req.body.patientId) {
+        patientId = req.body.patientId; 
+    } else {
+        req.user.sub.substring(6); 
+    }
+
     Patient.findById(patientId, (err, patient) => {
-        if (err) return res.status(500).send(err); 
+        if (err || !patient) return res.status(500).send(err); 
 
-        patient.medicalData.dispenserCode = req.body; 
+        patient.medicalData.dispenserCode = req.body.numArray; 
 
         return patient.save()
             .then(patient => {
@@ -101,6 +101,80 @@ router.post('/code', (req, res) => {
             })
     }); 
 
+}); 
+
+router.post('/checkIn', (req, res) => {
+    console.log("CheckIn POST Request");
+    // Patient.updateOne(
+    //     { "_id": req.user.sub.substring(6) },
+    //     { "$push":
+    //         { "modules":
+    //             {
+    //                 "name": req.body.name,
+    //                 "content": req.body.content
+    //             }    
+    //         }
+    //     }
+    // )
+    //     .then(profileModule => res.json(profileModule))
+    //     .catch(err => res.json(err)); 
+
+    console.log(req.body); 
+
+    var id = req.body.patientId;
+
+    
+    Patient.findById(id)
+        .then(patient => {
+            const newCheckIn = new CheckIn({
+                data: req.body.responses, 
+            }); 
+
+            patient.medicalData.checkIns.push(newCheckIn); 
+
+            patient.save() 
+                .then(patient => {
+                    res.json(patient.medicalData.checkIns); 
+                }) 
+                .catch(error => console.log(error));
+        })
+        .catch(error => res.status(404).json(error));
+    
+});
+
+router.put('/medicaldata', (req, res) => {
+    console.log("PUT request to /medicaldata");
+    var patientId = req.body._id;
+    Patient.findById(patientId, (err, patient) => {
+        if (err) return res.status(500).send(err);
+        console.log(patient);
+        console.log(req.body);
+
+        for (var property in req.body.medicalData) {
+            if (property == "provider") {
+                var providerId = req.body.medicalData[property];
+                patient.medicalData.providers.push(providerId);
+                Provider.findById(providerId, (err, provider) => {
+                    const newPatientInfo = {
+                        _id: patient._id,
+                        name: patient.personalData.name,
+                        email: patient.personalData.email,
+                    };
+                    provider.medicalData.patients.push(newPatientInfo);
+                    provider.save();
+                });
+            } else {
+                patient.medicalData[property] = req.body.medicalData[property];
+            }
+        }
+
+        return patient.save()
+            .then(patient => {
+                console.log(`Patient(id=${patient._id}) updated.`);
+                console.log(`Updated Medical Data: ${patient.medicalData}`);
+                res.send(patient);
+        });
+    });
 });
 
 module.exports = router;

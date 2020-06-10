@@ -19,17 +19,19 @@ export default class PatientSection extends Component {
                 <div className="PatientSection-header">
                     <h3 className="header">Patients</h3>
                 </div>
-                <div className="ProviderSection-content">
+                <div className="PatientSection-content">
                     <div className="patientList-container">
                         <UserList 
                             users={this.props.patients}
                             viewUser={this.viewUser}
                             deleteUser={this.props.deletePatient}
+                            deleteAllUsers={this.props.deleteAllPatients}
+                            createNewUser={this.props.createNewPatient}
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <Button className="red-button" onClick={this.props.deleteAllPatients}>Delete All</Button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );

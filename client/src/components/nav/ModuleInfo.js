@@ -1,10 +1,12 @@
-// Include Profiles Section 
-import InboxIcon from '../../icons/round-email-24px.svg';
+// location of svg files for module icons
+// icons taken from: https://material.io/resources/icons/?style=baseline
 import MyDataIcon from '../../icons/round-timeline-24px.svg';
 import ResourcesIcon from '../../icons/round-folder-24px.svg';
 import DashboardIcon from '../../icons/round-home-24px.svg';
 import ProfileIcon from '../../icons/round-person-24px.svg';
 import MyPatientsIcon from '../../icons/round-people-24px.svg';
+import DocumentsIcon from '../../icons/round-description-24px.svg';
+import MySurveysIcon from '../../icons/poll-white-18dp.svg';
 
 export const modules = [
     {
@@ -16,24 +18,24 @@ export const modules = [
         },
         link: '/dashboard',
     }, 
-    {
-        name: 'Inbox', 
-        id: 'inbox',
-        roles: [
-            {
-                name: 'Provider', 
-                description: 'Access messages from patients and other providers'
-            }, 
-            {
-                name: 'Patient', 
-                description: 'Access messages from my providers '
-            }
-        ], 
-        content: {
-            icon: InboxIcon, 
-        },
-        link: '/dashboard/inbox'
-    },
+    // {
+    //     name: 'Inbox', 
+    //     id: 'inbox',
+    //     roles: [
+    //         {
+    //             name: 'Provider', 
+    //             description: 'Access messages from patients and other providers'
+    //         }, 
+    //         {
+    //             name: 'Patient', 
+    //             description: 'Access messages from my providers '
+    //         }
+    //     ], 
+    //     content: {
+    //         icon: InboxIcon, 
+    //     },
+    //     link: '/dashboard/inbox'
+    // },
     {
         name: 'My Data',
         id: 'mydata',
@@ -108,7 +110,7 @@ export const modules = [
             }
         ], 
         content:  {
-            icon: MyDataIcon,
+            icon: MySurveysIcon,
         },
         link: '/dashboard/survey'
     },
@@ -125,6 +127,20 @@ export const modules = [
             icon: MyDataIcon,
         },
         link: '/dashboard/dispenser'
+    },
+    {
+        name: 'Documents',
+        id: 'documents',
+        roles: [
+            {
+                name: 'Patient',
+                description: 'Upload, store, and access your MedLock documents.'
+            }
+        ],
+        content: {
+            icon: DocumentsIcon
+        },
+        link: '/dashboard/documents'
     }
 
 ]

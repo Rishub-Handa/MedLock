@@ -6,6 +6,8 @@ import authReducer from './authReducer';
 import providerReducer from './providerReducer'; 
 import patientReducer from './patientReducer'; 
 import sideBarReducer from './sideBarReducer';
+import clinicReducer from './clinicReducer';
+import documentReducer from './documentReducer';
 
 export default combineReducers({
     profileState: profileReducer, 
@@ -14,5 +16,7 @@ export default combineReducers({
     authState: authReducer,
     providerState: providerReducer, 
     patientState: patientReducer,
-    sideBarState: sideBarReducer 
+    sideBarState: sideBarReducer,
+    clinicState: clinicReducer,
+    documentState: documentReducer,
 });

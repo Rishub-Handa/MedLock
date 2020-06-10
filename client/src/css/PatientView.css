@@ -1,12 +1,14 @@
 .patientView-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 95%;
     height: 100%;
 }
 
 .patientView-container > * {
-    border: 1px solid #ccc;
+    border: 2px solid var(--medlock-light-gray);
+    margin-bottom: 10px;
+    border-radius: 10px;
 }
 
 .leftPanel {
@@ -21,11 +23,43 @@
 .personalDataView-container {
     display: flex;
     flex-direction: column;
+    padding: 15px;
 }
 
-.personalDataView-container > * {
-    align-self: center;
+.content > h4 {
+    color: var(--medlock-dark-gray);
 }
+
+.content > h6 {
+    color: var(--medlock-gray);
+    font-weight: 500;
+    margin: 0px;
+}
+
+.checkIn-container{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border-color: var(--medlock-blue);
+    border-width: 3px;
+}
+
+.error-box {
+    padding: 5px;
+    padding-left: 15px;
+    background-color: var(--medlock-red);
+    color: white;
+}
+
+.confirmation-box {
+    padding: 5px;
+    padding-left: 15px;
+    background-color: green;
+    color: white;
+}
+.confirmation-box > * { margin: 0 }
+
+.error-box > * { margin: 0 }
 
 .medicalDataView-container {
     display: flex;
@@ -45,4 +79,8 @@
 .consumptionDataView-content {
     display: flex;
     flex-direction: column;
+} 
+
+.patientData-comp {
+    padding: 15px;
 }

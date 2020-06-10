@@ -1,14 +1,24 @@
-.UserList-header {
+/* .UserList-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+} */
+.UserList {
+    text-align: center;
+}
+
+.UserList-ControlPanel {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
+
 .Users-container {
     display: flex;
     flex-direction: column;
-    width: 75%;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
 }
 
 .Users-container > * {
@@ -22,5 +32,59 @@
     padding-bottom: 0px;
     padding-left: 15px;
     text-align: center;
-    width: inherit;
+    width: 100%;
+}
+
+.createNewUserForm {
+    width: 100%;
+    padding: 20px;
+    display: inline-block;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    float: left;
+    box-shadow: 0px 0px 5px var(--medlock-gray);
+}
+
+.input-form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.form-heading {
+    margin: auto;
+    text-align: center;
+    padding-right: 10px;
+}
+
+.create-new-btn {
+    color: white;
+    background-color: var(--medlock-blue);
+    border-radius: 5px;
+    border: none;
+    margin-right: 10px;
+    height: 30px;
+    font-weight: 600;
+    box-shadow: 0px 2px 2px var(--medlock-gray);
+}
+
+.cancel-button{
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-right: 5px;
+    height: 30px;
+    font-weight: 600;
+    color: var(--medlock-dark-gray);
+    margin-right: 0px;
+    margin-top: 0px;
+}
+.delete-btn {
+    color: white;
+    background-color: red;
+    border-radius: 5px;
+    border: none;
+    height: 30px;
+    font-weight: 600;
+    box-shadow: 0px 2px 2px var(--medlock-gray);
 }
