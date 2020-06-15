@@ -125,9 +125,9 @@ const fetchDocumentsFailure = error => ({
 export function fetchDocuments() {
     console.log("fetchDocuments called");
     // used to authorize request to server, provides JWT
-    const { getAccessToken } = auth0client;
     const API_URL = `${MEDLOCK_API}/patient/document`;
     // places JWT in header so that request is authorized
+    const { getAccessToken } = auth0client;
     const headers = {
         'Authorization': `Bearer ${getAccessToken()}`
     };

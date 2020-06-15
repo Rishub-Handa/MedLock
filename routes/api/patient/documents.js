@@ -12,7 +12,7 @@ var async = require('async');
 
 // multer is middleware used to handle multipart form data
 const multer = require('multer'); 
-var multerupload = multer({ dest: 'uploads/' });
+var multerupload = multer({ dest: `${__dirname}/uploads/` });
 
 console.log('Reached api/patient/document endpoint');
 
@@ -30,6 +30,7 @@ router.post('/upload', multerupload.any(), (req, res) => {
         async.waterfall([
             (callback) => {
                 fs.readFile(file.path, (err, data) => {
+                    console.log(data);
                     if (err) {
                         console.log("err occurred");
                     } else {
@@ -137,6 +138,46 @@ router.post('/delete', (req, res) => {
 });
 
 // @route   POST api/patient/documents/delete
+// @desc    Retrieve all documents belonging to patient.
+// @access  Private, requires an Auth0 Access Token
+router.get('/download', (req, res) => {
+    console.log("POST request at api/patient/document/download");
+    const pathToUploads = '../../../uploads';
+    console.log(__filename);
+    fs.readdir(__dirname, (err, files) => {
+        files.forEach(file => {
+          console.log(file);
+        });
+    });
+    console.log(__dirname);
+    var id = req.user.sub.substring(6);
+    Patient.findById(id)
+        .then(patient => {
+            console.log("patient found");
+            if (patient) {
+                // send patient's documents back to client
+                const documentIds = patient.documents.map(doc => {
+                    var docId = mongoose.Types.ObjectId(doc._id);
+                    return docId;
+                });
+                console.log(documentIds);
+                Document.find({
+                    "_id": {
+                        "$in": documentIds
+                    }
+                })
+                .then(doc => {
+                    var filepath = `${__dirname}\\uploads\\c0ec7ecccf70b932fddb3de7b7bc2da4`;
+                    console.log(filepath);
+                    res.download(filepath);
+                })
+                .catch(err => console.log(err));
+            }
+        })
+        .catch(error => res.status(404).json(error));
+});
+
+// @route   GET api/patient/documents
 // @desc    Retrieve all documents belonging to patient.
 // @access  Private, requires an Auth0 Access Token
 router.get('/', (req, res) => {
