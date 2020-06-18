@@ -6,14 +6,27 @@ const DocumentSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    name: {
+    original_name: {
+        type: String,
+        required: true,
+    },
+    file_name: {
         type: String,
         required: true,
     },
     data: {
         type: Schema.Types.Buffer,
         required: true,
+    },
+    encoding: {
+        type: String,
+        required: true,
+    },
+    mimetype: {
+        type: String,
+        required: true,
     }
+
 });
 
 module.exports = DocumentSchema;

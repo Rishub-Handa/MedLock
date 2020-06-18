@@ -42,8 +42,11 @@ router.post('/upload', multerupload.any(), (req, res) => {
                 // create new document
                 var newDocument = new Document({
                     _id: mongoose.Types.ObjectId(),
-                    name: file.originalname,
+                    original_name: file.originalname,
+                    file_name: file.filename,
                     data: data,
+                    encoding: file.encoding,
+                    mimetype: file.mimetype,
                 });
 
                 // add _id to documentIds
@@ -55,20 +58,10 @@ router.post('/upload', multerupload.any(), (req, res) => {
                     callback(null, 'success');               
                 });
 
-                // add document to patient
-                // Patient.findById(patientId)
-                //     .then(patient => {
-                //         var documents = patient.documents;
-                //         documents.push(newDocument._id);
-                //         patient.documents = documents;
-                //         patient.save().then(patient => {
-                //             console.log(`Patient(id=${patient._id}) added Document(id=${newDocument._id}) to their list of documents.`);
-                //             callback(null, 'success');
-                //         });
-                //     });
             }], (err, result) => {
                 // result now equals 'done'
                 // pass final callback to async each to move on to the next file
+                console.log(`Result: ${result}`);
                 eachcallback();
             });
         // do something for each file
@@ -140,38 +133,24 @@ router.post('/delete', (req, res) => {
 // @route   POST api/patient/documents/delete
 // @desc    Retrieve all documents belonging to patient.
 // @access  Private, requires an Auth0 Access Token
-router.get('/download', (req, res) => {
+router.post('/download', (req, res) => {
     console.log("POST request at api/patient/document/download");
-    const pathToUploads = '../../../uploads';
-    console.log(__filename);
-    fs.readdir(__dirname, (err, files) => {
-        files.forEach(file => {
-          console.log(file);
-        });
-    });
-    console.log(__dirname);
     var id = req.user.sub.substring(6);
+    var documentId = req.body.documentId;
     Patient.findById(id)
         .then(patient => {
             console.log("patient found");
             if (patient) {
-                // send patient's documents back to client
-                const documentIds = patient.documents.map(doc => {
-                    var docId = mongoose.Types.ObjectId(doc._id);
-                    return docId;
-                });
-                console.log(documentIds);
-                Document.find({
-                    "_id": {
-                        "$in": documentIds
-                    }
-                })
-                .then(doc => {
-                    var filepath = `${__dirname}\\uploads\\c0ec7ecccf70b932fddb3de7b7bc2da4`;
-                    console.log(filepath);
-                    res.download(filepath);
-                })
-                .catch(err => console.log(err));
+                Document.findById(documentId)
+                    .then(document => {
+                        var file_path = `${__dirname}/uploads/${document.file_name}`;
+                        console.log(file_path); 
+                        // res.json({ document });
+                        res.download(file_path);
+                    })
+                    .catch(error => {
+                        console.log(err);
+                    });
             }
         })
         .catch(error => res.status(404).json(error));
