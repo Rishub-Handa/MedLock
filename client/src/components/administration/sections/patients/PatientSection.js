@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import UserList from '../../../users/UserList';
 import { Button } from 'reactstrap';
+import PatientView from '../../../patientView/PatientView';
 import '../../../../css/Admin.css';
 
 
 export default class PatientSection extends Component {
     viewUser = (user) => {
-        console.log(`Mock Viewing: ${user.personalData.name}`);
+        console.log(`Mock Viewing: ${user.personalData.name}`); 
     }
     
     deleteUser = (id) => {
@@ -23,10 +24,11 @@ export default class PatientSection extends Component {
                     <div className="patientList-container">
                         <UserList 
                             users={this.props.patients}
-                            viewUser={this.viewUser}
+                            viewUser={this.props.viewPatient}
                             deleteUser={this.props.deletePatient}
                             deleteAllUsers={this.props.deleteAllPatients}
                             createNewUser={this.props.createNewPatient}
+                            addDispenser={this.props.addDispenser}
                         />
                     </div>
                     {/* <div>

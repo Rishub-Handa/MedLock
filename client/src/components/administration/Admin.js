@@ -13,13 +13,20 @@ import PropTypes from 'prop-types';
 import { fetchAllClinics, registerNewClinic } from '../../actions/clinicActions';
 import '../../css/Admin.css';
 import autho0client from '../../auth/Auth';
+import PatientView from '../patientView/PatientView';
+import DispenserCode from '../patientData/DispenserCode';
 
 class Admin extends Component {
 
     clinics = [{ "name": "clinic1" }, { "name": "clinic2" }]
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            onePatientView: false,
+            viewedPatient: null,
+            dispenserCodeDisplay: false,
+            dispenserCodeUser: null,
+        };
     }
 
     componentDidMount() {
@@ -34,6 +41,21 @@ class Admin extends Component {
             [e.target.name]: e.target.value
         });
         console.log(this.state);
+    }
+
+    addDispenser = (user) => {
+        this.setState({
+            ...this.state,
+            dispenserCodeDisplay: true,
+            dispenserCodeUser: user,
+        });
+    }
+
+    hideDispenserCode = () => {
+        this.setState({ 
+            ...this.state,
+            dispenserCodeDisplay: false,
+        });
     }
 
     // TODO: change so that fetchAMT isn't required for an Admin to register a new Provider
@@ -120,6 +142,13 @@ class Admin extends Component {
         this.props.registerNewClinic(newClinic);
     }
 
+    viewPatient = (patient) => {
+        this.setState({
+            onePatientView: true,
+            viewedPatient: patient
+        });
+    }
+
     render() {
         const { patients,
             patientsFetching,
@@ -153,16 +182,30 @@ class Admin extends Component {
             );
         }
 
+        if (this.state.onePatientView) {
+            return (
+                <PatientView patient={this.state.viewedPatient} />
+            );
+        }
+
         return (
             <div>
                 <div className="Admin-header">
                     <h1 className="header">MedLock Admin</h1>
                 </div>
+                {
+                    this.state.dispenserCodeDisplay &&
+                    <div className="DispenserCode-container">
+                        <DispenserCode hideDispenserCode={this.hideDispenserCode} userProfile={this.state.dispenserCodeUser} />
+                    </div>
+                }
                 <div className="Admin-content">
                     <PatientSection
                         patients={patients}
                         deletePatient={this.deletePatient}
                         deleteAllPatients={this.deleteAllPatients}
+                        viewPatient={this.viewPatient}
+                        addDispenser={this.addDispenser}
                     />
                     <ProviderSection
                         providers={providers}

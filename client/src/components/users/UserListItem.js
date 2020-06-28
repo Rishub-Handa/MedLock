@@ -32,18 +32,12 @@ export default class UserListItem extends Component {
                     </div>
                 </div>
                 <div className="UserListItem-options">
-                    <button onClick={() => addDispenser(user)}>Add Dispenser</button>
+                    {addDispenser ? 
+                    <button onClick={() => addDispenser(user)}>Add Dispenser</button> : <div></div>}
+                    
                     <button onClick={() => viewUser(user)}>View</button>
                     <button>Edit</button>
                     <button onClick={() => deleteUser(user._id)}>Delete</button>
-                    {/* <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                        <DropdownToggle>...</DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem onClick={() => viewUser(user)}>View</DropdownItem>
-                            <DropdownItem disabled>Edit</DropdownItem>
-                            <DropdownItem onClick={() => deleteUser(user._id)}>Delete</DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown> */}
                 </div>
             </div>
         );
