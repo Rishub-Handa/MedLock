@@ -72,7 +72,7 @@ class PatientData extends Component {
             dispenserLoaded,
             dispenserError, } = this.props;
 	
-	if(dispenserLoaded) {
+	if(dispenserLoaded && !this.state.hasDispenser) {
 		this.setState({ hasDispenser: true }); 
 	}
 
@@ -88,6 +88,13 @@ class PatientData extends Component {
                 </div>
             );
         }
+	
+	
+	if(dispenser && (!dispenser.events || !dispenser.events.dispenses[0])) {
+	    return (
+		<div>This patient has a dispenser but no dispenser data. </div>
+	    );
+	}
 
 
         if (surveysLoading || dispenserLoading) {
@@ -100,7 +107,7 @@ class PatientData extends Component {
         }
 
         var data = {}
-        if (allPDISurveys) {
+        if (allPDISurveys[0] && !surveyError) {
             data = {
                 ...data,
                 pdisurveys: allPDISurveys,
