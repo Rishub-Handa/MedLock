@@ -88,6 +88,13 @@ class PatientData extends Component {
                 </div>
             );
         }
+	
+	
+	if(dispenser && (!dispenser.events || !dispenser.events.dispenses[0])) {
+	    return (
+		<div>This patient has a dispenser but no dispenser data. </div>
+	    );
+	}
 
 
         if (surveysLoading || dispenserLoading) {

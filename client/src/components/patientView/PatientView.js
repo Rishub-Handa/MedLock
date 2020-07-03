@@ -57,6 +57,16 @@ class PatientView extends Component {
                 </div>
             ); 
         }
+	
+	if(dispenser && !dispenser.events.dispenses[0]) {
+	    return (
+		<div>
+		    <div>This patient has a dispenser but no dispenser data. </div>
+		</div>
+
+	    )
+
+	}
 
         if(dispenserLoading) {
             return (
