@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import UploadScreen from './UploadScreen';
 import '../../css/Documents.css';
-
+import { MEDLOCK_API } from '../../config/servers.js'; 
 import { uploadDocuments, fetchDocuments, deleteDocument } from '../../actions/documentActions';
 import { connect } from 'react-redux';
 import auth0client from '../../auth/Auth';
@@ -35,7 +35,7 @@ class Documents extends Component {
         const headers = {
             'Authorization': `Bearer ${getAccessToken()}`,
         };
-        const API_URL = `http://localhost:5000/api/patient/document/download`;
+        const API_URL = `${MEDLOCK_API}/patient/document/download`;
         // axios.post(API_URL, { documentId }, { headers })
         axios({
             method: 'POST',
