@@ -15,7 +15,7 @@ export default class Collapsible extends React.Component {
         ReactGA.event({
             category: 'Collapsible', 
             action: 'Resource Collapsible Toggled', 
-            label: this.props.title
+            label: e.target.innerText
         });
         this.setState({ open: !this.state.open });
     }

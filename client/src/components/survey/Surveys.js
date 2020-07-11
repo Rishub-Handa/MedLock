@@ -17,8 +17,8 @@ class Surveys extends Component {
         // history.replace(this.props.link);
         ReactGA.event({
             category: 'Survey Selection', 
-            action: 'Navigated to ' + this.surveyLink + ' from Surveys', 
-            label: 'Click ' + this.surveyLink + ' from Surveys'
+            action: 'Opened ' + e.target.innerText + ' from Surveys', 
+            label: 'Click ' + e.target.innerText + ' from Surveys'
         }); 
         console.log(e); 
         console.log(e.target.value); 
