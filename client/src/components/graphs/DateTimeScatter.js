@@ -9,6 +9,8 @@ export default class DateTimeScatter extends Component {
         console.log(this.props.data);
 
         var formattedData = this.reformatData(this.props.data);
+        console.log(formattedData);
+
         var dateRange = this.getDateRange(formattedData);
         this.state = {
             svg: null,
@@ -75,7 +77,9 @@ export default class DateTimeScatter extends Component {
         var curWidth = this.state.width;
         var curHeight = this.state.height;
         let newWidth = this.getWidth();
+        console.log(newWidth);
         let newHeight = this.getHeight();
+        console.log(newHeight);
         var width;
         var height;
 
@@ -149,6 +153,11 @@ export default class DateTimeScatter extends Component {
         return newDate;
     }
 
+    /**
+     * dispenser data fetched from the db comes in as a 2d array where one entry is a list of dispense timestamps and the other is a list of collar off events etc.
+     * this function takes that array as input and reformats it so it's easier to work with. the output is another 2d array where each element is a single event, containing
+     * the orginial timestamp, the formatted timestamp, time of day in ms, and an integer corresponding to the type of event. the output is sorted by datetime.
+     **/
     reformatData(data) {
         var newData = data.map((set, i) => {
             return set.map(timestamp => {
@@ -165,8 +174,11 @@ export default class DateTimeScatter extends Component {
         return formattedData;
     }
 
+    /**
+     * used in function reformatData
+     * @param {} data 
+     */
     flattenData(data) {
-        // should be called after parseData, add some check for that!
         var flatData = []
         data.forEach((set, i) => {
             set.forEach(event => {
@@ -210,54 +222,62 @@ export default class DateTimeScatter extends Component {
         console.log("drawChart() called");
         var data = this.getSelectedData();
         const margin = 60;
-        const canvasHeight = this.state.height - 2 * margin;
-        const canvasWidth = this.state.width - 2 * margin;
+
+        // svg size
+        var svgWidth = this.refs.canvas.offsetWidth - 2 * margin;
+        var svgHeight = this.refs.canvas.offsetHeight - 2 * margin;
 
         const canvas = d3.select(this.refs.canvas);
+        // append svg to canvas
         const svg = canvas.append("svg")
             .attr("id", this.props.id)
-            .attr("height", this.state.height)
-            .attr("width", this.state.width);
+            .attr("width", this.refs.canvas.offsetWidth)
+            .attr("height", this.refs.canvas.offsetHeight);
 
         const chart = svg.append('g')
             .attr('transform', `translate(${margin}, ${margin})`);
 
+        // used to convert input value to plottable y
         const yScale = d3.scaleTime()
             .domain([0, 86400])
-            .range([canvasHeight, 0])
+            .range([svgHeight, 0]);
 
         const yAxis = d3.axisLeft()
             .scale(yScale)
             .ticks(8)
-            .tickSize(-canvasWidth, 0, 0)
+            .tickSize(-svgWidth, 0, 0)
             .tickValues([0, 10800, 21600, 32400, 43200, 54000, 64800, 75600, 86400])
-            .tickFormat((d, i) => this.formatTime(d))
+            .tickFormat((d, i) => this.formatTime(d));
 
         var dates = data.map(d => d[1]).sort();
-        this.getDateRange(dates);
+        // dateRange = this.getDateRange(dates);
         var selectedDates = this.state.dateRange.slice(this.state.startDate, this.state.endDate + 1);
+        
+
+
         var xDomain = selectedDates.map(date => this.formatTimestamp(date));
         const xScale = d3.scaleBand()
-            .range([0, canvasWidth])
+            .range([0, svgWidth])
             .domain(xDomain)
             .padding(0.2);
 
+        const xAxis = d3.axisBottom()
+            .scale(xScale);
+
+        
+        // add y axis to chart
         chart.append('g')
-            .attr('transform', `translate(0, ${canvasHeight})`)
-            .call(d3.axisBottom(xScale));
+            .attr('class', 'grid') // creates grid lines
+            .call(yAxis);
 
-        // create grid lines
+        // add xAxis to chart
         chart.append('g')
-            .attr('class', 'grid')
-            .call(yAxis)
+            .attr('transform', `translate(0, ${svgHeight})`)
+            .call(xAxis);
 
-        console.log(chart.select("line"));
-
-
-
-        // y-axis label        
+        // y axis label        
         svg.append('text')
-            .attr('x', -(canvasHeight / 2) - margin)
+            .attr('x', -(svgHeight / 2) - margin)
             .attr('y', margin / 2.4)
             .attr('transform', 'rotate(-90)')
             .attr('text-anchor', 'middle')
@@ -266,10 +286,10 @@ export default class DateTimeScatter extends Component {
             .style('fill', 'var(--medlock-dark-gray)')
             .style('stroke-width', '0')
 
-        // x-axis label
+        // x axis label
         svg.append('text')
-            .attr('x', canvasWidth / 2 + margin)
-            .attr('y', canvasHeight + margin * 1.7)
+            .attr('x', svgWidth / 2 + margin)
+            .attr('y', svgHeight + margin * 1.7)
             .attr('text-anchor', 'middle')
             .text('Date')
             .style('font-weight', '600')
@@ -278,7 +298,7 @@ export default class DateTimeScatter extends Component {
         // title
         svg.append('text')
             .attr('id', 'title')
-            .attr('x', canvasWidth / 2 + margin)
+            .attr('x', svgWidth / 2 + margin)
             .attr('y', 40)
             .attr('text-anchor', 'middle')
             .text(this.props.title)
@@ -395,6 +415,7 @@ export default class DateTimeScatter extends Component {
     }
 
     render() {
+        console.log(this.state);
         return (
             <div className={`graph-container ${this.props.id}`}>
                 <div className="canvas" ref="canvas"></div>

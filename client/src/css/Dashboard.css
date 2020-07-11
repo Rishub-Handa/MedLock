@@ -4,7 +4,7 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     grid-template-rows: 65px calc(90% - 65px) 1fr;
     width: 100vw;
-    height: 100%;
+    height: 100vh;
 }
 
 .DispenserCode-container {
@@ -96,6 +96,9 @@
    /* padding: 20px; */
     /* margin-top: 1.5vw; /* Add a top margin to avoid content overlay */
    /* margin-left: 16.67vw; /* Add a left margin to avoid sidebar overlay */
+}
+
+.SecuredRoute {
 }
 /* 
 @media (max-width: 1200px), (max-height: 800px) {

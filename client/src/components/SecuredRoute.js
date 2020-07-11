@@ -5,23 +5,21 @@ import history from '../components/nav/history';
 
 function SecuredRoute({component: Component, ...rest}) {
     return (
-        <div>
-            <Route 
-                {...rest}
-                render={ props => {
-                    return auth0client.isAuthenticated() ? (
-                        <Component {...rest} />
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: "/",
-                                state: { from: props.location }
-                            }}
-                        />
-                    );
-                }}
-            />
-        </div>
+        <Route 
+            {...rest}
+            render={ props => {
+                return auth0client.isAuthenticated() ? (
+                    <Component {...rest} />
+                ) : (
+                    <Redirect
+                        to={{
+                            pathname: "/",
+                            state: { from: props.location }
+                        }}
+                    />
+                );
+            }}
+        />
     );
 }
 

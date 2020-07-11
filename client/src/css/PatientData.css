@@ -1,5 +1,5 @@
 .pd-container {
-    height: inherit;
+    height: 100%;
     display: flex;
     flex-flow: column nowrap;
 }
