@@ -9,9 +9,21 @@ export default class DateTimeScatter extends Component {
         console.log(this.props.data);
 
         var formattedData = this.reformatData(this.props.data);
-        console.log(formattedData);
-
         var dateRange = this.getDateRange(formattedData);
+
+        var dispenseEvents = formattedData.filter((d) => {
+            return d[3] == 0;
+        });
+        var lastDispenseDate = dispenseEvents[dispenseEvents.length - 1][0];
+        var lastDispenseDateIndex = 0;
+        var a = new Date(dateRange[0]);
+        var b = new Date(lastDispenseDate);
+        while (a < b) {
+            lastDispenseDateIndex += 1;
+            a = new Date(dateRange[lastDispenseDateIndex]);
+        }
+        console.log(lastDispenseDateIndex);
+
         this.state = {
             svg: null,
             chart: null,
@@ -19,9 +31,9 @@ export default class DateTimeScatter extends Component {
             width: 800,
             height: 300,
             // index of the start date
-            startDate: 0,
+            startDate: Math.max(0, lastDispenseDateIndex - 8),
             // index of the end date
-            endDate: dateRange.length - 1,
+            endDate: lastDispenseDateIndex - 1,
             data: formattedData,
             selectedEvents: {
                 dispenses: true,
@@ -367,8 +379,6 @@ export default class DateTimeScatter extends Component {
 
             chart.selectAll("circle")
             .on("mouseover", (d, i) => {
-                console.log(`d: ${d}`);
-                console.log(`i: ${i}`);
                 // increase the size of the point
                 // randomly compute theta in [0, 2pi]
                 var theta = Math.random() * (2 * Math.PI);
