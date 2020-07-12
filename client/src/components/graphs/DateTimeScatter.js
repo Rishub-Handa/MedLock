@@ -422,12 +422,12 @@ export default class DateTimeScatter extends Component {
                 <div className="graph-settings datetime" width={this.state.width} height={this.state.height}>
                     <div>{this.dataSelectorHTML()}</div>
                     <div>
-                        <div>Start Date: {this.startDateSelect(this.state.dateRange)}</div>
-                        <div>End Date: {this.endDateSelect(this.state.dateRange)}</div>
+                        <div className="date-selector">Start Date: {this.startDateSelect(this.state.dateRange)}</div>
+                        <div className="date-selector">End Date: {this.endDateSelect(this.state.dateRange)}</div>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 
     formatTimestamp = (timestamp) => {

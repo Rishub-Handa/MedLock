@@ -114,6 +114,8 @@
     border: 1px solid black;
 }
 
+.graph-settings 
+
 .datetime {
     justify-content: space-evenly;
 }
@@ -165,5 +167,24 @@
     margin: 0px;
 }
 
+@media (max-width: 800px) {
+    .graph-container {
+        flex-direction: column;
+    }
+
+    .graph-settings {
+        flex-direction: row;
+    }
+}
+
+.date-selector {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.date-selector > * {
+    margin: 0;
+}
 
 
