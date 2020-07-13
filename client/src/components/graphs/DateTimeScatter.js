@@ -516,7 +516,7 @@ export default class DateTimeScatter extends Component {
                             name="collarOff"
                             value={this.state.selectedEvents.collarOff} 
                             onChange={this.onDataSelectorChange} />
-                        Collar Off
+                        Medications Accessed
                     </label>
                     <div className="circle-legend collarOff"></div>
                 </div>

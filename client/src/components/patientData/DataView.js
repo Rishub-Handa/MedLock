@@ -74,7 +74,7 @@ export default class DataView extends Component {
                         title="Dispenser Events" 
                         data={[dispenses, btn1, btn2, btn3, collarOff]} 
                         buttonMeaning={this.props.dispenser.info.buttonMeaning}
-                        colors={["var(--medlock-blue)", "red", "blue", "green", "black"]}
+                        colors={["var(--medlock-blue)", "green", "yellow", "red", "black"]}
                     />
                 </div>
             );

@@ -4,7 +4,8 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     grid-template-rows: 65px calc(90% - 65px) 1fr;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    overflow: scroll;
 }
 
 .DispenserCode-container {
@@ -91,7 +92,6 @@
     grid-row: 2/4;
     width: 100%;
     padding: 10px;
-    overflow: hidden;
    /* grid-row-start: 2; */
    /* padding: 20px; */
     /* margin-top: 1.5vw; /* Add a top margin to avoid content overlay */
