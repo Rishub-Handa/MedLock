@@ -447,10 +447,11 @@ export default class DateTimeScatter extends Component {
     }
 
     onStartDateSelectChange = (e) => {
+        var index = e.target.value;
         ReactGA.event({
             category: 'Graph Date Selector',
             action: 'Chose New Graph Start Date',
-            label: 'Changed Graph Start Date to ' + Number(e.target.value)
+            label: 'Changed Graph Start Date to ' + e.target[index].innerText
         })
         this.setState({
             startDate: Number(e.target.value),
@@ -460,10 +461,11 @@ export default class DateTimeScatter extends Component {
     }
 
     onEndDateSelectChange = (e) => {
+        var index = e.target.value;
         ReactGA.event({
             category: 'Graph Date Selector',
             action: 'Chose New Graph End Date',
-            label: 'Changed Graph End Date to ' + Number(e.target.value)
+            label: 'Changed Graph End Date to ' + (e.target[index].innerText)
         })
         this.setState({
             endDate: Number(e.target.value),
@@ -542,8 +544,8 @@ export default class DateTimeScatter extends Component {
         var new_val = !val;
         ReactGA.event({
             category: 'Data Selector Checkbox',
-            action: 'Toggled ' + this.name + ' graph view',
-            label: 'Changed value of ' + this.name + ' to ' + new_val
+            action: 'Toggled ' + e.target.name + ' graph view',
+            label: 'Changed value of ' + e.target.name + ' to ' + new_val
         })
         this.setState({
             selectedEvents: {
