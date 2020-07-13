@@ -82,11 +82,13 @@ const fetchAllProvidersFailure = error => ({
 
 export function fetchAllProviders() {
     console.log("FETCHING PROVIDERS");
+    const { getAccessToken } = auth0client;
+    const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
     const API_URL = `${MEDLOCK_API}/admin/provider`;
 
     return dispatch => {
         dispatch(fetchAllProvidersBegin());
-        return axios.get(API_URL)
+        return axios.get(API_URL, { headers })
             .then(res => dispatch(fetchAllProvidersSuccess(res.data)))
             .catch(err => dispatch(fetchAllProvidersFailure(err)));
     }
@@ -99,7 +101,7 @@ const deleteProviderBegin = () => ({
 const deleteProviderSuccess = providers => ({
     type: DELETE_PROVIDER_SUCCESS,
     payload: {
-        FETCH_ALL_PROVIDERS_BEGIN
+        providers
     }
 });
 
@@ -110,24 +112,16 @@ const deleteProviderFailure = error => ({
     }
 });
 
-export function deleteProvider(ids) {
-    var url = `${MEDLOCK_API}/admin/provider`;
+export function deleteProvider(id) {
+    const { getAccessToken } = auth0client;
+    var API_URL = `${MEDLOCK_API}/user/delete`;
+    const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
 
     return dispatch => {
         dispatch(deleteProviderBegin());
-        fetchAMT()
-            .then(res => {
-                const AMT = res.data.access_token;
-                return axios.delete(url, {
-                    data: {
-                        AMT, 
-                        ids,
-                    }
-                })
-                    .then(res => dispatch(deleteProviderSuccess(res.data)))
-                    .catch(err => dispatch(deleteProviderFailure(err)));
-            });
-    }
-
+        return axios.post(API_URL, { id }, { headers }) 
+              .then(res => dispatch(deleteProviderSuccess(res.data)))
+              .catch(err => dispatch(deleteProviderFailure(err)));
+      }
 }   
 

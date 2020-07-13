@@ -22,7 +22,10 @@ router.get('/', (req, res) => {
                 res.json(dispenserData);
             }
         })
-        .catch(err => console.log(err)); 
+        .catch(err => {
+		console.log(err);
+		res.status(500).send(err); 
+	}); 
 });
 
 router.post('/film', (req, res) => {

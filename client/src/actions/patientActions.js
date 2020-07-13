@@ -218,30 +218,26 @@ const deletePatientSuccess = (patients) => ({
   }
 })
 
-const deletePatientError = (error) => ({
+const deletePatientFailure = (error) => ({
   type: DELETE_PATIENT_FAILURE,
   payload: {
     error
   }
 })
 
-export function deletePatient(ids) {
-  var url = `${MEDLOCK_API}/admin/patient`;
+export function deletePatient(id) {
+  const { getAccessToken } = auth0client;
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
+  var API_URL = `${MEDLOCK_API}/user/delete`;
 
   return dispatch => {
     dispatch(deletePatientBegin());
-    fetchAMT()
-      .then(res => {
-        const AMT = res.data.access_token;
-        return axios.delete(url, {
-          data: {
-            AMT, 
-            ids,
-          }
-        })
-          .then(res => dispatch(deletePatientSuccess(res.data)))
-          .catch(err => dispatch(deletePatientError(err)));
-      })
+    return axios.post(API_URL, { id }, { headers }) 
+          .then(res => {
+            console.log(res.data);
+            dispatch(deletePatientSuccess(res.data))
+          })
+          .catch(err => dispatch(deletePatientFailure(err)));
   }
 }
 
@@ -305,12 +301,14 @@ const fetchAllPatientsFailure = error => ({
 
 export function fetchAllPatients() {
   console.log("FETCHING ALL PATIENTS!!!");
+  const { getAccessToken } = auth0client;
+  const headers = { 'Authorization': `Bearer ${getAccessToken()}` };
   const API_URL = `${MEDLOCK_API}/admin/patient`;
   console.log(API_URL);
   
   return dispatch => {
     dispatch(fetchAllPatientsBegin());
-    return axios.get(API_URL)
+    return axios.get(API_URL, { headers })
       .then(res => dispatch(fetchAllPatientsSuccess(res.data)))
       .catch(err => dispatch(fetchAllPatientsFailure(err)));
   }

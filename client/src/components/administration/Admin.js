@@ -13,13 +13,20 @@ import PropTypes from 'prop-types';
 import { fetchAllClinics, registerNewClinic } from '../../actions/clinicActions';
 import '../../css/Admin.css';
 import autho0client from '../../auth/Auth';
+import PatientView from '../patientView/PatientView';
+import DispenserCode from '../patientData/DispenserCode';
 
 class Admin extends Component {
 
     clinics = [{ "name": "clinic1" }, { "name": "clinic2" }]
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            onePatientView: false,
+            viewedPatient: null,
+            dispenserCodeDisplay: false,
+            dispenserCodeUser: null,
+        };
     }
 
     componentDidMount() {
@@ -36,72 +43,93 @@ class Admin extends Component {
         console.log(this.state);
     }
 
-    createNewProvider = (name, email) => {
-        fetchAMT()
-            .then(res => {
-                console.log(res);
-                const AMT = res.data.access_token;
-
-                const password = Math.random().toString(36).slice(-12);
-
-                const newProvider = {
-                    "name": name,
-                    "email": email,
-                    "password": password,
-                    "connection": "Username-Password-Authentication"
-                };
-
-                // Create New Provider in Auth0 
-                this.props.auth0Registration(newProvider, AMT)
-                    .then(() => {
-                        // Send Temporary Password 
-                        this.newProviderEmail(newProvider);
-
-                        // Create New Provider in MongoDB 
-                        const user_id = this.props.userProfile.user_id;
-                        this.props.createProviderProfile({
-                            _id: user_id.substring(6),
-                            personalData: {
-                                name,
-                                email,
-                            }
-                            // Eventually create administrator roles and query user roles. 
-                        }, "Admin");
-
-                        // Assign Provider Role to New User 
-                        this.props.assignRoles(user_id, AMT, "Provider");
-
-
-                    })
-                    .catch(error => console.log(error));
-            })
-            .catch(error => console.log(error));
+    addDispenser = (user) => {
+        this.setState({
+            ...this.state,
+            dispenserCodeDisplay: true,
+            dispenserCodeUser: user,
+        });
     }
 
+    hideDispenserCode = () => {
+        this.setState({ 
+            ...this.state,
+            dispenserCodeDisplay: false,
+        });
+    }
+
+    // TODO: change so that fetchAMT isn't required for an Admin to register a new Provider
+    createNewProvider = (name, email) => {
+        // fetchAMT()
+        //     .then(res => {
+        //         console.log(res);
+        //         const AMT = res.data.access_token;
+
+        //         const password = Math.random().toString(36).slice(-12);
+
+        //         const newProvider = {
+        //             "name": name,
+        //             "email": email,
+        //             "password": password,
+        //             "connection": "Username-Password-Authentication"
+        //         };
+
+        //         // Create New Provider in Auth0 
+        //         this.props.auth0Registration(newProvider, AMT)
+        //             .then(() => {
+        //                 // Send Temporary Password 
+        //                 this.newProviderEmail(newProvider);
+
+        //                 // Create New Provider in MongoDB 
+        //                 const user_id = this.props.userProfile.user_id;
+        //                 this.props.createProviderProfile({
+        //                     _id: user_id.substring(6),
+        //                     personalData: {
+        //                         name,
+        //                         email,
+        //                     }
+        //                     // Eventually create administrator roles and query user roles. 
+        //                 }, "Admin");
+
+        //                 // Assign Provider Role to New User 
+        //                 this.props.assignRoles(user_id, AMT, "Provider");
+
+
+        //             })
+        //             .catch(error => console.log(error));
+        //     })
+        //     .catch(error => console.log(error));
+    }
+
+    // TODO: change so that fetchAMT isn't required for an Admin to register a new Provider
     newProviderEmail = (newProvider) => {
-        var url = `${MEDLOCK_API}/email`;
-        axios.post(url, newProvider);
+        // var url = `${MEDLOCK_API}/email`;
+        // axios.post(url, newProvider);
     }
 
     deleteAllProviders = () => {
 
         // var url = `${MEDLOCK_API}/admin/provider`;
-        const ids = this.props.providers.map(provider => provider._id);
-        this.props.deleteProvider(ids);
+        // const ids = this.props.providers.map(provider => provider._id);
+        // this.props.deleteProvider(ids);
+        console.log("DELETE ALL PROVIDERS CALLED: THIS DOESN'T DO ANYTHING");
+
     }
 
     deletePatient = (patientId) => {
-        this.props.deletePatient([patientId]);
+        console.log("delete patient");
+        this.props.deletePatient(patientId);
     }
 
     deleteProvider = (providerId) => {
-        this.props.deleteProvider([providerId]);
+        this.props.deleteProvider(providerId);
     }
 
     deleteAllPatients = () => {
         // var url = `${MEDLOCK_API}/admin/patient`;
-        const ids = this.props.patients.map(patient => patient._id);
-        this.props.deletePatient(ids);
+        // const ids = this.props.patients.map(patient => patient._id);
+        // this.props.deletePatient(ids);
+        console.log("DELETE ALL PATIENTS CALLED: THIS DOESN'T DO ANYTHING");
     }
 
     registerClinic = (clinicName) => {
@@ -112,6 +140,13 @@ class Admin extends Component {
             name: clinicName,
         }
         this.props.registerNewClinic(newClinic);
+    }
+
+    viewPatient = (patient) => {
+        this.setState({
+            onePatientView: true,
+            viewedPatient: patient
+        });
     }
 
     render() {
@@ -125,6 +160,8 @@ class Admin extends Component {
             fetchProvidersError,
             clinicsFetching,
             fetchClinicsError,
+            patientDeleting,
+            providerDeleting
         } = this.props;
 
         if (fetchProvidersError || fetchPatientsError || fetchClinicsError) {
@@ -136,7 +173,7 @@ class Admin extends Component {
             );
         }
 
-        if (providersFetching || patientsFetching || clinicsFetching) {
+        if (providersFetching || patientsFetching || clinicsFetching || patientDeleting || providerDeleting) {
             return (
                 <div>
                     <div class="loader"></div>
@@ -145,16 +182,30 @@ class Admin extends Component {
             );
         }
 
+        if (this.state.onePatientView) {
+            return (
+                <PatientView patient={this.state.viewedPatient} />
+            );
+        }
+
         return (
             <div>
                 <div className="Admin-header">
                     <h1 className="header">MedLock Admin</h1>
                 </div>
+                {
+                    this.state.dispenserCodeDisplay &&
+                    <div className="DispenserCode-container">
+                        <DispenserCode hideDispenserCode={this.hideDispenserCode} userProfile={this.state.dispenserCodeUser} />
+                    </div>
+                }
                 <div className="Admin-content">
                     <PatientSection
                         patients={patients}
                         deletePatient={this.deletePatient}
                         deleteAllPatients={this.deleteAllPatients}
+                        viewPatient={this.viewPatient}
+                        addDispenser={this.addDispenser}
                     />
                     <ProviderSection
                         providers={providers}
@@ -216,6 +267,8 @@ const mapStateToProps = state => ({
 
     deletedProviders: state.providerState.deletedProviders,
     deletedPatients: state.patientState.deletedPatients,
+    patientDeleting: state.patientState.patientDeleting,
+    providerDeleting: state.providerState.providerDeleting,
 
     clinicsFetching: state.clinicState.clinicsFetching,
     clinicsFetched: state.clinicState.clinicsFetched,

@@ -12,7 +12,7 @@ var async = require('async');
 
 // multer is middleware used to handle multipart form data
 const multer = require('multer'); 
-var multerupload = multer({ dest: 'uploads/' });
+var multerupload = multer({ dest: `${__dirname}/uploads/` });
 
 console.log('Reached api/patient/document endpoint');
 
@@ -30,6 +30,7 @@ router.post('/upload', multerupload.any(), (req, res) => {
         async.waterfall([
             (callback) => {
                 fs.readFile(file.path, (err, data) => {
+                    console.log(data);
                     if (err) {
                         console.log("err occurred");
                     } else {
@@ -41,8 +42,11 @@ router.post('/upload', multerupload.any(), (req, res) => {
                 // create new document
                 var newDocument = new Document({
                     _id: mongoose.Types.ObjectId(),
-                    name: file.originalname,
+                    original_name: file.originalname,
+                    file_name: file.filename,
                     data: data,
+                    encoding: file.encoding,
+                    mimetype: file.mimetype,
                 });
 
                 // add _id to documentIds
@@ -54,20 +58,10 @@ router.post('/upload', multerupload.any(), (req, res) => {
                     callback(null, 'success');               
                 });
 
-                // add document to patient
-                // Patient.findById(patientId)
-                //     .then(patient => {
-                //         var documents = patient.documents;
-                //         documents.push(newDocument._id);
-                //         patient.documents = documents;
-                //         patient.save().then(patient => {
-                //             console.log(`Patient(id=${patient._id}) added Document(id=${newDocument._id}) to their list of documents.`);
-                //             callback(null, 'success');
-                //         });
-                //     });
             }], (err, result) => {
                 // result now equals 'done'
                 // pass final callback to async each to move on to the next file
+                console.log(`Result: ${result}`);
                 eachcallback();
             });
         // do something for each file
@@ -137,6 +131,32 @@ router.post('/delete', (req, res) => {
 });
 
 // @route   POST api/patient/documents/delete
+// @desc    Retrieve all documents belonging to patient.
+// @access  Private, requires an Auth0 Access Token
+router.post('/download', (req, res) => {
+    console.log("POST request at api/patient/document/download");
+    var id = req.user.sub.substring(6);
+    var documentId = req.body.documentId;
+    Patient.findById(id)
+        .then(patient => {
+            console.log("patient found");
+            if (patient) {
+                Document.findById(documentId)
+                    .then(document => {
+                        var file_path = `${__dirname}/uploads/${document.file_name}`;
+                        console.log(file_path); 
+                        // res.json({ document });
+                        res.download(file_path);
+                    })
+                    .catch(error => {
+                        console.log(err);
+                    });
+            }
+        })
+        .catch(error => res.status(404).json(error));
+});
+
+// @route   GET api/patient/documents
 // @desc    Retrieve all documents belonging to patient.
 // @access  Private, requires an Auth0 Access Token
 router.get('/', (req, res) => {

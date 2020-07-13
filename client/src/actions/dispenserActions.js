@@ -39,6 +39,7 @@ export function fetchDispenser(id) {
         dispatch(fetchDispenserBegin());
         return axios.get(`${API_URL}/dispense?id=` + id, { headers })
         .then(res => { 
+            console.log(`Dispenser(id=${id}) fetched successfully.`);
             console.log(res.data);
             dispatch(fetchDispenserSuccess(res.data));
         })

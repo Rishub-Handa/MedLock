@@ -20,6 +20,7 @@ class PatientData extends Component {
     state = {
         retrievedData: false,
         toggleCodeDisplay: false,
+	    hasDispenser: false 
     }
 
     // Fetch Surveys and Dispenses data from database 
@@ -28,7 +29,7 @@ class PatientData extends Component {
         if (this.props.patient.medicalData != null) {
             if (this.props.patient.medicalData.dispenser_id != null) {
                 this.props.fetchDispenser(this.props.patient.medicalData.dispenser_id);
-            }
+	        }
         }
     }
 
@@ -72,7 +73,7 @@ class PatientData extends Component {
             dispenserLoaded,
             dispenserError, } = this.props;
 
-        if (dispenserError && !this.state.toggleCodeDisplay) {
+        if (!dispenserLoaded && !this.state.toggleCodeDisplay && !dispenserLoading) {
             return this.addDispenserHTML();
         }
 
@@ -84,9 +85,16 @@ class PatientData extends Component {
                 </div>
             );
         }
+	
+	
+	if(dispenser && (!dispenser.events || !dispenser.events.dispenses[0])) {
+	    return (
+		<div>This patient has a dispenser but no dispenser data. </div>
+	    );
+	}
 
 
-        if (surveysLoading || dispenserLoading || !surveysLoaded || !dispenserLoaded) {
+        if (surveysLoading || dispenserLoading) {
             return (
                 <div>
                     <div class="loader"></div>
@@ -96,7 +104,7 @@ class PatientData extends Component {
         }
 
         var data = {}
-        if (allPDISurveys) {
+        if (allPDISurveys[0] && !surveyError) {
             data = {
                 ...data,
                 pdisurveys: allPDISurveys,

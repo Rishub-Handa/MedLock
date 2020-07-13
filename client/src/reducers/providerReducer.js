@@ -71,10 +71,17 @@ export default function(state = initialState, action) {
                 providerDeleting: true
             };
         case DELETE_PROVIDER_SUCCESS:
+            var updatedProviders = state.providers.filter(provider => {
+                console.log(provider._id);
+                console.log(action.payload.providers);
+                return provider._id != action.payload.providers[0]._id;
+            });
             return {
                 ...state,
                 providerDeleting: false,
-                deletedProviders: action.payload.providers
+                deletedProviders: action.payload.providers,
+                providers: updatedProviders,
+
             };
         case DELETE_PROVIDER_FAILURE:
             return {
