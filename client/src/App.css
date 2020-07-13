@@ -1,6 +1,6 @@
 .App {
     width: 100vw;
-    height: minmax(100%, 100vh);
+    height: minmax(100vh, 100%);
 }
 
 html {

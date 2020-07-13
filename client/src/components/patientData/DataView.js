@@ -42,7 +42,12 @@ export default class DataView extends Component {
         const { pdisurveys } = this.props.data;
         const { dispenses, btn1, btn2, btn3, collarOff } = this.props.data.events;
         
-        if (pdisurveys && dispenses) { // data for both pdisurveys and dispenses are available
+        // true when pdisurveys is a valid array of nonzero length
+        // sometimes pdisurveys will be an empty array, so it's defined but there are no 
+        // surveys which causes issues
+        var someSurveys = (pdisurveys) && (pdisurveys.length > 0);
+
+        if (someSurveys && dispenses) { // data for both pdisurveys and dispenses are available
             return (
                 <div className="DataView">
                     <DateTimeScatter 
@@ -55,7 +60,7 @@ export default class DataView extends Component {
                     <PDISurveyBar id="g1" data={pdisurveys} />
                 </div>
             );
-        } else if (pdisurveys) { // only data for pdisurveys are available
+        } else if (someSurveys) { // only data for pdisurveys are available
             return (
                 <div className="DataView">
                     <PDISurveyBar id="g0" data={pdisurveys} />
@@ -69,7 +74,7 @@ export default class DataView extends Component {
                         title="Dispenser Events" 
                         data={[dispenses, btn1, btn2, btn3, collarOff]} 
                         buttonMeaning={this.props.dispenser.info.buttonMeaning}
-                        colors={["var(--medlock-blue)", "red", "blue", "green", "black"]}
+                        colors={["var(--medlock-blue)", "green", "yellow", "red", "black"]}
                     />
                 </div>
             );
