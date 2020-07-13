@@ -50,13 +50,23 @@ class PatientView extends Component {
 
         const { pdiSurveys } = patient.medicalData.surveys;
 
-        if(dispenserError || (!dispenserLoading && !dispenser.dispenses)) {
+        if(dispenserError || (dispenserLoaded && !dispenser) || !dispenser.events) {
             return (
                 <div>
                     <div>This patient does not have a dispenser. </div>
                 </div>
             ); 
         }
+	
+	if(dispenser && !dispenser.events.dispenses[0]) {
+	    return (
+		<div>
+		    <div>This patient has a dispenser but no dispenser data. </div>
+		</div>
+
+	    )
+
+	}
 
         if(dispenserLoading) {
             return (
@@ -67,14 +77,8 @@ class PatientView extends Component {
             )
         }
 
-        if (!dispenserLoading && dispenserLoaded && !dispenser) {
-            return (
-                <div>This patient does not have a dispenser.</div>
-            )
-        }
-
         var data = {}
-        if (pdiSurveys) {
+        if (pdiSurveys[0]) {
             data = {
                 ...data,
                 pdisurveys: pdiSurveys,
